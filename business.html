@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MyStoryChip | Business</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      background: #120805;
+      font-family: Georgia, "Times New Roman", serif;
+      color: #f3d7a3;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at center, rgba(255, 170, 70, 0.10), transparent 45%),
+        linear-gradient(to bottom, #1a0b06 0%, #120805 100%);
+    }
+
+    .page {
+      min-height: 100vh;
+      width: 100%;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px 32px;
+      background:
+        linear-gradient(to bottom, rgba(10, 4, 2, 0.30), rgba(10, 4, 2, 0.70)),
+        url("second page story.png") center center / cover no-repeat;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at center, rgba(255, 190, 90, 0.10), transparent 35%),
+        linear-gradient(to bottom, rgba(18, 8, 5, 0.18), rgba(18, 8, 5, 0.82));
+      z-index: 1;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      width: min(1120px, 100%);
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 36px;
+      align-items: center;
+    }
+
+    .hero-copy,
+    .hero-panel,
+    .card,
+    .step,
+    .cta {
+      backdrop-filter: blur(2px);
+    }
+
+    .hero-copy {
+      background: rgba(20, 8, 4, 0.56);
+      border: 1px solid rgba(255, 210, 130, 0.28);
+      border-radius: 28px;
+      padding: 34px 30px;
+      box-shadow:
+        0 0 24px rgba(255, 170, 60, 0.12),
+        inset 0 0 18px rgba(255, 220, 150, 0.04);
+    }
+
+    .eyebrow {
+      font-size: 0.95rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #f0c97f;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: clamp(2.3rem, 4.8vw, 4.6rem);
+      line-height: 1.04;
+      color: #f8e1b4;
+      margin-bottom: 18px;
+      text-shadow: 0 0 16px rgba(255, 170, 60, 0.15);
+    }
+
+    .hero-copy p {
+      font-size: clamp(1.02rem, 1.5vw, 1.22rem);
+      line-height: 1.65;
+      color: #f2d7ad;
+      margin-bottom: 16px;
+    }
+
+    .hero-copy .lead {
+      color: #f9e5c3;
+      font-size: clamp(1.08rem, 1.65vw, 1.32rem);
+    }
+
+    .hero-panel {
+      background: rgba(20, 8, 4, 0.58);
+      border: 1px solid rgba(255, 210, 130, 0.26);
+      border-radius: 28px;
+      padding: 30px 24px;
+      box-shadow:
+        0 0 24px rgba(255, 170, 60, 0.12),
+        inset 0 0 18px rgba(255, 220, 150, 0.04);
+    }
+
+    .hero-panel h2 {
+      font-size: clamp(1.5rem, 2.2vw, 2rem);
+      margin-bottom: 18px;
+      color: #f7ddb0;
+    }
+
+    .hero-panel ul {
+      list-style: none;
+      display: grid;
+      gap: 14px;
+    }
+
+    .hero-panel li {
+      padding: 14px 14px 14px 18px;
+      border-radius: 18px;
+      background: rgba(255, 190, 90, 0.05);
+      border: 1px solid rgba(255, 210, 130, 0.12);
+      line-height: 1.45;
+      color: #f2d5a8;
+      box-shadow: inset 0 0 10px rgba(255, 210, 130, 0.02);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      color: #f7ddb0;
+      background: rgba(45, 16, 8, 0.72);
+      border: 1px solid rgba(255, 210, 130, 0.35);
+      border-radius: 999px;
+      padding: 12px 22px;
+      font-size: 1rem;
+      letter-spacing: 0.04em;
+      box-shadow: 0 0 14px rgba(255, 170, 60, 0.16);
+      transition: 0.25s ease;
+    }
+
+    .btn:hover {
+      color: #fff2d2;
+      border-color: rgba(255, 225, 170, 0.72);
+      box-shadow:
+        0 0 18px rgba(255, 180, 70, 0.24),
+        0 0 30px rgba(255, 140, 40, 0.12);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: rgba(20, 8, 4, 0.55);
+    }
+
+    .section {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 70px 0 26px;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: clamp(2rem, 3.2vw, 3.2rem);
+      color: #f8dfb1;
+      margin-bottom: 14px;
+      text-shadow: 0 0 14px rgba(255, 170, 60, 0.12);
+    }
+
+    .section-subtitle {
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto 34px;
+      line-height: 1.65;
+      color: #eed2a2;
+      font-size: 1.08rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      background: linear-gradient(to bottom, rgba(40, 15, 8, 0.88), rgba(20, 8, 4, 0.92));
+      border: 1px solid rgba(255, 210, 130, 0.16);
+      border-radius: 24px;
+      padding: 24px 22px;
+      box-shadow:
+        0 0 20px rgba(255, 170, 60, 0.10),
+        inset 0 0 12px rgba(255, 220, 150, 0.03);
+    }
+
+    .card h3 {
+      font-size: 1.45rem;
+      color: #f7ddb0;
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      color: #eed1a2;
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .step {
+      background: rgba(24, 9, 4, 0.78);
+      border: 1px solid rgba(255, 210, 130, 0.14);
+      border-radius: 24px;
+      padding: 24px 22px;
+      box-shadow:
+        0 0 18px rgba(255, 170, 60, 0.08),
+        inset 0 0 12px rgba(255, 220, 150, 0.03);
+    }
+
+    .step-number {
+      display: inline-flex;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+      font-weight: bold;
+      color: #1a0b06;
+      background: linear-gradient(to bottom, #f6d18f, #d49a38);
+      box-shadow: 0 0 14px rgba(255, 180, 70, 0.25);
+    }
+
+    .step h3 {
+      font-size: 1.35rem;
+      margin-bottom: 10px;
+      color: #f7ddb0;
+    }
+
+    .step p {
+      line-height: 1.6;
+      color: #eed1a2;
+    }
+
+    .cta {
+      width: min(1000px, calc(100% - 40px));
+      margin: 40px auto 70px;
+      padding: 34px 28px;
+      text-align: center;
+      border-radius: 30px;
+      background:
+        linear-gradient(to bottom, rgba(55, 20, 10, 0.86), rgba(20, 8, 4, 0.94));
+      border: 1px solid rgba(255, 210, 130, 0.20);
+      box-shadow:
+        0 0 24px rgba(255, 170, 60, 0.12),
+        inset 0 0 18px rgba(255, 220, 150, 0.04);
+    }
+
+    .cta h2 {
+      font-size: clamp(1.9rem, 3vw, 3rem);
+      margin-bottom: 14px;
+      color: #f8dfb1;
+    }
+
+    .cta p {
+      max-width: 780px;
+      margin: 0 auto 24px;
+      color: #eed2a2;
+      line-height: 1.65;
+      font-size: 1.08rem;
+    }
+
+    .footer-space {
+      height: 30px;
+    }
+
+    @media (max-width: 980px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .grid,
+      .how-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 90px;
+        padding-bottom: 50px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .section {
+        width: min(1180px, calc(100% - 24px));
+        padding-top: 54px;
+      }
+
+      .cta {
+        width: calc(100% - 24px);
+        padding: 28px 18px;
+      }
+
+      .hero-copy,
+      .hero-panel,
+      .card,
+      .step {
+        border-radius: 20px;
+      }
+
+      .actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .btn {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <div class="eyebrow">MyStoryChip Business</div>
+          <h1>Turn products, places, and services into living information.</h1>
+          <p class="lead">
+            MyStoryChip Business gives customers instant access to the story, details, and value behind what you sell, build, display, or manage.
+          </p>
+          <p>
+            Instead of handing people a dead object, a plain sign, or a basic label, you give them a scannable experience tied to one permanent link that can evolve over time.
+          </p>
+          <p>
+            Real estate, vehicles, handmade goods, memorial services, inventory, product displays, equipment, and branded storytelling all get smarter here.
+          </p>
+
+          <div class="actions">
+            <a class="btn" href="buy.html">Start Your Business Setup</a>
+            <a class="btn btn-secondary" href="story.html">Back to Story</a>
+          </div>
+        </div>
+
+        <aside class="hero-panel">
+          <h2>What Business can do</h2>
+          <ul>
+            <li>Link products to descriptions, media, instructions, or story-driven sales content.</li>
+            <li>Connect vehicles, equipment, or assets to ownership, specs, or usage details.</li>
+            <li>Turn real estate signs into full property experiences with photos and information.</li>
+            <li>Support memorial services, events, displays, and custom presentations.</li>
+            <li>Give customers one clean access point without printing piles of material.</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Built for businesses that want more than a label.</h2>
+      <p class="section-subtitle">
+        MyStoryChip Business helps you connect physical things to useful digital information in a way that feels modern, premium, and easy for customers to understand.
+      </p>
+
+      <div class="grid">
+        <article class="card">
+          <h3>Product Storytelling</h3>
+          <p>
+            Show photos, specs, instructions, origin stories, or demonstrations that help customers understand why something matters and why it is worth buying.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Real Estate and Listings</h3>
+          <p>
+            Connect a property sign or display to a live page with images, details, contact information, and updates without changing the public-facing link.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Vehicle and Asset ID</h3>
+          <p>
+            Mark vehicles, tools, equipment, or valuable items with a connected identifier that can point to ownership, specs, service notes, or usage details.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Custom Experiences</h3>
+          <p>
+            Use chips or linked pages for memorials, event displays, exhibits, handcrafted items, business gifts, or branded storytelling experiences that stand out.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Update Without Reprinting</h3>
+          <p>
+            Keep the same core link while changing the underlying content as your offer, listing, inventory, or business information evolves over time.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Simple Customer Access</h3>
+          <p>
+            One scan or tap can take a customer straight to what they need instead of making them search, call, guess, or walk away confused.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">How Business works</h2>
+      <p class="section-subtitle">
+        Practical, flexible, and built to grow with the real-world thing it represents.
+      </p>
+
+      <div class="how-grid">
+        <article class="step">
+          <div class="step-number">1</div>
+          <h3>Assign a chip</h3>
+          <p>
+            Connect a business chip to a product, asset, listing, display, or service experience.
+          </p>
+        </article>
+
+        <article class="step">
+          <div class="step-number">2</div>
+          <h3>Add your content</h3>
+          <p>
+            Upload media, details, instructions, pricing context, or presentation material to the linked page.
+          </p>
+        </article>
+
+        <article class="step">
+          <div class="step-number">3</div>
+          <h3>Share and update</h3>
+          <p>
+            Let customers scan, tap, or access the page while you keep the content fresh without changing the chip’s core destination.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="cta">
+      <h2>Give your business a smarter front line.</h2>
+      <p>
+        MyStoryChip Business helps customers connect instantly with the information behind what you offer. Cleaner than clutter. More memorable than a plain label. Easier to update than printed material.
+      </p>
+      <div class="actions" style="justify-content:center;">
+        <a class="btn" href="buy.html">Start Your Business Story</a>
+        <a class="btn btn-secondary" href="index.html">Back Home</a>
+      </div>
+    </section>
+
+    <div class="footer-space"></div>
+  </main>
+<div style="text-align:center; padding:22px 0 30px; font-size:13px; opacity:0.8;">
+  <a href="terms.html" style="color:#f7ddb0; text-decoration:none;">
+    Terms & Disclaimer
+  </a>
+</div>
+</body>
+</html>

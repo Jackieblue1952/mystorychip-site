@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MyStoryChip | The Story</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: #140804;
+      font-family: Georgia, "Times New Roman", serif;
+      overflow: hidden;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .page {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at center, rgba(255, 170, 70, 0.08), transparent 45%),
+        linear-gradient(to bottom, #1a0b06 0%, #120805 100%);
+    }
+
+    .poster-wrap {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .poster {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .poster img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center center;
+      display: block;
+      user-select: none;
+      -webkit-user-drag: none;
+      z-index: 1;
+    }
+
+    .back-link {
+      position: absolute;
+      top: 2.2%;
+      left: 1.8%;
+      z-index: 20;
+      color: #f3d7a3;
+      text-decoration: none;
+      font-size: 1rem;
+      letter-spacing: 0.03em;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: rgba(25, 10, 5, 0.45);
+      border: 1px solid rgba(255, 210, 130, 0.35);
+      box-shadow: 0 0 14px rgba(255, 170, 60, 0.18);
+    }
+
+    .back-link:hover {
+      color: #fff2d2;
+      border-color: rgba(255, 225, 170, 0.7);
+      box-shadow: 0 0 18px rgba(255, 180, 70, 0.28);
+    }
+
+    .button-zone {
+      position: absolute;
+      z-index: 25;
+      display: block;
+      text-indent: -9999px;
+      overflow: hidden;
+      white-space: nowrap;
+      cursor: pointer;
+      border-radius: 22px;
+      background: rgba(255, 200, 100, 0.08);
+      box-shadow:
+        0 0 10px rgba(255, 170, 60, 0.14),
+        inset 0 0 10px rgba(255, 220, 150, 0.05);
+      transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .button-zone:hover {
+      background: rgba(255, 210, 110, 0.14);
+      box-shadow:
+        0 0 16px rgba(255, 175, 60, 0.28),
+        0 0 28px rgba(255, 140, 40, 0.18),
+        inset 0 0 12px rgba(255, 225, 160, 0.08);
+      transform: translateX(-50%) scale(1.01);
+    }
+
+    .personal-link {
+      left: 39.2%;
+      bottom: 8.1%;
+      transform: translateX(-50%);
+      width: 18%;
+      height: 8.2%;
+    }
+
+    .business-link {
+      left: 60.8%;
+      bottom: 8.1%;
+      transform: translateX(-50%);
+      width: 18%;
+      height: 8.2%;
+    }
+
+    @media (max-width: 1100px) {
+      .personal-link {
+        left: 39.2%;
+        bottom: 8%;
+        width: 19%;
+        height: 8.4%;
+      }
+
+      .business-link {
+        left: 60.8%;
+        bottom: 8%;
+        width: 19%;
+        height: 8.4%;
+      }
+    }
+
+    @media (max-width: 900px) {
+      html, body {
+        overflow: auto;
+      }
+
+      .page {
+        min-height: 100vh;
+        height: auto;
+      }
+
+      .poster-wrap {
+        position: relative;
+        min-height: 100vh;
+      }
+
+      .poster {
+        min-height: 100vh;
+      }
+
+      .poster img {
+        width: 100%;
+        height: auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        inset: auto;
+      }
+
+      .back-link {
+        top: 1.5%;
+        left: 1.5%;
+        font-size: 0.92rem;
+        padding: 7px 14px;
+      }
+
+      .personal-link {
+        left: 39%;
+        bottom: 7.2%;
+        width: 22%;
+        height: 8.8%;
+      }
+
+      .business-link {
+        left: 61%;
+        bottom: 7.2%;
+        width: 22%;
+        height: 8.8%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="poster-wrap">
+      <div class="poster">
+        <img src="second page story.png" alt="MyStoryChip story page artwork">
+
+        <a class="back-link" href="index.html">Back</a>
+        <a class="button-zone personal-link" href="personal.html">Personal</a>
+        <a class="button-zone business-link" href="business.html">Business</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
