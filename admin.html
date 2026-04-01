@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Access</title>
+  <style>
+    body {
+      background: #120805;
+      color: #f5d8a2;
+      font-family: Georgia, serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .box {
+      text-align: center;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+      background: #1a0b06;
+      border: 1px solid #d6b37a;
+      color: #fff;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background: #d6b37a;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>Admin Access</h2>
+  <input type="password" id="pass" placeholder="Enter password" />
+  <br>
+  <button onclick="check()">Enter</button>
+</div>
+
+<script>
+function check() {
+  const p = document.getElementById("pass").value;
+  if (p === "chip123") {
+    window.location.href = "dashboard.html";
+  } else {
+    alert("Wrong password");
+  }
+}
+</script>
+
+</body>
+</html>
