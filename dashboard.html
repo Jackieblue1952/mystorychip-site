@@ -724,3 +724,8 @@ function copyChipLink(code, type) {
   </script>
 
 </body></html>
+<script>
+if (sessionStorage.getItem("adminAccess") !== "granted") {
+  window.location.href = "admin.html";
+}
+</script>
