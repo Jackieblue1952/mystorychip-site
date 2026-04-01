@@ -49,8 +49,10 @@
 function check() {
   const p = document.getElementById("pass").value;
   if (p === "chip123") {
-    window.location.href = "dashboard.html";
-  } else {
+  sessionStorage.setItem("adminAccess", "granted");
+ sessionStorage.setItem("adminAccess", "granted");
+window.location.href = "dashboard.html";
+} else {
     alert("Wrong password");
   }
 }
