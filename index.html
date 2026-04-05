@@ -87,27 +87,6 @@ body {
   cursor: pointer;
 }
 
-/* TAP LABEL */
-.tap-label {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: calc(73% - 3.5vw);
-
-  font-size: 1rem;
-  letter-spacing: 0.08em;
-  color: #f5e6c8;
-
-  padding: 6px 16px;
-  border-radius: 999px;
-
-  background: rgba(212,175,55,0.06);
-  border: 1px solid rgba(212,175,55,0.35);
-
-  box-shadow: 0 0 14px rgba(212,175,55,0.18);
-
-  animation: labelPulse 2.5s ease-in-out infinite;
-}
 
 /* SUBTLE GLOW ON BOOK */
 @keyframes storyGlow {
@@ -166,9 +145,6 @@ body {
     height: 9vw;
   }
 
-  .tap-label {
-    top: calc(73% - 8vw);
-  }
 }
 </style>
 </head>
@@ -178,16 +154,17 @@ body {
 <div class="page">
   <div class="poster-wrap">
     <div class="poster">
+<!-- IMAGE -->
+<img src="landing-page.png" alt="MyStoryChip">
 
-      <!-- IMAGE -->
-      <img src="landing-page.png" alt="MyStoryChip">
-      
 <a href="admin.html" class="admin-btn">Admin</a>
+
+<div class="disclaimer-text">
+  By using this site, you agree to our Terms &amp; Disclaimer
+</div>
+
+<a href="story.html" class="story-hotspot" aria-label="Open The MyStoryChip Story"></a>
       
-      <div class="disclaimer-text">By using this site, you agree to our Terms &amp; Disclaimer</div>
-      
-      <!-- CLICK AREA -->
-      <a href="story.html" class="story-hotspot"></a>
      
 
     </div>
