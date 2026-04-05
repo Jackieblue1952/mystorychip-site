@@ -173,33 +173,7 @@ z-index: 2;
         height: 6.8vw;
       }
 
-      .enter-hotspot {
-        top: 91.3%;
-        width: 20vw;
-        height: 4.4vw;
-      }
-    }
-
-    @media (max-width: 900px) {
-      .poster-wrap {
-        padding: 8px;
-      }
-
-      .poster img {
-        object-fit: contain;
-      }
-
-      .story-hotspot {
-        top: 72.5%;
-        width: 44vw;
-        height: 7.2vw;
-      }
-
-      .enter-hotspot {
-        top: 91%;
-        width: 22vw;
-        height: 4.8vw;
-      }
+    
     }
 
     @media (max-width: 640px) {
@@ -230,62 +204,24 @@ z-index: 2;
         z-index: 1;
       }
 
-      .story-hotspot {
-        top: 73%;
-        width: 52vw;
-        height: 9vw;
-      }
+.story-hotspot {
+  top: 73%;
+  width: 52vw;
+  height: 9vw;
 
-      .enter-hotspot {
-  top: 91.7%;
-  width: 28vw;
-  height: 6vw;
-  background: rgba(255, 0, 0, 0.35);
-  z-index: 20;
+  cursor: pointer;
+  animation: storyGlow 2.5s ease-in-out infinite;
 }
-@keyframes breatheGlow {
+   @keyframes storyGlow {
   0% {
-    background: rgba(255, 190, 80, 0.04);
-    box-shadow: 0 0 6px rgba(255, 170, 60, 0.10);
+    box-shadow: 0 0 6px rgba(212,175,55,0.08);
   }
   50% {
-    background: rgba(255, 210, 110, 0.16);
-    box-shadow: 0 0 22px rgba(255, 175, 60, 0.34);
+    box-shadow: 0 0 16px rgba(212,175,55,0.20);
   }
   100% {
-    background: rgba(255, 190, 80, 0.04);
-    box-shadow: 0 0 6px rgba(255, 170, 60, 0.10);
+    box-shadow: 0 0 6px rgba(212,175,55,0.08);
   }
-.entry-link {
-  position: absolute;
-  left: 50%;
-  bottom: 2.2%;
-  transform: translateX(-50%);
-  z-index: 30;
-
-  color: #f5e6c8;
-  text-decoration: none;
-  font-size: 1.15rem;
-  letter-spacing: 0.08em;
-
-  padding: 8px 20px;
-  border-radius: 999px;
-
-  background: rgba(212, 175, 55, 0.06);
-  border: 1px solid rgba(212, 175, 55, 0.35);
-
-  box-shadow: 0 0 14px rgba(212, 175, 55, 0.18);
-  transition: all 0.3s ease;
-}
-
-.entry-link:hover {
-  color: #000;
-  background: #d4af37;
-  border-color: #d4af37;
-
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.35);
-}
-}
   </style>
 </head>
 <body>
@@ -294,8 +230,8 @@ z-index: 2;
       <div class="poster">
      <img src="landing-page.png" alt="MyStoryChip landing artwork" />  
 
-        <a class="hotspot story-hotspot" href="story.html">The MyStoryChip Story</a>
-        <a class="hotspot enter-hotspot" href="story.html">Tap to Enter</a>
+     <a class="hotspot story-hotspot" href="story.html">The MyStoryChip Story</a>
+
 <a class="entry-link" href="story.html">Enter Here</a>
       </div>
     </div>
