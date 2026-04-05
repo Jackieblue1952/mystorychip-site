@@ -146,7 +146,7 @@ border: 1px solid rgba(212,175,55,0.35);
   pointer-events: none;
 
   opacity: 0;
-  animation: hintFade 3.5s ease-in-out infinite;
+  animation: hintFade 2.2s ease-in-out infinite;
 
   z-index: 9999;
 }
@@ -171,11 +171,34 @@ border: 1px solid rgba(212,175,55,0.35);
   100% {
     transform: translate(-50%, -50%) scale(0.96);
   }
-  @keyframes hintFade {
-  0%   { opacity: 0; transform: translate(-50%, -60%); }
-  30%  { opacity: 0.7; }
-  70%  { opacity: 0.7; }
-  100% { opacity: 0; transform: translate(-50%, -70%); }
+ @keyframes chipPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.9);
+    box-shadow:
+      0 0 12px rgba(255,215,120,0.35),
+      0 0 24px rgba(212,175,55,0.25);
+  }
+
+  40% {
+    transform: translate(-50%, -50%) scale(1.25);
+    box-shadow:
+      0 0 40px rgba(255,230,150,0.8),
+      0 0 80px rgba(212,175,55,0.6);
+  }
+
+  70% {
+    transform: translate(-50%, -50%) scale(1.6);
+    box-shadow:
+      0 0 60px rgba(255,230,150,0.35),
+      0 0 120px rgba(212,175,55,0.25);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(0.9);
+    box-shadow:
+      0 0 12px rgba(255,215,120,0.35),
+      0 0 24px rgba(212,175,55,0.25);
+  }
 }
 }
 
