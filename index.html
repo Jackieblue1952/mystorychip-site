@@ -52,14 +52,7 @@ body {
   height: 100%;
 }
 
-/* DARK OVERLAY */
-.poster::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.45);
-  z-index: 1;
-}
+
 
 /* IMAGE */
 .poster img {
@@ -79,14 +72,50 @@ body {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 73%;
-  width: min(28vw, 380px);
-  height: min(5.8vw, 80px);
+  top: 66.8%;
+  width: min(12vw, 150px);
+  height: min(2.8vw, 36px);
 
-  z-index: 5;
+  z-index: 8;
   cursor: pointer;
-}
+  text-decoration: none;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #f5e6c8;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+
+  .story-hotspot {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 66.8%;
+  width: min(12vw, 150px);
+  height: min(2.8vw, 36px);
+
+  z-index: 8;
+  cursor: pointer;
+  text-decoration: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #f5e6c8;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+
+  background: rgba(255, 0, 0, 0.35);
+  border: 2px solid yellow;
+  border-radius: 999px;
+  box-shadow: none;
+}
+  .story-hotspot::before {
+  content: "Tap Here";
+}
 
 /* SUBTLE GLOW ON BOOK */
 @keyframes storyGlow {
