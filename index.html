@@ -5,6 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MyStoryChip — Tap Into the Story Behind Anything</title>
   <style>
+    .tap-hint {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  transform: translate(-50%, -50%);
+  z-index: 10000;
+  pointer-events: none;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+
+  color: rgba(245, 220, 180, 0.65);
+
+  text-shadow: 0 0 8px rgba(0,0,0,0.7);
+
+  opacity: 0.7;
+}
     * {
       box-sizing: border-box;
       margin: 0;
@@ -179,6 +198,7 @@
         <img src="landing-page.png" alt="MyStoryChip landing page" />
 
         <a href="admin.html" class="admin-btn">Admin</a>
+        <div class="tap-hint">Tap the chip</div>
         <a href="story.html" class="story-hotspot" aria-label="Open The MyStoryChip Story">><a>
 
 <div class="tap-text">TAP</div>
