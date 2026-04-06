@@ -204,6 +204,8 @@
     
 
     .chip-hint {
+       display: none;
+      
       position: absolute;
       left: 50%;
       top: 51.3%;
@@ -218,6 +220,7 @@
       pointer-events: none;
       opacity: 0;
       animation: hintFade 2.4s ease-in-out infinite;
+     
     }
 
     @keyframes chipPulse {
@@ -386,7 +389,6 @@
         </div>
 
         <a href="story.html" class="story-hotspot" aria-label="Open The MyStoryChip Story"></a>
-        <div class="chip-hint">Tap the chip</div>
       </div>
     </div>
   </div>
