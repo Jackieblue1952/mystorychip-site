@@ -1,132 +1,397 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MyStoryChip | The Story</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MyStoryChip | The Story</title>
 
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-body {
-  background: #0a0a0a;
-  font-family: Georgia, "Times New Roman", serif;
-  overflow: hidden;
-}
+    :root {
+      --bg: #060606;
+      --bg2: #0d0d0d;
+      --panel: rgba(255,255,255,0.04);
+      --panel-border: rgba(212,175,55,0.22);
+      --gold: #d4af37;
+      --gold-soft: #f3ddb0;
+      --text: #f8f1df;
+      --muted: #cdbf9b;
+      --shadow: 0 0 30px rgba(212,175,55,0.12);
+    }
 
-/* FULL SCREEN */
-.page {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-}
+    body {
+      background:
+        radial-gradient(circle at top center, rgba(212,175,55,0.08), transparent 30%),
+        linear-gradient(to bottom, #111 0%, #070707 45%, #050505 100%);
+      color: var(--text);
+      font-family: Georgia, "Times New Roman", serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-/* IMAGE */
-.poster-wrap {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+    .page {
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px 20px 80px;
+    }
 
-.poster {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
+    .back-link {
+      display: inline-block;
+      margin-bottom: 26px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      text-decoration: none;
+      color: var(--gold-soft);
+      border: 1px solid rgba(212,175,55,0.28);
+      background: rgba(212,175,55,0.07);
+      backdrop-filter: blur(4px);
+      transition: 0.25s ease;
+    }
 
-.poster img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
+    .back-link:hover {
+      box-shadow: var(--shadow);
+      transform: translateY(-1px);
+    }
 
-/* BACK BUTTON */
-.back-link {
-  position: absolute;
-  top: 18px;
-  left: 18px;
+    .hero {
+      position: relative;
+      text-align: center;
+      padding: 38px 20px 26px;
+      margin-bottom: 34px;
+      border: 1px solid rgba(212,175,55,0.12);
+      background: linear-gradient(to bottom, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+      box-shadow: inset 0 0 80px rgba(212,175,55,0.03);
+      overflow: hidden;
+    }
 
-  padding: 6px 14px;
-  font-size: 0.8rem;
-  color: #f5e6c8;
-  text-decoration: none;
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: -140px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 420px;
+      height: 420px;
+      background: radial-gradient(circle, rgba(212,175,55,0.18), transparent 60%);
+      pointer-events: none;
+      filter: blur(10px);
+    }
 
-  background: rgba(212,175,55,0.08);
-  border: 1px solid rgba(212,175,55,0.25);
-  border-radius: 999px;
+    .eyebrow {
+      position: relative;
+      z-index: 1;
+      color: var(--gold);
+      font-size: 0.95rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
 
-  backdrop-filter: blur(4px);
-}
+    .hero h1 {
+      position: relative;
+      z-index: 1;
+      font-size: clamp(2.2rem, 5vw, 4.4rem);
+      line-height: 1.08;
+      margin-bottom: 16px;
+      color: var(--text);
+      text-shadow: 0 0 18px rgba(212,175,55,0.12);
+    }
 
-/* BUTTON ZONES */
-.button-zone {
-  position: absolute;
-  width: 220px;
-  height: 60px;
-  transform: translateX(-50%);
-  left: 50%;
-  cursor: pointer;
-}
+    .hero p {
+      position: relative;
+      z-index: 1;
+      max-width: 840px;
+      margin: 0 auto;
+      font-size: clamp(1rem, 1.5vw, 1.2rem);
+      line-height: 1.6;
+      color: var(--muted);
+    }
 
-/* PERSONAL */
-.personal-link {
-  bottom: 90px;
-}
+    .beam {
+      width: 2px;
+      height: 110px;
+      margin: 24px auto 0;
+      background: linear-gradient(to bottom, rgba(255,220,140,0), rgba(255,220,140,0.95), rgba(255,220,140,0));
+      box-shadow: 0 0 18px rgba(255,215,120,0.4);
+      border-radius: 999px;
+    }
 
-/* BUSINESS */
-.business-link {
-  bottom: 20px;
-}
+    .section {
+      margin-top: 42px;
+    }
 
-/* HOVER GLOW */
-.button-zone:hover {
-  box-shadow:
-    0 0 20px rgba(255,215,120,0.35),
-    0 0 40px rgba(212,175,55,0.25);
-}
+    .section-title {
+      text-align: center;
+      font-size: clamp(1.5rem, 3vw, 2.4rem);
+      margin-bottom: 12px;
+      color: var(--text);
+    }
 
-/* OPTIONAL: subtle pulse */
-@keyframes pulseGlow {
-  0% { box-shadow: 0 0 10px rgba(255,215,120,0.2); }
-  50% { box-shadow: 0 0 35px rgba(255,215,120,0.45); }
-  100% { box-shadow: 0 0 10px rgba(255,215,120,0.2); }
-}
+    .section-subtitle {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 24px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 1rem;
+    }
 
-.button-zone {
-  animation: pulseGlow 4s ease-in-out infinite;
-}
+    .grid-3,
+    .grid-6 {
+      display: grid;
+      gap: 18px;
+    }
 
-</style>
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid-6 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card {
+      background: linear-gradient(to bottom, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--panel-border);
+      padding: 22px 18px;
+      min-height: 180px;
+      box-shadow: var(--shadow);
+      transition: 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(212,175,55,0.38);
+      box-shadow:
+        0 0 22px rgba(212,175,55,0.12),
+        0 0 50px rgba(212,175,55,0.08);
+    }
+
+    .icon {
+      font-size: 2rem;
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .card h3 {
+      font-size: 1.35rem;
+      color: var(--gold-soft);
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+
+    .cta {
+      margin-top: 56px;
+      text-align: center;
+      padding: 34px 20px 10px;
+    }
+
+    .cta h2 {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      margin-bottom: 12px;
+    }
+
+    .cta p {
+      max-width: 720px;
+      margin: 0 auto 26px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+
+    .cta-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      min-width: 220px;
+      padding: 15px 24px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+      transition: 0.25s ease;
+    }
+
+    .btn-gold {
+      color: #1b1404;
+      background: linear-gradient(to bottom, #f2d58a, #d4af37);
+      border: 1px solid rgba(255,225,150,0.55);
+      box-shadow: 0 0 24px rgba(212,175,55,0.18);
+    }
+
+    .btn-gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(212,175,55,0.28);
+    }
+
+    .btn-dark {
+      color: var(--gold-soft);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(212,175,55,0.28);
+    }
+
+    .btn-dark:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    @media (max-width: 920px) {
+      .grid-3,
+      .grid-6 {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 28px 18px 22px;
+      }
+
+      .card {
+        min-height: auto;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="page">
 
-<div class="page">
+    <a href="index.html" class="back-link">Back</a>
 
-  <div class="poster-wrap">
-    <div class="poster">
+    <section class="hero">
+      <div class="eyebrow">MyStoryChip</div>
+      <h1>Tap Anything. Instantly See Its Story.</h1>
+      <p>
+        MyStoryChip links real-world items to photos, memories, information, documents, and meaning —
+        all through one simple tap from a phone.
+      </p>
+      <div class="beam"></div>
+    </section>
 
-      <img src="story-page.png" alt="MyStoryChip Story">
+    <section class="section">
+      <h2 class="section-title">What It Is</h2>
+      <p class="section-subtitle">
+        A simple chip that turns ordinary things into living digital stories.
+      </p>
 
-      <!-- BACK -->
-      <a href="index.html" class="back-link">Back</a>
+      <div class="grid-3">
+        <div class="card">
+          <span class="icon">📱</span>
+          <h3>Phone Ready</h3>
+          <p>Tap with a phone and open a story, memory, profile, page, or important information in seconds.</p>
+        </div>
 
-      <!-- PERSONAL -->
-      <a href="personal.html" class="button-zone personal-link"></a>
+        <div class="card">
+          <span class="icon">🔗</span>
+          <h3>One Smart Link</h3>
+          <p>Each chip connects one real object to one clean digital destination that can be updated anytime.</p>
+        </div>
 
-      <!-- BUSINESS -->
-      <a href="business.html" class="button-zone business-link"></a>
+        <div class="card">
+          <span class="icon">✨</span>
+          <h3>Made To Matter</h3>
+          <p>Not just storage. Not social media noise. A direct connection to what actually matters.</p>
+        </div>
+      </div>
+    </section>
 
-    </div>
+    <section class="section">
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-subtitle">
+        No tech headache. Just three simple steps.
+      </p>
+
+      <div class="grid-3">
+        <div class="card">
+          <span class="icon">1️⃣</span>
+          <h3>Tap</h3>
+          <p>Use a phone to tap the chip or scan the code.</p>
+        </div>
+
+        <div class="card">
+          <span class="icon">2️⃣</span>
+          <h3>Open</h3>
+          <p>Instantly view the page connected to that item.</p>
+        </div>
+
+        <div class="card">
+          <span class="icon">3️⃣</span>
+          <h3>Connect</h3>
+          <p>See the memory, message, business info, medical note, recipe, or story behind it.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Where It’s Used</h2>
+      <p class="section-subtitle">
+        Built for real life, not just one niche idea.
+      </p>
+
+      <div class="grid-6">
+        <div class="card">
+          <span class="icon">👨‍👩‍👧</span>
+          <h3>Family Legacy</h3>
+          <p>Recipes, letters, keepsakes, and stories that stay connected across generations.</p>
+        </div>
+
+        <div class="card">
+          <span class="icon">🕊️</span>
+          <h3>Memorials</h3>
+          <p>Give loved ones a place where memory, photos, and life stories can live on.</p>
+        </div>
+
+        <div class="card">
+          <span class="icon">🐾</span>
+          <h3>Pet Tags</h3>
+          <p>Store pet details, owner contact info, and care notes in one quick-access place.</p>
+        </div>
+
+        <div class="card">
+          <span class="icon">🚗</span>
+          <h3>Vehicles</h3>
+          <p>Show ownership history, upgrades, specs, manuals, or maintenance details.</p>
+        </div>
+
+        <div class="card">
+          <span class="icon">❤️</span>
+          <h3>Medical Info</h3>
+          <p>Share important health information when quick access matters most.</p>
+        </div>
+
+        <div class="card">
+          <span class="icon">🏪</span>
+          <h3>Business</h3>
+          <p>Menus, product stories, instructions, promotions, service details, or customer links.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <h2>Your Story Deserves More Than A Box.</h2>
+      <p>
+        Start with a chip that turns real objects into something living, useful, and unforgettable.
+      </p>
+
+      <div class="cta-buttons">
+        <a href="personal.html" class="btn btn-gold">Personal</a>
+        <a href="business.html" class="btn btn-dark">Business</a>
+      </div>
+    </section>
+
   </div>
-
-</div>
-
 </body>
 </html>
