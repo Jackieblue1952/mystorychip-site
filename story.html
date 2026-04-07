@@ -63,6 +63,38 @@ body {
   cursor: pointer;
   font-weight: bold;
 }
+  .cta-group {
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.cta-btn {
+  padding: 15px 30px;
+  font-size: 18px;
+  background: #d4a84f;
+  color: black;
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.cta-btn:hover {
+  background: #f0c36a;
+  transform: scale(1.05);
+}
+
+.cta-btn.alt {
+  background: transparent;
+  border: 2px solid #d4a84f;
+  color: #d4a84f;
+}
+
+.cta-btn.alt:hover {
+  background: #d4a84f;
+  color: black;
+}
 
 .hero-right img {
   max-width: 600px;
@@ -81,7 +113,7 @@ body {
 
     <h1>
       Every object has a story.<br>
-      <span>Now it can be seen.</span>
+      <span>Now you can tap into it</span>
     </h1>
 
     <p>
@@ -89,8 +121,10 @@ body {
       information, and meaning.
     </p>
 
-    <button class="cta">SEE HOW IT WORKS</button>
-  </div>
+    <div class="cta-group">
+  <a href="personal.html" class="cta-btn">PERSONAL</a>
+  <a href="business.html" class="cta-btn alt">BUSINESS</a>
+</div>
 
   <div class="hero-right">
  <img src="chip.png">
