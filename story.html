@@ -29,40 +29,47 @@ body {
   bottom: 188px;
   left: 100px;
 
-  background: linear-gradient(145deg, #e0b566, #c79a3d);
-  padding: 14px 18px;
+  background: linear-gradient(145deg, #e6bc6e, #c8952f);
+  padding: 16px 20px;
   border-radius: 60px;
 
   display: flex;
-  gap: 10px;
+  gap: 12px;
   align-items: center;
 
-  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.4),
+    0 0 20px rgba(212,168,79,0.25); /* subtle gold glow */
 }
 
 /* BUTTONS INSIDE PANEL */
 
 .overlay-btn {
-  padding: 12px 22px;
+  padding: 12px 24px;
   border-radius: 30px;
   text-decoration: none;
   font-weight: bold;
-  font-size: 16px;
-  transition: 0.3s;
+  font-size: 15px;
+  letter-spacing: 1px;
+  transition: 0.25s;
 }
 
 /* PERSONAL (dark on gold) */
 
 .overlay-btn.primary {
-  background: black;
+  background: #000;
   color: #d4a84f;
+}
+  .overlay-btn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
 }
 
 /* BUSINESS (outline style) */
 
 .overlay-btn.secondary {
-  border: 2px solid black;
-  color: black;
+  border: 2px solid #000;
+  color: #000;
 }
 
 /* HOVER EFFECT */
