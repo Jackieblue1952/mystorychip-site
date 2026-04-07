@@ -6,6 +6,7 @@
 <title>MyStoryChip</title>
 
 <style>
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -14,67 +15,30 @@ body {
   overflow-x: hidden;
 }
 
+/* FULL IMAGE HERO */
+
 .hero {
   position: relative;
   min-height: 100vh;
-  background:
-  linear-gradient(to right, rgba(0,0,0,0.96) 0%, rgba(0,0,0,0.88) 36%, rgba(0,0,0,0.52) 62%, rgba(0,0,0,0.14) 100%),
-    url("chip.png") 72% center / cover no-repeat;
+  background: url("chip.png") center center / cover no-repeat;
   display: flex;
-  align-items: center;
-  padding: 72px 60px;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 0 0 60px 60px;
   box-sizing: border-box;
 }
 
-.hero-left {
-  max-width: 500px;
-  z-index: 2;
-  padding-top: 0;
-  margin-top: -30px;
-}
+/* BUTTON CONTAINER */
 
-.tagline {
-  display: inline-block;
-  padding: 10px 20px;
-  border-radius: 30px;
-  border: 1px solid #d4a84f;
-  color: #d4a84f;
-  margin-bottom: 20px;
-  letter-spacing: 2px;
-  font-size: 14px;
-}
-
-.hero h1 {
-  font-size: clamp(34px, 4.8vw, 68px);
-  line-height: 1.02;
-  margin: 0 0 18px 0;
-  max-width: 520px;
-}
-
-.hero h1 {
-  font-size: clamp(30px, 4.2vw, 60px);
-  line-height: 1.04;
-  margin: 0 0 16px 0;
-  max-width: 480px;
-}
-
-.hero p {
-  font-size: 20px;
-  line-height: 1.45;
-  margin: 0 0 26px 0;
-  color: #f1f1f1;
-  max-width: 460px;
-}
-
-.cta-group {
+.hero-buttons {
   display: flex;
-  gap: 14px;
-  margin-top: 18px;
+  gap: 16px;
   flex-wrap: wrap;
 }
 
+/* BUTTON STYLE */
+
 .cta-btn {
-  display: inline-block;
   padding: 15px 30px;
   font-size: 18px;
   background: #d4a84f;
@@ -101,53 +65,29 @@ body {
   color: black;
 }
 
+/* MOBILE FIX */
+
 @media (max-width: 900px) {
   .hero {
-    padding: 32px 24px;
+    padding: 0 0 40px 20px;
     align-items: flex-end;
-    background-position: center center;
-  }
-
-  .hero-left {
-    max-width: 100%;
-  }
-
-  .hero h1 {
-    font-size: clamp(38px, 10vw, 58px);
-  }
-
-  .hero p {
-    font-size: 22px;
-    max-width: 100%;
   }
 
   .cta-btn {
-    width: auto;
+    font-size: 16px;
+    padding: 12px 22px;
   }
 }
+
 </style>
 </head>
 
 <body>
 
 <section class="hero">
-  <div class="hero-left">
-    <div class="tagline">TAP. OPEN. REMEMBER.</div>
-
-    <h1>
-      Every object has a story.<br>
-      <span>Now you can tap into it.</span>
-    </h1>
-
-    <p>
-      Tap your phone. Instantly unlock memories,
-      information, and meaning.
-    </p>
-
-    <div class="cta-group">
-      <a href="personal.html" class="cta-btn">PERSONAL</a>
-      <a href="business.html" class="cta-btn alt">BUSINESS</a>
-    </div>
+  <div class="hero-buttons">
+    <a href="personal.html" class="cta-btn">PERSONAL</a>
+    <a href="business.html" class="cta-btn alt">BUSINESS</a>
   </div>
 </section>
 
