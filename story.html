@@ -11,71 +11,78 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #000;
-  color: white;
   overflow-x: hidden;
 }
 
-/* FULL IMAGE HERO */
+/* HERO IMAGE */
 
 .hero {
   position: relative;
   min-height: 100vh;
   background: url("chip.png") center center / cover no-repeat;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-  padding: 0 0 60px 60px;
-  box-sizing: border-box;
 }
 
-/* BUTTON CONTAINER */
+/* GOLD OVERLAY PANEL */
 
-.hero-buttons {
+.overlay-panel {
+  position: absolute;
+  bottom: 90px;
+  left: 80px;
+
+  background: linear-gradient(145deg, #e0b566, #c79a3d);
+  padding: 14px 18px;
+  border-radius: 40px;
+
   display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 
-/* BUTTON STYLE */
+/* BUTTONS INSIDE PANEL */
 
-.cta-btn {
-  padding: 15px 30px;
-  font-size: 18px;
-  background: #d4a84f;
-  color: black;
-  text-decoration: none;
+.overlay-btn {
+  padding: 12px 22px;
   border-radius: 30px;
+  text-decoration: none;
   font-weight: bold;
+  font-size: 16px;
   transition: 0.3s;
 }
 
-.cta-btn:hover {
-  background: #f0c36a;
-  transform: scale(1.05);
-}
+/* PERSONAL (dark on gold) */
 
-.cta-btn.alt {
-  background: transparent;
-  border: 2px solid #d4a84f;
+.overlay-btn.primary {
+  background: black;
   color: #d4a84f;
 }
 
-.cta-btn.alt:hover {
-  background: #d4a84f;
+/* BUSINESS (outline style) */
+
+.overlay-btn.secondary {
+  border: 2px solid black;
   color: black;
 }
 
-/* MOBILE FIX */
+/* HOVER EFFECT */
+
+.overlay-btn:hover {
+  transform: scale(1.05);
+}
+
+/* MOBILE ADJUSTMENT */
 
 @media (max-width: 900px) {
-  .hero {
-    padding: 0 0 40px 20px;
-    align-items: flex-end;
+  .overlay-panel {
+    left: 20px;
+    bottom: 40px;
+    flex-direction: column;
+    align-items: stretch;
   }
 
-  .cta-btn {
-    font-size: 16px;
-    padding: 12px 22px;
+  .overlay-btn {
+    text-align: center;
   }
 }
 
@@ -85,10 +92,12 @@ body {
 <body>
 
 <section class="hero">
-  <div class="hero-buttons">
-    <a href="personal.html" class="cta-btn">PERSONAL</a>
-    <a href="business.html" class="cta-btn alt">BUSINESS</a>
+
+  <div class="overlay-panel">
+    <a href="personal.html" class="overlay-btn primary">PERSONAL</a>
+    <a href="business.html" class="overlay-btn secondary">BUSINESS</a>
   </div>
+
 </section>
 
 </body>
