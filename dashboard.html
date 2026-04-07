@@ -5,6 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MyStoryChip Dashboard</title>
   <style>
+    .home-btn {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 10000;
+
+  padding: 7px 15px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  color: #f5e6c8;
+  text-decoration: none;
+
+  background: rgba(212, 175, 55, 0.10);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 999px;
+
+  backdrop-filter: blur(4px);
+
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.15);
+
+  transition: all 0.25s ease;
+}
+
+.home-btn:hover {
+  background: rgba(212, 175, 55, 0.18);
+  box-shadow:
+    0 0 14px rgba(245, 217, 122, 0.25),
+    0 0 28px rgba(212, 175, 55, 0.18);
+}
     * { box-sizing: border-box; }
 
     body {
