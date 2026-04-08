@@ -63,21 +63,20 @@
     .tap-overlay {
   position: absolute;
 
-  /* 👇 THIS is where the magic happens */
-  bottom: 170px;   /* move up/down */
-  left: 120px;     /* move left/right */
+  bottom: 170px;
+  left: 120px;
 
-  width: 340px;    /* width of button */
-  height: 90px;    /* height of button */
+  width: 340px;
+  height: 90px;
 
   border-radius: 50px;
   cursor: pointer;
-  display: block;     /* ✅ REQUIRED */
-  z-index: 5;         /* ✅ BRINGS IT ABOVE IMAGE */
-}
-  /* Optional: faint glow for debugging (remove later) */
-  /* background: rgba(255, 215, 0, 0.15); */
-}
+
+  display: block;
+  z-index: 10;
+
+  background: rgba(255, 0, 0, 0.25);
+} 
 
     .choice-btn.primary {
       background: linear-gradient(145deg, #e6bc6e, #c8952f);
