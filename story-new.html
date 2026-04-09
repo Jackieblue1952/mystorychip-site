@@ -16,6 +16,7 @@
       background: #050505;
       overflow-x: hidden;
       font-family: Georgia, "Times New Roman", serif;
+      color: #f5e6c8;
     }
 
     body {
@@ -57,11 +58,7 @@
     }
 
     .hero {
-      min-height: 100vh;
       padding: 30px 20px 20px;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
     }
 
     .hero img {
@@ -69,10 +66,80 @@
       max-width: 1400px;
       height: auto;
       display: block;
+      margin: 0 auto;
       border-radius: 10px;
       box-shadow:
         0 0 40px rgba(255,180,50,0.12),
         0 0 90px rgba(0,0,0,0.55);
+    }
+
+    .story-panel {
+      width: min(92%, 950px);
+      margin: 28px auto 60px;
+      padding: 32px 26px;
+      background: rgba(20, 12, 4, 0.90);
+      border: 1px solid rgba(212,175,55,0.30);
+      border-radius: 20px;
+      box-shadow:
+        0 0 30px rgba(212,175,55,0.08),
+        0 20px 60px rgba(0,0,0,0.40);
+    }
+
+    .story-panel h1 {
+      text-align: center;
+      font-size: clamp(30px, 4vw, 48px);
+      margin: 0 0 12px 0;
+      color: #f1d184;
+    }
+
+    .story-sub {
+      text-align: center;
+      font-size: 20px;
+      color: #d4af37;
+      margin: 0 0 30px 0;
+      font-style: italic;
+    }
+
+    .story-panel h2 {
+      margin: 32px 0 14px;
+      font-size: 28px;
+      color: #e0bb61;
+    }
+
+    .story-panel p,
+    .story-panel li {
+      font-size: 20px;
+      line-height: 1.8;
+      color: #f4e3bf;
+    }
+
+    .story-panel p {
+      margin: 0 0 22px 0;
+    }
+
+    .story-panel ul {
+      margin: 0 0 22px 24px;
+      padding: 0;
+    }
+
+    .story-panel li {
+      margin-bottom: 10px;
+    }
+
+    .quote-line {
+      text-align: center;
+      font-size: 32px;
+      color: #f0c865;
+      margin-top: 36px;
+      font-weight: bold;
+    }
+
+    .bottom-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 34px;
     }
 
     @media (max-width: 900px) {
@@ -90,51 +157,31 @@
       .hero {
         padding: 60px 10px 10px;
       }
- .hero {
-  min-height: auto;
-  padding: 30px 20px 20px;
-  display: block;
-}
 
-.hero img {
-  width: 100%;
-  max-width: 1400px;
-  height: auto;
-  display: block;
-  margin: 0 auto;
-  border-radius: 10px;
-  box-shadow:
-    0 0 40px rgba(255,180,50,0.12),
-    0 0 90px rgba(0,0,0,0.55);
-}
+      .story-panel {
+        width: 94%;
+        padding: 24px 18px;
+        margin: 20px auto 40px;
+        border-radius: 16px;
+      }
 
-.hero-overlay {
-  position: static;
-  transform: none;
-  width: min(92%, 900px);
-  margin: 24px auto 0;
-  padding: 28px 24px;
-  background: rgba(20, 12, 4, 0.88);
-  border: 1px solid rgba(212,175,55,0.30);
-  border-radius: 20px;
-  color: #f5e6c8;
-  text-align: center;
-  text-shadow: none;
-  box-shadow:
-    0 0 30px rgba(212,175,55,0.08),
-    0 20px 60px rgba(0,0,0,0.40);
-}
+      .story-sub {
+        font-size: 16px;
+      }
 
-.hero-overlay h1 {
-  font-size: 42px;
-  margin: 0 0 18px 0;
-}
+      .story-panel p,
+      .story-panel li {
+        font-size: 18px;
+        line-height: 1.7;
+      }
 
-.hero-overlay p {
-  font-size: 20px;
-  line-height: 1.75;
-  margin: 0;
-}
+      .story-panel h2 {
+        font-size: 24px;
+      }
+
+      .quote-line {
+        font-size: 26px;
+      }
     }
   </style>
 </head>
@@ -142,55 +189,108 @@
 
   <div class="nav-buttons">
     <a href="index.html" class="btn">← Home</a>
-    <a href="use.html" class="btn">next< →</a>
+    <a href="use.html" class="btn">Uses →</a>
     <a href="buy.html" class="btn primary">Buy Now</a>
   </div>
 
   <section class="hero">
-  <img src="storybook-image.png" alt="The Story Behind MyStoryChip">
+    <img src="storybook-image.png" alt="The Story Behind MyStoryChip">
+  </section>
 
-  <div class="hero-overlay">
+  <section class="story-panel">
     <h1>The Story Behind MyStoryChip</h1>
+    <p class="story-sub">Where memories live... beyond time.</p>
 
-    <p>
-      It started with a quiet day.<br><br>
+    <p>It started with a quiet day.</p>
 
-      While visiting family and friends at the cemetery, I found myself
-      thinking about the lives behind the names.<br><br>
+    <p>While visiting family and friends at the cemetery, I found myself thinking about the lives behind the names. The stories. The memories. The experiences that once filled entire lifetimes — now reduced to a few words carved in stone.</p>
 
-      The stories. The memories.<br>
-      Entire lifetimes — reduced to a few words carved in stone.<br><br>
+    <p>As I drove through, one headstone stood out.<br>
+    A familiar name.</p>
 
-      As I drove through, one headstone stood out.<br><br>
+    <p>A familiar face. Someone who had once made people laugh, live, build, love, and matter. Yet standing there, all that remained was a simple marker and a few small mementos. It didn’t come close to telling the full story of a life.</p>
 
-      <em>A familiar name.</em><br><br>
+    <p>And that thought stayed with me:</p>
 
-      Someone who once made people laugh… now reduced to a simple marker.<br>
-      A few dates. A few words.<br>
-      Not the story of a life.<br><br>
+    <h2>How many stories are lost forever?</h2>
 
-      And it made me wonder…<br><br>
+    <p>Not just famous ones — but everyday lives.<br>
+    Family histories. Skills. Lessons. Memories.<br>
+    Entire lifetimes... gone, with no way to be shared again.</p>
 
-      <strong>How many stories are lost to time?</strong><br><br>
+    <p>Later that same day, I was at home working with my coin collection — scanning pieces, pulling up their history instantly on my phone.</p>
 
-      Not just the famous ones — but everyday lives.<br>
-      Family histories. Skills. Lessons. Memories.<br>
-      Entire lifetimes… gone.<br><br>
+    <p>That’s when it hit me.</p>
 
-      That’s when it hit me.<br><br>
+    <h2>Why can’t we do this for people... for stories... for real life?</h2>
 
-      What if a simple tap could bring it all back?<br><br>
+    <p>What if a simple tap could open a life story?<br>
+    What if a headstone could speak?<br>
+    What if memories didn’t have to disappear?</p>
 
-      <strong>MyStoryChip.com was born.</strong><br><br>
+    <p>That idea became something much bigger.</p>
 
-      One chip. One link. One place to preserve what matters.<br><br>
+    <p>I began to see it everywhere.</p>
 
-      Not just storage… but connection.<br><br>
+    <ul>
+      <li>A restored classic car, carrying its full history</li>
+      <li>A family recipe, preserved and shared for generations</li>
+      <li>A home project, showing the work behind the walls</li>
+      <li>A collection, telling the story behind every piece</li>
+    </ul>
 
-      <strong>Your Chip. Your Story.</strong>
-    </p>
-  </div>
-</section>
+    <p>Not just storage... but connection.</p>
+
+    <h2>But there was a problem.</h2>
+
+    <p>NFC chips themselves don’t hold much data. And using third-party platforms meant giving up control, privacy, and permanence.</p>
+
+    <p>That didn’t sit right.</p>
+
+    <p>So instead of relying on someone else’s system... I decided to build my own.</p>
+
+    <p>With guidance from a trusted friend, the backend was created — a secure system designed to store and serve each story. On my end, I learned, built, and shaped the experience from the ground up.</p>
+
+    <p>I moved away from traditional setups, installed Linux, and took full control of the environment.</p>
+
+    <p>And from that...</p>
+
+    <h2>MyStoryChip.com was born.</h2>
+
+    <h2>What It Is Today</h2>
+
+    <p>MyStoryChip is simple at its core:</p>
+
+    <p><strong>One chip. One link. One place for what matters.</strong></p>
+
+    <p>A way to connect real-world objects to the stories behind them — instantly, privately, and permanently.</p>
+
+    <p>Not social media.<br>
+    Not noise.<br>
+    Not something that gets buried or forgotten.</p>
+
+    <p>Just your story... accessible with a single tap.</p>
+
+    <h2>Why It Matters</h2>
+
+    <p>Because too much gets lost.</p>
+
+    <p>Boxes get packed away.<br>
+    Photos fade.<br>
+    Stories go untold.</p>
+
+    <p>And over time, even the most meaningful parts of life can disappear.</p>
+
+    <p>MyStoryChip was built to change that.</p>
+
+    <p class="quote-line">Your Chip. Your Story.</p>
+
+    <div class="bottom-buttons">
+      <a href="index.html" class="btn">← Back Home</a>
+      <a href="use.html" class="btn">See Uses →</a>
+      <a href="buy.html" class="btn primary">Buy Now</a>
+    </div>
+  </section>
 
 </body>
 </html>
