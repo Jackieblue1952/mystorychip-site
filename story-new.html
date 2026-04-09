@@ -4,18 +4,95 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Story Behind MyStoryChip</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body class="story-page">
 
-  <div class="story-top-nav">
-    <a href="index.html" class="story-btn">← Home</a>
-    <a href="use.html" class="story-btn">Uses →</a>
-    <a href="buy.html" class="story-btn primary">Buy Now</a>
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    body {
+      margin: 0;
+      background: #050505;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    /* TOP BUTTONS */
+    .nav-buttons {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 10px 16px;
+      text-decoration: none;
+      color: #f5e6c8;
+      border: 1px solid #d4af37;
+      border-radius: 30px;
+      background: rgba(20, 12, 4, 0.85);
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: rgba(60, 35, 10, 0.95);
+      box-shadow: 0 0 10px #d4af37;
+    }
+
+    .btn.primary {
+      background: linear-gradient(180deg, #d4af37, #8e6a17);
+      color: #1a1206;
+      font-weight: bold;
+    }
+
+    /* HERO IMAGE */
+    .hero {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 40px 20px;
+      background:
+        radial-gradient(circle at center, rgba(255,180,50,0.15), transparent 50%),
+        linear-gradient(to bottom, #120a04, #050505);
+    }
+
+    .hero img {
+      width: 100%;
+      max-width: 1400px;
+      border-radius: 10px;
+      box-shadow: 0 0 40px rgba(255,180,50,0.15);
+    }
+
+    /* MOBILE */
+    @media (max-width: 900px) {
+      .nav-buttons {
+        top: 10px;
+        right: 10px;
+      }
+
+      .btn {
+        font-size: 12px;
+        padding: 8px 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV BUTTONS -->
+  <div class="nav-buttons">
+    <a href="index.html" class="btn">← Home</a>
+    <a href="use.html" class="btn">Uses →</a>
+    <a href="buy.html" class="btn primary">Buy Now</a>
   </div>
 
-  <section class="story-book-hero">
-    <img src="story-book.png" alt="The Story Behind MyStoryChip book image">
+  <!-- STORY BOOK IMAGE -->
+  <section class="hero">
+    <img src="story-book.png" alt="The Story Behind MyStoryChip">
   </section>
 
 </body>
