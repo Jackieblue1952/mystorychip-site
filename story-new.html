@@ -13,20 +13,22 @@
     html, body {
       margin: 0;
       padding: 0;
-      background: #050505;
       overflow-x: hidden;
       font-family: Georgia, "Times New Roman", serif;
+      background: #050505;
       color: #f5e6c8;
     }
 
     body {
-      background: linear-gradient(to bottom, #120904 0%, #050505 100%);
+      background:
+        radial-gradient(circle at top center, rgba(255, 198, 88, 0.10) 0%, rgba(0,0,0,0) 30%),
+        linear-gradient(to bottom, #140903 0%, #050505 45%, #040404 100%);
     }
 
     .nav-buttons {
       position: fixed;
-      top: 16px;
-      right: 16px;
+      top: 18px;
+      right: 18px;
       z-index: 1000;
       display: flex;
       gap: 10px;
@@ -38,108 +40,184 @@
       padding: 10px 16px;
       text-decoration: none;
       color: #f5e6c8;
-      border: 1px solid #d4af37;
-      border-radius: 30px;
-      background: rgba(20, 12, 4, 0.88);
+      border: 1px solid rgba(212, 175, 55, 0.75);
+      border-radius: 999px;
+      background: rgba(20, 12, 4, 0.78);
       font-size: 14px;
+      box-shadow: 0 0 12px rgba(212,175,55,0.14);
       transition: all 0.25s ease;
-      box-shadow: 0 0 10px rgba(212,175,55,0.15);
+      backdrop-filter: blur(4px);
     }
 
     .btn:hover {
-      background: rgba(60, 35, 10, 0.95);
-      box-shadow: 0 0 16px rgba(212,175,55,0.35);
+      background: rgba(58, 32, 8, 0.95);
+      box-shadow: 0 0 16px rgba(212,175,55,0.28);
     }
 
     .btn.primary {
-      background: linear-gradient(180deg, #d4af37, #8e6a17);
+      background: linear-gradient(180deg, #d4af37, #8d6613);
       color: #1a1206;
       font-weight: bold;
     }
 
+    .hero-wrap {
+      position: relative;
+      padding-top: 28px;
+    }
+
     .hero {
-      padding: 30px 20px 20px;
+      width: 100%;
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 20px 20px 0;
     }
 
     .hero img {
       width: 100%;
-      max-width: 1400px;
-      height: auto;
       display: block;
-      margin: 0 auto;
-      border-radius: 10px;
+      border-radius: 12px;
       box-shadow:
-        0 0 40px rgba(255,180,50,0.12),
-        0 0 90px rgba(0,0,0,0.55);
+        0 0 45px rgba(255, 183, 65, 0.10),
+        0 30px 80px rgba(0,0,0,0.55);
+    }
+
+    .title-glow {
+      position: absolute;
+      top: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(92%, 1000px);
+      text-align: center;
+      z-index: 5;
+      pointer-events: none;
+      text-shadow:
+        0 0 10px rgba(0,0,0,0.85),
+        0 0 24px rgba(0,0,0,0.75);
+    }
+
+    .title-glow h1 {
+      margin: 0;
+      font-size: clamp(36px, 4.8vw, 78px);
+      line-height: 1.02;
+      color: #fff3cf;
+      letter-spacing: 0.5px;
+    }
+
+    .title-glow p {
+      margin: 10px 0 0;
+      font-size: clamp(15px, 1.4vw, 24px);
+      font-style: italic;
+      color: #dfbe69;
+    }
+
+    .story-shell {
+      position: relative;
+      max-width: 1200px;
+      margin: -70px auto 70px;
+      padding: 0 20px;
+      z-index: 6;
     }
 
     .story-panel {
-      width: min(92%, 950px);
-      margin: 28px auto 60px;
-      padding: 32px 26px;
-      background: rgba(20, 12, 4, 0.90);
-      border: 1px solid rgba(212,175,55,0.30);
-      border-radius: 20px;
+      position: relative;
+      background:
+        linear-gradient(to bottom, rgba(23,13,5,0.92), rgba(10,7,4,0.94));
+      border: 1px solid rgba(212,175,55,0.26);
+      border-radius: 28px;
       box-shadow:
         0 0 30px rgba(212,175,55,0.08),
-        0 20px 60px rgba(0,0,0,0.40);
+        0 30px 80px rgba(0,0,0,0.48);
+      padding: 42px 42px 34px;
+      overflow: hidden;
     }
 
-    .story-panel h1 {
-      text-align: center;
-      font-size: clamp(30px, 4vw, 48px);
-      margin: 0 0 12px 0;
-      color: #f1d184;
+    .story-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top center, rgba(255,198,88,0.08), transparent 45%);
+      pointer-events: none;
     }
 
-    .story-sub {
-      text-align: center;
-      font-size: 20px;
-      color: #d4af37;
-      margin: 0 0 30px 0;
-      font-style: italic;
+    .story-panel-inner {
+      position: relative;
+      z-index: 1;
+      columns: 2;
+      column-gap: 54px;
     }
 
     .story-panel h2 {
-      margin: 32px 0 14px;
+      column-span: all;
+      text-align: center;
+      margin: 0 0 10px;
+      font-size: clamp(34px, 3.4vw, 56px);
+      color: #f0cf82;
+      line-height: 1.08;
+    }
+
+    .story-panel .subline {
+      column-span: all;
+      text-align: center;
+      margin: 0 0 34px;
+      font-size: 19px;
+      color: #cfa74d;
+      font-style: italic;
+    }
+
+    .story-panel h3 {
       font-size: 28px;
-      color: #e0bb61;
+      color: #e2ba62;
+      margin: 28px 0 14px;
+      break-after: avoid;
     }
 
     .story-panel p,
     .story-panel li {
       font-size: 20px;
-      line-height: 1.8;
-      color: #f4e3bf;
-    }
-
-    .story-panel p {
-      margin: 0 0 22px 0;
+      line-height: 1.82;
+      color: #f3dfb6;
+      margin: 0 0 18px;
     }
 
     .story-panel ul {
-      margin: 0 0 22px 24px;
+      margin: 0 0 20px 22px;
       padding: 0;
+      break-inside: avoid;
     }
 
     .story-panel li {
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .quote-line {
+      column-span: all;
       text-align: center;
-      font-size: 32px;
+      font-size: 34px;
       color: #f0c865;
-      margin-top: 36px;
+      margin: 34px 0 12px;
       font-weight: bold;
+      text-shadow: 0 0 14px rgba(212,175,55,0.12);
     }
 
     .bottom-buttons {
+      column-span: all;
       display: flex;
       justify-content: center;
       gap: 14px;
       flex-wrap: wrap;
-      margin-top: 34px;
+      margin-top: 26px;
+      padding-top: 10px;
+    }
+
+    @media (max-width: 1100px) {
+      .story-panel-inner {
+        columns: 1;
+      }
+
+      .story-shell {
+        margin-top: -40px;
+      }
     }
 
     @media (max-width: 900px) {
@@ -155,18 +233,27 @@
       }
 
       .hero {
-        padding: 60px 10px 10px;
+        padding: 56px 10px 0;
+      }
+
+      .title-glow {
+        top: 72px;
+        width: 94%;
+      }
+
+      .story-shell {
+        margin: -12px auto 36px;
+        padding: 0 10px;
       }
 
       .story-panel {
-        width: 94%;
-        padding: 24px 18px;
-        margin: 20px auto 40px;
-        border-radius: 16px;
+        padding: 26px 18px 24px;
+        border-radius: 18px;
       }
 
-      .story-sub {
+      .story-panel .subline {
         font-size: 16px;
+        margin-bottom: 22px;
       }
 
       .story-panel p,
@@ -175,7 +262,7 @@
         line-height: 1.7;
       }
 
-      .story-panel h2 {
+      .story-panel h3 {
         font-size: 24px;
       }
 
@@ -193,102 +280,102 @@
     <a href="buy.html" class="btn primary">Buy Now</a>
   </div>
 
-  <section class="hero">
-    <img src="storybook-image.png" alt="The Story Behind MyStoryChip">
+  <section class="hero-wrap">
+    <div class="title-glow">
+      <h1>The Story Behind MyStoryChip</h1>
+      <p>Where memories live... beyond time.</p>
+    </div>
+
+    <div class="hero">
+      <img src="storybook-image.png" alt="The Story Behind MyStoryChip">
+    </div>
   </section>
 
-  <section class="story-panel">
-    <h1>The Story Behind MyStoryChip</h1>
-    <p class="story-sub">Where memories live... beyond time.</p>
+  <section class="story-shell">
+    <div class="story-panel">
+      <div class="story-panel-inner">
+        <h2>The Story Behind MyStoryChip</h2>
+        <p class="subline">Not a social feed. Not noise. A place for what matters.</p>
 
-    <p>It started with a quiet day.</p>
+        <p>It started with a quiet day.</p>
 
-    <p>While visiting family and friends at the cemetery, I found myself thinking about the lives behind the names. The stories. The memories. The experiences that once filled entire lifetimes — now reduced to a few words carved in stone.</p>
+        <p>While visiting family and friends at the cemetery, I found myself thinking about the lives behind the names. The stories. The memories. The experiences that once filled entire lifetimes — now reduced to a few words carved in stone.</p>
 
-    <p>As I drove through, one headstone stood out.<br>
-    A familiar name.</p>
+        <p>As I drove through, one headstone stood out. A familiar name.</p>
 
-    <p>A familiar face. Someone who had once made people laugh, live, build, love, and matter. Yet standing there, all that remained was a simple marker and a few small mementos. It didn’t come close to telling the full story of a life.</p>
+        <p>A familiar face. Someone who had once made people laugh, live, build, love, and matter. Yet standing there, all that remained was a simple marker and a few small mementos. It didn’t come close to telling the full story of a life.</p>
 
-    <p>And that thought stayed with me:</p>
+        <h3>How many stories are lost forever?</h3>
 
-    <h2>How many stories are lost forever?</h2>
+        <p>Not just famous ones — but everyday lives. Family histories. Skills. Lessons. Memories. Entire lifetimes... gone, with no way to be shared again.</p>
 
-    <p>Not just famous ones — but everyday lives.<br>
-    Family histories. Skills. Lessons. Memories.<br>
-    Entire lifetimes... gone, with no way to be shared again.</p>
+        <p>Later that same day, I was at home working with my coin collection — scanning pieces, pulling up their history instantly on my phone.</p>
 
-    <p>Later that same day, I was at home working with my coin collection — scanning pieces, pulling up their history instantly on my phone.</p>
+        <p>That’s when it hit me.</p>
 
-    <p>That’s when it hit me.</p>
+        <h3>Why can’t we do this for people... for stories... for real life?</h3>
 
-    <h2>Why can’t we do this for people... for stories... for real life?</h2>
+        <p>What if a simple tap could open a life story? What if a headstone could speak? What if memories didn’t have to disappear?</p>
 
-    <p>What if a simple tap could open a life story?<br>
-    What if a headstone could speak?<br>
-    What if memories didn’t have to disappear?</p>
+        <p>That idea became something much bigger.</p>
 
-    <p>That idea became something much bigger.</p>
+        <p>I began to see it everywhere.</p>
 
-    <p>I began to see it everywhere.</p>
+        <ul>
+          <li>A restored classic car, carrying its full history</li>
+          <li>A family recipe, preserved and shared for generations</li>
+          <li>A home project, showing the work behind the walls</li>
+          <li>A collection, telling the story behind every piece</li>
+        </ul>
 
-    <ul>
-      <li>A restored classic car, carrying its full history</li>
-      <li>A family recipe, preserved and shared for generations</li>
-      <li>A home project, showing the work behind the walls</li>
-      <li>A collection, telling the story behind every piece</li>
-    </ul>
+        <p>Not just storage... but connection.</p>
 
-    <p>Not just storage... but connection.</p>
+        <h3>But there was a problem.</h3>
 
-    <h2>But there was a problem.</h2>
+        <p>NFC chips themselves don’t hold much data. And using third-party platforms meant giving up control, privacy, and permanence.</p>
 
-    <p>NFC chips themselves don’t hold much data. And using third-party platforms meant giving up control, privacy, and permanence.</p>
+        <p>That didn’t sit right.</p>
 
-    <p>That didn’t sit right.</p>
+        <p>So instead of relying on someone else’s system... I decided to build my own.</p>
 
-    <p>So instead of relying on someone else’s system... I decided to build my own.</p>
+        <p>With guidance from a trusted friend, the backend was created — a secure system designed to store and serve each story. On my end, I learned, built, and shaped the experience from the ground up.</p>
 
-    <p>With guidance from a trusted friend, the backend was created — a secure system designed to store and serve each story. On my end, I learned, built, and shaped the experience from the ground up.</p>
+        <p>I moved away from traditional setups, installed Linux, and took full control of the environment.</p>
 
-    <p>I moved away from traditional setups, installed Linux, and took full control of the environment.</p>
+        <p>And from that...</p>
 
-    <p>And from that...</p>
+        <h3>MyStoryChip.com was born.</h3>
 
-    <h2>MyStoryChip.com was born.</h2>
+        <h3>What It Is Today</h3>
 
-    <h2>What It Is Today</h2>
+        <p>MyStoryChip is simple at its core:</p>
 
-    <p>MyStoryChip is simple at its core:</p>
+        <p><strong>One chip. One link. One place for what matters.</strong></p>
 
-    <p><strong>One chip. One link. One place for what matters.</strong></p>
+        <p>A way to connect real-world objects to the stories behind them — instantly, privately, and permanently.</p>
 
-    <p>A way to connect real-world objects to the stories behind them — instantly, privately, and permanently.</p>
+        <p>Not social media. Not noise. Not something that gets buried or forgotten.</p>
 
-    <p>Not social media.<br>
-    Not noise.<br>
-    Not something that gets buried or forgotten.</p>
+        <p>Just your story... accessible with a single tap.</p>
 
-    <p>Just your story... accessible with a single tap.</p>
+        <h3>Why It Matters</h3>
 
-    <h2>Why It Matters</h2>
+        <p>Because too much gets lost.</p>
 
-    <p>Because too much gets lost.</p>
+        <p>Boxes get packed away. Photos fade. Stories go untold.</p>
 
-    <p>Boxes get packed away.<br>
-    Photos fade.<br>
-    Stories go untold.</p>
+        <p>And over time, even the most meaningful parts of life can disappear.</p>
 
-    <p>And over time, even the most meaningful parts of life can disappear.</p>
+        <p>MyStoryChip was built to change that.</p>
 
-    <p>MyStoryChip was built to change that.</p>
+        <p class="quote-line">Your Chip. Your Story.</p>
 
-    <p class="quote-line">Your Chip. Your Story.</p>
-
-    <div class="bottom-buttons">
-      <a href="index.html" class="btn">← Back Home</a>
-      <a href="use.html" class="btn">See Uses →</a>
-      <a href="buy.html" class="btn primary">Buy Now</a>
+        <div class="bottom-buttons">
+          <a href="index.html" class="btn">← Back Home</a>
+          <a href="use.html" class="btn">See Uses →</a>
+          <a href="buy.html" class="btn primary">Buy Now</a>
+        </div>
+      </div>
     </div>
   </section>
 
