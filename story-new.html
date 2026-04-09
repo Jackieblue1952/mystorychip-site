@@ -1,93 +1,399 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The MyStoryChip Story</title>
 
-<title>The MyStoryChip Story</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-<style>
+    body {
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        radial-gradient(circle at top center, rgba(212,168,74,0.14), transparent 34%),
+        linear-gradient(to bottom, #0b0705 0%, #120905 38%, #090606 100%);
+      color: #f4e6c0;
+      overflow-x: hidden;
+    }
 
-/* RESET */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 70px 24px 50px;
+      background:
+        linear-gradient(to bottom, rgba(8,5,3,0.42), rgba(10,6,4,0.70)),
+        radial-gradient(circle at center, rgba(212,168,74,0.12), transparent 48%),
+        url("landing-page.png") center center / cover no-repeat;
+    }
 
-/* BODY */
-body {
-  background: #050505;
-  color: #f5e7c2;
-  font-family: "Georgia", "Times New Roman", serif;
-  overflow-x: hidden;
-}
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.00) 0%, rgba(7,4,2,0.10) 40%, rgba(7,4,2,0.45) 100%);
+      pointer-events: none;
+    }
 
-/* HERO SECTION */
-.hero {
-  min-height: 100vh;
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 980px;
+      padding: 34px 26px 38px;
+      border-radius: 28px;
+      background: rgba(15, 10, 6, 0.28);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border: 1px solid rgba(212,168,74,0.18);
+      box-shadow:
+        0 10px 40px rgba(0,0,0,0.28),
+        0 0 24px rgba(212,168,74,0.08);
+    }
 
-  background:
-    radial-gradient(circle at center, rgba(212,168,74,0.18), transparent 60%),
-    url("chip.png") center center / cover no-repeat;
+    .eyebrow {
+      font-size: 14px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #d8b56a;
+      margin-bottom: 18px;
+    }
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+    .hero h1 {
+      font-size: clamp(42px, 6vw, 86px);
+      line-height: 1.02;
+      color: #f7e7bd;
+      margin-bottom: 20px;
+      text-shadow:
+        0 0 10px rgba(212,168,74,0.24),
+        0 2px 24px rgba(0,0,0,0.35);
+    }
 
-  padding: 40px 20px;
-}
+    .hero p {
+      max-width: 760px;
+      margin: 0 auto;
+      font-size: clamp(19px, 2.2vw, 28px);
+      line-height: 1.55;
+      color: #ead8aa;
+    }
 
-/* HERO CONTENT */
-.hero-content {
-  max-width: 900px;
-}
+    .story-shell {
+      position: relative;
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 70px 20px 40px;
+    }
 
-/* TITLE */
-.hero h1 {
-  font-size: clamp(42px, 6vw, 72px);
-  font-weight: bold;
-  letter-spacing: 2px;
+    .story-shell::before {
+      content: "";
+      position: absolute;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 180px;
+      height: 2px;
+      background: linear-gradient(to right, transparent, rgba(212,168,74,0.55), transparent);
+    }
 
-  color: #f2d280;
+    .story-panel {
+      position: relative;
+      background:
+        linear-gradient(to bottom, rgba(27,16,9,0.72), rgba(12,8,5,0.90));
+      border: 1px solid rgba(212,168,74,0.18);
+      border-radius: 30px;
+      padding: 50px 34px;
+      box-shadow:
+        0 12px 44px rgba(0,0,0,0.35),
+        inset 0 0 24px rgba(212,168,74,0.04);
+      overflow: hidden;
+    }
 
-  text-shadow:
-    0 0 12px rgba(212,168,74,0.6),
-    0 0 30px rgba(212,168,74,0.25);
+    .story-panel::before,
+    .story-panel::after {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(212,168,74,0.16) 0%, rgba(212,168,74,0.03) 45%, transparent 72%);
+      pointer-events: none;
+    }
 
-  margin-bottom: 20px;
-}
+    .story-panel::before {
+      top: -30px;
+      left: -30px;
+    }
 
-/* SUBTEXT */
-.hero p {
-  font-size: 20px;
-  line-height: 1.6;
-  color: #e6c77a;
+    .story-panel::after {
+      bottom: -40px;
+      right: -20px;
+    }
 
-  max-width: 700px;
-  margin: 0 auto;
-}
+    .story-title {
+      text-align: center;
+      font-size: clamp(30px, 4vw, 52px);
+      line-height: 1.15;
+      color: #f1deaf;
+      margin-bottom: 18px;
+    }
 
-</style>
+    .story-intro {
+      max-width: 860px;
+      margin: 0 auto 34px;
+      text-align: center;
+      font-size: 22px;
+      line-height: 1.6;
+      color: #e2cea0;
+    }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 26px;
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    .story-block {
+      position: relative;
+      padding: 22px 24px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.015);
+      border: 1px solid rgba(212,168,74,0.10);
+    }
+
+    .story-block p {
+      font-size: 22px;
+      line-height: 1.8;
+      color: #f2e4c2;
+    }
+
+    .phrase-row {
+      max-width: 1160px;
+      margin: 24px auto 10px;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .phrase-chip {
+      text-align: center;
+      padding: 16px 18px;
+      border-radius: 999px;
+      color: #f0ddb2;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+      background:
+        linear-gradient(145deg, rgba(212,168,74,0.20), rgba(212,168,74,0.07));
+      border: 1px solid rgba(212,168,74,0.18);
+      box-shadow:
+        0 8px 24px rgba(0,0,0,0.24),
+        0 0 16px rgba(212,168,74,0.06);
+    }
+
+    .cta-wrap {
+      max-width: 1160px;
+      margin: 26px auto 90px;
+      padding: 0 20px;
+    }
+
+    .cta-panel {
+      text-align: center;
+      padding: 40px 24px 44px;
+      border-radius: 28px;
+      background:
+        linear-gradient(to bottom, rgba(26,14,8,0.74), rgba(12,7,4,0.92));
+      border: 1px solid rgba(212,168,74,0.18);
+      box-shadow: 0 10px 34px rgba(0,0,0,0.32);
+    }
+
+    .cta-panel h3 {
+      font-size: clamp(30px, 4.4vw, 54px);
+      color: #f1deaf;
+      margin-bottom: 14px;
+    }
+
+    .cta-panel p {
+      max-width: 760px;
+      margin: 0 auto 28px;
+      font-size: 21px;
+      line-height: 1.55;
+      color: #e2cea0;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      padding: 16px 34px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 17px;
+      font-weight: bold;
+      letter-spacing: 0.8px;
+      color: #130c05;
+      background: linear-gradient(145deg, #f0cc84, #c8952f);
+      box-shadow:
+        0 10px 26px rgba(0,0,0,0.28),
+        0 0 18px rgba(212,168,74,0.12);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 12px 30px rgba(0,0,0,0.34),
+        0 0 22px rgba(212,168,74,0.18);
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        min-height: 88vh;
+        background-position: center center;
+        padding: 50px 16px 34px;
+      }
+
+      .hero-inner {
+        padding: 24px 18px 28px;
+      }
+
+      .story-shell {
+        padding: 44px 16px 24px;
+      }
+
+      .story-panel {
+        padding: 32px 18px;
+      }
+
+      .story-intro {
+        font-size: 18px;
+      }
+
+      .story-block p {
+        font-size: 18px;
+        line-height: 1.7;
+      }
+
+      .cta-panel p {
+        font-size: 18px;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<section class="hero">
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Where It Began</div>
+      <h1>The MyStoryChip Story</h1>
+      <p>
+        How one quiet moment became a new way to preserve memories,
+        meaning, and the stories life leaves behind.
+      </p>
+    </div>
+  </section>
 
-  <div class="hero-content">
+  <section class="story-shell">
+    <div class="story-panel">
+      <h2 class="story-title">Some things deserve more than being left behind.</h2>
 
-    <h1>The MyStoryChip Story</h1>
+      <p class="story-intro">
+        This idea did not begin in a boardroom. It began with a quiet day,
+        a cemetery, and one question that would not let go.
+      </p>
 
-    <p>
-      How one quiet moment became a new way to preserve memories, meaning,
-      and the stories life leaves behind.
-    </p>
+      <div class="story-grid">
+        <div class="story-block">
+          <p>
+            As I was visiting family and friends at the cemetery, I found myself thinking
+            about the people buried there and all the stories they could tell if they were
+            still here today. I thought about the stories that died with them — the talents,
+            the tricks of the trade, the memories, and the life experiences that will never
+            be told the same way again.
+          </p>
+        </div>
 
-  </div>
+        <div class="story-block">
+          <p>
+            One headstone especially stayed with me. Frank Sutton. His marker had a few
+            small mementos of who he was, but they did not come close to doing him justice.
+            He had been a television star, known for playing the tough but unforgettable
+            Marine platoon sergeant on one of the funniest shows of its time. Standing there,
+            I kept thinking the same thing: a life can be so much bigger than what a stone
+            can say.
+          </p>
+        </div>
 
-</section>
+        <div class="story-block">
+          <p>
+            Later that same day, I was home working with my coin collection, using my phone
+            to look up mintages and history. That is when it hit me. Why could I do that for
+            a coin, but not for a headstone? Why could there not be a simple way to tap a chip
+            and open the story behind a life, a place, a keepsake, or a memory?
+          </p>
+        </div>
+
+        <div class="story-block">
+          <p>
+            From there, the ideas kept coming. Memorials. Auto restorations. Home remodeling.
+            Collections. Family stories. Business displays. A chip placed in something meaningful,
+            with the story attached to it forever. Not just information — connection.
+          </p>
+        </div>
+
+        <div class="story-block">
+          <p>
+            But after the research, I realized the chips themselves did not have enough memory
+            to hold everything I imagined. The stories needed a place to live. That meant either
+            trusting somebody else’s platform, depending on the cloud, or building something of
+            my own that would give people more control and privacy.
+          </p>
+        </div>
+
+        <div class="story-block">
+          <p>
+            A friend suggested creating my own website. He would build the backend, and I would
+            shape the frontend and the vision. Wanting more security and control, I left Microsoft
+            Windows behind, installed Linux, and committed to building something that felt true to
+            the idea from the very beginning.
+          </p>
+        </div>
+
+        <div class="story-block">
+          <p>
+            And that is how MyStoryChip.com was born — not as social media, not as noise, and not
+            as just another storage platform, but as a simple way to connect real-world objects to
+            the stories, meaning, and memories behind them.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="phrase-row">
+    <div class="phrase-chip">Every life leaves a story.</div>
+    <div class="phrase-chip">What matters should not disappear.</div>
+    <div class="phrase-chip">One tap. A lifetime remembered.</div>
+    <div class="phrase-chip">Your Chip. Your Story.</div>
+  </section>
+
+  <section class="cta-wrap">
+    <div class="cta-panel">
+      <h3>Now see what it can do.</h3>
+      <p>
+        The story is where it began. The next page shows how MyStoryChip can be used
+        in the real world — for memories, collections, restorations, business, and more.
+      </p>
+      <a href="story.html" class="cta-btn">CONTINUE</a>
+    </div>
+  </section>
 
 </body>
 </html>
