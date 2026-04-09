@@ -90,41 +90,50 @@
       .hero {
         padding: 60px 10px 10px;
       }
-      .hero {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+ .hero {
+  min-height: auto;
+  padding: 30px 20px 20px;
+  display: block;
 }
 
 .hero img {
   width: 100%;
   max-width: 1400px;
+  height: auto;
   display: block;
+  margin: 0 auto;
+  border-radius: 10px;
+  box-shadow:
+    0 0 40px rgba(255,180,50,0.12),
+    0 0 90px rgba(0,0,0,0.55);
 }
 
 .hero-overlay {
-  position: absolute;
-  top: 10%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 85%;
-  max-width: 900px;
-
+  position: static;
+  transform: none;
+  width: min(92%, 900px);
+  margin: 24px auto 0;
+  padding: 28px 24px;
+  background: rgba(20, 12, 4, 0.88);
+  border: 1px solid rgba(212,175,55,0.30);
+  border-radius: 20px;
   color: #f5e6c8;
   text-align: center;
-
-  text-shadow: 0 0 15px rgba(0,0,0,0.9);
+  text-shadow: none;
+  box-shadow:
+    0 0 30px rgba(212,175,55,0.08),
+    0 20px 60px rgba(0,0,0,0.40);
 }
 
 .hero-overlay h1 {
-  font-size: 48px;
-  margin-bottom: 20px;
+  font-size: 42px;
+  margin: 0 0 18px 0;
 }
 
 .hero-overlay p {
-  font-size: 18px;
-  line-height: 1.6;
+  font-size: 20px;
+  line-height: 1.75;
+  margin: 0;
 }
     }
   </style>
