@@ -90,6 +90,42 @@
       .hero {
         padding: 60px 10px 10px;
       }
+      .hero {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero img {
+  width: 100%;
+  max-width: 1400px;
+  display: block;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 85%;
+  max-width: 900px;
+
+  color: #f5e6c8;
+  text-align: center;
+
+  text-shadow: 0 0 15px rgba(0,0,0,0.9);
+}
+
+.hero-overlay h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.hero-overlay p {
+  font-size: 18px;
+  line-height: 1.6;
+}
     }
   </style>
 </head>
