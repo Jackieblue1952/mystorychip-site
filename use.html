@@ -2,130 +2,468 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MyStoryChip - Uses</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MyStoryChip | Uses</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0b0b0b;
-      color: #fff;
-      text-align: center;
+    :root{
+      --bg:#070707;
+      --panel:rgba(18,12,6,.72);
+      --panel-border:rgba(212,175,55,.20);
+      --gold:#d4af37;
+      --gold-soft:#f0cf72;
+      --text:#f7f3ea;
+      --muted:#d7c7a3;
+      --shadow:0 12px 40px rgba(0,0,0,.45);
     }
 
-    .hero {
-      padding: 40px 20px;
+    *{box-sizing:border-box}
+
+    html,body{
+      margin:0;
+      padding:0;
+      background:
+        radial-gradient(circle at top, rgba(212,175,55,.08), transparent 30%),
+        linear-gradient(to bottom, #0b0b0b 0%, #090705 45%, #050505 100%);
+      color:var(--text);
+      font-family:'Inter',sans-serif;
     }
 
-    .hero h1 {
-      font-size: 48px;
-      margin-bottom: 10px;
+    body{
+      min-height:100vh;
     }
 
-    .hero p {
-      font-size: 20px;
-      color: #ddd;
+    .page{
+      width:min(1400px, 94%);
+      margin:0 auto;
+      padding:28px 0 70px;
     }
 
-    .hero img {
-      width: 100%;
-      max-width: 900px;
-      margin-top: 30px;
-      border-radius: 10px;
+    .hero{
+      position:relative;
+      border:1px solid rgba(212,175,55,.16);
+      border-radius:28px;
+      overflow:hidden;
+      background:
+        linear-gradient(to right, rgba(5,5,5,.90) 0%, rgba(10,8,6,.74) 38%, rgba(10,8,6,.20) 66%, rgba(10,8,6,.10) 100%),
+        url("images/your-final-image.png") center/cover no-repeat;
+      min-height:780px;
+      box-shadow:var(--shadow);
     }
 
-    .uses {
-      padding: 50px 20px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 23% 24%, rgba(212,175,55,.13), transparent 25%),
+        radial-gradient(circle at 70% 70%, rgba(212,175,55,.08), transparent 20%);
+      pointer-events:none;
     }
 
-    .card {
-      background: #111;
-      padding: 20px;
-      border-radius: 10px;
-      border: 1px solid #222;
+    .hero-content{
+      position:relative;
+      z-index:2;
+      width:min(700px, 92%);
+      padding:70px 42px 52px;
     }
 
-    .card h3 {
-      color: #d4af37;
-      margin-bottom: 10px;
+    .eyebrow{
+      display:inline-block;
+      padding:8px 14px;
+      border:1px solid rgba(212,175,55,.28);
+      border-radius:999px;
+      background:rgba(212,175,55,.08);
+      color:var(--gold-soft);
+      font-size:13px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      margin-bottom:18px;
     }
 
-    .cta {
-      padding: 60px 20px;
+    h1{
+      margin:0 0 16px;
+      font-family:'Cinzel',serif;
+      font-size:clamp(42px, 6vw, 78px);
+      line-height:.98;
+      letter-spacing:.02em;
+      text-transform:uppercase;
+      text-shadow:0 0 24px rgba(212,175,55,.16);
     }
 
-    .cta button {
-      background: #d4af37;
-      color: #000;
-      font-size: 20px;
-      padding: 15px 30px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
+    .subhead{
+      margin:0 0 18px;
+      font-size:clamp(18px, 2.2vw, 28px);
+      line-height:1.35;
+      color:var(--muted);
+      max-width:640px;
     }
 
-    .cta button:hover {
-      opacity: 0.9;
+    .hook{
+      font-size:clamp(20px, 2.2vw, 30px);
+      line-height:1.28;
+      font-weight:700;
+      color:#fff6dc;
+      margin:0 0 28px;
+      max-width:650px;
+    }
+
+    .hero-copy{
+      max-width:620px;
+      font-size:17px;
+      line-height:1.7;
+      color:#eadfca;
+      margin-bottom:32px;
+    }
+
+    .cta-row{
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+      margin-bottom:28px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:58px;
+      padding:0 28px;
+      border-radius:999px;
+      text-decoration:none;
+      font-weight:700;
+      font-size:16px;
+      letter-spacing:.02em;
+      transition:.2s ease;
+    }
+
+    .btn-primary{
+      background:linear-gradient(180deg, #f3cf78 0%, #c89221 100%);
+      color:#16110a;
+      box-shadow:0 10px 28px rgba(212,175,55,.22);
+    }
+
+    .btn-primary:hover{
+      transform:translateY(-1px);
+      filter:brightness(1.03);
+    }
+
+    .btn-secondary{
+      border:1px solid rgba(212,175,55,.34);
+      color:#f1dfae;
+      background:rgba(212,175,55,.06);
+    }
+
+    .btn-secondary:hover{
+      background:rgba(212,175,55,.11);
+    }
+
+    .trust{
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px;
+      margin-top:6px;
+    }
+
+    .trust span{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
+      background:rgba(10,10,10,.42);
+      border:1px solid rgba(212,175,55,.16);
+      color:#f0e0b4;
+      font-size:14px;
+    }
+
+    .section{
+      margin-top:34px;
+      padding:34px 26px;
+      border-radius:24px;
+      background:linear-gradient(180deg, rgba(20,12,7,.78), rgba(10,8,6,.86));
+      border:1px solid rgba(212,175,55,.14);
+      box-shadow:var(--shadow);
+    }
+
+    .section h2{
+      margin:0 0 10px;
+      font-family:'Cinzel',serif;
+      font-size:clamp(28px, 3vw, 44px);
+      color:#fff2c7;
+    }
+
+    .section-intro{
+      margin:0 0 24px;
+      color:var(--muted);
+      font-size:17px;
+      line-height:1.65;
+      max-width:920px;
+    }
+
+    .uses-grid{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:18px;
+    }
+
+    .use-card{
+      padding:24px 20px 22px;
+      border-radius:22px;
+      background:
+        linear-gradient(180deg, rgba(34,22,12,.84), rgba(17,11,7,.92));
+      border:1px solid var(--panel-border);
+      box-shadow:inset 0 1px 0 rgba(255,226,158,.04);
+      min-height:190px;
+    }
+
+    .use-card h3{
+      margin:0 0 10px;
+      font-size:24px;
+      line-height:1.15;
+      color:#f2d37f;
+      font-family:'Cinzel',serif;
+    }
+
+    .use-card p{
+      margin:0;
+      color:#eee4d3;
+      line-height:1.65;
+      font-size:16px;
+    }
+
+    .offer{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:18px;
+      align-items:stretch;
+    }
+
+    .offer-main, .offer-side{
+      padding:26px 22px;
+      border-radius:22px;
+      background:linear-gradient(180deg, rgba(34,22,12,.84), rgba(17,11,7,.92));
+      border:1px solid var(--panel-border);
+    }
+
+    .offer-main h3, .offer-side h3{
+      margin:0 0 12px;
+      font-family:'Cinzel',serif;
+      color:#f2d37f;
+      font-size:28px;
+    }
+
+    .offer-main p, .offer-side p{
+      margin:0 0 14px;
+      color:#eee4d3;
+      line-height:1.65;
+    }
+
+    .bullets{
+      display:grid;
+      gap:10px;
+      margin-top:10px;
+    }
+
+    .bullets div{
+      padding:12px 14px;
+      border-radius:14px;
+      background:rgba(212,175,55,.06);
+      border:1px solid rgba(212,175,55,.12);
+      color:#f4ead5;
+    }
+
+    .final-cta{
+      text-align:center;
+      padding:48px 24px 10px;
+    }
+
+    .final-cta h2{
+      margin:0 0 12px;
+      font-family:'Cinzel',serif;
+      font-size:clamp(34px, 4vw, 54px);
+      color:#fff2c7;
+    }
+
+    .final-cta p{
+      margin:0 auto 24px;
+      max-width:760px;
+      color:#e4d7bd;
+      font-size:18px;
+      line-height:1.7;
+    }
+
+    .buy-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:280px;
+      min-height:68px;
+      padding:0 34px;
+      border:none;
+      border-radius:999px;
+      background:linear-gradient(180deg, #f7d985 0%, #c88f1e 100%);
+      color:#130e08;
+      font-weight:800;
+      font-size:18px;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      text-decoration:none;
+      box-shadow:0 12px 34px rgba(212,175,55,.25);
+    }
+
+    .buy-btn:hover{
+      transform:translateY(-1px);
+      filter:brightness(1.03);
+    }
+
+    .fine{
+      margin-top:16px;
+      color:#cdbf9a;
+      font-size:14px;
+    }
+
+    @media (max-width: 1050px){
+      .uses-grid{grid-template-columns:repeat(2, minmax(0,1fr))}
+      .offer{grid-template-columns:1fr}
+      .hero{min-height:700px}
+      .hero-content{padding:54px 30px 42px}
+    }
+
+    @media (max-width: 680px){
+      .page{width:min(96%, 96%)}
+      .hero{
+        min-height:auto;
+        background:
+          linear-gradient(to bottom, rgba(5,5,5,.84) 0%, rgba(10,8,6,.72) 36%, rgba(10,8,6,.48) 100%),
+          url("images/your-final-image.png") 68% center/cover no-repeat;
+      }
+      .hero-content{padding:34px 18px 28px}
+      .uses-grid{grid-template-columns:1fr}
+      .section{padding:26px 16px}
+      .buy-btn{min-width:100%}
     }
   </style>
 </head>
-
 <body>
+  <main class="page">
 
-  <!-- HERO -->
-  <section class="hero">
-    <h1>YOUR CHIP. YOUR STORY.</h1>
-    <p>Your stories, your images, your legacy — all with one tap.</p>
+    <section class="hero">
+      <div class="hero-content">
+        <div class="eyebrow">The MyStoryChip Uses Page</div>
 
-    <!-- YOUR FINAL IMAGE -->
-    <img src="images/your-final-image.png" alt="MyStoryChip Uses">
-  </section>
+        <h1>One Chip.<br>Unlimited Uses.</h1>
 
-  <!-- USES GRID -->
-  <section class="uses">
+        <p class="subhead">Your stories, your images, your legacy — all with one tap.</p>
 
-    <div class="card">
-      <h3>Family Moments</h3>
-      <p>Save memories, milestones, and life moments forever.</p>
-    </div>
+        <p class="hook">
+          Family memories. Memorials. Collections. Vehicles. Milestones. Business uses.
+          One simple chip opens the story behind what matters most.
+        </p>
 
-    <div class="card">
-      <h3>In Loving Memory</h3>
-      <p>Honor and remember loved ones with their full story.</p>
-    </div>
+        <p class="hero-copy">
+          MyStoryChip turns a single tap into a living story. Attach a chip to something meaningful,
+          and instantly open photos, videos, memories, history, documents, or details on a phone.
+          No clutter. No confusion. Just one powerful link between the real world and your story.
+        </p>
 
-    <div class="card">
-      <h3>My Ride</h3>
-      <p>Track builds, history, and restorations.</p>
-    </div>
+        <div class="cta-row">
+          <a href="#buy" class="btn btn-primary">Buy Your Chip</a>
+          <a href="#uses" class="btn btn-secondary">See the Uses</a>
+        </div>
 
-    <div class="card">
-      <h3>My Collection</h3>
-      <p>Showcase coins, guitars, and personal treasures.</p>
-    </div>
+        <div class="trust">
+          <span>No app required</span>
+          <span>Works with a phone tap</span>
+          <span>Your story, your control</span>
+        </div>
+      </div>
+    </section>
 
-    <div class="card">
-      <h3>Graduation / Wedding</h3>
-      <p>Celebrate life’s biggest milestones.</p>
-    </div>
+    <section class="section" id="uses">
+      <h2>What People Can Use It For</h2>
+      <p class="section-intro">
+        This is more than a tag. It is a story opener. A memory holder. A product connector.
+        A MyStoryChip can link people to meaning, history, proof, photos, and legacy in seconds.
+      </p>
 
-    <div class="card">
-      <h3>Restorations</h3>
-      <p>Bring projects and transformations to life.</p>
-    </div>
+      <div class="uses-grid">
+        <div class="use-card">
+          <h3>Family &amp; Memories</h3>
+          <p>Save the photos, milestones, stories, and moments that made life yours. One tap can open a lifetime of memories.</p>
+        </div>
 
-  </section>
+        <div class="use-card">
+          <h3>Memorials</h3>
+          <p>Honor a loved one with more than a name and date. Share their story, photos, voice, and legacy with a simple tap.</p>
+        </div>
 
-  <!-- CTA -->
-  <section class="cta">
-    <h2>Start Your Story Today</h2>
-    <p>Your story deserves more than being lost in a phone.</p>
-    <button>BUY YOUR CHIP</button>
-  </section>
+        <div class="use-card">
+          <h3>Vehicles</h3>
+          <p>Show ownership, build progress, upgrades, restoration history, specs, and care records in one place.</p>
+        </div>
 
+        <div class="use-card">
+          <h3>Collections</h3>
+          <p>Coins, keepsakes, guitars, heirlooms, and treasures can all carry their story, value, and personal meaning.</p>
+        </div>
+
+        <div class="use-card">
+          <h3>Milestones</h3>
+          <p>Graduations, weddings, anniversaries, retirements, and life events deserve more than being buried in a phone gallery.</p>
+        </div>
+
+        <div class="use-card">
+          <h3>Business &amp; Products</h3>
+          <p>Connect menus, displays, promotional items, product details, or customer information to a simple scan or tap.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Why It Sells</h2>
+      <p class="section-intro">
+        People are not buying a chip. They are buying a simple way to save meaning, share memories,
+        prove history, and connect something physical to something unforgettable.
+      </p>
+
+      <div class="offer">
+        <div class="offer-main">
+          <h3>Everything Starts With One Chip</h3>
+          <p>
+            One chip can open memories, photos, documents, business information, vehicle history,
+            collections, and legacy pages — all from one tap on a smartphone.
+          </p>
+          <div class="bullets">
+            <div>One-time product with real emotional value</div>
+            <div>Instant access with no complicated setup for the viewer</div>
+            <div>Strong personal, memorial, collector, and business appeal</div>
+          </div>
+        </div>
+
+        <div class="offer-side">
+          <h3>Simple. Powerful. Human.</h3>
+          <p>No app required.</p>
+          <p>No cluttered social feed.</p>
+          <p>No digging through folders.</p>
+          <p>Just tap, open, and experience the story.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta" id="buy">
+      <h2>Start Your Story Today</h2>
+      <p>
+        Your story deserves more than being lost in a phone. Give your memories, images,
+        and legacy a place people can open with one tap.
+      </p>
+      <a href="#" class="buy-btn">Buy Now</a>
+      <div class="fine">One chip. Unlimited uses. Real meaning.</div>
+    </section>
+
+  </main>
 </body>
 </html>
