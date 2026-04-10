@@ -28,23 +28,57 @@ body {
   display:flex;
   gap:15px;
 }
+.tap-link-wrap{
+  position:absolute;
+  left:78px;
+  top:295px;
+  z-index:3;
+}
 
-.btn {
-  padding:15px 30px;
-  border-radius:8px;
-  font-size:18px;
+.tap-link{
+  display:inline-block;
+  padding:8px 16px;
+  border-radius:999px;
   text-decoration:none;
-  cursor:pointer;
+  font-size:15px;
+  font-weight:700;
+  letter-spacing:.02em;
+  color:#f5d984;
+  background:rgba(10,10,10,.28);
+  border:1px solid rgba(212,175,55,.38);
+  box-shadow:
+    0 0 10px rgba(212,175,55,.22),
+    0 0 24px rgba(212,175,55,.12),
+    inset 0 0 8px rgba(212,175,55,.08);
+  backdrop-filter: blur(2px);
 }
 
-.buy {
-  background:#d4af37;
-  color:#000;
+.tap-link:hover{
+  filter:brightness(1.08);
+  box-shadow:
+    0 0 14px rgba(212,175,55,.32),
+    0 0 30px rgba(212,175,55,.18),
+    inset 0 0 10px rgba(212,175,55,.10);
 }
 
-.uses {
-  border:1px solid #d4af37;
-  color:#d4af37;
+@media (max-width: 900px){
+  .tap-link-wrap{
+    left:42px;
+    top:245px;
+  }
+}
+
+@media (max-width: 720px){
+  .tap-link-wrap{
+    left:20px;
+    top:auto;
+    bottom:95px;
+  }
+
+  .tap-link{
+    font-size:14px;
+    padding:8px 14px;
+  }
 }
 </style>
 </head>
@@ -54,9 +88,9 @@ body {
 <div class="hero">
   <img src="chip.png">
 
-  <div class="buttons">
-    <a href="buy.html" class="btn buy">Buy Your Chip</a>
-  </div>
+<div class="tap-link-wrap">
+  <a href="buy.html" class="tap-link">Tap here to buy your chip</a>
+</div>  
 </div>
 
 </body>
