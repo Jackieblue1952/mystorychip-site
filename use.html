@@ -75,10 +75,33 @@ body {
     bottom:95px;
   }
 
-  .tap-link{
-    font-size:14px;
-    padding:8px 14px;
-  }
+.tap-link{
+  display:inline-block;
+  padding:8px 16px;
+  border-radius:999px;
+  text-decoration:none;
+  font-size:15px;
+  font-weight:700;
+  letter-spacing:.02em;
+
+  color:#ff3b3b;
+  background:rgba(10,10,10,.28);
+  border:1px solid rgba(255,60,60,.45);
+
+  box-shadow:
+    0 0 10px rgba(255,0,0,.35),
+    0 0 24px rgba(255,0,0,.18),
+    inset 0 0 8px rgba(255,0,0,.12);
+
+  backdrop-filter: blur(2px);
+} 
+  .tap-link:hover{
+  color:#ffffff;
+  box-shadow:
+    0 0 16px rgba(255,0,0,.55),
+    0 0 32px rgba(255,0,0,.30),
+    inset 0 0 10px rgba(255,0,0,.15);
+}
 }
 </style>
 </head>
