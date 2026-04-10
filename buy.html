@@ -126,11 +126,16 @@
       pointer-events:none;
     }
 
-    .hero-content{
-  position:relative;
+   .hero-content{
+  position:absolute;
+  left:48px;
+  bottom:42px;
   z-index:2;
-  width:min(520px, 90%);
-  padding:90px 42px 40px;
+}
+
+.hero-buttons-only{
+  width:auto;
+  padding:0;
 }
 
     .eyebrow{
@@ -547,12 +552,12 @@
     </div>
 
     <section class="hero">
-      <div class="hero-content">
-        <div class="eyebrow">The MyStoryChip Money Page</div>
-
-  <p class="hero-sub">
-  Your stories, your images, your legacy — all with one tap.
-</p>
+      <div class="hero-content hero-buttons-only">
+  <div class="cta-row">
+    <a href="#pricing" class="btn btn-primary">Buy Your Chip</a>
+    <a href="use.html" class="btn btn-secondary">See All Uses</a>
+  </div>
+</div>
 
         <div class="cta-row">
           <a href="#pricing" class="btn btn-primary">Buy Your Chip</a>
@@ -603,7 +608,7 @@
 
         <div class="use-card">
           <h3>Business &amp; Products</h3>
-          <p>Link customers to menus, details, product history, promotions, instructions, or a story that makes the item matter more.</p>
+          <p>Link customers to information, details, product history, promotions, instructions, or a story that makes the item matter more.</p>
         </div>
       </div>
     </section>
@@ -698,7 +703,7 @@
     <section class="final-words">
       <h2>Give Your Story a Place to Live</h2>
       <p>
-        Your memories deserve more than being lost in a phone gallery.
+        Your memories deserve more than being lost in a box in the corner,.
         Give them a home people can open with one tap.
       </p>
     </section>
