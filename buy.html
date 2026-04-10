@@ -8,27 +8,34 @@
 <style>
 body{
   margin:0;
-  background:#000;
-  font-family:Arial, sans-serif;
+  background:#050505;
   color:#fff;
-  text-align:center;
+  font-family:Arial, sans-serif;
 }
 
-.hero{
-  position:relative;
+/* HEADER */
+.header{
+  padding:20px 40px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid rgba(212,175,55,.2);
 }
 
-.hero img{
-  width:100%;
-  display:block;
-  opacity:.85;
+.logo{
+  color:#d4af37;
+  font-weight:bold;
+  font-size:18px;
 }
 
-/* CONTENT SECTION */
-.content{
-  padding:60px 20px;
+/* MAIN */
+.container{
+  max-width:1000px;
+  margin:60px auto;
+  padding:20px;
 }
 
+/* TITLE */
 h1{
   font-size:42px;
   color:#f5d984;
@@ -36,78 +43,69 @@ h1{
 }
 
 .sub{
-  font-size:18px;
   color:#ccc;
   margin-bottom:40px;
 }
 
-/* FEATURES */
-.features{
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  margin-bottom:50px;
-  color:#aaa;
+/* CARD */
+.card{
+  background:rgba(20,20,20,.8);
+  border:1px solid rgba(212,175,55,.25);
+  border-radius:16px;
+  padding:30px;
+  margin-bottom:30px;
 }
 
 /* PRICE */
 .price{
-  font-size:48px;
+  font-size:36px;
   color:#f5d984;
-  margin-bottom:30px;
+  margin:20px 0;
 }
 
 /* BUY BUTTON */
 .buy-btn{
-  display:inline-block;
-  padding:18px 50px;
+  display:block;
+  width:100%;
+  padding:16px;
+  text-align:center;
   border-radius:999px;
-  background:linear-gradient(135deg,#f5d984,#caa64b);
+  background:#d4af37;
   color:#000;
   font-weight:bold;
   text-decoration:none;
-  font-size:20px;
-
-  box-shadow:
-    0 0 20px rgba(212,175,55,.6),
-    0 0 40px rgba(212,175,55,.3);
+  box-shadow:0 0 20px rgba(212,175,55,.4);
+  transition:.2s;
 }
 
 .buy-btn:hover{
-  transform:scale(1.05);
-}
-
-/* NOTE */
-.note{
-  margin-top:20px;
-  font-size:14px;
-  color:#777;
+  transform:scale(1.03);
 }
 </style>
 </head>
 
 <body>
 
-<div class="content">
+<div class="header">
+  <div class="logo">MyStoryChip</div>
+</div>
+
+<div class="container">
 
   <h1>One Chip. Unlimited Uses.</h1>
-
   <div class="sub">
-    Your stories, your images, your legacy — all with one tap.
+    You’re not buying a chip. You’re unlocking a story people can access instantly.
   </div>
 
-  <div class="features">
-    <div>✔ Includes 250MB storage</div>
-    <div>✔ No app required</div>
-    <div>✔ Works instantly with your phone</div>
-  </div>
+  <div class="card">
+    <h2>The Chip</h2>
+    <div class="price">$49.95</div>
 
-  <div class="price">$49.95</div>
+    <p>Includes 250MB storage</p>
+    <p>Personal story link attached</p>
+    <p>Works instantly with a phone tap</p>
 
-  <a href="#" class="buy-btn">BUY YOUR CHIP</a>
-
-  <div class="note">
-    One-time purchase. No subscriptions.
+    <a href="#" class="buy-btn">BUY NOW</a>
   </div>
 
 </div>
