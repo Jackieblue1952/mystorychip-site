@@ -6,112 +6,144 @@
 <title>MyStoryChip Uses</title>
 
 <style>
-body {
-  margin:0;
-  background:#000;
-  font-family:Arial, sans-serif;
-}
-
-.hero {
-  position:relative;
-}
-
-.hero img {
-  width:100%;
-  display:block;
-}
-
-.buttons {
-  position:absolute;
-  bottom:110px;
-  left:60px;
-  display:flex;
-  gap:15px;
-}
-.tap-link-wrap{
-  position:absolute;
-  left:460px;
-  top:580px;
-  z-index:3;
-}
-
-.tap-link{
-  display:block;
-  width:26px;
-  height:26px;
-  border-radius:50%;
-  background:#ff2a2a;
-
-  box-shadow:
-    0 0 10px rgba(255,0,0,.8),
-    0 0 20px rgba(255,0,0,.6),
-    0 0 35px rgba(255,0,0,.4);
-
-  cursor:pointer;
-}
-
-.tap-link:hover{
-  box-shadow:
-    0 0 16px rgba(255,0,0,.9),
-    0 0 32px rgba(255,0,0,.6),
-    inset 0 0 10px rgba(255,0,0,.25);
-}
-
-.tap-link:hover{
-  filter:brightness(1.08);
-  box-shadow:
-    0 0 14px rgba(212,175,55,.32),
-    0 0 30px rgba(212,175,55,.18),
-    inset 0 0 10px rgba(212,175,55,.10);
-}
-
-@media (max-width: 900px){
-  .tap-link-wrap{
-    left:42px;
-    top:245px;
-  }
-}
-
-@media (max-width: 720px){
-  .tap-link-wrap{
-    left:20px;
-    top:auto;
-    bottom:95px;
+  * {
+    box-sizing: border-box;
   }
 
-.tap-link{
-  display:block;
-  width:26px;
-  height:26px;
-  border-radius:50%;
-  background:#ff2a2a;
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #050505;
+    overflow-x: hidden;
+    font-family: Georgia, "Times New Roman", serif;
+  }
 
-  box-shadow:
-    0 0 10px rgba(255,0,0,.8),
-    0 0 20px rgba(255,0,0,.6),
-    0 0 35px rgba(255,0,0,.4);
+  body {
+    background: linear-gradient(to bottom, #120904 0%, #050505 100%);
+  }
 
-  cursor:pointer;
-}
-  .tap-link:hover{
-  color:#ffffff;
-  box-shadow:
-    0 0 16px rgba(255,0,0,.55),
-    0 0 32px rgba(255,0,0,.30),
-    inset 0 0 10px rgba(255,0,0,.15);
-}
+  .nav-buttons {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 1000;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 10px 16px;
+    text-decoration: none;
+    color: #f5e6c8;
+    border: 1px solid #d4af37;
+    border-radius: 30px;
+    background: rgba(20, 12, 4, 0.88);
+    font-size: 14px;
+    transition: all 0.25s ease;
+    box-shadow: 0 0 10px rgba(212,175,55,0.15);
+  }
+
+  .btn:hover {
+    background: rgba(60, 35, 10, 0.95);
+    box-shadow: 0 0 16px rgba(212,175,55,0.35);
+  }
+
+  .btn.primary {
+    background: linear-gradient(180deg, #d4af37, #8e6a17);
+    color: #1a1206;
+    font-weight: bold;
+  }
+
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    position: relative;
+  }
+
+  .hero img {
+    width: 100%;
+    max-width: 1200px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .tap-link-wrap {
+    position: absolute;
+    left: 460px;
+    top: 580px;
+    z-index: 3;
+  }
+
+  .tap-link {
+    display: block;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #ff2a2a;
+    box-shadow:
+      0 0 10px rgba(255,0,0,.8),
+      0 0 20px rgba(255,0,0,.6),
+      0 0 35px rgba(255,0,0,.4);
+    cursor: pointer;
+  }
+
+  .tap-link:hover {
+    filter: brightness(1.08);
+    box-shadow:
+      0 0 16px rgba(255,0,0,.9),
+      0 0 32px rgba(255,0,0,.6),
+      inset 0 0 10px rgba(255,0,0,.25);
+  }
+
+  @media (max-width: 900px) {
+    .nav-buttons {
+      top: 10px;
+      right: 10px;
+      gap: 8px;
+    }
+
+    .btn {
+      padding: 8px 12px;
+      font-size: 12px;
+    }
+
+    .tap-link-wrap {
+      left: 42px;
+      top: 245px;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .tap-link-wrap {
+      left: 20px;
+      top: auto;
+      bottom: 95px;
+    }
+  }
 </style>
+
 </head>
 
 <body>
 
-<div class="hero">
-  <img src="chip.png">
+  <div class="nav-buttons">
+    <a href="story-new.html" class="btn">← Story</a>
+    <a href="buy.html" class="btn primary">Buy Now</a>
+  </div>
 
-<div class="tap-link-wrap">
-  <a href="buy.html" class="tap-link"></a>
-</div>  
-</div>
+  <div class="hero">
+    <img src="chip.png" alt="MyStoryChip Uses">
+
+    <div class="tap-link-wrap">
+      <a href="buy.html" class="tap-link" aria-label="Go to Buy Page"></a>
+    </div>
+  </div>
 
 </body>
 </html>
