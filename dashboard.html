@@ -753,6 +753,19 @@ function copyChipLink(code, type) {
     }
 
     loadSavedStatus();
+    function buildChipRow(chip) {
+  const row = document.createElement("li");
+
+  row.innerHTML = `
+    <strong>${chip.title || "No Title"}</strong><br>
+    Code: ${chip.code}<br>
+    Category: ${chip.category || "None"}<br>
+    Status: ${chip.status || "Unknown"}<br>
+    Files: ${chip.files ? chip.files.map(f => f.name).join(", ") : "None"}<br>
+  `;
+
+  return row;
+}
     renderChips();
   </script>
 
