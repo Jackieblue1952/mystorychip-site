@@ -6,12 +6,13 @@
 <title>Buy MyStoryChip</title>
 
 <style>
+*{box-sizing:border-box;}
+
 body{
   margin:0;
   font-family:Georgia, "Times New Roman", serif;
   background:#050505;
   color:#f5e6c8;
-  text-align:center;
 }
 
 /* NAV */
@@ -19,8 +20,8 @@ body{
   position:fixed;
   top:20px;
   right:20px;
+  z-index:10;
 }
-
 .nav a{
   margin-left:10px;
   padding:8px 14px;
@@ -35,57 +36,59 @@ body{
 .hero{
   min-height:100vh;
   display:flex;
-  flex-direction:column;
-  justify-content:center;
   align-items:center;
-  padding:20px;
+  justify-content:center;
+  text-align:center;
+  padding:40px 20px;
+
+  background:
+    linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85)),
+    url("final-storybook.png") center/cover no-repeat;
+}
+
+.hero-inner{
+  max-width:800px;
 }
 
 .hero h1{
   font-size:48px;
-  margin-bottom:10px;
   color:#f5d984;
+  margin-bottom:15px;
 }
 
 .hero p{
-  font-size:18px;
-  max-width:600px;
-  line-height:1.5;
+  font-size:20px;
   color:#e4cfa0;
 }
 
-/* FLOW SECTIONS */
+/* SECTION */
 .section{
   padding:80px 20px;
   max-width:800px;
   margin:auto;
+  text-align:center;
 }
 
 .section p{
   font-size:20px;
   margin:20px 0;
-  color:#e4cfa0;
 }
 
 /* BENEFITS */
-.benefits{
-  margin-top:40px;
-}
-
 .benefits div{
-  margin:12px 0;
+  margin:10px 0;
   font-size:18px;
 }
 
 /* BUY */
 .buy{
   padding:100px 20px;
+  text-align:center;
 }
 
 .price{
   font-size:60px;
   margin:20px 0;
-  color:#fff0c3;
 }
 
 button{
@@ -109,8 +112,10 @@ button{
 
 <!-- HERO -->
 <div class="hero">
-  <h1>Own the Chip. Save the Story.</h1>
-  <p>It’s time to move your memories and stories out of the box.</p>
+  <div class="hero-inner">
+    <h1>Own the Chip. Save the Story.</h1>
+    <p>It’s time to move your memories and stories out of the box.</p>
+  </div>
 </div>
 
 <!-- FLOW -->
