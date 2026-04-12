@@ -1,1 +1,208 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Setup Your Chip</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#050505;
+  color:#fff;
+}
+
+.wrap{
+  max-width:800px;
+  margin:40px auto;
+  padding:20px;
+}
+
+.card{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(212,175,55,0.2);
+  border-radius:16px;
+  padding:20px;
+  margin-bottom:20px;
+}
+
+h1,h2{
+  color:#f5d98c;
+}
+
+input,select,textarea{
+  width:100%;
+  padding:10px;
+  margin-top:6px;
+  margin-bottom:12px;
+  border-radius:8px;
+  border:1px solid #333;
+  background:#111;
+  color:#fff;
+}
+
+button{
+  background:linear-gradient(135deg,#caa437,#f5d98c);
+  color:#111;
+  border:none;
+  padding:12px 20px;
+  border-radius:10px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.upload{
+  border:2px dashed rgba(212,175,55,0.3);
+  padding:20px;
+  text-align:center;
+  border-radius:10px;
+}
+
+.meter{
+  height:16px;
+  background:#222;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.fill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#caa437,#f5d98c);
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<div class="card">
+<h1>Setup Your MyStoryChip</h1>
+<p>You're almost done. Add your story and uploads below.</p>
+</div>
+
+<form id="form">
+
+<input type="hidden" id="chipCode">
+
+<div class="card">
+<h2>Basic Info</h2>
+
+<label>Full Name</label>
+<input type="text" id="name" required>
+
+<label>Email</label>
+<input type="email" id="email" required>
+
+<label>Chip Title</label>
+<input type="text" id="title" placeholder="Example: Dad's Story" required>
+
+<label>Category</label>
+<select id="category">
+<option>Family Memories</option>
+<option>Memorial</option>
+<option>Wedding / Graduation</option>
+<option>Auto / Restoration</option>
+<option>Collection</option>
+<option>Business</option>
+</select>
+</div>
+
+<div class="card">
+<h2>Story</h2>
+
+<label>Headline</label>
+<input type="text" id="headline">
+
+<label>Description</label>
+<textarea id="desc"></textarea>
+
+</div>
+
+<div class="card">
+<h2>Uploads</h2>
+
+<div class="upload">
+<input type="file" id="files" multiple>
+</div>
+
+<p id="usage">0 MB / 250 MB</p>
+
+<div class="meter">
+<div class="fill" id="fill"></div>
+</div>
+
+</div>
+
+<div class="card">
+<h2>Agreement</h2>
+
+<label>
+<input type="checkbox" id="agree" required>
+ I agree to the content rules and disclaimer
+</label>
+
+<br><br>
+
+<button type="submit">Save My Chip</button>
+
+</div>
+
+</form>
+
+</div>
+
+<script>
+
+// GET CHIP CODE FROM URL
+const params = new URLSearchParams(window.location.search);
+const chip = params.get("chip");
+document.getElementById("chipCode").value = chip;
+
+// STORAGE METER
+const filesInput = document.getElementById("files");
+const usage = document.getElementById("usage");
+const fill = document.getElementById("fill");
+
+const max = 250 * 1024 * 1024;
+
+filesInput.addEventListener("change", () => {
+  let total = 0;
+
+  for (let f of filesInput.files){
+    total += f.size;
+  }
+
+  let mb = (total / (1024*1024)).toFixed(2);
+  let percent = Math.min((total / max) * 100, 100);
+
+  usage.textContent = mb + " MB / 250 MB";
+  fill.style.width = percent + "%";
+});
+
+// SUBMIT
+document.getElementById("form").addEventListener("submit", (e)=>{
+  e.preventDefault();
+
+  const data = {
+    chipCode: chip,
+    name: name.value,
+    email: email.value,
+    title: title.value,
+    category: category.value,
+    headline: headline.value,
+    desc: desc.value
+  };
+
+  console.log("SEND TO BACKEND:", data);
+
+  alert("Next step: connect this to your dashboard/backend.");
+});
+
+</script>
+
+</body>
+</html>
