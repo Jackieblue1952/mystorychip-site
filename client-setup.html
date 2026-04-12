@@ -172,76 +172,38 @@ button{
 </div>
 
 <script>
-
-// GET CHIP CODE FROM URL
+  <script>
 const params = new URLSearchParams(window.location.search);
 const chip = params.get("chip");
-document.getElementById("chipCode").value = chip;
 
-// STORAGE METER
-const filesInput = document.getElementById("files");
-const usage = document.getElementById("usage");
-const fill = document.getElementById("fill");
-
-const max = 250 * 1024 * 1024;
-
-filesInput.addEventListener("change", () => {
-  let total = 0;
-
-  for (let f of filesInput.files){
-    total += f.size;
-  }
-
-  let mb = (total / (1024*1024)).toFixed(2);
-  let percent = Math.min((total / max) * 100, 100);
-
-  usage.textContent = mb + " MB / 250 MB";
-  fill.style.width = percent + "%";
-});
-
-// SUBMIT
 document.getElementById("form").addEventListener("submit", (e)=>{
   e.preventDefault();
 
-  const data = {
-    chipCode: chip,
-    name: name.value,
-    email: email.value,
-    title: title.value,
-    category: category.value,
-    headline: headline.value,
-    desc: desc.value
-  };
+  const STORAGE_KEY = "mscChips";
+  let chips = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
 
- const STORAGE_KEY = "mscChips";
+  let existingChip = chips.find(c => c.code === chip);
 
-let chips = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+  if (!existingChip) {
+    existingChip = { code: chip };
+    chips.push(existingChip);
+  }
 
-// find the chip by code
-let existingChip = chips.find(c => c.code === chip);
+  existingChip.name = document.getElementById("name").value;
+  existingChip.email = document.getElementById("email").value;
+  existingChip.title = document.getElementById("title").value;
+  existingChip.category = document.getElementById("category").value;
+  existingChip.headline = document.getElementById("headline").value;
+  existingChip.description = document.getElementById("desc").value;
+  existingChip.status = "setup_complete";
 
-// if not found, create it (backup safety)
-if (!existingChip) {
-  existingChip = { code: chip };
-  chips.push(existingChip);
-}
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
 
-// update chip with form data
-existingChip.name = name.value;
-existingChip.email = email.value;
-existingChip.title = title.value;
-existingChip.category = category.value;
-existingChip.headline = headline.value;
-existingChip.description = desc.value;
-existingChip.status = "setup_complete";
-
-// save back to localStorage
-localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
-
-alert("Your chip has been saved!"); 
-
-  alert("Next step: connect this to your dashboard/backend.");
+  alert("Your chip has been saved!");
 });
+</script>
+
+
 
 </script>
 
