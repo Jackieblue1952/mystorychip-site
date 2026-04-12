@@ -213,7 +213,32 @@ document.getElementById("form").addEventListener("submit", (e)=>{
     desc: desc.value
   };
 
-  console.log("SEND TO BACKEND:", data);
+ const STORAGE_KEY = "mscChips";
+
+let chips = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+
+// find the chip by code
+let existingChip = chips.find(c => c.code === chip);
+
+// if not found, create it (backup safety)
+if (!existingChip) {
+  existingChip = { code: chip };
+  chips.push(existingChip);
+}
+
+// update chip with form data
+existingChip.name = name.value;
+existingChip.email = email.value;
+existingChip.title = title.value;
+existingChip.category = category.value;
+existingChip.headline = headline.value;
+existingChip.description = desc.value;
+existingChip.status = "setup_complete";
+
+// save back to localStorage
+localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
+
+alert("Your chip has been saved!"); 
 
   alert("Next step: connect this to your dashboard/backend.");
 });
