@@ -354,98 +354,93 @@
   </div>
 
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const chip = params.get("chip");
-    const filesInput = document.getElementById("files");
-    const usage = document.getElementById("usage");
-    const fill = document.getElementById("fill");
-    const savedName = localStorage.getItem("mscName");
+const params = new URLSearchParams(window.location.search);
+const chip = params.get("chip");
+const filesInput = document.getElementById("files");
+const usage = document.getElementById("usage");
+const fill = document.getElementById("fill");
+
+const savedName = localStorage.getItem("mscName");
 const savedEmail = localStorage.getItem("mscEmail");
 
-if(savedName){
+if (savedName) {
   document.getElementById("name").value = savedName;
 }
 
-if(savedEmail){
+if (savedEmail) {
   document.getElementById("email").value = savedEmail;
 }
 
-    filesInput.addEventListener("change", () => {
-      let total = 0;
+filesInput.addEventListener("change", () => {
+  let total = 0;
 
-      for (let f of filesInput.files){
-        total += f.size;
-      }
+  for (let f of filesInput.files) {
+    total += f.size;
+  }
 
-      let mb = total / (1024 * 1024);
-      let usedText = mb.toFixed(2);
-      let percent = Math.min((mb / 250) * 100, 100);
+  let mb = total / (1024 * 1024);
+  let usedText = mb.toFixed(2);
+  let percent = Math.min((mb / 250) * 100, 100);
 
-      let fileNames = Array.from(filesInput.files)
-        .map(f => f.name)
-        .join(", ");
+  let fileNames = Array.from(filesInput.files)
+    .map(f => f.name)
+    .join(", ");
 
-      if(fileNames){
-        usage.textContent = "Selected: " + fileNames + " | " + usedText + " MB of 250 MB used";
-      } else {
-        usage.textContent = "0 MB / 250 MB used";
-      }
+  if (fileNames) {
+    usage.textContent = "Selected: " + fileNames + " | " + usedText + " MB of 250 MB used";
+  } else {
+    usage.textContent = "0 MB / 250 MB used";
+  }
 
-      fill.style.width = percent + "%";
-    });
+  fill.style.width = percent + "%";
+});
 
-    document.getElementById("form").addEventListener("submit", (e) => {
-      e.preventDefault();
+document.getElementById("form").addEventListener("submit", (e) => {
+  e.preventDefault();
 
-      const STORAGE_KEY = "mscChips";
-      let chips = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+  const STORAGE_KEY = "mscChips";
+  let chips = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
 
-      let existingChip = chips.find(c => c.code === chip);
+  let existingChip = chips.find(c => c.code === chip);
 
-      if (!existingChip) {
-        existingChip = { code: chip };
-        chips.push(existingChip);
-      }
+  if (!existingChip) {
+    existingChip = { code: chip };
+    chips.push(existingChip);
+  }
 
-     existingChip.name = document.getElementById("name").value;
-existingChip.email = document.getElementById("email").value;
-existingChip.title = document.getElementById("title").value;
+  existingChip.name = document.getElementById("name").value;
+  existingChip.email = document.getElementById("email").value;
+  existingChip.title = document.getElementById("title").value;
 
-const selectedCategory = document.getElementById("category").value;
-const customCategory = document.getElementById("customCategory").value;
+  const selectedCategory = document.getElementById("category").value;
+  const customCategory = document.getElementById("customCategory").value;
 
-if (selectedCategory === "custom" && customCategory) {
-  existingChip.category = customCategory;
-} else {
-  existingChip.category = selectedCategory;
-}
+  if (selectedCategory === "custom" && customCategory) {
+    existingChip.category = customCategory;
+  } else {
+    existingChip.category = selectedCategory;
+  }
 
-existingChip.headline = document.getElementById("headline").value;
-existingChip.description = document.getElementById("desc").value;
-existingChip.status = "setup_complete";
-const selectedCategory = document.getElementById("category").value;
-const customCategory = document.getElementById("customCategory").value;
+  existingChip.headline = document.getElementById("headline").value;
+  existingChip.description = document.getElementById("desc").value;
+  existingChip.status = "setup_complete";
 
-if(selectedCategory === "custom" && customCategory){
-  existingChip.category = customCategory;
-} else {
-  existingChip.category = selectedCategory;
-}
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
 
-      alert("Your chip has been saved!");
-    });
-    function toggleCustomCategory(){
+  alert("Your chip has been saved!");
+});
+
+function toggleCustomCategory() {
   const category = document.getElementById("category").value;
   const customInput = document.getElementById("customCategory");
 
-  if(category === "custom"){
+  if (category === "custom") {
     customInput.style.display = "block";
   } else {
     customInput.style.display = "none";
   }
-}}
-  </script>
+}
+</script>
 
 </body>
 </html>
