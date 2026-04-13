@@ -354,19 +354,17 @@
  
 <script>
 document.getElementById("buyBtn").addEventListener("click", function(e){
+  e.preventDefault();
 
   const name = document.getElementById("customerName").value.trim();
   const email = document.getElementById("customerEmail").value.trim();
 
   if(!name || !email){
-    e.preventDefault();
     alert("Please enter your name and email first.");
     return;
   }
 
-  // go to Stripe
-window.location.href = "https://buy.stripe.com/5kQ28qgXefwm";
-
+  window.location.href = "https://buy.stripe.com/5kQ28qgXefwm";
 });
 </script>
 </body>
