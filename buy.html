@@ -64,8 +64,10 @@ document.getElementById("buyBtn").addEventListener("click", function(){
     alert("Please enter your name and email first.");
     return;
   }
-
-  window.location.href = "https://buy.stripe.com/00w5kCgXe1Fwcu05dkdby02";
+localStorage.setItem("mscName", name);
+localStorage.setItem("mscEmail", email);
+  
+  window.location.href = "https://buy.stripe.com/00w5kCgXe1Fwcu05dkdby02?prefilled_email=" + encodeURIComponent(email);
 
 });
 </script>
