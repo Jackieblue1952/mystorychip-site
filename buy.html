@@ -332,12 +332,30 @@
   <input type="email" id="customerEmail" placeholder="Enter your email">
 </div>
         <div class="actions">
-          <a href="https://buy.stripe.com/5kQ28qgXefwm3XufRYdby00" class="cta primary">Buy Now</a>
+        <a href="#" id="buyBtn">
+  Buy Now
+</a>
           <a href="story-new.html" class="cta secondary">Read the Story</a>
         </div>
       </div>
     </div>
   </div>
+<script>
+document.getElementById("buyBtn").addEventListener("click", function(e){
 
+  const name = document.getElementById("customerName").value.trim();
+  const email = document.getElementById("customerEmail").value.trim();
+
+  if(!name || !email){
+    e.preventDefault();
+    alert("Please enter your name and email first.");
+    return;
+  }
+
+  // go to Stripe
+  window.location.href = "https://buy.stripe.com/5kQ28gqXefwm3XufRYdby00";
+
+});
+</script>
 </body>
 </html>
