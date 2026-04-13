@@ -294,24 +294,18 @@
           <label for="title">Chip Title</label>
           <input type="text" id="title" placeholder="Example: Dad's Story" required>
 
-          <label for="category">Category</label>
-          <select id="category">
-            <option>Family Memories</option>
-            <option>Memorial</option>
-            <option>Wedding / Graduation</option>
-            <option>Auto / Restoration</option>
-            <option>Collection</option>
-            <option>Business</option>
-             <option value="custom">Other (Custom)</option><
-/select>
-Step 2 — Add custom input field
-Right under the dropdown, add this:
-<input type="text" id="customCategory" placeholder="Enter your category" style="display:none;">
+<label for="category">Category</label>
+<select id="category" onchange="toggleCustomCategory()">
+  <option>Family Memories</option>
+  <option>Memorial</option>
+  <option>Wedding / Graduation</option>
+  <option>Auto / Restoration</option>
+  <option>Collection</option>
+  <option>Business</option>
+  <option value="custom">Other (Custom)</option>
+</select>
 
-Step 3 — Add this script
-Inside your <script> section, add:
-function toggleCustomCategory(){  const category = document.getElementById("category").value;  const customInput = document.getElementById("customCategory");  if(category === "custom"){    customInput.style.display = "block";  } else {    customInput.style.display = "none";  }}
-
+<input type="text" id="customCategory" placeholder="Enter your category" style="display:none;">         
 Step 4 — Save the correct value
 Find this line:
 existingChip.category = document.getElementById("category").value;
