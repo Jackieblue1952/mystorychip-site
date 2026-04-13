@@ -306,9 +306,6 @@
 </select>
 
 <input type="text" id="customCategory" placeholder="Enter your category" style="display:none;">         
-Step 4 — 
-existingChip.category = document.getElementById("category").value;
-const selectedCategory = document.getElementById("category").value;const customCategory = document.getElementById("customCategory").value;if(selectedCategory === "custom" && customCategory){  existingChip.category = customCategory;} else {  existingChip.category = selectedCategory;
 
           </select>
         </div>
@@ -410,14 +407,30 @@ if(savedEmail){
         chips.push(existingChip);
       }
 
-      existingChip.name = document.getElementById("name").value;
-      existingChip.email = document.getElementById("email").value;
-      existingChip.title = document.getElementById("title").value;
-      existingChip.category = document.getElementById("category").value;
-      existingChip.headline = document.getElementById("headline").value;
-      existingChip.description = document.getElementById("desc").value;
-      existingChip.status = "setup_complete";
+     existingChip.name = document.getElementById("name").value;
+existingChip.email = document.getElementById("email").value;
+existingChip.title = document.getElementById("title").value;
 
+const selectedCategory = document.getElementById("category").value;
+const customCategory = document.getElementById("customCategory").value;
+
+if (selectedCategory === "custom" && customCategory) {
+  existingChip.category = customCategory;
+} else {
+  existingChip.category = selectedCategory;
+}
+
+existingChip.headline = document.getElementById("headline").value;
+existingChip.description = document.getElementById("desc").value;
+existingChip.status = "setup_complete";
+const selectedCategory = document.getElementById("category").value;
+const customCategory = document.getElementById("customCategory").value;
+
+if(selectedCategory === "custom" && customCategory){
+  existingChip.category = customCategory;
+} else {
+  existingChip.category = selectedCategory;
+}
       localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
 
       alert("Your chip has been saved!");
@@ -431,7 +444,7 @@ if(savedEmail){
   } else {
     customInput.style.display = "none";
   }
-}
+}}
   </script>
 
 </body>
