@@ -260,6 +260,28 @@
         font-size:12px;
       }
     }
+    .buyer-info{
+  max-width:520px;
+  margin:20px auto;
+  text-align:left;
+}
+
+.buyer-info label{
+  display:block;
+  margin:12px 0 6px;
+  color:#f5d98c;
+  font-weight:bold;
+}
+
+.buyer-info input{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid rgba(212,175,55,0.25);
+  background:#111;
+  color:#fff;
+  box-sizing:border-box;
+}
   </style>
 </head>
 <body>
@@ -300,7 +322,13 @@
         <div class="make-it-yours">Make it yours</div>
         <div class="price">$49.95</div>
         <div class="price-note">One-time purchase • No monthly fees</div>
+<div class="buyer-info">
+  <label for="customerName">Full Name</label>
+  <input type="text" id="customerName" placeholder="Enter your name" required>
 
+  <label for="customerEmail">Email Address</label>
+  <input type="email" id="customerEmail" placeholder="Enter your email" required>
+</div>
         <div class="actions">
           <a href="https://buy.stripe.com/5kQ28qgXefwm3XufRYdby00" class="cta primary">Buy Now</a>
           <a href="story-new.html" class="cta secondary">Read the Story</a>
