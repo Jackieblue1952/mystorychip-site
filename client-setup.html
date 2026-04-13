@@ -354,6 +354,16 @@
     const filesInput = document.getElementById("files");
     const usage = document.getElementById("usage");
     const fill = document.getElementById("fill");
+    const savedName = localStorage.getItem("mscName");
+const savedEmail = localStorage.getItem("mscEmail");
+
+if(savedName){
+  document.getElementById("name").value = savedName;
+}
+
+if(savedEmail){
+  document.getElementById("email").value = savedEmail;
+}
 
     filesInput.addEventListener("change", () => {
       let total = 0;
