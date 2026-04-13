@@ -302,6 +302,44 @@
             <option>Auto / Restoration</option>
             <option>Collection</option>
             <option>Business</option>
+             <option value="custom">Other (Custom)</option><    /select>
+/select>
+Step 2 — Add custom input field
+Right under the dropdown, add this:
+<input type="text" id="customCategory" placeholder="Enter your category" style="display:none;">
+
+Step 3 — Add this script
+Inside your <script> section, add:
+function toggleCustomCategory(){  const category = document.getElementById("category").value;  const customInput = document.getElementById("customCategory");  if(category === "custom"){    customInput.style.display = "block";  } else {    customInput.style.display = "none";  }}
+
+Step 4 — Save the correct value
+Find this line:
+existingChip.category = document.getElementById("category").value;
+Replace it with this:
+const selectedCategory = document.getElementById("category").value;const customCategory = document.getElementById("customCategory").value;if(selectedCategory === "custom" && customCategory){  existingChip.category = customCategory;} else {  existingChip.category = selectedCategory;}
+
+🎯 Result
+User experience becomes:
+
+
+picks normal category → done
+
+
+picks “Other” → clean input appears
+
+
+types custom category → saved
+
+
+👉 No clutter
+👉 No confusion
+👉 Still premium
+
+👍 Your move
+Do those 4 small edits.
+Then tell me:
+👉 “custom category working”
+and we’ll tighten the next detail 👍
           </select>
         </div>
 
