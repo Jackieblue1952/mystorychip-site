@@ -446,6 +446,16 @@ if(savedEmail){
 
       alert("Your chip has been saved!");
     });
+    function toggleCustomCategory(){
+  const category = document.getElementById("category").value;
+  const customInput = document.getElementById("customCategory");
+
+  if(category === "custom"){
+    customInput.style.display = "block";
+  } else {
+    customInput.style.display = "none";
+  }
+}
   </script>
 
 </body>
