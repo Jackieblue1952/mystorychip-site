@@ -364,6 +364,11 @@ document.getElementById("buyBtn").addEventListener("click", function(e){
     return;
   }
 
+  // ✅ SAVE DATA (this was missing)
+  localStorage.setItem("mscName", name);
+  localStorage.setItem("mscEmail", email);
+
+  // ✅ GO TO STRIPE
   window.location.href = "https://buy.stripe.com/5kQ28qgXefwm";
 });
 </script>
