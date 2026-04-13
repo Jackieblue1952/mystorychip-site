@@ -1,1 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Success - MyStoryChip</title>
 
+<style>
+body{
+  margin:0;
+  background:#050505;
+  color:#fff;
+  font-family:Arial;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  text-align:center;
+}
+
+.box{
+  background:rgba(255,255,255,0.05);
+  padding:40px;
+  border-radius:16px;
+  max-width:400px;
+}
+
+h1{
+  color:#f5d98c;
+}
+
+button{
+  margin-top:20px;
+  padding:12px 20px;
+  background:linear-gradient(135deg,#caa437,#f5d98c);
+  border:none;
+  border-radius:10px;
+  font-weight:bold;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+  <h1>Thank You!</h1>
+  <p>Your MyStoryChip purchase is complete.</p>
+  <p>Now let’s set up your chip and add your story.</p>
+
+  <button onclick="goSetup()">Set Up My Chip</button>
+</div>
+
+<script>
+function goSetup(){
+  window.location.href = "client-setup.html";
+}
+</script>
+
+</body>
+</html>
