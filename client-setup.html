@@ -425,9 +425,42 @@ document.getElementById("form").addEventListener("submit", (e) => {
   existingChip.description = document.getElementById("desc").value;
   existingChip.status = "setup_complete";
 
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
+    const files = filesInput.files;
 
-window.location.href = "success.html"; 
+  if (!files || files.length === 0) {
+    existingChip.images = [];
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
+    window.location.href = "success.html";
+    return;
+  }
+
+  let imagePromises = [];
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+
+    imagePromises.push(
+      new Promise((resolve) => {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+          resolve(e.target.result);
+        };
+
+        reader.onerror = function() {
+          resolve(null);
+        };
+
+        reader.readAsDataURL(file);
+      })
+    );
+  }
+
+  Promise.all(imagePromises).then((images) => {
+    existingChip.images = images.filter(Boolean);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
+    window.location.href = "success.html";
+  }); 
 });
 
 function toggleCustomCategory() {
