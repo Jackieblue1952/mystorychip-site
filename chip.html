@@ -532,14 +532,19 @@ function deleteImage(index) {
     }
 
     loadChip();
-  const lightbox = document.getElementById("lightbox");
+   const lightbox = document.getElementById("lightbox");
 const lightboxImg = document.getElementById("lightboxImg");
+const lightboxClose = document.getElementById("lightboxClose");
+
+lightboxClose.addEventListener("click", () => {
+  lightbox.style.display = "none";
+});
 
 lightbox.addEventListener("click", (e) => {
-  if (e.target !== lightboxImg) {
+  if (e.target === lightbox) {
     lightbox.style.display = "none";
   }
-});  
+}); 
   </script>
 <div id="lightbox" style="
   display:none;
@@ -554,6 +559,20 @@ lightbox.addEventListener("click", (e) => {
   justify-content:center;
   padding:30px;
 ">
+    <button id="lightboxClose" style="
+    position:absolute;
+    top:20px;
+    right:20px;
+    background:linear-gradient(180deg, #f3d77b, #d4af37);
+    color:#1a1206;
+    border:none;
+    border-radius:999px;
+    padding:10px 16px;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+    z-index:10000;
+  ">X</button>
   <img id="lightboxImg" src="" alt="Full View" style="
     max-width:90%;
     max-height:90%;
