@@ -198,6 +198,23 @@
       object-fit:cover;
       border-radius:14px;
     }
+    .delete-image-btn{
+  display:block;
+  width:100%;
+  margin-top:10px;
+  padding:8px 10px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:bold;
+  background:linear-gradient(180deg, #f3d77b, #d4af37);
+  color:#1a1206;
+}
+
+.delete-image-btn:hover{
+  filter:brightness(1.05);
+}
 
     .empty-card{
       text-align:center;
@@ -297,6 +314,24 @@
       .gallery-item img{
         height:190px;
       }
+          .delete-image-btn{
+      display:block;
+      width:100%;
+      margin-top:10px;
+      padding:8px 10px;
+      border:none;
+      border-radius:10px;
+      cursor:pointer;
+      font-size:14px;
+      font-weight:bold;
+      background:linear-gradient(180deg, #f3d77b, #d4af37);
+      color:#1a1206;
+      box-shadow:0 0 12px rgba(212,175,55,0.18);
+    }
+
+    .delete-image-btn:hover{
+      filter:brightness(1.05);
+    }
     }
   </style>
 </head>
@@ -400,48 +435,70 @@
       return chips[chips.length - 1];
     }
 
-    function renderGallery(images) {
-      const galleryGrid = document.getElementById("galleryGrid");
-      const noImages = document.getElementById("noImages");
+  function renderGallery(images) {
+  const galleryGrid = document.getElementById("galleryGrid");
+  const noImages = document.getElementById("noImages");
 
-      galleryGrid.innerHTML = "";
+  galleryGrid.innerHTML = "";
 
-      if (!Array.isArray(images) || images.length === 0) {
-        noImages.style.display = "block";
-        return;
-      }
+  if (!Array.isArray(images) || images.length === 0) {
+    noImages.style.display = "block";
+    return;
+  }
 
   noImages.style.display = "none";
 
-  images.forEach((src) => {
-  if (!src) return;
+  images.forEach((src, index) => {
+    if (!src) return;
 
- const item = document.createElement("div");
-item.style.width = "120px";
-item.style.display = "inline-block";
-item.style.margin = "8px";
-item.className = "gallery-item";
+    const item = document.createElement("div");
+    item.style.width = "120px";
+    item.style.display = "inline-block";
+    item.style.margin = "8px";
+    item.className = "gallery-item";
 
-const img = document.createElement("img");
-img.src = src;
-img.alt = "MyStoryChip upload";
-img.style.width = "100%";        
-img.style.height = "120px";
-img.style.objectFit = "cover";       
-img.style.borderRadius = "10px";
-img.style.display = "block";
-img.style.margin = "0 auto 16px";
-img.style.cursor = "pointer";
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = "MyStoryChip upload";
+    img.style.width = "100%";
+    img.style.height = "120px";
+    img.style.objectFit = "cover";
+    img.style.borderRadius = "10px";
+    img.style.display = "block";
+    img.style.margin = "0 auto 16px";
+    img.style.cursor = "pointer";
 
-img.addEventListener("click", () => {
-  document.getElementById("lightboxImg").src = src;
-  document.getElementById("lightbox").style.display = "flex";
-});
-        item.appendChild(img);
-        galleryGrid.appendChild(item);
-      });
-    }
+    img.addEventListener("click", () => {
+      document.getElementById("lightboxImg").src = src;
+      document.getElementById("lightbox").style.display = "flex";
+    });
 
+    const deleteBtn = document.createElement("button");
+    deleteBtn.className = "delete-image-btn";
+    deleteBtn.textContent = "Delete";
+
+    deleteBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      deleteImage(index);
+    });
+
+    item.appendChild(img);
+    item.appendChild(deleteBtn);
+    galleryGrid.appendChild(item);
+  });
+}
+
+function deleteImage(index) {
+  const chips = parseStoredChips();
+  const chip = getLatestChip(chips);
+
+  if (!chip || !Array.isArray(chip.images)) return;
+
+  chip.images.splice(index, 1);
+  localStorage.setItem("mscChips", JSON.stringify(chips));
+
+  renderGallery(chip.images);
+}
     function loadChip() {
       const chips = parseStoredChips();
       const chip = getLatestChip(chips);
