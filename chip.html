@@ -431,7 +431,12 @@ img.style.objectFit = "cover";
 img.style.borderRadius = "10px";
 img.style.display = "block";
 img.style.margin = "0 auto 16px";
+img.style.cursor = "pointer";
 
+img.addEventListener("click", () => {
+  document.getElementById("lightboxImg").src = src;
+  document.getElementById("lightbox").style.display = "flex";
+});
         item.appendChild(img);
         galleryGrid.appendChild(item);
       });
@@ -470,7 +475,31 @@ img.style.margin = "0 auto 16px";
     }
 
     loadChip();
+    document.getElementById("lightbox").addEventListener("click", () => {
+  document.getElementById("lightbox").style.display = "none";
+});
   </script>
-
+<div id="lightbox" style="
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.88);
+  z-index:9999;
+  align-items:center;
+  justify-content:center;
+  padding:30px;
+">
+  <img id="lightboxImg" src="" alt="Full View" style="
+    max-width:90%;
+    max-height:90%;
+    border-radius:16px;
+    box-shadow:0 0 30px rgba(212,175,55,0.35);
+  ">
+</div>
+</body>
+</html>
 </body>
 </html>
