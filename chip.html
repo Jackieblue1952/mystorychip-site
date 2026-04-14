@@ -532,9 +532,14 @@ function deleteImage(index) {
     }
 
     loadChip();
-    document.getElementById("lightbox").addEventListener("click", () => {
-  document.getElementById("lightbox").style.display = "none";
-});
+  const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightboxImg");
+
+lightbox.addEventListener("click", (e) => {
+  if (e.target !== lightboxImg) {
+    lightbox.style.display = "none";
+  }
+});  
   </script>
 <div id="lightbox" style="
   display:none;
