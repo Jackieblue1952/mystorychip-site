@@ -199,6 +199,7 @@
       font-size:1rem;
       font-weight:bold;
       transition:all 0.22s ease;
+      cursor:pointer;
     }
 
     .cta.primary{
@@ -207,6 +208,7 @@
       box-shadow:
         0 0 18px rgba(212,175,55,0.24),
         0 0 34px rgba(212,175,55,0.10);
+      border:1px solid rgba(212,175,55,0.45);
     }
 
     .cta.primary:hover{
@@ -224,6 +226,41 @@
 
     .cta.secondary:hover{
       background:rgba(50,30,10,0.75);
+    }
+
+    .buyer-info{
+      max-width:520px;
+      margin:20px auto;
+      text-align:left;
+    }
+
+    .buyer-info label{
+      display:block;
+      margin:12px 0 6px;
+      color:#f5d98c;
+      font-weight:bold;
+    }
+
+    .buyer-info input{
+      width:100%;
+      padding:12px;
+      border-radius:10px;
+      border:1px solid rgba(212,175,55,0.25);
+      background:#111;
+      color:#fff;
+      box-sizing:border-box;
+    }
+
+    #buyBtn{
+      display:inline-block;
+      padding:16px 36px;
+      border-radius:30px;
+      background:linear-gradient(135deg,#d4af37,#f5d98c) !important;
+      color:#000 !important;
+      font-size:18px;
+      font-weight:bold;
+      text-decoration:none !important;
+      border:1px solid rgba(212,175,55,0.45);
     }
 
     @media (max-width: 700px){
@@ -260,39 +297,6 @@
         font-size:12px;
       }
     }
-    .buyer-info{
-  max-width:520px;
-  margin:20px auto;
-  text-align:left;
-}
-
-.buyer-info label{
-  display:block;
-  margin:12px 0 6px;
-  color:#f5d98c;
-  font-weight:bold;
-}
-
-.buyer-info input{
-  width:100%;
-  padding:12px;
-  border-radius:10px;
-  border:1px solid rgba(212,175,55,0.25);
-  background:#111;
-  color:#fff;
-  box-sizing:border-box;
-}
-    #buyBtn{
-  display:inline-block;
-  padding:16px 36px;
-  border-radius:30px;
-  background:linear-gradient(135deg,#d4af37,#f5d98c) !important;
-  color:#000 !important;
-  font-size:18px;
-  font-weight:bold;
-  text-decoration:none !important;
-  border:1px solid rgba(212,175,55,0.45);
-}
   </style>
 </head>
 <body>
@@ -333,44 +337,41 @@
         <div class="make-it-yours">Make it yours</div>
         <div class="price">$49.95</div>
         <div class="price-note">One-time purchase • No monthly fees</div>
-        
-<div class="buyer-info">
-  <label for="customerName">Full Name</label>
-  <input type="text" id="customerName" placeholder="Enter your name" required>
-  <label for="customerEmail">Email Address</label>
-</div>
+
         <div class="buyer-info">
-  <input type="email" id="customerEmail" placeholder="Enter your email">
-</div>
+          <label for="customerName">Full Name</label>
+          <input type="text" id="customerName" placeholder="Enter your name" required>
+
+          <label for="customerEmail">Email Address</label>
+          <input type="email" id="customerEmail" placeholder="Enter your email" required>
+        </div>
+
         <div class="actions">
-    <a href="#" id="buyBtn" class="cta primary">
-  Buy Now
-</a>  
+          <a href="#" id="buyBtn" class="cta primary">Buy Now</a>
           <a href="story-new.html" class="cta secondary">Read the Story</a>
         </div>
       </div>
     </div>
   </div>
- 
-<script>
-document.getElementById("buyBtn").addEventListener("click", function(e){
-  e.preventDefault();
 
-  const name = document.getElementById("customerName").value.trim();
-  const email = document.getElementById("customerEmail").value.trim();
+  <script>
+    document.getElementById("buyBtn").addEventListener("click", function(e) {
+      e.preventDefault();
 
-  if(!name || !email){
-    alert("Please enter your name and email first.");
-    return;
-  }
+      const customerName = document.getElementById("customerName").value.trim();
+      const customerEmail = document.getElementById("customerEmail").value.trim();
 
-  // ✅ SAVE DATA (this was missing)
-  localStorage.setItem("mscName", name);
-  localStorage.setItem("mscEmail", email);
+      if (!customerName || !customerEmail) {
+        alert("Please enter your full name and email before continuing.");
+        return;
+      }
 
-  // ✅ GO TO STRIPE
-  window.location.href = "https://buy.stripe.com/5kQ28qgXefwm";
-});
-</script>
+      localStorage.setItem("mscCustomerName", customerName);
+      localStorage.setItem("mscCustomerEmail", customerEmail);
+
+  window.location.href = "https://buy.stripe.com/00w5kCgXe1Fwcu05dkdby02";
+    });
+  </script>
+
 </body>
 </html>
