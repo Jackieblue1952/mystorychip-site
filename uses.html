@@ -73,35 +73,8 @@
     margin: 0 auto;
   }
 
-  .tap-link-wrap {
-    position: absolute;
-    left: 460px;
-    top: 580px;
-    z-index: 3;
-  }
-
-  .tap-link {
-    display: block;
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    background: #ff2a2a;
-    box-shadow:
-      0 0 10px rgba(255,0,0,.8),
-      0 0 20px rgba(255,0,0,.6),
-      0 0 35px rgba(255,0,0,.4);
-    cursor: pointer;
-  }
-
-  .tap-link:hover {
-    filter: brightness(1.08);
-    box-shadow:
-      0 0 16px rgba(255,0,0,.9),
-      0 0 32px rgba(255,0,0,.6),
-      inset 0 0 10px rgba(255,0,0,.25);
-  }
-
   @media (max-width: 900px) {
+   
     .nav-buttons {
       top: 10px;
       right: 10px;
@@ -113,18 +86,6 @@
       font-size: 12px;
     }
 
-    .tap-link-wrap {
-      left: 42px;
-      top: 245px;
-    }
-  }
-
-  @media (max-width: 720px) {
-    .tap-link-wrap {
-      left: 20px;
-      top: auto;
-      bottom: 95px;
-    }
   }
 </style>
 
@@ -134,15 +95,13 @@
 
   <div class="nav-buttons">
     <a href="story-new.html" class="btn">← Story</a>
-    <a href="buy.html" class="btn primary">Buy Now</a>
+    <a href="buy.html" class="btn primary">Start our Story</a>
   </div>
 
   <div class="hero">
     <img src="chip.png" alt="MyStoryChip Uses">
 
-    <div class="tap-link-wrap">
-      <a href="buy.html" class="tap-link" aria-label="Go to Buy Page"></a>
-    </div>
+    
   </div>
 
 </body>
