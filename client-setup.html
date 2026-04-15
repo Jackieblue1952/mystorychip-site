@@ -670,7 +670,7 @@
         e.preventDefault();
 
         let chips = parseStoredChips();
-        let existingChip = getLatestChip(chips);
+        let existingChip = chips.length ? chips[0] : null;
 
         if (!existingChip) {
           existingChip = {
