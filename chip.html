@@ -417,143 +417,189 @@
   </div>
 
   <script>
-    function safeText(value, fallback = "—") {
-      if (typeof value !== "string") return fallback;
-      const trimmed = value.trim();
-      return trimmed ? trimmed : fallback;
-    }
+  let currentImageIndex = 0;
+  let currentImages = [];
 
-    function parseStoredChips() {
-      try {
-        return JSON.parse(localStorage.getItem("mscChips")) || [];
-      } catch (error) {
-        return [];
-      }
-    }
+  function safeText(value, fallback = "—") {
+    if (typeof value !== "string") return fallback;
+    const trimmed = value.trim();
+    return trimmed ? trimmed : fallback;
+  }
 
-    function getLatestChip(chips) {
-      if (!Array.isArray(chips) || chips.length === 0) return null;
-      return chips[chips.length - 1];
+  function parseStoredChips() {
+    try {
+      return JSON.parse(localStorage.getItem("mscChips")) || [];
+    } catch (error) {
+      return [];
     }
+  }
+
+  function getLatestChip(chips) {
+    if (!Array.isArray(chips) || chips.length === 0) return null;
+    return chips[chips.length - 1];
+  }
 
   function renderGallery(images) {
-  const galleryGrid = document.getElementById("galleryGrid");
-  const noImages = document.getElementById("noImages");
+    const galleryGrid = document.getElementById("galleryGrid");
+    const noImages = document.getElementById("noImages");
 
-  galleryGrid.innerHTML = "";
+    galleryGrid.innerHTML = "";
 
-  if (!Array.isArray(images) || images.length === 0) {
-    noImages.style.display = "block";
-    return;
-  }
-
-  noImages.style.display = "none";
-
-  images.forEach((src, index) => {
-    if (!src) return;
-
-    const item = document.createElement("div");
-    item.style.width = "120px";
-    item.style.display = "flex";
-    item.style.flexDirection = "column";
-    item.style.margin = "0";
-    item.className = "gallery-item";
-
-    const img = document.createElement("img");
-    img.src = src;
-    img.alt = "MyStoryChip upload";
-    img.style.width = "100%";
-    img.style.height = "120px";
-    img.style.objectFit = "cover";
-    img.style.borderRadius = "10px";
-    img.style.display = "block";
-    img.style.margin = "0 auto 8px";
-    img.style.cursor = "pointer";
-
-    img.addEventListener("click", () => {
-      document.getElementById("lightboxImg").src = src;
-      document.getElementById("lightbox").style.display = "flex";
-    });
-
-    const deleteBtn = document.createElement("button");
-    deleteBtn.className = "delete-image-btn";
-    deleteBtn.textContent = "Delete";
-
-    deleteBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      deleteImage(index);
-    });
-
-    item.appendChild(img);
-    item.appendChild(deleteBtn);
-    galleryGrid.appendChild(item);
-  });
-}
-
-function deleteImage(index) {
-  const chips = parseStoredChips();
-  const chip = getLatestChip(chips);
-
-  if (!chip || !Array.isArray(chip.images)) return;
-
-  chip.images.splice(index, 1);
-  localStorage.setItem("mscChips", JSON.stringify(chips));
-
-  renderGallery(chip.images);
-}
-    function loadChip() {
-      const chips = parseStoredChips();
-      const chip = getLatestChip(chips);
-
-      if (!chip) {
-        document.getElementById("emptyState").style.display = "block";
-        document.getElementById("chipContent").style.display = "none";
-        return;
-      }
-
-      document.getElementById("emptyState").style.display = "none";
-      document.getElementById("chipContent").style.display = "block";
-
-      const chipTitle = safeText(chip.name || chip.title, "Your Story");
-      const chipHeadline = safeText(chip.headline, "Your MyStoryChip story, memories, and images are shown below.");
-      const chipDescription = safeText(chip.description, "No story has been added yet.");
-      const chipName = safeText(chip.fullName || chip.customerName || localStorage.getItem("mscCustomerName"));
-      const chipEmail = safeText(chip.email || chip.customerEmail || localStorage.getItem("mscCustomerEmail"));
-      const chipCategory = safeText(chip.category, "Not selected");
-
-      document.getElementById("chipTitle").textContent = chipTitle;
-      document.getElementById("chipHeadline").textContent = chipHeadline;
-      document.getElementById("viewerName").textContent = chipName;
-      document.getElementById("viewerEmail").textContent = chipEmail;
-      document.getElementById("viewerCategory").textContent = chipCategory;
-      document.getElementById("viewerHeadline").textContent = chipHeadline;
-      document.getElementById("viewerDescription").textContent = chipDescription;
-
-      const images = chip.images || chip.uploads || [];
-      renderGallery(images);
+    if (!Array.isArray(images) || images.length === 0) {
+      currentImages = [];
+      noImages.style.display = "block";
+      return;
     }
 
+    currentImages = images;
+    noImages.style.display = "none";
+
+    images.forEach((src, index) => {
+      if (!src) return;
+
+      const item = document.createElement("div");
+      item.style.width = "120px";
+      item.style.display = "flex";
+      item.style.flexDirection = "column";
+      item.style.margin = "0";
+      item.className = "gallery-item";
+
+      const img = document.createElement("img");
+      img.src = src;
+      img.alt = "MyStoryChip upload";
+      img.style.width = "100%";
+      img.style.height = "120px";
+      img.style.objectFit = "cover";
+      img.style.borderRadius = "10px";
+      img.style.display = "block";
+      img.style.margin = "0 auto 8px";
+      img.style.cursor = "pointer";
+
+      img.addEventListener("click", () => {
+        currentImageIndex = index;
+        document.getElementById("lightboxImg").src = src;
+        document.getElementById("lightbox").style.display = "flex";
+      });
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.className = "delete-image-btn";
+      deleteBtn.textContent = "Delete";
+
+      deleteBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        deleteImage(index);
+      });
+
+      item.appendChild(img);
+      item.appendChild(deleteBtn);
+      galleryGrid.appendChild(item);
+    });
+  }
+
+  function deleteImage(index) {
+    const chips = parseStoredChips();
+    const chip = getLatestChip(chips);
+
+    if (!chip || !Array.isArray(chip.images)) return;
+
+    chip.images.splice(index, 1);
+    localStorage.setItem("mscChips", JSON.stringify(chips));
+
+    currentImages = chip.images;
+    renderGallery(chip.images);
+  }
+
+  function loadChip() {
+    const chips = parseStoredChips();
+    const chip = getLatestChip(chips);
+
+    if (!chip) {
+      document.getElementById("emptyState").style.display = "block";
+      document.getElementById("chipContent").style.display = "none";
+      return;
+    }
+
+    document.getElementById("emptyState").style.display = "none";
+    document.getElementById("chipContent").style.display = "block";
+
+    const chipTitle = safeText(chip.name || chip.title, "Your Story");
+    const chipHeadline = safeText(
+      chip.headline,
+      "Your MyStoryChip story, memories, and images are shown below."
+    );
+    const chipDescription = safeText(
+      chip.description,
+      "No story has been added yet."
+    );
+    const chipName = safeText(
+      chip.fullName || chip.customerName || localStorage.getItem("mscCustomerName")
+    );
+    const chipEmail = safeText(
+      chip.email || chip.customerEmail || localStorage.getItem("mscCustomerEmail")
+    );
+    const chipCategory = safeText(chip.category, "Not selected");
+
+    document.getElementById("chipTitle").textContent = chipTitle;
+    document.getElementById("chipHeadline").textContent = chipHeadline;
+    document.getElementById("viewerName").textContent = chipName;
+    document.getElementById("viewerEmail").textContent = chipEmail;
+    document.getElementById("viewerCategory").textContent = chipCategory;
+    document.getElementById("viewerHeadline").textContent = chipHeadline;
+    document.getElementById("viewerDescription").textContent = chipDescription;
+
+    const images = chip.images || chip.uploads || [];
+    renderGallery(images);
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
     loadChip();
- document.addEventListener("DOMContentLoaded", () => {
-  const lightbox = document.getElementById("lightbox");
-  const lightboxImg = document.getElementById("lightboxImg");
-  const lightboxClose = document.getElementById("lightboxClose");
 
-  if (lightboxClose) {
-    lightboxClose.addEventListener("click", () => {
-      lightbox.style.display = "none";
-    });
-  }
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightboxImg");
+    const lightboxClose = document.getElementById("lightboxClose");
+    const prevBtn = document.getElementById("prevImage");
+    const nextBtn = document.getElementById("nextImage");
 
-  if (lightbox) {
-    lightbox.addEventListener("click", (e) => {
-      if (e.target === lightbox) {
+    if (lightboxClose) {
+      lightboxClose.addEventListener("click", () => {
         lightbox.style.display = "none";
-      }
-    });
-  }
-}); 
-  </script>
+      });
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (currentImages.length === 0) return;
+
+        currentImageIndex =
+          (currentImageIndex - 1 + currentImages.length) % currentImages.length;
+
+        lightboxImg.src = currentImages[currentImageIndex];
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (currentImages.length === 0) return;
+
+        currentImageIndex =
+          (currentImageIndex + 1) % currentImages.length;
+
+        lightboxImg.src = currentImages[currentImageIndex];
+      });
+    }
+
+    if (lightbox) {
+      lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) {
+          lightbox.style.display = "none";
+        }
+      });
+    }
+  });
+</script>
+
 <div id="lightbox" style="
   display:none;
   position:fixed;
@@ -567,7 +613,7 @@ function deleteImage(index) {
   justify-content:center;
   padding:30px;
 ">
-    <button id="lightboxClose" style="
+  <button id="lightboxClose" style="
     position:absolute;
     top:20px;
     right:20px;
@@ -581,6 +627,39 @@ function deleteImage(index) {
     cursor:pointer;
     z-index:10000;
   ">X</button>
+
+  <button id="prevImage" style="
+    position:absolute;
+    left:20px;
+    top:50%;
+    transform:translateY(-50%);
+    background:rgba(0,0,0,0.6);
+    color:#fff;
+    border:none;
+    border-radius:50%;
+    width:50px;
+    height:50px;
+    font-size:22px;
+    cursor:pointer;
+    z-index:10000;
+  ">‹</button>
+
+  <button id="nextImage" style="
+    position:absolute;
+    right:20px;
+    top:50%;
+    transform:translateY(-50%);
+    background:rgba(0,0,0,0.6);
+    color:#fff;
+    border:none;
+    border-radius:50%;
+    width:50px;
+    height:50px;
+    font-size:22px;
+    cursor:pointer;
+    z-index:10000;
+  ">›</button>
+
   <img id="lightboxImg" src="" alt="Full View" style="
     max-width:90%;
     max-height:90%;
@@ -588,7 +667,5 @@ function deleteImage(index) {
     box-shadow:0 0 30px rgba(212,175,55,0.35);
   ">
 </div>
-</body>
-</html>
 </body>
 </html>
