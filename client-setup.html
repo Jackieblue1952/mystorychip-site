@@ -324,6 +324,35 @@
       .actions{
         flex-direction:column;
       }
+      function renderExistingPhotos(chip) {
+  const wrap = document.getElementById("existingPhotosWrap");
+  const grid = document.getElementById("existingPhotosGrid");
+
+  if (!wrap || !grid) return;
+
+  grid.innerHTML = "";
+
+  if (!chip || !Array.isArray(chip.images) || chip.images.length === 0) {
+    wrap.style.display = "none";
+    return;
+  }
+
+  wrap.style.display = "block";
+
+  chip.images.forEach((src) => {
+    if (!src) return;
+
+    const item = document.createElement("div");
+    item.className = "preview-item";
+
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = "Saved photo";
+
+    item.appendChild(img);
+    grid.appendChild(item);
+  });
+}
     }
   </style>
 </head>
@@ -391,6 +420,10 @@
         <p class="helper" id="uploadHelper">
           Add one or more photos now, or come back later and add more.
         </p>
+        <div id="existingPhotosWrap" style="margin-bottom:16px; display:none;">
+  <p class="helper" style="margin-bottom:10px;">Current Saved Photos</p>
+  <div id="existingPhotosGrid" class="preview-grid"></div>
+</div>
 
         <div class="upload">
     <input type="file" id="files" multiple accept="image/*,.pdf,.doc,.docx,.txt">      
@@ -652,6 +685,7 @@
       const chip = loadExistingChip();
       const existingMB = getExistingStorageMB(chip);
       updateUsage(existingMB, []);
+      renderExistingPhotos(chip);
       toggleCustomCategory();
 
       category.addEventListener("change", toggleCustomCategory);
