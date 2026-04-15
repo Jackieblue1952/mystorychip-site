@@ -117,9 +117,6 @@
       font-size:clamp(1.05rem, 1.9vw, 1.35rem);
       line-height:1.6;
       color:#f0ddb2;
-      text-shadow:
-        0 0 10px rgba(0,0,0,0.75),
-        0 0 24px rgba(0,0,0,0.92);
     }
 
     .grid{
@@ -138,9 +135,6 @@
       margin:0 0 18px;
       font-size:1.8rem;
       color:#f5d984;
-      text-shadow:
-        0 0 10px rgba(212,175,55,0.20),
-        0 0 24px rgba(0,0,0,0.92);
     }
 
     .info-row{
@@ -177,12 +171,18 @@
       white-space:pre-wrap;
     }
 
-   .gallery-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill, 130px);
-  gap:10px;
-  justify-content:start;
-} 
+    .gallery-scroll{
+      max-height:460px;
+      overflow-y:auto;
+      padding-right:8px;
+    }
+
+    .gallery-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill, 130px);
+      gap:10px;
+      justify-content:start;
+    }
 
     .gallery-item{
       background:rgba(20,12,4,0.40);
@@ -190,32 +190,39 @@
       border-radius:20px;
       padding:10px;
       overflow:hidden;
+      width:120px;
+      display:flex;
+      flex-direction:column;
+      margin:0;
     }
 
     .gallery-item img{
       display:block;
       width:100%;
-      height:220px;
+      height:120px;
       object-fit:cover;
-      border-radius:14px;
+      border-radius:10px;
+      margin:0 auto 8px;
+      cursor:pointer;
     }
-    .delete-image-btn{
-  display:block;
-  width:100%;
-  margin-top:10px;
-  padding:8px 10px;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
-  font-size:14px;
-  font-weight:bold;
-  background:linear-gradient(180deg, #f3d77b, #d4af37);
-  color:#1a1206;
-}
 
-.delete-image-btn:hover{
-  filter:brightness(1.05);
-}
+    .delete-image-btn{
+      display:block;
+      width:100%;
+      margin-top:8px;
+      padding:8px 10px;
+      border:none;
+      border-radius:10px;
+      cursor:pointer;
+      font-size:14px;
+      font-weight:bold;
+      background:linear-gradient(180deg, #f3d77b, #d4af37);
+      color:#1a1206;
+    }
+
+    .delete-image-btn:hover{
+      filter:brightness(1.05);
+    }
 
     .empty-card{
       text-align:center;
@@ -312,27 +319,11 @@
         font-size:12px;
       }
 
-      .gallery-item img{
-        height:190px;
+      .gallery-scroll{
+        max-height:none;
+        overflow:visible;
+        padding-right:0;
       }
-          .delete-image-btn{
-      display:block;
-      width:100%;
-      margin-top:10px;
-      padding:8px 10px;
-      border:none;
-      border-radius:10px;
-      cursor:pointer;
-      font-size:14px;
-      font-weight:bold;
-      background:linear-gradient(180deg, #f3d77b, #d4af37);
-      color:#1a1206;
-      box-shadow:0 0 12px rgba(212,175,55,0.18);
-    }
-
-    .delete-image-btn:hover{
-      filter:brightness(1.05);
-    }
     }
   </style>
 </head>
@@ -340,7 +331,7 @@
 
   <div class="nav">
     <a href="index.html">Home</a>
-    <a href="client-setup.html">Edit Chip</a>
+    <a href="client-setup.html">Edit Details</a>
     <a href="buy.html">Buy Another</a>
   </div>
 
@@ -389,16 +380,21 @@
 
         <div class="gallery-card" style="margin-top:24px;">
           <h2 class="section-title">Photos & Uploads</h2>
-          <div class="gallery-grid" id="galleryGrid"></div>
+
+          <div class="gallery-scroll">
+            <div class="gallery-grid" id="galleryGrid"></div>
+          </div>
+
           <div id="noImages" class="empty-text" style="display:none;">
             No images have been added yet.
           </div>
         </div>
 
-       <div class="actions">
-  <a href="client-setup.html" class="cta secondary">Add Photos / Edit Details</a>
-  <a href="index.html" class="cta primary">Return Home</a>
-</div> 
+        <div class="actions">
+          <a href="client-setup.html?mode=photos" class="cta secondary">Add More Photos</a>
+          <a href="client-setup.html" class="cta secondary">Edit Story & Details</a>
+          <a href="index.html" class="cta primary">Return Home</a>
+        </div>
       </div>
 
       <div id="emptyState" class="empty-card">
@@ -417,261 +413,246 @@
   </div>
 
   <script>
-  let currentImageIndex = 0;
-  let currentImages = [];
+    let currentImageIndex = 0;
+    let currentImages = [];
 
-  function safeText(value, fallback = "—") {
-    if (typeof value !== "string") return fallback;
-    const trimmed = value.trim();
-    return trimmed ? trimmed : fallback;
-  }
-
-  function parseStoredChips() {
-    try {
-      return JSON.parse(localStorage.getItem("mscChips")) || [];
-    } catch (error) {
-      return [];
-    }
-  }
-
-  function getLatestChip(chips) {
-    if (!Array.isArray(chips) || chips.length === 0) return null;
-    return chips[chips.length - 1];
-  }
-
-  function renderGallery(images) {
-    const galleryGrid = document.getElementById("galleryGrid");
-    const noImages = document.getElementById("noImages");
-
-    galleryGrid.innerHTML = "";
-
-    if (!Array.isArray(images) || images.length === 0) {
-      currentImages = [];
-      noImages.style.display = "block";
-      return;
+    function safeText(value, fallback = "—") {
+      if (typeof value !== "string") return fallback;
+      const trimmed = value.trim();
+      return trimmed ? trimmed : fallback;
     }
 
-    currentImages = images;
-    noImages.style.display = "none";
-
-    images.forEach((src, index) => {
-      if (!src) return;
-
-      const item = document.createElement("div");
-      item.style.width = "120px";
-      item.style.display = "flex";
-      item.style.flexDirection = "column";
-      item.style.margin = "0";
-      item.className = "gallery-item";
-
-      const img = document.createElement("img");
-      img.src = src;
-      img.alt = "MyStoryChip upload";
-      img.style.width = "100%";
-      img.style.height = "120px";
-      img.style.objectFit = "cover";
-      img.style.borderRadius = "10px";
-      img.style.display = "block";
-      img.style.margin = "0 auto 8px";
-      img.style.cursor = "pointer";
-
-      img.addEventListener("click", () => {
-        currentImageIndex = index;
-        document.getElementById("lightboxImg").src = src;
-        document.getElementById("lightbox").style.display = "flex";
-      });
-
-      const deleteBtn = document.createElement("button");
-      deleteBtn.className = "delete-image-btn";
-      deleteBtn.textContent = "Delete";
-
-      deleteBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        deleteImage(index);
-      });
-
-      item.appendChild(img);
-      item.appendChild(deleteBtn);
-      galleryGrid.appendChild(item);
-    });
-  }
-
-  function deleteImage(index) {
-    const chips = parseStoredChips();
-    const chip = getLatestChip(chips);
-
-    if (!chip || !Array.isArray(chip.images)) return;
-
-    chip.images.splice(index, 1);
-    localStorage.setItem("mscChips", JSON.stringify(chips));
-
-    currentImages = chip.images;
-    renderGallery(chip.images);
-  }
-
-  function loadChip() {
-    const chips = parseStoredChips();
-    const chip = getLatestChip(chips);
-
-    if (!chip) {
-      document.getElementById("emptyState").style.display = "block";
-      document.getElementById("chipContent").style.display = "none";
-      return;
+    function parseStoredChips() {
+      try {
+        return JSON.parse(localStorage.getItem("mscChips")) || [];
+      } catch (error) {
+        return [];
+      }
     }
 
-    document.getElementById("emptyState").style.display = "none";
-    document.getElementById("chipContent").style.display = "block";
+    function getLatestChip(chips) {
+      if (!Array.isArray(chips) || chips.length === 0) return null;
+      return chips[chips.length - 1];
+    }
 
-    const chipTitle = safeText(chip.name || chip.title, "Your Story");
-    const chipHeadline = safeText(
-      chip.headline,
-      "Your MyStoryChip story, memories, and images are shown below."
-    );
-    const chipDescription = safeText(
-      chip.description,
-      "No story has been added yet."
-    );
-    const chipName = safeText(
-      chip.fullName || chip.customerName || localStorage.getItem("mscCustomerName")
-    );
-    const chipEmail = safeText(
-      chip.email || chip.customerEmail || localStorage.getItem("mscCustomerEmail")
-    );
-    const chipCategory = safeText(chip.category, "Not selected");
+    function renderGallery(images) {
+      const galleryGrid = document.getElementById("galleryGrid");
+      const noImages = document.getElementById("noImages");
 
-    document.getElementById("chipTitle").textContent = chipTitle;
-    document.getElementById("chipHeadline").textContent = chipHeadline;
-    document.getElementById("viewerName").textContent = chipName;
-    document.getElementById("viewerEmail").textContent = chipEmail;
-    document.getElementById("viewerCategory").textContent = chipCategory;
-    document.getElementById("viewerHeadline").textContent = chipHeadline;
-    document.getElementById("viewerDescription").textContent = chipDescription;
+      galleryGrid.innerHTML = "";
 
-    const images = chip.images || chip.uploads || [];
-    renderGallery(images);
-  }
+      if (!Array.isArray(images) || images.length === 0) {
+        currentImages = [];
+        noImages.style.display = "block";
+        return;
+      }
 
-  document.addEventListener("DOMContentLoaded", () => {
-    loadChip();
+      currentImages = images;
+      noImages.style.display = "none";
 
-    const lightbox = document.getElementById("lightbox");
-    const lightboxImg = document.getElementById("lightboxImg");
-    const lightboxClose = document.getElementById("lightboxClose");
-    const prevBtn = document.getElementById("prevImage");
-    const nextBtn = document.getElementById("nextImage");
+      images.forEach((src, index) => {
+        if (!src) return;
 
-    if (lightboxClose) {
-      lightboxClose.addEventListener("click", () => {
-        lightbox.style.display = "none";
+        const item = document.createElement("div");
+        item.className = "gallery-item";
+
+        const img = document.createElement("img");
+        img.src = src;
+        img.alt = "MyStoryChip upload";
+
+        img.addEventListener("click", () => {
+          currentImageIndex = index;
+          document.getElementById("lightboxImg").src = src;
+          document.getElementById("lightbox").style.display = "flex";
+        });
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "delete-image-btn";
+        deleteBtn.textContent = "Delete";
+
+        deleteBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          deleteImage(index);
+        });
+
+        item.appendChild(img);
+        item.appendChild(deleteBtn);
+        galleryGrid.appendChild(item);
       });
     }
 
-    if (prevBtn) {
-      prevBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        if (currentImages.length === 0) return;
+    function deleteImage(index) {
+      const chips = parseStoredChips();
+      const chip = getLatestChip(chips);
 
-        currentImageIndex =
-          (currentImageIndex - 1 + currentImages.length) % currentImages.length;
+      if (!chip || !Array.isArray(chip.images)) return;
 
-        lightboxImg.src = currentImages[currentImageIndex];
-      });
+      chip.images.splice(index, 1);
+      localStorage.setItem("mscChips", JSON.stringify(chips));
+
+      currentImages = chip.images;
+      renderGallery(chip.images);
     }
 
-    if (nextBtn) {
-      nextBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        if (currentImages.length === 0) return;
+    function loadChip() {
+      const chips = parseStoredChips();
+      const chip = getLatestChip(chips);
 
-        currentImageIndex =
-          (currentImageIndex + 1) % currentImages.length;
+      if (!chip) {
+        document.getElementById("emptyState").style.display = "block";
+        document.getElementById("chipContent").style.display = "none";
+        return;
+      }
 
-        lightboxImg.src = currentImages[currentImageIndex];
-      });
+      document.getElementById("emptyState").style.display = "none";
+      document.getElementById("chipContent").style.display = "block";
+
+      const chipTitle = safeText(chip.title || chip.name, "Your Story");
+      const chipHeadline = safeText(
+        chip.headline,
+        "Your MyStoryChip story, memories, and images are shown below."
+      );
+      const chipDescription = safeText(
+        chip.description,
+        "No story has been added yet."
+      );
+      const chipName = safeText(chip.fullName || chip.name);
+      const chipEmail = safeText(chip.email);
+      const chipCategory = safeText(chip.category, "Not selected");
+
+      document.getElementById("chipTitle").textContent = chipTitle;
+      document.getElementById("chipHeadline").textContent = chipHeadline;
+      document.getElementById("viewerName").textContent = chipName;
+      document.getElementById("viewerEmail").textContent = chipEmail;
+      document.getElementById("viewerCategory").textContent = chipCategory;
+      document.getElementById("viewerHeadline").textContent = chipHeadline;
+      document.getElementById("viewerDescription").textContent = chipDescription;
+
+      const images = chip.images || [];
+      renderGallery(images);
     }
 
-    if (lightbox) {
-      lightbox.addEventListener("click", (e) => {
-        if (e.target === lightbox) {
+    document.addEventListener("DOMContentLoaded", () => {
+      loadChip();
+
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImg = document.getElementById("lightboxImg");
+      const lightboxClose = document.getElementById("lightboxClose");
+      const prevBtn = document.getElementById("prevImage");
+      const nextBtn = document.getElementById("nextImage");
+
+      if (lightboxClose) {
+        lightboxClose.addEventListener("click", () => {
           lightbox.style.display = "none";
-        }
-      });
-    }
-  });
-</script>
+        });
+      }
 
-<div id="lightbox" style="
-  display:none;
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.88);
-  z-index:9999;
-  align-items:center;
-  justify-content:center;
-  padding:30px;
-">
-  <button id="lightboxClose" style="
-    position:absolute;
-    top:20px;
-    right:20px;
-    background:linear-gradient(180deg, #f3d77b, #d4af37);
-    color:#1a1206;
-    border:none;
-    border-radius:999px;
-    padding:10px 16px;
-    font-size:18px;
-    font-weight:bold;
-    cursor:pointer;
-    z-index:10000;
-  ">X</button>
+      if (prevBtn) {
+        prevBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          if (currentImages.length === 0) return;
 
-  <button id="prevImage" style="
-  position:absolute;
-  left:20px;
-  top:50%;
-  transform:translateY(-50%);
-  background:rgba(212,175,55,0.92);
-  color:#1a1206;
-  border:2px solid #fff4c7;
-  border-radius:50%;
-  width:58px;
-  height:58px;
-  font-size:34px;
-  font-weight:bold;
-  line-height:1;
-  cursor:pointer;
-  z-index:10000;
-  box-shadow:0 0 18px rgba(212,175,55,0.45);
-">‹</button>
+          currentImageIndex =
+            (currentImageIndex - 1 + currentImages.length) % currentImages.length;
 
-  <button id="nextImage" style="
-  position:absolute;
-  right:20px;
-  top:50%;
-  transform:translateY(-50%);
-  background:rgba(212,175,55,0.92);
-  color:#1a1206;
-  border:2px solid #fff4c7;
-  border-radius:50%;
-  width:58px;
-  height:58px;
-  font-size:34px;
-  font-weight:bold;
-  line-height:1;
-  cursor:pointer;
-  z-index:10000;
-  box-shadow:0 0 18px rgba(212,175,55,0.45);
-">›</button>
+          lightboxImg.src = currentImages[currentImageIndex];
+        });
+      }
 
-  <img id="lightboxImg" src="" alt="Full View" style="
-    max-width:90%;
-    max-height:90%;
-    border-radius:16px;
-    box-shadow:0 0 30px rgba(212,175,55,0.35);
+      if (nextBtn) {
+        nextBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          if (currentImages.length === 0) return;
+
+          currentImageIndex =
+            (currentImageIndex + 1) % currentImages.length;
+
+          lightboxImg.src = currentImages[currentImageIndex];
+        });
+      }
+
+      if (lightbox) {
+        lightbox.addEventListener("click", (e) => {
+          if (e.target === lightbox) {
+            lightbox.style.display = "none";
+          }
+        });
+      }
+    });
+  </script>
+
+  <div id="lightbox" style="
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.88);
+    z-index:9999;
+    align-items:center;
+    justify-content:center;
+    padding:30px;
   ">
-</div>
+    <button id="lightboxClose" style="
+      position:absolute;
+      top:20px;
+      right:20px;
+      background:linear-gradient(180deg, #f3d77b, #d4af37);
+      color:#1a1206;
+      border:none;
+      border-radius:999px;
+      padding:10px 16px;
+      font-size:18px;
+      font-weight:bold;
+      cursor:pointer;
+      z-index:10000;
+    ">X</button>
+
+    <button id="prevImage" style="
+      position:absolute;
+      left:20px;
+      top:50%;
+      transform:translateY(-50%);
+      background:rgba(212,175,55,0.92);
+      color:#1a1206;
+      border:2px solid #fff4c7;
+      border-radius:50%;
+      width:58px;
+      height:58px;
+      font-size:34px;
+      font-weight:bold;
+      line-height:1;
+      cursor:pointer;
+      z-index:10000;
+      box-shadow:0 0 18px rgba(212,175,55,0.45);
+    ">‹</button>
+
+    <button id="nextImage" style="
+      position:absolute;
+      right:20px;
+      top:50%;
+      transform:translateY(-50%);
+      background:rgba(212,175,55,0.92);
+      color:#1a1206;
+      border:2px solid #fff4c7;
+      border-radius:50%;
+      width:58px;
+      height:58px;
+      font-size:34px;
+      font-weight:bold;
+      line-height:1;
+      cursor:pointer;
+      z-index:10000;
+      box-shadow:0 0 18px rgba(212,175,55,0.45);
+    ">›</button>
+
+    <img id="lightboxImg" src="" alt="Full View" style="
+      max-width:90%;
+      max-height:90%;
+      border-radius:16px;
+      box-shadow:0 0 30px rgba(212,175,55,0.35);
+    ">
+  </div>
 </body>
 </html>
