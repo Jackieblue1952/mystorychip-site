@@ -532,17 +532,23 @@ function deleteImage(index) {
     }
 
     loadChip();
-   const lightbox = document.getElementById("lightbox");
-const lightboxImg = document.getElementById("lightboxImg");
-const lightboxClose = document.getElementById("lightboxClose");
+ document.addEventListener("DOMContentLoaded", () => {
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightboxImg");
+  const lightboxClose = document.getElementById("lightboxClose");
 
-lightboxClose.addEventListener("click", () => {
-  lightbox.style.display = "none";
-});
+  if (lightboxClose) {
+    lightboxClose.addEventListener("click", () => {
+      lightbox.style.display = "none";
+    });
+  }
 
-lightbox.addEventListener("click", (e) => {
-  if (e.target === lightbox) {
-    lightbox.style.display = "none";
+  if (lightbox) {
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) {
+        lightbox.style.display = "none";
+      }
+    });
   }
 }); 
   </script>
