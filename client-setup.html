@@ -486,28 +486,55 @@
       fill.style.width = percent + "%";
     }
 
-    function renderSelectedPreviews(files) {
-      const previewGrid = document.getElementById("previewGrid");
-      previewGrid.innerHTML = "";
+   function renderSelectedPreviews(files) {
+  const previewGrid = document.getElementById("previewGrid");
+  previewGrid.innerHTML = "";
 
-      Array.from(files).forEach((file) => {
-        if (!file.type.startsWith("image/")) return;
+  Array.from(files).forEach((file) => {
+    const item = document.createElement("div");
+    item.className = "preview-item";
 
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const item = document.createElement("div");
-          item.className = "preview-item";
+    if (file.type.startsWith("image/")) {
+      const reader = new FileReader();
 
-          const img = document.createElement("img");
-          img.src = e.target.result;
-          img.alt = file.name || "Preview";
+      reader.onload = function(e) {
+        const img = document.createElement("img");
+        img.src = e.target.result;
+        img.alt = file.name || "Preview";
+        item.appendChild(img);
+      };
 
-          item.appendChild(img);
-          previewGrid.appendChild(item);
-        };
-        reader.readAsDataURL(file);
-      });
+      reader.readAsDataURL(file);
+    } else {
+      item.style.display = "flex";
+      item.style.alignItems = "center";
+      item.style.justifyContent = "center";
+      item.style.flexDirection = "column";
+      item.style.padding = "10px";
+      item.style.height = "90px";
+      item.style.color = "#f5d98c";
+      item.style.fontSize = "12px";
+      item.style.textAlign = "center";
+      item.style.lineHeight = "1.3";
+
+      const icon = document.createElement("div");
+      icon.textContent = "DOC";
+      icon.style.fontSize = "22px";
+      icon.style.fontWeight = "bold";
+      icon.style.marginBottom = "6px";
+
+      const name = document.createElement("div");
+      name.textContent = file.name.length > 18
+        ? file.name.slice(0, 15) + "..."
+        : file.name;
+
+      item.appendChild(icon);
+      item.appendChild(name);
     }
+
+    previewGrid.appendChild(item);
+  });
+} 
 
     function applyModeUI(mode) {
       const detailsSection = document.getElementById("detailsSection");
