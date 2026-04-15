@@ -354,6 +354,24 @@
   </div>
 
   <script>
+    function loadExistingChip() {
+  const chips = JSON.parse(localStorage.getItem("mscChips")) || [];
+  const existingChip = chips[chips.length - 1];
+
+  if (!existingChip) return;
+
+  const nameField = document.getElementById("name");
+  const emailField = document.getElementById("email");
+  const categoryField = document.getElementById("category");
+  const headlineField = document.getElementById("headline");
+  const descriptionField = document.getElementById("description");
+
+  if (nameField) nameField.value = existingChip.fullName || existingChip.customerName || "";
+  if (emailField) emailField.value = existingChip.email || existingChip.customerEmail || "";
+  if (categoryField) categoryField.value = existingChip.category || "";
+  if (headlineField) headlineField.value = existingChip.headline || "";
+  if (descriptionField) descriptionField.value = existingChip.description || "";
+}
 const params = new URLSearchParams(window.location.search);
 const chip = params.get("chip");
 const filesInput = document.getElementById("files");
@@ -478,6 +496,7 @@ function toggleCustomCategory() {
     customInput.style.display = "none";
   }
 }
+    document.addEventListener("DOMContentLoaded", loadExistingChip);
 </script>
 
 </body>
