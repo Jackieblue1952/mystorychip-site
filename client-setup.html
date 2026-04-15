@@ -171,6 +171,7 @@
       margin:0 0 12px;
       color:#f4ede1;
       line-height:1.5;
+      font-size:1rem;
     }
 
     .meter{
@@ -180,12 +181,57 @@
       border-radius:999px;
       overflow:hidden;
       border:1px solid rgba(255,255,255,0.06);
+      margin-bottom:14px;
     }
 
     .fill{
       height:100%;
       width:0%;
       background:linear-gradient(90deg, #caa437, #f5d98c);
+      transition:width 0.2s ease;
+    }
+
+    .preview-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(90px, 90px));
+      gap:10px;
+      justify-content:start;
+      margin-top:14px;
+    }
+
+    .preview-item{
+      border-radius:14px;
+      overflow:hidden;
+      border:1px solid rgba(212,175,55,0.18);
+      background:rgba(255,255,255,0.03);
+    }
+
+    .preview-item img{
+      width:100%;
+      height:90px;
+      object-fit:cover;
+      display:block;
+    }
+
+    .small-note{
+      color:rgba(255,255,255,0.72);
+      font-size:0.92rem;
+      margin-top:10px;
+      line-height:1.5;
+    }
+
+    .helper{
+      color:#e9d7aa;
+      font-size:0.96rem;
+      line-height:1.55;
+      margin:0 0 12px;
+    }
+
+    .mode-note{
+      margin-top:14px;
+      color:#ead8ad;
+      font-size:0.98rem;
+      line-height:1.6;
     }
 
     .agree-row{
@@ -203,7 +249,15 @@
       transform:scale(1.15);
     }
 
-    button{
+    .actions{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    button,
+    .link-btn{
       display:inline-block;
       border:none;
       border-radius:14px;
@@ -211,25 +265,33 @@
       font-size:1rem;
       font-weight:bold;
       cursor:pointer;
+      text-decoration:none;
       color:#111;
       background:linear-gradient(135deg, #caa437, #f5d98c);
       box-shadow:0 8px 26px rgba(212,175,55,0.24);
       transition:transform 0.18s ease, box-shadow 0.18s ease;
     }
 
-    button:hover{
+    button:hover,
+    .link-btn:hover{
       transform:translateY(-1px);
       box-shadow:0 12px 30px rgba(212,175,55,0.30);
     }
 
-    .top-logo{
-      display:none;
+    .link-btn.secondary{
+      color:#f3deae;
+      background:rgba(20,12,4,0.50);
+      border:1px solid rgba(212,175,55,0.32);
+      box-shadow:none;
     }
 
-    .small-note{
-      color:rgba(255,255,255,0.62);
-      font-size:0.92rem;
-      margin-top:10px;
+    .link-btn.secondary:hover{
+      background:rgba(50,30,10,0.75);
+      box-shadow:none;
+    }
+
+    .hidden{
+      display:none !important;
     }
 
     @media (min-width:860px){
@@ -253,8 +315,14 @@
         padding:20px 16px;
       }
 
-      button{
+      button,
+      .link-btn{
         width:100%;
+        text-align:center;
+      }
+
+      .actions{
+        flex-direction:column;
       }
     }
   </style>
@@ -265,10 +333,9 @@
 
     <div class="hero-card">
       <div class="brand">MyStoryChip Setup</div>
-      <h1>Set Up Your Chip</h1>
-      <p>
-        You’re almost done. Add the details,story,and uploads that will bring your
-        MyStoryChip to life.
+      <h1 id="pageTitle">Set Up Your Chip</h1>
+      <p id="pageLead">
+        Add the details, story, and uploads that bring your MyStoryChip to life.
       </p>
 
       <div class="progress">
@@ -276,12 +343,12 @@
         <div class="progress-pill">Step 2: Add Story</div>
         <div class="progress-pill">Step 3: Upload & Save</div>
       </div>
+
+      <div class="mode-note" id="modeNote"></div>
     </div>
 
     <form id="form">
-      <input type="hidden" id="chipCode">
-
-      <div class="grid-two">
+      <div class="grid-two" id="detailsSection">
         <div class="card">
           <h2>Basic Info</h2>
 
@@ -294,20 +361,18 @@
           <label for="title">Chip Title</label>
           <input type="text" id="title" placeholder="Example: Dad's Story" required>
 
-<label for="category">Category</label>
-<select id="category" onchange="toggleCustomCategory()">
-  <option>Family Memories</option>
-  <option>Memorial</option>
-  <option>Wedding / Graduation</option>
-  <option>Auto / Restoration</option>
-  <option>Collection</option>
-  <option>Business</option>
-  <option value="custom">Other (Custom)</option>
-</select>
-
-<input type="text" id="customCategory" placeholder="Enter your category" style="display:none;">         
-
+          <label for="category">Category</label>
+          <select id="category">
+            <option value="Family Memories">Family Memories</option>
+            <option value="Memorial">Memorial</option>
+            <option value="Wedding / Graduation">Wedding / Graduation</option>
+            <option value="Auto / Restoration">Auto / Restoration</option>
+            <option value="Collection">Collection</option>
+            <option value="Business">Business</option>
+            <option value="custom">Other (Custom)</option>
           </select>
+
+          <input type="text" id="customCategory" placeholder="Enter your category" class="hidden">
         </div>
 
         <div class="card">
@@ -322,13 +387,16 @@
       </div>
 
       <div class="card">
-        <h2>Uploads</h2>
+        <h2 id="uploadHeading">Uploads</h2>
+        <p class="helper" id="uploadHelper">
+          Add one or more photos now, or come back later and add more.
+        </p>
 
         <div class="upload">
-          <input type="file" id="files" multiple>
+          <input type="file" id="files" multiple accept="image/*">
         </div>
 
-        <p id="usage">0 MB / 250 MB used</p>
+        <p id="usage">0 photos selected • 0.00 MB of 250 MB used</p>
 
         <div class="meter">
           <div class="fill" id="fill"></div>
@@ -337,167 +405,254 @@
         <div class="small-note">
           You currently receive 250 MB of included storage with your chip.
         </div>
+
+        <div id="previewGrid" class="preview-grid"></div>
       </div>
 
       <div class="card">
         <h2>Agreement</h2>
 
-        <label class="agree-row">
+        <label class="agree-row" id="agreeRow">
           <input type="checkbox" id="agree" required>
           <span>I agree to the content rules and disclaimer.</span>
         </label>
 
-        <button type="submit">Save My Chip</button>
+        <div class="actions">
+          <button type="submit" id="saveBtn">Save My Chip</button>
+          <a href="chip.html" class="link-btn secondary">Back to Viewer</a>
+        </div>
       </div>
     </form>
 
   </div>
 
   <script>
-    function loadExistingChip() {
-  const chips = JSON.parse(localStorage.getItem("mscChips")) || [];
-  const existingChip = chips[chips.length - 1];
+    const STORAGE_KEY = "mscChips";
+    const STORAGE_LIMIT_MB = 250;
 
-  if (!existingChip) return;
+    function getMode() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("mode") || "full";
+    }
 
-  const nameField = document.getElementById("name");
-  const emailField = document.getElementById("email");
-  const categoryField = document.getElementById("category");
-  const headlineField = document.getElementById("headline");
-  const descriptionField = document.getElementById("description");
+    function parseStoredChips() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      } catch (error) {
+        return [];
+      }
+    }
 
-  if (nameField) nameField.value = existingChip.fullName || existingChip.customerName || "";
-  if (emailField) emailField.value = existingChip.email || existingChip.customerEmail || "";
-  if (categoryField) categoryField.value = existingChip.category || "";
-  if (headlineField) headlineField.value = existingChip.headline || "";
-  if (descriptionField) descriptionField.value = existingChip.description || "";
-}
-const params = new URLSearchParams(window.location.search);
-const chip = params.get("chip");
-const filesInput = document.getElementById("files");
-const usage = document.getElementById("usage");
-const fill = document.getElementById("fill");
+    function getLatestChip(chips) {
+      if (!Array.isArray(chips) || chips.length === 0) return null;
+      return chips[chips.length - 1];
+    }
 
-const savedName = localStorage.getItem("mscName");
-const savedEmail = localStorage.getItem("mscEmail");
+    function toggleCustomCategory() {
+      const category = document.getElementById("category").value;
+      const customInput = document.getElementById("customCategory");
+      customInput.classList.toggle("hidden", category !== "custom");
+    }
 
-if (savedName) {
-  document.getElementById("name").value = savedName;
-}
+    function bytesToMB(bytes) {
+      return bytes / (1024 * 1024);
+    }
 
-if (savedEmail) {
-  document.getElementById("email").value = savedEmail;
-}
+    function estimateBase64Bytes(dataUrl) {
+      if (typeof dataUrl !== "string" || !dataUrl.includes(",")) return 0;
+      const base64 = dataUrl.split(",")[1] || "";
+      return Math.ceil((base64.length * 3) / 4);
+    }
 
-filesInput.addEventListener("change", () => {
-  let total = 0;
+    function getExistingStorageMB(chip) {
+      if (!chip || !Array.isArray(chip.images)) return 0;
+      const totalBytes = chip.images.reduce((sum, img) => sum + estimateBase64Bytes(img), 0);
+      return bytesToMB(totalBytes);
+    }
 
-  for (let f of filesInput.files) {
-    total += f.size;
-  }
+    function updateUsage(existingMB = 0, selectedFiles = []) {
+      const usage = document.getElementById("usage");
+      const fill = document.getElementById("fill");
 
-  let mb = total / (1024 * 1024);
-  let usedText = mb.toFixed(2);
-  let percent = Math.min((mb / 250) * 100, 100);
+      const selectedBytes = Array.from(selectedFiles).reduce((sum, file) => sum + file.size, 0);
+      const selectedMB = bytesToMB(selectedBytes);
+      const totalMB = existingMB + selectedMB;
+      const percent = Math.min((totalMB / STORAGE_LIMIT_MB) * 100, 100);
 
-  let fileNames = Array.from(filesInput.files)
-    .map(f => f.name)
-    .join(", ");
+      const photoCount = selectedFiles.length;
+      const label = photoCount === 1 ? "photo" : "photos";
 
-  if (fileNames) {
-    usage.textContent = "Selected: " + fileNames + " | " + usedText + " MB of 250 MB used";
-  } else {
-    usage.textContent = "0 MB / 250 MB used";
-  }
+      usage.textContent = `${photoCount} ${label} selected • ${totalMB.toFixed(2)} MB of ${STORAGE_LIMIT_MB} MB used`;
+      fill.style.width = percent + "%";
+    }
 
-  fill.style.width = percent + "%";
-});
+    function renderSelectedPreviews(files) {
+      const previewGrid = document.getElementById("previewGrid");
+      previewGrid.innerHTML = "";
 
-document.getElementById("form").addEventListener("submit", (e) => {
-  e.preventDefault();
+      Array.from(files).forEach((file) => {
+        if (!file.type.startsWith("image/")) return;
 
-  const STORAGE_KEY = "mscChips";
-  let chips = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-
-  let existingChip = chips.find(c => c.code === chip);
-
-  if (!existingChip) {
-    existingChip = { code: chip };
-    chips.push(existingChip);
-  }
-
-  existingChip.name = document.getElementById("name").value;
-  existingChip.email = document.getElementById("email").value;
-  existingChip.title = document.getElementById("title").value;
-
-  const selectedCategory = document.getElementById("category").value;
-  const customCategory = document.getElementById("customCategory").value;
-
-  if (selectedCategory === "custom" && customCategory) {
-    existingChip.category = customCategory;
-  } else {
-    existingChip.category = selectedCategory;
-  }
-
-  existingChip.headline = document.getElementById("headline").value;
-  existingChip.description = document.getElementById("desc").value;
-  existingChip.status = "setup_complete";
-
-    const files = filesInput.files;
-
-  if (!files || files.length === 0) {
-    existingChip.images = [];
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
-    window.location.href = "success.html";
-    return;
-  }
-
-  let imagePromises = [];
-
-  for (let i = 0; i < files.length; i++) {
-    const file = files[i];
-
-    imagePromises.push(
-      new Promise((resolve) => {
         const reader = new FileReader();
-
         reader.onload = function(e) {
-          resolve(e.target.result);
-        };
+          const item = document.createElement("div");
+          item.className = "preview-item";
 
-        reader.onerror = function() {
-          resolve(null);
-        };
+          const img = document.createElement("img");
+          img.src = e.target.result;
+          img.alt = file.name || "Preview";
 
+          item.appendChild(img);
+          previewGrid.appendChild(item);
+        };
         reader.readAsDataURL(file);
-      })
-    );
-  }
+      });
+    }
 
-  Promise.all(imagePromises).then((images) => {
-  const newImages = images.filter(Boolean);
+    function applyModeUI(mode) {
+      const detailsSection = document.getElementById("detailsSection");
+      const modeNote = document.getElementById("modeNote");
+      const pageTitle = document.getElementById("pageTitle");
+      const pageLead = document.getElementById("pageLead");
+      const uploadHeading = document.getElementById("uploadHeading");
+      const uploadHelper = document.getElementById("uploadHelper");
+      const agreeRow = document.getElementById("agreeRow");
+      const saveBtn = document.getElementById("saveBtn");
 
-  existingChip.images = Array.isArray(existingChip.images)
-    ? [...existingChip.images, ...newImages]
-    : newImages;
+      if (mode === "photos") {
+        detailsSection.classList.add("hidden");
+        agreeRow.classList.add("hidden");
+        document.getElementById("agree").checked = true;
+        document.getElementById("agree").required = false;
 
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
-  window.location.href = "success.html";
-}); 
-});
+        pageTitle.textContent = "Add More Photos";
+        pageLead.textContent = "You are adding more images to your current chip.";
+        uploadHeading.textContent = "Add Photos";
+        uploadHelper.textContent = "Choose one or more images below, then save to add them to your current chip.";
+        modeNote.textContent = "Photo mode is on. Your story and details stay as they are.";
+        saveBtn.textContent = "Save Photos";
+      } else {
+        detailsSection.classList.remove("hidden");
+        agreeRow.classList.remove("hidden");
+        document.getElementById("agree").required = true;
 
-function toggleCustomCategory() {
-  const category = document.getElementById("category").value;
-  const customInput = document.getElementById("customCategory");
+        pageTitle.textContent = "Set Up Your Chip";
+        pageLead.textContent = "Add the details, story, and uploads that bring your MyStoryChip to life.";
+        uploadHeading.textContent = "Uploads";
+        uploadHelper.textContent = "Add one or more photos now, or come back later and add more.";
+        modeNote.textContent = "Editing your current chip information and uploads.";
+        saveBtn.textContent = "Save My Chip";
+      }
+    }
 
-  if (category === "custom") {
-    customInput.style.display = "block";
-  } else {
-    customInput.style.display = "none";
-  }
-}
-    document.addEventListener("DOMContentLoaded", loadExistingChip);
-</script>
+    function loadExistingChip() {
+      const chips = parseStoredChips();
+      const chip = getLatestChip(chips);
+      if (!chip) return null;
 
+      document.getElementById("name").value = chip.fullName || chip.name || chip.customerName || "";
+      document.getElementById("email").value = chip.email || chip.customerEmail || "";
+      document.getElementById("title").value = chip.title || chip.name || "";
+      document.getElementById("headline").value = chip.headline || "";
+      document.getElementById("desc").value = chip.description || "";
+
+      const categorySelect = document.getElementById("category");
+      const customInput = document.getElementById("customCategory");
+      const knownCategories = Array.from(categorySelect.options).map(opt => opt.value);
+
+      if (chip.category && knownCategories.includes(chip.category)) {
+        categorySelect.value = chip.category;
+        customInput.value = "";
+        customInput.classList.add("hidden");
+      } else if (chip.category) {
+        categorySelect.value = "custom";
+        customInput.value = chip.category;
+        customInput.classList.remove("hidden");
+      }
+
+      return chip;
+    }
+
+    function readFilesAsDataUrls(files) {
+      const promises = Array.from(files).map((file) => {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (e) => resolve(e.target.result);
+          reader.onerror = () => resolve(null);
+          reader.readAsDataURL(file);
+        });
+      });
+
+      return Promise.all(promises);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const mode = getMode();
+      const filesInput = document.getElementById("files");
+      const form = document.getElementById("form");
+      const category = document.getElementById("category");
+
+      applyModeUI(mode);
+
+      const chip = loadExistingChip();
+      const existingMB = getExistingStorageMB(chip);
+      updateUsage(existingMB, []);
+      toggleCustomCategory();
+
+      category.addEventListener("change", toggleCustomCategory);
+
+      filesInput.addEventListener("change", () => {
+        renderSelectedPreviews(filesInput.files);
+        updateUsage(existingMB, filesInput.files);
+      });
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        let chips = parseStoredChips();
+        let existingChip = getLatestChip(chips);
+
+        if (!existingChip) {
+          existingChip = {
+            code: "MSC" + Date.now(),
+            images: []
+          };
+          chips.push(existingChip);
+        }
+
+        if (mode !== "photos") {
+          existingChip.fullName = document.getElementById("name").value.trim();
+          existingChip.name = document.getElementById("title").value.trim();
+          existingChip.title = document.getElementById("title").value.trim();
+          existingChip.email = document.getElementById("email").value.trim();
+
+          const selectedCategory = document.getElementById("category").value;
+          const customCategory = document.getElementById("customCategory").value.trim();
+
+          existingChip.category =
+            selectedCategory === "custom" && customCategory
+              ? customCategory
+              : selectedCategory;
+
+          existingChip.headline = document.getElementById("headline").value.trim();
+          existingChip.description = document.getElementById("desc").value.trim();
+        }
+
+        const files = filesInput.files;
+        if (files && files.length > 0) {
+          const loadedImages = await readFilesAsDataUrls(files);
+          const newImages = loadedImages.filter(Boolean);
+
+          existingChip.images = Array.isArray(existingChip.images)
+            ? [...existingChip.images, ...newImages]
+            : newImages;
+        }
+
+        existingChip.status = "setup_complete";
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
+        window.location.href = "success.html";
+      });
+    });
+  </script>
 </body>
 </html>
