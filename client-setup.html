@@ -393,7 +393,7 @@
         </p>
 
         <div class="upload">
-          <input type="file" id="files" multiple accept="image/*">
+    <input type="file" id="files" multiple accept="image/*,.pdf,.doc,.docx,.txt">      
         </div>
 
         <p id="usage">0 photos selected • 0.00 MB of 250 MB used</p>
@@ -574,13 +574,46 @@
     }
 
     function readFilesAsDataUrls(files) {
-      const promises = Array.from(files).map((file) => {
-        return new Promise((resolve) => {
-          const reader = new FileReader();
-          reader.onload = (e) => resolve(e.target.result);
-          reader.onerror = () => resolve(null);
-          reader.readAsDataURL(file);
-        });
+  const promises = Array.from(files).map((file) => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        img.src = e.target.result;
+      };
+
+      img.onload = function () {
+        // create canvas
+        const canvas = document.createElement("canvas");
+
+        // 🔧 resize logic (max width)
+        const MAX_WIDTH = 1200;
+        const scale = Math.min(MAX_WIDTH / img.width, 1);
+
+        canvas.width = img.width * scale;
+        canvas.height = img.height * scale;
+
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        // 🔧 compression (0.7 = good balance)
+        const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.7);
+
+        resolve(compressedDataUrl);
+      };
+
+      img.onerror = function () {
+        resolve(null);
+      };
+
+      reader.readAsDataURL(file);
+    });
+  });
+
+  return Promise.all(promises);
+}overs more and less likely to create issues down the roaad !
+    
       });
 
       return Promise.all(promises);
