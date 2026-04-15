@@ -395,6 +395,22 @@
           <a href="client-setup.html" class="cta secondary">Edit Story & Details</a>
           <a href="index.html" class="cta primary">Return Home</a>
         </div>
+        <div id="quickUploadPanel" style="display:none; margin-top:20px;" class="gallery-card">
+  <h2 class="section-title">Add More Photos</h2>
+
+  <div style="border:2px dashed rgba(212,175,55,0.28); background:rgba(255,255,255,0.02); padding:22px; text-align:center; border-radius:16px; margin-bottom:16px;">
+    <input type="file" id="quickFiles" multiple accept="image/*">
+  </div>
+
+  <p id="quickUploadText" class="empty-text" style="margin-bottom:14px;">
+    Choose one or more photos to add to this chip.
+  </p>
+
+  <div class="actions">
+    <button type="button" id="saveQuickPhotos" class="cta primary" style="border:none;">Save Photos</button>
+    <button type="button" id="cancelQuickPhotos" class="cta secondary" style="border:none;">Cancel</button>
+  </div>
+</div>
       </div>
 
       <div id="emptyState" class="empty-card">
