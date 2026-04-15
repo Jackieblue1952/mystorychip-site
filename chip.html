@@ -177,11 +177,12 @@
       white-space:pre-wrap;
     }
 
-    .gallery-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
-      gap:16px;
-    }
+   .gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, 130px);
+  gap:10px;
+  justify-content:start;
+} 
 
     .gallery-item{
       background:rgba(20,12,4,0.40);
@@ -453,8 +454,9 @@
 
     const item = document.createElement("div");
     item.style.width = "120px";
-    item.style.display = "inline-block";
-    item.style.margin = "8px";
+    item.style.display = "flex";
+    item.style.flexDirection = "column";
+    item.style.margin = "0";
     item.className = "gallery-item";
 
     const img = document.createElement("img");
@@ -465,7 +467,7 @@
     img.style.objectFit = "cover";
     img.style.borderRadius = "10px";
     img.style.display = "block";
-    img.style.margin = "0 auto 16px";
+    img.style.margin = "0 auto 8px";
     img.style.cursor = "pointer";
 
     img.addEventListener("click", () => {
