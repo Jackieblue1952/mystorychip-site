@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Purchase Complete - MyStoryChip</title>
+  <title>MyStoryChip Saved</title>
   <style>
     *{
       box-sizing:border-box;
@@ -111,9 +111,6 @@
       font-size:clamp(1.15rem, 2.1vw, 1.55rem);
       line-height:1.6;
       color:#f0ddb2;
-      text-shadow:
-        0 0 10px rgba(0,0,0,0.75),
-        0 0 24px rgba(0,0,0,0.92);
     }
 
     .sub{
@@ -122,9 +119,6 @@
       font-size:clamp(1rem, 1.7vw, 1.15rem);
       line-height:1.7;
       color:#ead8ad;
-      text-shadow:
-        0 0 10px rgba(0,0,0,0.78),
-        0 0 20px rgba(0,0,0,0.95);
     }
 
     .status-row{
@@ -195,9 +189,6 @@
       margin-top:22px;
       font-size:0.98rem;
       color:#d8c79c;
-      text-shadow:
-        0 0 8px rgba(0,0,0,0.70),
-        0 0 18px rgba(0,0,0,0.90);
     }
 
     @media (max-width: 700px){
@@ -238,34 +229,35 @@
 <body>
 
   <div class="nav">
-    <a href="story-new.html">Story</a>
-    <a href="uses.html">Uses</a>
     <a href="index.html">Home</a>
+    <a href="client-setup.html">Edit Details</a>
+    <a href="chip.html">View Chip</a>
   </div>
 
   <div class="wrap">
     <div class="card">
-      <div class="eyebrow">MyStoryChip Complete</div>
+      <div class="eyebrow">MyStoryChip Saved</div>
 
       <h1>Your Chip Is Ready</h1>
 
       <p class="lead">
-        Your MyStoryChip has been successfully created and your story has been saved.
+        Your story, details, and uploads have been saved.
       </p>
 
       <p class="sub">
-        You can update your chip anytime, add more memories, and share it whenever you're ready.
+        You can view your chip now, add more photos, or come back later and update the details anytime.
       </p>
 
       <div class="status-row">
-        <div class="status-pill">Chip created</div>
         <div class="status-pill">Story saved</div>
-        <div class="status-pill">Ready anytime</div>
+        <div class="status-pill">Photos saved</div>
+        <div class="status-pill">Ready to view</div>
       </div>
 
       <div class="actions">
-        <a href="index.html" class="cta primary">Return Home</a>
-       <a href="chip.html" class="cta secondary">View Your Chip</a> 
+        <a href="chip.html" class="cta primary">View Your Chip</a>
+        <a href="client-setup.html?mode=photos" class="cta secondary">Add More Photos</a>
+        <a href="index.html" class="cta secondary">Return Home</a>
       </div>
 
       <div class="note">
