@@ -594,6 +594,103 @@
           }
         });
       }
+            const addPhotosBtn = document.getElementById("addPhotosBtn");
+      const quickUploadPanel = document.getElementById("quickUploadPanel");
+      const cancelQuickPhotos = document.getElementById("cancelQuickPhotos");
+      const saveQuickPhotos = document.getElementById("saveQuickPhotos");
+      const quickFiles = document.getElementById("quickFiles");
+      const quickUploadText = document.getElementById("quickUploadText");
+
+      if (addPhotosBtn && quickUploadPanel) {
+        addPhotosBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          quickUploadPanel.style.display = "block";
+        });
+      }
+
+      if (cancelQuickPhotos && quickUploadPanel) {
+        cancelQuickPhotos.addEventListener("click", () => {
+          quickUploadPanel.style.display = "none";
+          quickFiles.value = "";
+          quickUploadText.textContent = "Choose one or more photos to add to this chip.";
+        });
+      }
+
+      if (quickFiles && quickUploadText) {
+        quickFiles.addEventListener("change", () => {
+          const count = quickFiles.files.length;
+          quickUploadText.textContent = count === 0
+            ? "Choose one or more photos to add to this chip."
+            : `${count} photo${count === 1 ? "" : "s"} selected`;
+        });
+      }
+
+      if (saveQuickPhotos && quickFiles) {
+        saveQuickPhotos.addEventListener("click", async () => {
+          const files = quickFiles.files;
+          if (!files || files.length === 0) {
+            quickUploadText.textContent = "Please choose at least one photo first.";
+            return;
+          }
+
+          quickUploadText.textContent = "Saving photos...";
+
+          const chips = parseStoredChips();
+          const chip = getLatestChip(chips);
+
+          if (!chip) {
+            quickUploadText.textContent = "No chip found to update.";
+            return;
+          }
+
+          const loadedImages = await Promise.all(
+            Array.from(files).map((file) => {
+              return new Promise((resolve) => {
+                const img = new Image();
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                  img.src = e.target.result;
+                };
+
+                img.onload = function () {
+                  const canvas = document.createElement("canvas");
+                  const MAX_WIDTH = 1200;
+                  const scale = Math.min(MAX_WIDTH / img.width, 1);
+
+                  canvas.width = img.width * scale;
+                  canvas.height = img.height * scale;
+
+                  const ctx = canvas.getContext("2d");
+                  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                  const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.7);
+                  resolve(compressedDataUrl);
+                };
+
+                img.onerror = function () {
+                  resolve(null);
+                };
+
+                reader.readAsDataURL(file);
+              });
+            })
+          );
+
+          const newImages = loadedImages.filter(Boolean);
+
+          chip.images = Array.isArray(chip.images)
+            ? [...chip.images, ...newImages]
+            : newImages;
+
+          localStorage.setItem("mscChips", JSON.stringify(chips));
+          renderGallery(chip.images);
+
+          quickFiles.value = "";
+          quickUploadPanel.style.display = "none";
+          quickUploadText.textContent = "Choose one or more photos to add to this chip.";
+        });
+      }
     });
   </script>
 
