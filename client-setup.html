@@ -462,10 +462,18 @@
   <script>
     const params = new URLSearchParams(window.location.search);
 const chipCode = params.get("code");
-    const STORAGE_KEY = "mscChips";
-    const STORAGE_LIMIT_MB = 250;
-    let chips = parseStoredChips();
-
+const STORAGE_KEY = "mscChips";
+const STORAGE_LIMIT_MB = 250;
+let chips = parseStoredChips();
+let existingChip = chips.find(c => c.code === chipCode);
+    
+if (!existingChip) {
+  existingChip = {
+    code: chipCode,
+    images: []
+  };
+  chips.push(existingChip);
+}
     function getMode() {
       const params = new URLSearchParams(window.location.search);
       return params.get("mode") || "full";
