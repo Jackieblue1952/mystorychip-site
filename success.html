@@ -223,48 +223,62 @@
         padding:8px 12px;
         font-size:12px;
       }
-    }
+  
   </style>
 </head>
 <body>
 
   <div class="nav">
-    <a href="index.html">Home</a>
-    <a href="client-setup.html">Edit Details</a>
-    <a href="chip.html">View Chip</a>
-  </div>
+  <a href="index.html">Home</a>
+  <a id="editDetailsTopBtn" href="client-setup.html">Edit Details</a>
+  <a id="viewChipTopBtn" href="chip.html">View Chip</a>
+</div>
 
   <div class="wrap">
-    <div class="card">
-      <div class="eyebrow">MyStoryChip Saved</div>
+  <div class="card">
+  <div class="eyebrow">MyStoryChip Saved</div>
 
-      <h1>Your Chip Is Ready</h1>
+  <h1>Your Chip Is Ready</h1>
 
-      <p class="lead">
-        Your story, details, and uploads have been saved.
-      </p>
+  <p class="lead">
+   Your story, details, and uploads have been saved.
+  </p>
 
-      <p class="sub">
-        You can view your chip now, add more photos, or come back later and update the details anytime.
-      </p>
+ <p class="sub">
+  You can view your chip now, add more photos, or come back later and update the details anytime.
+</p>
 
-      <div class="status-row">
-        <div class="status-pill">Story saved</div>
-        <div class="status-pill">Photos saved</div>
-        <div class="status-pill">Ready to view</div>
-      </div>
+<div class="status-row">
+<div class="status-pill">Story saved</div>
+<div class="status-pill">Photos saved</div>
+<div class="status-pill">Ready to view</div>
+</div>
 
-      <div class="actions">
-        <a href="chip.html" class="cta primary">View Your Chip</a>
-        <a href="client-setup.html?mode=photos" class="cta secondary">Add More Photos</a>
-        <a href="index.html" class="cta secondary">Return Home</a>
-      </div>
+  <div class="actions">
+  <a id="viewChipBtn" href="chip.html" class="cta primary">View Your Chip</a>
+  <a id="addPhotosBtn" href="client-setup.html?mode=photos" class="cta secondary">Add More Photos</a>
+  <a href="index.html" class="cta secondary">Return Home</a>
+</div>
 
-      <div class="note">
-        Thank you for building your story with MyStoryChip.
-      </div>
-    </div>
-  </div>
+  <div class="note">
+  Thank you for building your story with MyStoryChip.
+</div>
+</div>
+</div>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const chipCode = params.get("code");
+document.getElementById("viewChipTopBtn").href = "chip.html?code=" + chipCode;
+document.getElementById("editDetailsTopBtn").href = "client-setup.html?code=" + chipCode;
+
+document.getElementById("viewChipBtn").href = "chip.html?code=" + chipCode;
+document.getElementById("addPhotosBtn").href = "client-setup.html?code=" + chipCode + "&mode=photos";
+</script>
+
+</body>
+</html>
 
 </body>
 </html>
