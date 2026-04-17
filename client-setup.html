@@ -474,6 +474,29 @@ if (!existingChip) {
   };
   chips.push(existingChip);
 }
+        if (existingChip.name) {
+  document.getElementById("name").value = existingChip.name;
+}
+
+if (existingChip.email) {
+  document.getElementById("email").value = existingChip.email;
+}
+
+if (existingChip.title) {
+  document.getElementById("title").value = existingChip.title;
+}
+
+if (existingChip.category) {
+  document.getElementById("category").value = existingChip.category;
+}
+
+if (existingChip.headline) {
+  document.getElementById("headline").value = existingChip.headline;
+}
+
+if (existingChip.desc) {
+  document.getElementById("desc").value = existingChip.desc;
+} 
     function getMode() {
       const params = new URLSearchParams(window.location.search);
       return params.get("mode") || "full";
@@ -708,35 +731,30 @@ if (!existingChip) {
 
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
+existingChip.name = document.getElementById("name").value;
+existingChip.email = document.getElementById("email").value;
+existingChip.title = document.getElementById("title").value;
+existingChip.category = document.getElementById("category").value;
+existingChip.headline = document.getElementById("headline").value;
+existingChip.desc = document.getElementById("desc").value;
+existingChip.updatedAt = new Date().toISOString();
 
-        let chips = parseStoredChips();
-        let existingChip = chips.length ? chips[0] : null;
+   
+   
 
-        if (!existingChip) {
-          existingChip = {
-            code: "MSC" + Date.now(),
-            images: []
-          };
-          chips.push(existingChip);
-        }
+       if (mode !== "photos") {
+  existingChip.fullName = document.getElementById("name").value.trim();
 
-        if (mode !== "photos") {
-          existingChip.fullName = document.getElementById("name").value.trim();
-          existingChip.name = document.getElementById("title").value.trim();
-          existingChip.title = document.getElementById("title").value.trim();
-          existingChip.email = document.getElementById("email").value.trim();
+  const selectedCategory = document.getElementById("category").value;
+  const customCategory = document.getElementById("customCategory").value.trim();
 
-          const selectedCategory = document.getElementById("category").value;
-          const customCategory = document.getElementById("customCategory").value.trim();
+  existingChip.category =
+    selectedCategory === "custom" && customCategory
+      ? customCategory
+      : selectedCategory;
 
-          existingChip.category =
-            selectedCategory === "custom" && customCategory
-              ? customCategory
-              : selectedCategory;
-
-          existingChip.headline = document.getElementById("headline").value.trim();
-          existingChip.description = document.getElementById("desc").value.trim();
-        }
+  existingChip.description = document.getElementById("desc").value.trim();
+} 
 
         const files = filesInput.files;
         if (files && files.length > 0) {
@@ -750,7 +768,7 @@ if (!existingChip) {
 
         existingChip.status = "setup_complete";
         localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
-        window.location.href = "success.html";
+       window.location.href = "success.html?code=" + chipCode;
       });
     });
   </script>
