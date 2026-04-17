@@ -460,8 +460,11 @@
   </div>
 
   <script>
+    const params = new URLSearchParams(window.location.search);
+const chipCode = params.get("code");
     const STORAGE_KEY = "mscChips";
     const STORAGE_LIMIT_MB = 250;
+    let chips = parseStoredChips();
 
     function getMode() {
       const params = new URLSearchParams(window.location.search);
