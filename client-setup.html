@@ -798,7 +798,15 @@ existingChip.pin = document.getElementById("pin").value.trim();
    ? [...existingChip.images, ...newImages]
   : newImages;
   }
+if (!existingChip.phone) {
+  alert("Phone number is required.");
+  return;
+}
 
+if (!/^[0-9]{4}$/.test(existingChip.pin)) {
+  alert("PIN must be exactly 4 digits.");
+  return;
+}
  existingChip.status = "setup_complete";
  localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
  window.location.href = "success.html?code=" + chipCode;
