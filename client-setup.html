@@ -387,8 +387,30 @@
           <label for="email">Email</label>
           <input type="email" id="email" required>
 
-          <label for="title">Chip Title</label>
-          <input type="text" id="title" placeholder="Example: Dad's Story" required>
+   <div class="form-group">
+  <label for="phone">Phone Number</label>
+  <input
+    type="tel"
+    id="phone"
+    name="phone"
+    placeholder="Enter phone number"
+    required
+  >
+</div>
+
+<div class="form-group">
+  <label for="pin">4-Digit PIN</label>
+  <input
+    type="password"
+    id="pin"
+    name="pin"
+    placeholder="Create 4-digit PIN"
+    maxlength="4"
+    inputmode="numeric"
+    pattern="[0-9]{4}"
+    required
+  >
+</div>     
 
           <label for="category">Category</label>
           <select id="category">
