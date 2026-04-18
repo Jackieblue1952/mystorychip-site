@@ -389,13 +389,16 @@
 
    <div class="form-group">
   <label for="phone">Phone Number</label>
-  <input
-    type="tel"
-    id="phone"
-    name="phone"
-    placeholder="Enter phone number"
-    required
-  >
+ <input
+  type="text"
+  id="pin"
+  name="pin"
+  placeholder="Create 4-digit PIN"
+  maxlength="4"
+  inputmode="numeric"
+  pattern="[0-9]{4}"
+  required
+> 
 </div>
 
 <div class="form-group">
@@ -761,11 +764,13 @@ existingChip.headline = document.getElementById("headline").value;
 existingChip.desc = document.getElementById("desc").value;
 existingChip.updatedAt = new Date().toISOString();
 
-   
-   
-
-       if (mode !== "photos") {
+   if (mode !== "photos") {
   existingChip.fullName = document.getElementById("name").value.trim();
+     
+  existingChip.phone = document.getElementById("phone").value.trim();
+existingChip.pin = document.getElementById("pin").value.trim();   
+  existingChip.phone = document.getElementById("phone").value.trim();
+  existingChip.pin = document.getElementById("pin").value.trim();
 
   const selectedCategory = document.getElementById("category").value;
   const customCategory = document.getElementById("customCategory").value.trim();
@@ -777,20 +782,26 @@ existingChip.updatedAt = new Date().toISOString();
 
   existingChip.description = document.getElementById("desc").value.trim();
 } 
+  if (mode !== "photos") {
+  if (!/^[0-9]{4}$/.test(existingChip.pin)) {
+    alert("PIN must be exactly 4 digits.");
+    return;
+  }
+}      
 
-        const files = filesInput.files;
-        if (files && files.length > 0) {
-          const loadedImages = await readFilesAsDataUrls(files);
-          const newImages = loadedImages.filter(Boolean);
+   const files = filesInput.files;
+  if (files && files.length > 0) {
+   const loadedImages = await readFilesAsDataUrls(files);
+   const newImages = loadedImages.filter(Boolean);
 
-          existingChip.images = Array.isArray(existingChip.images)
-            ? [...existingChip.images, ...newImages]
-            : newImages;
-        }
+    existingChip.images = Array.isArray(existingChip.images)
+   ? [...existingChip.images, ...newImages]
+  : newImages;
+  }
 
-        existingChip.status = "setup_complete";
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
-       window.location.href = "success.html?code=" + chipCode;
+ existingChip.status = "setup_complete";
+ localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
+ window.location.href = "success.html?code=" + chipCode;
       });
     });
   </script>
