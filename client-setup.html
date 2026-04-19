@@ -205,20 +205,60 @@
       transition: width 0.2s ease;
     }
 
-    .preview-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 14px;
+    .saved-photos-wrap {
+      margin: 16px 0 18px;
+      display: none;
     }
 
-    .preview-grid img {
-      width: 100px;
-      height: 100px;
+    .saved-photos-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    .photo-tile {
+      position: relative;
+      width: 118px;
+      height: 118px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(212,175,55,0.28);
+      background: rgba(255,255,255,0.04);
+      box-shadow: 0 0 12px rgba(0,0,0,0.28);
+    }
+
+    .photo-thumb {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      border-radius: 12px;
-      border: 1px solid rgba(212,175,55,0.25);
-      box-shadow: 0 0 10px rgba(0,0,0,0.35);
+      display: block;
+      cursor: pointer;
+    }
+
+    .photo-remove {
+      position: absolute;
+      top: 6px;
+      right: 8px;
+      background: transparent;
+      border: none;
+      color: #f5d97a;
+      font-size: 18px;
+      font-weight: bold;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0;
+      text-shadow: 0 0 8px rgba(0,0,0,0.95);
+    }
+
+    .photo-remove:hover {
+      color: #ffffff;
+    }
+
+    .empty-photos {
+      color: #cdbb8f;
+      font-style: italic;
+      margin-top: 10px;
     }
 
     .agree-row {
@@ -279,6 +319,65 @@
       word-break: break-word;
     }
 
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.86);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 9999;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox-panel {
+      position: relative;
+      max-width: min(92vw, 1100px);
+      max-height: 88vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox-img {
+      display: block;
+      max-width: 92vw;
+      max-height: 88vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 16px;
+      border: 1px solid rgba(212,175,55,0.25);
+      box-shadow: 0 0 28px rgba(0,0,0,0.5);
+      background: #111;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -12px;
+      right: -4px;
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      border: 1px solid rgba(212,175,55,0.32);
+      background: rgba(20,12,4,0.86);
+      color: #f5d97a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .lightbox-close:hover {
+      color: #fff;
+    }
+
     @media (max-width: 860px) {
       .grid-two {
         grid-template-columns: 1fr;
@@ -304,6 +403,16 @@
       .link-btn {
         width: 100%;
         text-align: center;
+      }
+
+      .photo-tile {
+        width: 96px;
+        height: 96px;
+      }
+
+      .lightbox-close {
+        top: -10px;
+        right: 0;
       }
     }
   </style>
@@ -382,9 +491,10 @@
           Add one or more photos now, or come back later and add more.
         </p>
 
-        <div id="existingPhotosWrap" style="margin-bottom:16px; display:none;">
-          <p class="helper" style="margin-bottom:10px;">Current Saved Photos</p>
-          <div id="existingPhotosGrid" class="preview-grid"></div>
+        <div id="savedPhotosWrap" class="saved-photos-wrap">
+          <p class="helper">Current Saved Photos</p>
+          <div id="savedPhotosGrid" class="saved-photos-grid"></div>
+          <div id="emptyPhotos" class="empty-photos hidden">No saved photos yet.</div>
         </div>
 
         <div class="upload">
@@ -400,8 +510,6 @@
         <div class="small-note">
           You currently receive 250 MB of included storage with your chip.
         </div>
-
-        <div id="previewGrid" class="preview-grid"></div>
       </div>
 
       <div class="card">
@@ -414,117 +522,312 @@
 
         <div class="actions">
           <button type="submit" id="saveBtn">Save My Chip</button>
-          <a href="chip.html" class="link-btn secondary">Back to Viewer</a>
+          <a href="chip.html" id="viewerLink" class="link-btn secondary">Back to Viewer</a>
         </div>
       </div>
     </form>
 
   </div>
 
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-panel">
+      <button type="button" class="lightbox-close" id="lightboxClose">×</button>
+      <img id="lightboxImg" class="lightbox-img" src="" alt="Photo preview">
+    </div>
+  </div>
+
   <script>
-const params = new URLSearchParams(window.location.search);
-const chipCode = params.get("code");
-const STORAGE_KEY = "mscChips";
+    const params = new URLSearchParams(window.location.search);
+    const chipCode = params.get("code");
+    const STORAGE_KEY = "mscChips";
+    const STORAGE_LIMIT_MB = 250;
 
-let chips = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-let existingChip = chips.find(c => c.code === chipCode);
+    function parseStoredChips() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      } catch (error) {
+        return [];
+      }
+    }
 
-if (!existingChip) {
-  existingChip = { code: chipCode, images: [] };
-  chips.push(existingChip);
-}
+    let chips = parseStoredChips();
+    let existingChip = chips.find(c => c.code === chipCode);
 
-/* 🔥 MASTER IMAGE ARRAY */
-let workingImages = Array.isArray(existingChip.images)
-  ? [...existingChip.images]
-  : [];
+    if (!existingChip && chipCode) {
+      existingChip = {
+        code: chipCode,
+        images: []
+      };
+      chips.push(existingChip);
+    }
 
-function renderImages() {
-  const grid = document.getElementById("existingPhotosGrid");
-  const wrap = document.getElementById("existingPhotosWrap");
+    function getMode() {
+      const localParams = new URLSearchParams(window.location.search);
+      return localParams.get("mode") || "full";
+    }
 
-  grid.innerHTML = "";
+    function toggleCustomCategory() {
+      const category = document.getElementById("category");
+      const customCategory = document.getElementById("customCategory");
 
-  if (workingImages.length === 0) {
-    wrap.style.display = "none";
-    return;
-  }
+      if (category.value === "custom") {
+        customCategory.classList.remove("hidden");
+      } else {
+        customCategory.classList.add("hidden");
+        customCategory.value = "";
+      }
+    }
 
-  wrap.style.display = "block";
+    function uniqueImages(images) {
+      return [...new Set((images || []).filter(Boolean))];
+    }
 
-  workingImages.forEach((src, index) => {
-    const container = document.createElement("div");
-    container.style.position = "relative";
+    let workingImages = uniqueImages(existingChip && Array.isArray(existingChip.images) ? existingChip.images : []);
 
-    const img = document.createElement("img");
-    img.src = src;
+    function getStorageMBFromImages(images) {
+      let totalBytes = 0;
+      images.forEach(src => {
+        if (typeof src === "string") {
+          totalBytes += src.length;
+        }
+      });
+      return totalBytes / (1024 * 1024);
+    }
 
-    const removeBtn = document.createElement("button");
-  removeBtn.innerHTML = "✕";
-removeBtn.style.position = "absolute";
-removeBtn.style.top = "6px";
-removeBtn.style.right = "8px";
-removeBtn.style.background = "transparent";
-removeBtn.style.color = "#f5d97a";
-removeBtn.style.border = "none";
-removeBtn.style.fontSize = "16px";
-removeBtn.style.fontWeight = "bold";
-removeBtn.style.cursor = "pointer";
-removeBtn.style.textShadow = "0 0 6px rgba(0,0,0,0.8)";
-removeBtn.onmouseover = () => removeBtn.style.color = "#ffffff";
-removeBtn.onmouseout = () => removeBtn.style.color = "#f5d97a";    
+    function updateUsage(selectedCount = 0) {
+      const usage = document.getElementById("usage");
+      const fill = document.getElementById("fill");
 
-    removeBtn.onclick = () => {
-      workingImages.splice(index, 1);
-      renderImages();
-    };
+      const totalMB = getStorageMBFromImages(workingImages);
+      const percent = Math.min((totalMB / STORAGE_LIMIT_MB) * 100, 100);
 
-    container.appendChild(img);
-    container.appendChild(removeBtn);
-    grid.appendChild(container);
-  });
-}
+      usage.textContent = `${selectedCount} new photos selected • ${totalMB.toFixed(2)} MB of ${STORAGE_LIMIT_MB} MB used`;
+      fill.style.width = percent + "%";
+    }
 
-function readFiles(files) {
-  return Promise.all(
-    Array.from(files).map(file => {
-      return new Promise(resolve => {
-        if (!file.type.startsWith("image/")) {
-          resolve(null);
+    function openLightbox(src) {
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImg = document.getElementById("lightboxImg");
+      lightboxImg.src = src;
+      lightbox.classList.add("active");
+    }
+
+    function closeLightbox() {
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImg = document.getElementById("lightboxImg");
+      lightbox.classList.remove("active");
+      lightboxImg.src = "";
+    }
+
+    function renderSavedPhotos() {
+      const wrap = document.getElementById("savedPhotosWrap");
+      const grid = document.getElementById("savedPhotosGrid");
+      const empty = document.getElementById("emptyPhotos");
+
+      grid.innerHTML = "";
+
+      wrap.style.display = "block";
+
+      if (workingImages.length === 0) {
+        empty.classList.remove("hidden");
+        return;
+      }
+
+      empty.classList.add("hidden");
+
+      workingImages.forEach((src, index) => {
+        const tile = document.createElement("div");
+        tile.className = "photo-tile";
+
+        const img = document.createElement("img");
+        img.className = "photo-thumb";
+        img.src = src;
+        img.alt = "Saved photo";
+        img.addEventListener("click", () => openLightbox(src));
+
+        const removeBtn = document.createElement("button");
+        removeBtn.type = "button";
+        removeBtn.className = "photo-remove";
+        removeBtn.setAttribute("aria-label", "Remove photo");
+        removeBtn.textContent = "×";
+        removeBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          workingImages.splice(index, 1);
+          renderSavedPhotos();
+          updateUsage(0);
+        });
+
+        tile.appendChild(img);
+        tile.appendChild(removeBtn);
+        grid.appendChild(tile);
+      });
+    }
+
+    function readFilesAsDataUrls(files) {
+      const imageFiles = Array.from(files).filter(file => file.type.startsWith("image/"));
+
+      return Promise.all(imageFiles.map(file => {
+        return new Promise(resolve => {
+          const reader = new FileReader();
+          reader.onload = e => resolve(e.target.result);
+          reader.onerror = () => resolve(null);
+          reader.readAsDataURL(file);
+        });
+      }));
+    }
+
+    function applyModeUI(mode) {
+      const modeNote = document.getElementById("modeNote");
+      const uploadHeading = document.getElementById("uploadHeading");
+      const uploadHelper = document.getElementById("uploadHelper");
+
+      if (mode === "photos") {
+        modeNote.textContent = "Editing your current chip information and uploads.";
+        uploadHeading.textContent = "Add More Photos";
+        uploadHelper.textContent = "Add more photos to this chip and save again.";
+      } else {
+        modeNote.textContent = "";
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const mode = getMode();
+      const filesInput = document.getElementById("files");
+      const form = document.getElementById("form");
+      const category = document.getElementById("category");
+      const debugChip = document.getElementById("debugChip");
+      const viewerLink = document.getElementById("viewerLink");
+      const lightbox = document.getElementById("lightbox");
+      const lightboxClose = document.getElementById("lightboxClose");
+
+      if (viewerLink && chipCode) {
+        viewerLink.href = `chip.html?code=${encodeURIComponent(chipCode)}`;
+      }
+
+      if (debugChip) {
+        debugChip.textContent = chipCode
+          ? `Chip Code: ${chipCode}`
+          : "No chip code found in URL.";
+      }
+
+      if (!chipCode) {
+        alert("Missing chip code in URL.");
+      }
+
+      if (existingChip) {
+        if (existingChip.name) document.getElementById("name").value = existingChip.name;
+        if (existingChip.email) document.getElementById("email").value = existingChip.email;
+        if (existingChip.phone) document.getElementById("phone").value = existingChip.phone;
+        if (existingChip.pin) document.getElementById("pin").value = existingChip.pin;
+        if (existingChip.title) document.getElementById("title").value = existingChip.title;
+        if (existingChip.category) {
+          const categorySelect = document.getElementById("category");
+          const optionValues = Array.from(categorySelect.options).map(option => option.value);
+
+          if (optionValues.includes(existingChip.category)) {
+            categorySelect.value = existingChip.category;
+          } else {
+            categorySelect.value = "custom";
+            document.getElementById("customCategory").value = existingChip.category;
+          }
+        }
+        if (existingChip.headline) document.getElementById("headline").value = existingChip.headline;
+        if (existingChip.desc) document.getElementById("desc").value = existingChip.desc;
+        if (existingChip.description && !existingChip.desc) {
+          document.getElementById("desc").value = existingChip.description;
+        }
+      }
+
+      applyModeUI(mode);
+      toggleCustomCategory();
+      renderSavedPhotos();
+      updateUsage(0);
+
+      category.addEventListener("change", toggleCustomCategory);
+
+      filesInput.addEventListener("change", async () => {
+        const selectedCount = filesInput.files ? filesInput.files.length : 0;
+        const loadedImages = await readFilesAsDataUrls(filesInput.files);
+        const newImages = uniqueImages(loadedImages);
+        workingImages = uniqueImages([...workingImages, ...newImages]);
+        renderSavedPhotos();
+        updateUsage(selectedCount);
+        filesInput.value = "";
+      });
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        if (!chipCode) {
+          alert("Missing chip code in URL.");
           return;
         }
 
-        const reader = new FileReader();
-        reader.onload = e => resolve(e.target.result);
-        reader.readAsDataURL(file);
+        const agree = document.getElementById("agree").checked;
+        const fullName = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        const pin = document.getElementById("pin").value.trim();
+        const title = document.getElementById("title").value.trim();
+        const headline = document.getElementById("headline").value.trim();
+        const desc = document.getElementById("desc").value;
+        const selectedCategory = document.getElementById("category").value;
+        const customCategory = document.getElementById("customCategory").value.trim();
+
+        if (!fullName) {
+          alert("Full Name is required.");
+          return;
+        }
+
+        if (!phone) {
+          alert("Phone number is required.");
+          return;
+        }
+
+        if (!/^[0-9]{4}$/.test(pin)) {
+          alert("PIN must be exactly 4 digits.");
+          return;
+        }
+
+        if (!title) {
+          alert("Chip Title is required.");
+          return;
+        }
+
+        if (!agree) {
+          alert("You must agree to the content rules and disclaimer.");
+          return;
+        }
+
+        existingChip.name = fullName;
+        existingChip.fullName = fullName;
+        existingChip.email = email;
+        existingChip.phone = phone;
+        existingChip.pin = pin;
+        existingChip.title = title;
+        existingChip.headline = headline;
+        existingChip.desc = desc;
+        existingChip.description = desc.trim();
+        existingChip.category =
+          selectedCategory === "custom" && customCategory
+            ? customCategory
+            : selectedCategory;
+        existingChip.images = uniqueImages(workingImages);
+        existingChip.updatedAt = new Date().toISOString();
+        existingChip.status = "setup_complete";
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
+        window.location.href = `success.html?code=${encodeURIComponent(chipCode)}`;
       });
-    })
-  );
-}
 
-document.addEventListener("DOMContentLoaded", () => {
-  const filesInput = document.getElementById("files");
-  const form = document.getElementById("form");
-
-  renderImages();
-
-  filesInput.addEventListener("change", async () => {
-    const newImages = await readFiles(filesInput.files);
-    workingImages = [...workingImages, ...newImages.filter(Boolean)];
-    renderImages();
-    filesInput.value = "";
-  });
-
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    existingChip.images = workingImages;
-
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
-
-    window.location.href = "success.html?code=" + chipCode;
-  });
-});
-</script>
+      lightboxClose.addEventListener("click", closeLightbox);
+      lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) {
+          closeLightbox();
+        }
+      });
+    });
+  </script>
 </body>
 </html>
