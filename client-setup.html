@@ -733,85 +733,85 @@ if (existingChip.desc) {
   return Promise.all(promises);
 }
 
-    document.addEventListener("DOMContentLoaded", () => {
-      const mode = getMode();
-      const filesInput = document.getElementById("files");
-      const form = document.getElementById("form");
-      const category = document.getElementById("category");
+document.addEventListener("DOMContentLoaded", () => {
 
-      applyModeUI(mode);
+  const params = new URLSearchParams(window.location.search);
+  const chipCode = params.get("code");
 
-      const chip = loadExistingChip();
-      const existingMB = getExistingStorageMB(chip);
-      updateUsage(existingMB, []);
-      renderExistingPhotos(chip);
-      toggleCustomCategory();
+  const mode = getMode();
+  const filesInput = document.getElementById("files");
+  const form = document.getElementById("form");
+  const category = document.getElementById("category");
 
-      category.addEventListener("change", toggleCustomCategory);
+  applyModeUI(mode);
 
-      filesInput.addEventListener("change", () => {
-        renderSelectedPreviews(filesInput.files);
-        updateUsage(existingMB, filesInput.files);
-      });
+  const chip = loadExistingChip();
+  const existingMB = getExistingStorageMB(chip);
+  updateUsage(existingMB, []);
+  renderExistingPhotos(chip);
+  toggleCustomCategory();
 
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-existingChip.name = document.getElementById("name").value;
-existingChip.email = document.getElementById("email").value;
-existingChip.title = document.getElementById("title").value;
-existingChip.category = document.getElementById("category").value;
-existingChip.headline = document.getElementById("headline").value;
-existingChip.desc = document.getElementById("desc").value;
-existingChip.updatedAt = new Date().toISOString();
+  category.addEventListener("change", toggleCustomCategory);
 
-   if (mode !== "photos") {
-  existingChip.fullName = document.getElementById("name").value.trim();
-     
-  existingChip.phone = document.getElementById("phone").value.trim();
-existingChip.pin = document.getElementById("pin").value.trim();   
-  existingChip.phone = document.getElementById("phone").value.trim();
-  existingChip.pin = document.getElementById("pin").value.trim();
+  filesInput.addEventListener("change", () => {
+    renderSelectedPreviews(filesInput.files);
+    updateUsage(existingMB, filesInput.files);
+  });
 
-  const selectedCategory = document.getElementById("category").value;
-  const customCategory = document.getElementById("customCategory").value.trim();
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  existingChip.category =
-    selectedCategory === "custom" && customCategory
-      ? customCategory
-      : selectedCategory;
+    existingChip.name = document.getElementById("name").value;
+    existingChip.email = document.getElementById("email").value;
+    existingChip.title = document.getElementById("title").value;
+    existingChip.category = document.getElementById("category").value;
+    existingChip.headline = document.getElementById("headline").value;
+    existingChip.desc = document.getElementById("desc").value;
+    existingChip.updatedAt = new Date().toISOString();
 
-  existingChip.description = document.getElementById("desc").value.trim();
-} 
-  if (mode !== "photos") {
-  if (!/^[0-9]{4}$/.test(existingChip.pin)) {
-    alert("PIN must be exactly 4 digits.");
-    return;
-  }
-}      
+    if (mode !== "photos") {
+      existingChip.fullName = document.getElementById("name").value.trim();
+      existingChip.phone = document.getElementById("phone").value.trim();
+      existingChip.pin = document.getElementById("pin").value.trim();
 
-   const files = filesInput.files;
-  if (files && files.length > 0) {
-   const loadedImages = await readFilesAsDataUrls(files);
-   const newImages = loadedImages.filter(Boolean);
+      const selectedCategory = document.getElementById("category").value;
+      const customCategory = document.getElementById("customCategory").value.trim();
 
-    existingChip.images = Array.isArray(existingChip.images)
-   ? [...existingChip.images, ...newImages]
-  : newImages;
-  }
-if (!existingChip.phone) {
-  alert("Phone number is required.");
-  return;
-}
+      existingChip.category =
+        selectedCategory === "custom" && customCategory
+          ? customCategory
+          : selectedCategory;
 
-if (!/^[0-9]{4}$/.test(existingChip.pin)) {
-  alert("PIN must be exactly 4 digits.");
-  return;
-}
- existingChip.status = "setup_complete";
- localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
- window.location.href = "success.html?code=" + chipCode;
-      });
-    });
-  </script>
+      existingChip.description = document.getElementById("desc").value.trim();
+    }
+
+    if (!existingChip.phone) {
+      alert("Phone number is required.");
+      return;
+    }
+
+    if (!/^[0-9]{4}$/.test(existingChip.pin)) {
+      alert("PIN must be exactly 4 digits.");
+      return;
+    }
+
+    const files = filesInput.files;
+    if (files && files.length > 0) {
+      const loadedImages = await readFilesAsDataUrls(files);
+      const newImages = loadedImages.filter(Boolean);
+
+      existingChip.images = Array.isArray(existingChip.images)
+        ? [...existingChip.images, ...newImages]
+        : newImages;
+    }
+
+    existingChip.status = "setup_complete";
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
+
+    window.location.href = "success.html?code=" + chipCode;
+  });
+
+});   
+</script>
 </body>
 </html>
