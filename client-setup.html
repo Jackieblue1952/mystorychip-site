@@ -422,275 +422,107 @@
   </div>
 
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const chipCode = params.get("code");
-    const STORAGE_KEY = "mscChips";
-    const STORAGE_LIMIT_MB = 250;
+const params = new URLSearchParams(window.location.search);
+const chipCode = params.get("code");
+const STORAGE_KEY = "mscChips";
 
-    function parseStoredChips() {
-      try {
-        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-      } catch (error) {
-        return [];
-      }
-    }
+let chips = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+let existingChip = chips.find(c => c.code === chipCode);
 
-    let chips = parseStoredChips();
-    let existingChip = chips.find(c => c.code === chipCode);
+if (!existingChip) {
+  existingChip = { code: chipCode, images: [] };
+  chips.push(existingChip);
+}
 
-    if (!existingChip && chipCode) {
-      existingChip = {
-        code: chipCode,
-        images: []
-      };
-      chips.push(existingChip);
-    }
+/* 🔥 MASTER IMAGE ARRAY */
+let workingImages = Array.isArray(existingChip.images)
+  ? [...existingChip.images]
+  : [];
 
-    function getMode() {
-      const localParams = new URLSearchParams(window.location.search);
-      return localParams.get("mode") || "full";
-    }
+function renderImages() {
+  const grid = document.getElementById("existingPhotosGrid");
+  const wrap = document.getElementById("existingPhotosWrap");
 
-    function toggleCustomCategory() {
-      const category = document.getElementById("category");
-      const customCategory = document.getElementById("customCategory");
-      if (!category || !customCategory) return;
+  grid.innerHTML = "";
 
-      if (category.value === "custom") {
-        customCategory.classList.remove("hidden");
-      } else {
-        customCategory.classList.add("hidden");
-        customCategory.value = "";
-      }
-    }
+  if (workingImages.length === 0) {
+    wrap.style.display = "none";
+    return;
+  }
 
-    function getExistingStorageMB(chip) {
-      if (!chip || !Array.isArray(chip.images)) return 0;
-      let totalBytes = 0;
+  wrap.style.display = "block";
 
-      chip.images.forEach(src => {
-        if (typeof src === "string") {
-          totalBytes += src.length;
+  workingImages.forEach((src, index) => {
+    const container = document.createElement("div");
+    container.style.position = "relative";
+
+    const img = document.createElement("img");
+    img.src = src;
+
+    const removeBtn = document.createElement("button");
+    removeBtn.innerHTML = "✕";
+    removeBtn.style.position = "absolute";
+    removeBtn.style.top = "4px";
+    removeBtn.style.right = "4px";
+    removeBtn.style.background = "red";
+    removeBtn.style.color = "white";
+    removeBtn.style.border = "none";
+    removeBtn.style.borderRadius = "50%";
+    removeBtn.style.width = "22px";
+    removeBtn.style.height = "22px";
+    removeBtn.style.cursor = "pointer";
+
+    removeBtn.onclick = () => {
+      workingImages.splice(index, 1);
+      renderImages();
+    };
+
+    container.appendChild(img);
+    container.appendChild(removeBtn);
+    grid.appendChild(container);
+  });
+}
+
+function readFiles(files) {
+  return Promise.all(
+    Array.from(files).map(file => {
+      return new Promise(resolve => {
+        if (!file.type.startsWith("image/")) {
+          resolve(null);
+          return;
         }
-      });
-
-      return totalBytes / (1024 * 1024);
-    }
-
-    function updateUsage(existingMB, files) {
-      const usage = document.getElementById("usage");
-      const fill = document.getElementById("fill");
-      if (!usage || !fill) return;
-
-      let newBytes = 0;
-      if (files && files.length > 0) {
-        Array.from(files).forEach(file => {
-          newBytes += file.size || 0;
-        });
-      }
-
-      const totalMB = existingMB + (newBytes / (1024 * 1024));
-      const percent = Math.min((totalMB / STORAGE_LIMIT_MB) * 100, 100);
-
-      usage.textContent = `${files ? files.length : 0} photos selected • ${totalMB.toFixed(2)} MB of ${STORAGE_LIMIT_MB} MB used`;
-      fill.style.width = percent + "%";
-    }
-
-    function renderSelectedPreviews(files) {
-      const previewGrid = document.getElementById("previewGrid");
-      if (!previewGrid) return;
-      previewGrid.innerHTML = "";
-
-      if (!files || files.length === 0) return;
-
-      Array.from(files).forEach(file => {
-        if (!file.type.startsWith("image/")) return;
 
         const reader = new FileReader();
-        reader.onload = function(e) {
-          const img = document.createElement("img");
-          img.src = e.target.result;
-          previewGrid.appendChild(img);
-        };
+        reader.onload = e => resolve(e.target.result);
         reader.readAsDataURL(file);
       });
-    }
+    })
+  );
+}
 
-    function renderExistingPhotos(chip) {
-      const wrap = document.getElementById("existingPhotosWrap");
-      const grid = document.getElementById("existingPhotosGrid");
-      if (!wrap || !grid) return;
+document.addEventListener("DOMContentLoaded", () => {
+  const filesInput = document.getElementById("files");
+  const form = document.getElementById("form");
 
-      grid.innerHTML = "";
+  renderImages();
 
-      if (!chip || !Array.isArray(chip.images) || chip.images.length === 0) {
-        wrap.style.display = "none";
-        return;
-      }
+  filesInput.addEventListener("change", async () => {
+    const newImages = await readFiles(filesInput.files);
+    workingImages = [...workingImages, ...newImages.filter(Boolean)];
+    renderImages();
+    filesInput.value = "";
+  });
 
-      wrap.style.display = "block";
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-      chip.images.forEach(src => {
-        if (!src) return;
-        const img = document.createElement("img");
-        img.src = src;
-        grid.appendChild(img);
-      });
-    }
+    existingChip.images = workingImages;
 
-    function readFilesAsDataUrls(files) {
-      const promises = Array.from(files).map(file => {
-        return new Promise(resolve => {
-          if (!file.type.startsWith("image/")) {
-            resolve(null);
-            return;
-          }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
 
-          const reader = new FileReader();
-          reader.onload = e => resolve(e.target.result);
-          reader.onerror = () => resolve(null);
-          reader.readAsDataURL(file);
-        });
-      });
-
-      return Promise.all(promises);
-    }
-
-    function applyModeUI(mode) {
-      const modeNote = document.getElementById("modeNote");
-      const uploadHeading = document.getElementById("uploadHeading");
-      const uploadHelper = document.getElementById("uploadHelper");
-
-      if (!modeNote) return;
-
-      if (mode === "photos") {
-        modeNote.textContent = "Editing your current chip information and uploads.";
-        if (uploadHeading) uploadHeading.textContent = "Add More Photos";
-        if (uploadHelper) uploadHelper.textContent = "Add more photos to this chip and save again.";
-      } else {
-        modeNote.textContent = "";
-      }
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const mode = getMode();
-      const filesInput = document.getElementById("files");
-      const form = document.getElementById("form");
-      const category = document.getElementById("category");
-      const debugChip = document.getElementById("debugChip");
-
-      if (debugChip) {
-        debugChip.textContent = chipCode
-          ? `Chip Code: ${chipCode}`
-          : "No chip code found in URL.";
-      }
-
-      if (!chipCode) {
-        alert("Missing chip code in URL.");
-      }
-
-      if (existingChip) {
-        if (existingChip.name) document.getElementById("name").value = existingChip.name;
-        if (existingChip.email) document.getElementById("email").value = existingChip.email;
-        if (existingChip.phone) document.getElementById("phone").value = existingChip.phone;
-        if (existingChip.pin) document.getElementById("pin").value = existingChip.pin;
-        if (existingChip.title) document.getElementById("title").value = existingChip.title;
-        if (existingChip.category) document.getElementById("category").value = existingChip.category;
-        if (existingChip.headline) document.getElementById("headline").value = existingChip.headline;
-        if (existingChip.desc) document.getElementById("desc").value = existingChip.desc;
-        if (existingChip.description && !existingChip.desc) {
-          document.getElementById("desc").value = existingChip.description;
-        }
-      }
-
-      applyModeUI(mode);
-
-      const existingMB = getExistingStorageMB(existingChip);
-      updateUsage(existingMB, []);
-      renderExistingPhotos(existingChip);
-      toggleCustomCategory();
-
-      category.addEventListener("change", toggleCustomCategory);
-
-      filesInput.addEventListener("change", () => {
-        renderSelectedPreviews(filesInput.files);
-        updateUsage(existingMB, filesInput.files);
-      });
-
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        if (!chipCode) {
-          alert("Missing chip code in URL.");
-          return;
-        }
-
-        const agree = document.getElementById("agree").checked;
-        const fullName = document.getElementById("name").value.trim();
-        const email = document.getElementById("email").value.trim();
-        const phone = document.getElementById("phone").value.trim();
-        const pin = document.getElementById("pin").value.trim();
-        const title = document.getElementById("title").value.trim();
-        const headline = document.getElementById("headline").value.trim();
-        const desc = document.getElementById("desc").value;
-        const selectedCategory = document.getElementById("category").value;
-        const customCategory = document.getElementById("customCategory").value.trim();
-
-        if (!fullName) {
-          alert("Full Name is required.");
-          return;
-        }
-
-        if (!phone) {
-          alert("Phone number is required.");
-          return;
-        }
-
-        if (!/^[0-9]{4}$/.test(pin)) {
-          alert("PIN must be exactly 4 digits.");
-          return;
-        }
-
-        if (!title) {
-          alert("Chip Title is required.");
-          return;
-        }
-
-        if (!agree) {
-          alert("You must agree to the content rules and disclaimer.");
-          return;
-        }
-
-        existingChip.name = fullName;
-        existingChip.fullName = fullName;
-        existingChip.email = email;
-        existingChip.phone = phone;
-        existingChip.pin = pin;
-        existingChip.title = title;
-        existingChip.headline = headline;
-        existingChip.desc = desc;
-        existingChip.description = desc.trim();
-        existingChip.category =
-          selectedCategory === "custom" && customCategory
-            ? customCategory
-            : selectedCategory;
-        existingChip.updatedAt = new Date().toISOString();
-
-        const files = filesInput.files;
-        if (files && files.length > 0) {
-          const loadedImages = await readFilesAsDataUrls(files);
-          const newImages = loadedImages.filter(Boolean);
-
-          existingChip.images = Array.isArray(existingChip.images)
-            ? [...existingChip.images, ...newImages]
-            : newImages;
-        }
-
-        existingChip.status = "setup_complete";
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
-        window.location.href = "success.html?code=" + chipCode;
-      });
-    });
-  </script>
+    window.location.href = "success.html?code=" + chipCode;
+  });
+});
+</script>
 </body>
 </html>
