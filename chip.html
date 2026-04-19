@@ -9,19 +9,24 @@
       box-sizing: border-box;
     }
 
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
+      min-height: 100%;
+    }
+
+    body {
       font-family: Arial, sans-serif;
       background:
         linear-gradient(rgba(10,10,10,0.82), rgba(10,10,10,0.94)),
         url("landing-page.png") center center / cover no-repeat fixed;
       color: #f5e6c8;
-      min-height: 100vh;
       padding: 26px;
+      overflow-y: auto;
     }
 
     .wrap {
-      max-width: 900px;
+      max-width: 980px;
       margin: 0 auto;
     }
 
@@ -103,21 +108,36 @@
       font-style: italic;
     }
 
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
-      margin-top: 14px;
+    .gallery-note {
+      color: #cdbf9f;
+      font-size: 14px;
+      margin-bottom: 12px;
     }
 
-    .gallery img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .thumb {
+      width: 120px;
+      height: 120px;
       border-radius: 12px;
+      overflow: hidden;
       border: 1px solid rgba(212,175,55,0.2);
       background: rgba(255,255,255,0.04);
+      box-shadow: 0 0 10px rgba(0,0,0,0.28);
       cursor: pointer;
+      flex: 0 0 auto;
+    }
+
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     .message {
@@ -159,18 +179,55 @@
       align-items: center;
       justify-content: center;
       padding: 20px;
-      z-index: 999;
-    }
-
-    .lightbox img {
-      max-width: 95vw;
-      max-height: 90vh;
-      border-radius: 12px;
-      box-shadow: 0 0 30px rgba(212,175,55,0.25);
+      z-index: 9999;
     }
 
     .lightbox.active {
       display: flex;
+    }
+
+    .lightbox-panel {
+      position: relative;
+      max-width: min(94vw, 1200px);
+      max-height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox img {
+      display: block;
+      max-width: 94vw;
+      max-height: 90vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 14px;
+      border: 1px solid rgba(212,175,55,0.25);
+      box-shadow: 0 0 30px rgba(212,175,55,0.18);
+      background: #111;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -10px;
+      right: -2px;
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      border: 1px solid rgba(212,175,55,0.28);
+      background: rgba(20,12,4,0.88);
+      color: #f5d97a;
+      font-size: 20px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .lightbox-close:hover {
+      color: #fff;
     }
 
     @media (max-width: 640px) {
@@ -189,6 +246,11 @@
       .value {
         font-size: 17px;
       }
+
+      .thumb {
+        width: 92px;
+        height: 92px;
+      }
     }
   </style>
 </head>
@@ -203,7 +265,10 @@
   </div>
 
   <div class="lightbox" id="lightbox">
-    <img id="lightboxImg" src="" alt="Expanded image">
+    <div class="lightbox-panel">
+      <button type="button" class="lightbox-close" id="lightboxClose">×</button>
+      <img id="lightboxImg" src="" alt="Expanded image">
+    </div>
   </div>
 
   <script>
@@ -216,6 +281,7 @@
     const editLinkTop = document.getElementById("editLinkTop");
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightboxImg");
+    const lightboxClose = document.getElementById("lightboxClose");
 
     function safeText(value) {
       return value && String(value).trim() ? String(value) : "";
@@ -229,6 +295,16 @@
           <a href="dashboard.html">Return to Dashboard</a>
         </div>
       `;
+    }
+
+    function openLightbox(src) {
+      lightboxImg.src = src;
+      lightbox.classList.add("active");
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove("active");
+      lightboxImg.src = "";
     }
 
     if (!code) {
@@ -248,13 +324,13 @@
       if (!chip) {
         renderMissing(`We could not find a saved chip with code ${code}.`);
       } else {
-        const images = Array.isArray(chip.images) ? chip.images.filter(Boolean) : [];
+        const images = Array.isArray(chip.images) ? [...new Set(chip.images.filter(Boolean))] : [];
 
-        const displayName = safeText(chip.name) || "Untitled Chip";
+        const displayName = safeText(chip.name) || safeText(chip.title) || "Untitled Chip";
         const displayType = safeText(chip.type) || "Not set";
         const displayCategory = safeText(chip.category) || "Not set";
-        const displayStory = safeText(chip.story) || "";
-        const displayDetails = safeText(chip.details) || "";
+        const displayStory = safeText(chip.story) || safeText(chip.headline) || "";
+        const displayDetails = safeText(chip.details) || safeText(chip.desc) || safeText(chip.description) || "";
         const displayCode = safeText(chip.code) || "";
         const displayStatus = safeText(chip.status) || "Saved";
 
@@ -296,28 +372,36 @@
               <div class="label">Images</div>
               ${
                 images.length
-                  ? `<div class="gallery">
-                      ${images.map(src => `<img src="${src}" alt="Chip image">`).join("")}
-                    </div>`
+                  ? `
+                    <div class="gallery-note">Click any photo to enlarge.</div>
+                    <div class="gallery">
+                      ${images.map(src => `
+                        <div class="thumb" data-src="${src.replace(/"/g, "&quot;")}">
+                          <img src="${src}" alt="Chip image">
+                        </div>
+                      `).join("")}
+                    </div>
+                  `
                   : `<div class="value empty">No images uploaded yet.</div>`
               }
             </div>
           </div>
         `;
 
-        const galleryImages = document.querySelectorAll(".gallery img");
-        galleryImages.forEach((img) => {
-          img.addEventListener("click", () => {
-            lightboxImg.src = img.src;
-            lightbox.classList.add("active");
+        document.querySelectorAll(".thumb").forEach((thumb) => {
+          thumb.addEventListener("click", () => {
+            openLightbox(thumb.getAttribute("data-src"));
           });
         });
       }
     }
 
-    lightbox.addEventListener("click", () => {
-      lightbox.classList.remove("active");
-      lightboxImg.src = "";
+    lightboxClose.addEventListener("click", closeLightbox);
+
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) {
+        closeLightbox();
+      }
     });
   </script>
 </body>
