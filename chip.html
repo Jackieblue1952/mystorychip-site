@@ -3,769 +3,322 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>View Your Chip - MyStoryChip</title>
+  <title>My Chip | MyStoryChip</title>
   <style>
-    *{
-      box-sizing:border-box;
+    * {
+      box-sizing: border-box;
     }
 
-    html, body{
-      margin:0;
-      padding:0;
-      width:100%;
-      min-height:100%;
-      font-family:Georgia, "Times New Roman", serif;
-      background:#050505;
-      color:#f5e6c8;
-    }
-
-    body{
-      position:relative;
-      min-height:100vh;
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
       background:
-        linear-gradient(rgba(0,0,0,0.40), rgba(0,0,0,0.85)),
-        url("final-storybook.png") center center / cover no-repeat fixed;
+        linear-gradient(rgba(10,10,10,0.82), rgba(10,10,10,0.94)),
+        url("landing-page.png") center center / cover no-repeat fixed;
+      color: #f5e6c8;
+      min-height: 100vh;
+      padding: 26px;
     }
 
-    .nav{
-      position:fixed;
-      top:20px;
-      right:20px;
-      z-index:20;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
+    .wrap {
+      max-width: 900px;
+      margin: 0 auto;
     }
 
-    .nav a{
-      display:inline-block;
-      padding:10px 16px;
-      border:1px solid rgba(212,175,55,0.75);
-      border-radius:999px;
-      text-decoration:none;
-      color:#f5e6c8;
-      background:rgba(20,12,4,0.55);
-      font-size:14px;
-      box-shadow:0 0 12px rgba(212,175,55,0.14);
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
     }
 
-    .nav a:hover{
-      background:rgba(60,35,10,0.78);
+    .brand {
+      color: #d4af37;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-size: 14px;
     }
 
-    .page{
-      position:relative;
-      z-index:10;
-      width:100%;
-      min-height:100vh;
-      padding:110px 20px 50px;
-      display:flex;
-      justify-content:center;
+    .back-link {
+      color: #f5e6c8;
+      text-decoration: none;
+      border: 1px solid rgba(245, 230, 200, 0.24);
+      padding: 10px 14px;
+      border-radius: 10px;
+      transition: 0.2s ease;
     }
 
-    .wrap{
-      width:100%;
-      max-width:1050px;
+    .back-link:hover {
+      border-color: rgba(212,175,55,0.45);
+      color: #fff;
     }
 
-    .hero-card,
-    .content-card,
-    .gallery-card,
-    .empty-card{
-      background:rgba(10,7,3,0.62);
-      border:1px solid rgba(212,175,55,0.22);
-      border-radius:28px;
-      box-shadow:
-        0 0 22px rgba(212,175,55,0.10),
-        0 0 60px rgba(0,0,0,0.50);
-      backdrop-filter:blur(2px);
+    .card {
+      background: rgba(20, 20, 20, 0.88);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      border-radius: 18px;
+      padding: 26px;
+      box-shadow: 0 0 28px rgba(212, 175, 55, 0.16);
     }
 
-    .hero-card{
-      text-align:center;
-      padding:42px 28px;
-      margin-bottom:24px;
+    h1 {
+      margin: 0 0 18px;
+      font-size: 36px;
+      line-height: 1.15;
     }
 
-    .eyebrow{
-      display:inline-block;
-      margin-bottom:18px;
-      padding:8px 16px;
-      border:1px solid rgba(212,175,55,0.35);
-      border-radius:999px;
-      color:#f5d97a;
-      background:rgba(20,12,4,0.40);
-      font-size:13px;
-      letter-spacing:1.4px;
-      text-transform:uppercase;
+    .sub {
+      color: #d4af37;
+      font-size: 16px;
+      margin-bottom: 20px;
     }
 
-    h1{
-      margin:0 0 14px;
-      font-size:clamp(2.5rem, 5vw, 4.8rem);
-      line-height:1.02;
-      color:#f5d984;
-      text-shadow:
-        0 0 10px rgba(212,175,55,0.35),
-        0 0 28px rgba(212,175,55,0.18),
-        0 0 50px rgba(0,0,0,0.95);
+    .section {
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,0.08);
     }
 
-    .subline{
-      margin:0 auto;
-      max-width:760px;
-      font-size:clamp(1.05rem, 1.9vw, 1.35rem);
-      line-height:1.6;
-      color:#f0ddb2;
+    .label {
+      color: #d4af37;
+      font-size: 13px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
     }
 
-    .grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:24px;
+    .value {
+      color: #f5e6c8;
+      font-size: 18px;
+      line-height: 1.6;
+      word-wrap: break-word;
     }
 
-    .content-card,
-    .gallery-card,
-    .empty-card{
-      padding:28px 24px;
+    .empty {
+      color: #cdbf9f;
+      font-style: italic;
     }
 
-    .section-title{
-      margin:0 0 18px;
-      font-size:1.8rem;
-      color:#f5d984;
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-top: 14px;
     }
 
-    .info-row{
-      margin-bottom:20px;
-      padding-bottom:14px;
-      border-bottom:1px solid rgba(212,175,55,0.12);
+    .gallery img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 1px solid rgba(212,175,55,0.2);
+      background: rgba(255,255,255,0.04);
+      cursor: pointer;
     }
 
-    .label{
-      display:block;
-      margin-bottom:6px;
-      font-size:0.95rem;
-      letter-spacing:0.6px;
-      text-transform:uppercase;
-      color:#d9bd68;
+    .message {
+      background: rgba(20, 20, 20, 0.88);
+      border: 1px solid rgba(212, 175, 55, 0.28);
+      border-radius: 18px;
+      padding: 24px;
+      text-align: center;
+      box-shadow: 0 0 24px rgba(212,175,55,0.14);
     }
 
-    .value{
-      font-size:1.15rem;
-      line-height:1.6;
-      color:#f3e7c7;
-      word-break:break-word;
+    .message h2 {
+      margin-top: 0;
+      font-size: 30px;
     }
 
-    .story-box{
-      min-height:180px;
-      padding:18px;
-      border-radius:20px;
-      background:rgba(20,12,4,0.40);
-      border:1px solid rgba(212,175,55,0.14);
-      color:#f3e7c7;
-      font-size:1.08rem;
-      line-height:1.8;
-      white-space:pre-wrap;
+    .message p {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #e8dcc0;
     }
 
-    .gallery-scroll{
-      max-height:460px;
-      overflow-y:auto;
-      padding-right:8px;
+    .message a {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 12px 18px;
+      background: #d4af37;
+      color: #111;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: bold;
     }
 
-    .gallery-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fill, 130px);
-      gap:10px;
-      justify-content:start;
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 999;
     }
 
-    .gallery-item{
-      background:rgba(20,12,4,0.40);
-      border:1px solid rgba(212,175,55,0.14);
-      border-radius:20px;
-      padding:10px;
-      overflow:hidden;
-      width:120px;
-      display:flex;
-      flex-direction:column;
-      margin:0;
+    .lightbox img {
+      max-width: 95vw;
+      max-height: 90vh;
+      border-radius: 12px;
+      box-shadow: 0 0 30px rgba(212,175,55,0.25);
     }
 
-    .gallery-item img{
-      display:block;
-      width:100%;
-      height:120px;
-      object-fit:cover;
-      border-radius:10px;
-      margin:0 auto 8px;
-      cursor:pointer;
+    .lightbox.active {
+      display: flex;
     }
 
-    .delete-image-btn{
-      display:block;
-      width:100%;
-      margin-top:8px;
-      padding:8px 10px;
-      border:none;
-      border-radius:10px;
-      cursor:pointer;
-      font-size:14px;
-      font-weight:bold;
-      background:linear-gradient(180deg, #f3d77b, #d4af37);
-      color:#1a1206;
-    }
-
-    .delete-image-btn:hover{
-      filter:brightness(1.05);
-    }
-
-    .empty-card{
-      text-align:center;
-    }
-
-    .empty-text{
-      margin:0;
-      color:#ead8ad;
-      font-size:1.05rem;
-      line-height:1.7;
-    }
-
-    .actions{
-      margin-top:24px;
-      display:flex;
-      justify-content:center;
-      gap:14px;
-      flex-wrap:wrap;
-    }
-
-    .cta{
-      display:inline-block;
-      padding:16px 30px;
-      border-radius:999px;
-      text-decoration:none;
-      font-size:1rem;
-      font-weight:bold;
-      transition:all 0.22s ease;
-      cursor:pointer;
-    }
-
-    .cta.primary{
-      background:linear-gradient(180deg, #f3d77b, #d4af37);
-      color:#1a1206;
-      box-shadow:
-        0 0 18px rgba(212,175,55,0.24),
-        0 0 34px rgba(212,175,55,0.10);
-      border:1px solid rgba(212,175,55,0.45);
-    }
-
-    .cta.primary:hover{
-      transform:translateY(-1px);
-      box-shadow:
-        0 0 24px rgba(212,175,55,0.34),
-        0 0 38px rgba(212,175,55,0.14);
-    }
-
-    .cta.secondary{
-      border:1px solid rgba(212,175,55,0.32);
-      color:#f3deae;
-      background:rgba(20,12,4,0.50);
-    }
-
-    .cta.secondary:hover{
-      background:rgba(50,30,10,0.75);
-    }
-
-    @media (max-width: 900px){
-      .grid{
-        grid-template-columns:1fr;
-      }
-    }
-
-    @media (max-width: 700px){
-      .page{
-        padding:90px 16px 30px;
+    @media (max-width: 640px) {
+      body {
+        padding: 18px;
       }
 
-      .hero-card,
-      .content-card,
-      .gallery-card,
-      .empty-card{
-        border-radius:24px;
+      .card {
+        padding: 20px;
       }
 
-      .hero-card{
-        padding:34px 20px;
+      h1 {
+        font-size: 30px;
       }
 
-      .content-card,
-      .gallery-card,
-      .empty-card{
-        padding:22px 18px;
-      }
-
-      .nav{
-        top:10px;
-        right:10px;
-        gap:8px;
-      }
-
-      .nav a{
-        padding:8px 12px;
-        font-size:12px;
-      }
-
-      .gallery-scroll{
-        max-height:none;
-        overflow:visible;
-        padding-right:0;
+      .value {
+        font-size: 17px;
       }
     }
   </style>
 </head>
 <body>
-
-  <div class="nav">
-    <a href="index.html">Home</a>
-    <a href="client-setup.html">Edit Details</a>
-    <a href="buy.html">Buy Another</a>
-  </div>
-
-  <div class="page">
-    <div class="wrap">
-
-      <div class="hero-card">
-        <div class="eyebrow">MyStoryChip Viewer</div>
-        <h1 id="chipTitle">Your Story</h1>
-        <p class="subline" id="chipHeadline">
-          Your MyStoryChip story, memories, and images are shown below.
-        </p>
-      </div>
-
-      <div id="chipContent" style="display:none;">
-        <div class="grid">
-          <div class="content-card">
-            <h2 class="section-title">Chip Details</h2>
-
-            <div class="info-row">
-              <span class="label">Full Name</span>
-              <div class="value" id="viewerName">—</div>
-            </div>
-
-            <div class="info-row">
-              <span class="label">Email</span>
-              <div class="value" id="viewerEmail">—</div>
-            </div>
-
-            <div class="info-row">
-              <span class="label">Category</span>
-              <div class="value" id="viewerCategory">—</div>
-            </div>
-
-            <div class="info-row" style="border-bottom:none; margin-bottom:0; padding-bottom:0;">
-              <span class="label">Headline</span>
-              <div class="value" id="viewerHeadline">—</div>
-            </div>
-          </div>
-
-          <div class="content-card">
-            <h2 class="section-title">Your Story</h2>
-            <div class="story-box" id="viewerDescription">No story has been added yet.</div>
-          </div>
-        </div>
-
-        <div class="gallery-card" style="margin-top:24px;">
-          <h2 class="section-title">Photos & Uploads</h2>
-
-          <div class="gallery-scroll">
-            <div class="gallery-grid" id="galleryGrid"></div>
-          </div>
-
-          <div id="noImages" class="empty-text" style="display:none;">
-            No images have been added yet.
-          </div>
-        </div>
-
-        <div class="actions">
-<a href="#" id="addPhotosBtn" class="cta secondary">Add More Photos</a>
-          <a href="client-setup.html" class="cta secondary">Edit Story & Details</a>
-          <a href="index.html" class="cta primary">Return Home</a>
-        </div>
-        <div id="quickUploadPanel" style="display:none; margin-top:20px;" class="gallery-card">
-  <h2 class="section-title">Add More Photos</h2>
-
-  <div style="border:2px dashed rgba(212,175,55,0.28); background:rgba(255,255,255,0.02); padding:22px; text-align:center; border-radius:16px; margin-bottom:16px;">
-    <input type="file" id="quickFiles" multiple accept="image/*">
-  </div>
-
-  <p id="quickUploadText" class="empty-text" style="margin-bottom:14px;">
-    Choose one or more photos to add to this chip.
-  </p>
-
-  <div class="actions">
-    <button type="button" id="saveQuickPhotos" class="cta primary" style="border:none;">Save Photos</button>
-    <button type="button" id="cancelQuickPhotos" class="cta secondary" style="border:none;">Cancel</button>
-  </div>
-</div>
-      </div>
-
-      <div id="emptyState" class="empty-card">
-        <div class="eyebrow">Nothing Loaded Yet</div>
-        <h1 style="font-size:clamp(2rem, 4vw, 3.4rem);">No Chip Found</h1>
-        <p class="empty-text">
-          We could not find a saved chip to display yet. Set up your chip first, then come back here to view it.
-        </p>
-        <div class="actions">
-          <a href="client-setup.html" class="cta primary">Set Up Your Chip</a>
-          <a href="buy.html" class="cta secondary">Buy Now</a>
-        </div>
-      </div>
-
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">MyStoryChip</div>
+      <a id="editLinkTop" class="back-link" href="client-setup.html">Edit This Chip</a>
     </div>
+
+    <div id="chipContainer"></div>
+  </div>
+
+  <div class="lightbox" id="lightbox">
+    <img id="lightboxImg" src="" alt="Expanded image">
   </div>
 
   <script>
-    let currentImageIndex = 0;
-    let currentImages = [];
+    const STORAGE_KEY = "mscChips";
 
-    function safeText(value, fallback = "—") {
-      if (typeof value !== "string") return fallback;
-      const trimmed = value.trim();
-      return trimmed ? trimmed : fallback;
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+
+    const chipContainer = document.getElementById("chipContainer");
+    const editLinkTop = document.getElementById("editLinkTop");
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightboxImg");
+
+    function safeText(value) {
+      return value && String(value).trim() ? String(value) : "";
     }
 
-    function parseStoredChips() {
+    function renderMissing(message) {
+      chipContainer.innerHTML = `
+        <div class="message">
+          <h2>Chip Not Found</h2>
+          <p>${message}</p>
+          <a href="dashboard.html">Return to Dashboard</a>
+        </div>
+      `;
+    }
+
+    if (!code) {
+      renderMissing("No chip code was found in the page link.");
+    } else {
+      editLinkTop.href = `client-setup.html?code=${encodeURIComponent(code)}`;
+
+      let chips = [];
       try {
-        return JSON.parse(localStorage.getItem("mscChips")) || [];
-      } catch (error) {
-        return [];
-      }
-    }
-
-    function getLatestChip(chips) {
-      if (!Array.isArray(chips) || chips.length === 0) return null;
-      return chips[chips.length - 1];
-    }
-
-    function renderGallery(images) {
-      const galleryGrid = document.getElementById("galleryGrid");
-      const noImages = document.getElementById("noImages");
-
-      galleryGrid.innerHTML = "";
-
-      if (!Array.isArray(images) || images.length === 0) {
-        currentImages = [];
-        noImages.style.display = "block";
-        return;
+        chips = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      } catch (err) {
+        chips = [];
       }
 
-      currentImages = images;
-      noImages.style.display = "none";
-
-      images.forEach((src, index) => {
-        if (!src) return;
-
-        const item = document.createElement("div");
-        item.className = "gallery-item";
-
-        const img = document.createElement("img");
-        img.src = src;
-        img.alt = "MyStoryChip upload";
-
-        img.addEventListener("click", () => {
-          currentImageIndex = index;
-          document.getElementById("lightboxImg").src = src;
-          document.getElementById("lightbox").style.display = "flex";
-        });
-
-        const deleteBtn = document.createElement("button");
-        deleteBtn.className = "delete-image-btn";
-        deleteBtn.textContent = "Delete";
-
-        deleteBtn.addEventListener("click", (e) => {
-          e.stopPropagation();
-          deleteImage(index);
-        });
-
-        item.appendChild(img);
-        item.appendChild(deleteBtn);
-        galleryGrid.appendChild(item);
-      });
-    }
-
-    function deleteImage(index) {
-      const chips = parseStoredChips();
-      const chip = getLatestChip(chips);
-
-      if (!chip || !Array.isArray(chip.images)) return;
-
-      chip.images.splice(index, 1);
-      localStorage.setItem("mscChips", JSON.stringify(chips));
-
-      currentImages = chip.images;
-      renderGallery(chip.images);
-    }
-
-    function loadChip() {
-      const chips = parseStoredChips();
-      const chip = getLatestChip(chips);
+      const chip = chips.find(item => item && item.code === code);
 
       if (!chip) {
-        document.getElementById("emptyState").style.display = "block";
-        document.getElementById("chipContent").style.display = "none";
-        return;
+        renderMissing(`We could not find a saved chip with code ${code}.`);
+      } else {
+        const images = Array.isArray(chip.images) ? chip.images.filter(Boolean) : [];
+
+        const displayName = safeText(chip.name) || "Untitled Chip";
+        const displayType = safeText(chip.type) || "Not set";
+        const displayCategory = safeText(chip.category) || "Not set";
+        const displayStory = safeText(chip.story) || "";
+        const displayDetails = safeText(chip.details) || "";
+        const displayCode = safeText(chip.code) || "";
+        const displayStatus = safeText(chip.status) || "Saved";
+
+        chipContainer.innerHTML = `
+          <div class="card">
+            <h1>${displayName}</h1>
+            <div class="sub">Chip Code: ${displayCode}</div>
+
+            <div class="section">
+              <div class="label">Status</div>
+              <div class="value">${displayStatus}</div>
+            </div>
+
+            <div class="section">
+              <div class="label">Type</div>
+              <div class="value">${displayType}</div>
+            </div>
+
+            <div class="section">
+              <div class="label">Category</div>
+              <div class="value">${displayCategory}</div>
+            </div>
+
+            <div class="section">
+              <div class="label">Story</div>
+              <div class="value ${displayStory ? "" : "empty"}">
+                ${displayStory ? displayStory.replace(/\n/g, "<br>") : "No story added yet."}
+              </div>
+            </div>
+
+            <div class="section">
+              <div class="label">Details</div>
+              <div class="value ${displayDetails ? "" : "empty"}">
+                ${displayDetails ? displayDetails.replace(/\n/g, "<br>") : "No details added yet."}
+              </div>
+            </div>
+
+            <div class="section">
+              <div class="label">Images</div>
+              ${
+                images.length
+                  ? `<div class="gallery">
+                      ${images.map(src => `<img src="${src}" alt="Chip image">`).join("")}
+                    </div>`
+                  : `<div class="value empty">No images uploaded yet.</div>`
+              }
+            </div>
+          </div>
+        `;
+
+        const galleryImages = document.querySelectorAll(".gallery img");
+        galleryImages.forEach((img) => {
+          img.addEventListener("click", () => {
+            lightboxImg.src = img.src;
+            lightbox.classList.add("active");
+          });
+        });
       }
-
-      document.getElementById("emptyState").style.display = "none";
-      document.getElementById("chipContent").style.display = "block";
-
-      const chipTitle = safeText(chip.title || chip.name, "Your Story");
-      const chipHeadline = safeText(
-        chip.headline,
-        "Your MyStoryChip story, memories, and images are shown below."
-      );
-      const chipDescription = safeText(
-        chip.description,
-        "No story has been added yet."
-      );
-      const chipName = safeText(chip.fullName || chip.name);
-      const chipEmail = safeText(chip.email);
-      const chipCategory = safeText(chip.category, "Not selected");
-
-      document.getElementById("chipTitle").textContent = chipTitle;
-      document.getElementById("chipHeadline").textContent = chipHeadline;
-      document.getElementById("viewerName").textContent = chipName;
-      document.getElementById("viewerEmail").textContent = chipEmail;
-      document.getElementById("viewerCategory").textContent = chipCategory;
-      document.getElementById("viewerHeadline").textContent = chipHeadline;
-      document.getElementById("viewerDescription").textContent = chipDescription;
-
-      const images = chip.images || [];
-      renderGallery(images);
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
-      loadChip();
-
-      const lightbox = document.getElementById("lightbox");
-      const lightboxImg = document.getElementById("lightboxImg");
-      const lightboxClose = document.getElementById("lightboxClose");
-      const prevBtn = document.getElementById("prevImage");
-      const nextBtn = document.getElementById("nextImage");
-
-      if (lightboxClose) {
-        lightboxClose.addEventListener("click", () => {
-          lightbox.style.display = "none";
-        });
-      }
-
-      if (prevBtn) {
-        prevBtn.addEventListener("click", (e) => {
-          e.stopPropagation();
-          if (currentImages.length === 0) return;
-
-          currentImageIndex =
-            (currentImageIndex - 1 + currentImages.length) % currentImages.length;
-
-          lightboxImg.src = currentImages[currentImageIndex];
-        });
-      }
-
-      if (nextBtn) {
-        nextBtn.addEventListener("click", (e) => {
-          e.stopPropagation();
-          if (currentImages.length === 0) return;
-
-          currentImageIndex =
-            (currentImageIndex + 1) % currentImages.length;
-
-          lightboxImg.src = currentImages[currentImageIndex];
-        });
-      }
-
-      if (lightbox) {
-        lightbox.addEventListener("click", (e) => {
-          if (e.target === lightbox) {
-            lightbox.style.display = "none";
-          }
-        });
-      }
-            const addPhotosBtn = document.getElementById("addPhotosBtn");
-      const quickUploadPanel = document.getElementById("quickUploadPanel");
-      const cancelQuickPhotos = document.getElementById("cancelQuickPhotos");
-      const saveQuickPhotos = document.getElementById("saveQuickPhotos");
-      const quickFiles = document.getElementById("quickFiles");
-      const quickUploadText = document.getElementById("quickUploadText");
-
-      if (addPhotosBtn && quickUploadPanel) {
-        addPhotosBtn.addEventListener("click", (e) => {
-          e.preventDefault();
-          quickUploadPanel.style.display = "block";
-        });
-      }
-
-      if (cancelQuickPhotos && quickUploadPanel) {
-        cancelQuickPhotos.addEventListener("click", () => {
-          quickUploadPanel.style.display = "none";
-          quickFiles.value = "";
-          quickUploadText.textContent = "Choose one or more photos to add to this chip.";
-        });
-      }
-
-      if (quickFiles && quickUploadText) {
-        quickFiles.addEventListener("change", () => {
-          const count = quickFiles.files.length;
-          quickUploadText.textContent = count === 0
-            ? "Choose one or more photos to add to this chip."
-            : `${count} photo${count === 1 ? "" : "s"} selected`;
-        });
-      }
-
-      if (saveQuickPhotos && quickFiles) {
-        saveQuickPhotos.addEventListener("click", async () => {
-          const files = quickFiles.files;
-          if (!files || files.length === 0) {
-            quickUploadText.textContent = "Please choose at least one photo first.";
-            return;
-          }
-
-          quickUploadText.textContent = "Saving photos...";
-
-          const chips = parseStoredChips();
-          const chip = getLatestChip(chips);
-
-          if (!chip) {
-            quickUploadText.textContent = "No chip found to update.";
-            return;
-          }
-
-          const loadedImages = await Promise.all(
-            Array.from(files).map((file) => {
-              return new Promise((resolve) => {
-                const img = new Image();
-                const reader = new FileReader();
-
-                reader.onload = function (e) {
-                  img.src = e.target.result;
-                };
-
-                img.onload = function () {
-                  const canvas = document.createElement("canvas");
-                  const MAX_WIDTH = 1200;
-                  const scale = Math.min(MAX_WIDTH / img.width, 1);
-
-                  canvas.width = img.width * scale;
-                  canvas.height = img.height * scale;
-
-                  const ctx = canvas.getContext("2d");
-                  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-                  const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.7);
-                  resolve(compressedDataUrl);
-                };
-
-                img.onerror = function () {
-                  resolve(null);
-                };
-
-                reader.readAsDataURL(file);
-              });
-            })
-          );
-
-          const newImages = loadedImages.filter(Boolean);
-
-          chip.images = Array.isArray(chip.images)
-            ? [...chip.images, ...newImages]
-            : newImages;
-
-          localStorage.setItem("mscChips", JSON.stringify(chips));
-          renderGallery(chip.images);
-
-          quickFiles.value = "";
-          quickUploadPanel.style.display = "none";
-          quickUploadText.textContent = "Choose one or more photos to add to this chip.";
-        });
-      }
+    lightbox.addEventListener("click", () => {
+      lightbox.classList.remove("active");
+      lightboxImg.src = "";
     });
   </script>
-
-  <div id="lightbox" style="
-    display:none;
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.88);
-    z-index:9999;
-    align-items:center;
-    justify-content:center;
-    padding:30px;
-  ">
-    <button id="lightboxClose" style="
-      position:absolute;
-      top:20px;
-      right:20px;
-      background:linear-gradient(180deg, #f3d77b, #d4af37);
-      color:#1a1206;
-      border:none;
-      border-radius:999px;
-      padding:10px 16px;
-      font-size:18px;
-      font-weight:bold;
-      cursor:pointer;
-      z-index:10000;
-    ">X</button>
-
-    <button id="prevImage" style="
-      position:absolute;
-      left:20px;
-      top:50%;
-      transform:translateY(-50%);
-      background:rgba(212,175,55,0.92);
-      color:#1a1206;
-      border:2px solid #fff4c7;
-      border-radius:50%;
-      width:58px;
-      height:58px;
-      font-size:34px;
-      font-weight:bold;
-      line-height:1;
-      cursor:pointer;
-      z-index:10000;
-      box-shadow:0 0 18px rgba(212,175,55,0.45);
-    ">‹</button>
-
-    <button id="nextImage" style="
-      position:absolute;
-      right:20px;
-      top:50%;
-      transform:translateY(-50%);
-      background:rgba(212,175,55,0.92);
-      color:#1a1206;
-      border:2px solid #fff4c7;
-      border-radius:50%;
-      width:58px;
-      height:58px;
-      font-size:34px;
-      font-weight:bold;
-      line-height:1;
-      cursor:pointer;
-      z-index:10000;
-      box-shadow:0 0 18px rgba(212,175,55,0.45);
-    ">›</button>
-
-    <img id="lightboxImg" src="" alt="Full View" style="
-      max-width:90%;
-      max-height:90%;
-      border-radius:16px;
-      box-shadow:0 0 30px rgba(212,175,55,0.35);
-    ">
-  </div>
 </body>
 </html>
