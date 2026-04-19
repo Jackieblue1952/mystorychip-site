@@ -789,7 +789,8 @@ document.addEventListener("DOMContentLoaded", () => {
     existingChip.status = "setup_complete";
     localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
 
-    window.location.href = "success.html?code=" + chipCode;
+alert("Redirecting now...");
+window.location.href = "success.html?code=" + chipCode;   
   });
 
 });   
