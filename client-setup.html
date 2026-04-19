@@ -467,13 +467,22 @@
   </div>
 
   <script>
-    const params = new URLSearchParams(window.location.search);
+const params = new URLSearchParams(window.location.search);
 const chipCode = params.get("code");
 const STORAGE_KEY = "mscChips";
 const STORAGE_LIMIT_MB = 250;
+
+function parseStoredChips() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+  } catch (error) {
+    return [];
+  }
+}
+
 let chips = parseStoredChips();
 let existingChip = chips.find(c => c.code === chipCode);
-    
+
 if (!existingChip) {
   existingChip = {
     code: chipCode,
@@ -481,233 +490,116 @@ if (!existingChip) {
   };
   chips.push(existingChip);
 }
-        if (existingChip.name) {
-  document.getElementById("name").value = existingChip.name;
+
+function getMode() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("mode") || "full";
 }
 
-if (existingChip.email) {
-  document.getElementById("email").value = existingChip.email;
+function toggleCustomCategory() {
+  const category = document.getElementById("category");
+  const customCategory = document.getElementById("customCategory");
+  if (!category || !customCategory) return;
+
+  if (category.value === "custom") {
+    customCategory.classList.remove("hidden");
+  } else {
+    customCategory.classList.add("hidden");
+    customCategory.value = "";
+  }
 }
 
-if (existingChip.title) {
-  document.getElementById("title").value = existingChip.title;
+function getExistingStorageMB(chip) {
+  if (!chip || !Array.isArray(chip.images)) return 0;
+  let totalBytes = 0;
+  chip.images.forEach(src => {
+    if (typeof src === "string") {
+      totalBytes += src.length;
+    }
+  });
+  return totalBytes / (1024 * 1024);
 }
 
-if (existingChip.category) {
-  document.getElementById("category").value = existingChip.category;
+function updateUsage(existingMB, files) {
+  const usage = document.getElementById("usage");
+  const fill = document.getElementById("fill");
+  if (!usage || !fill) return;
+
+  let newBytes = 0;
+  if (files && files.length > 0) {
+    Array.from(files).forEach(file => {
+      newBytes += file.size || 0;
+    });
+  }
+
+  const totalMB = existingMB + (newBytes / (1024 * 1024));
+  const percent = Math.min((totalMB / STORAGE_LIMIT_MB) * 100, 100);
+
+  usage.textContent = `${files ? files.length : 0} photos selected • ${totalMB.toFixed(2)} MB of ${STORAGE_LIMIT_MB} MB used`;
+  fill.style.width = percent + "%";
 }
 
-if (existingChip.headline) {
-  document.getElementById("headline").value = existingChip.headline;
-}
-
-if (existingChip.desc) {
-  document.getElementById("desc").value = existingChip.desc;
-} 
-    function getMode() {
-      const params = new URLSearchParams(window.location.search);
-      return params.get("mode") || "full";
-    }
-
-    function parseStoredChips() {
-      try {
-        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-      } catch (error) {
-        return [];
-      }
-    }
-
-    function getLatestChip(chips) {
-      if (!Array.isArray(chips) || chips.length === 0) return null;
-      return chips[chips.length - 1];
-    }
-
-    function toggleCustomCategory() {
-      const category = document.getElementById("category").value;
-      const customInput = document.getElementById("customCategory");
-      customInput.classList.toggle("hidden", category !== "custom");
-    }
-
-    function bytesToMB(bytes) {
-      return bytes / (1024 * 1024);
-    }
-
-    function estimateBase64Bytes(dataUrl) {
-      if (typeof dataUrl !== "string" || !dataUrl.includes(",")) return 0;
-      const base64 = dataUrl.split(",")[1] || "";
-      return Math.ceil((base64.length * 3) / 4);
-    }
-
-    function getExistingStorageMB(chip) {
-      if (!chip || !Array.isArray(chip.images)) return 0;
-      const totalBytes = chip.images.reduce((sum, img) => sum + estimateBase64Bytes(img), 0);
-      return bytesToMB(totalBytes);
-    }
-
-    function updateUsage(existingMB = 0, selectedFiles = []) {
-      const usage = document.getElementById("usage");
-      const fill = document.getElementById("fill");
-
-      const selectedBytes = Array.from(selectedFiles).reduce((sum, file) => sum + file.size, 0);
-      const selectedMB = bytesToMB(selectedBytes);
-      const totalMB = existingMB + selectedMB;
-      const percent = Math.min((totalMB / STORAGE_LIMIT_MB) * 100, 100);
-
-      const photoCount = selectedFiles.length;
-      const label = photoCount === 1 ? "photo" : "photos";
-
-      usage.textContent = `${photoCount} ${label} selected • ${totalMB.toFixed(2)} MB of ${STORAGE_LIMIT_MB} MB used`;
-      fill.style.width = percent + "%";
-    }
-
-   function renderSelectedPreviews(files) {
+function renderSelectedPreviews(files) {
   const previewGrid = document.getElementById("previewGrid");
+  if (!previewGrid) return;
   previewGrid.innerHTML = "";
 
-  Array.from(files).forEach((file) => {
-    const item = document.createElement("div");
-    item.className = "preview-item";
+  if (!files || files.length === 0) return;
 
-    if (file.type.startsWith("image/")) {
-      const reader = new FileReader();
+  Array.from(files).forEach(file => {
+    if (!file.type.startsWith("image/")) return;
 
-      reader.onload = function(e) {
-        const img = document.createElement("img");
-        img.src = e.target.result;
-        img.alt = file.name || "Preview";
-        item.appendChild(img);
-      };
-
-      reader.readAsDataURL(file);
-    } else {
-      item.style.display = "flex";
-      item.style.alignItems = "center";
-      item.style.justifyContent = "center";
-      item.style.flexDirection = "column";
-      item.style.padding = "10px";
-      item.style.height = "90px";
-      item.style.color = "#f5d98c";
-      item.style.fontSize = "12px";
-      item.style.textAlign = "center";
-      item.style.lineHeight = "1.3";
-
-      const icon = document.createElement("div");
-      icon.textContent = "DOC";
-      icon.style.fontSize = "22px";
-      icon.style.fontWeight = "bold";
-      icon.style.marginBottom = "6px";
-
-      const name = document.createElement("div");
-      name.textContent = file.name.length > 18
-        ? file.name.slice(0, 15) + "..."
-        : file.name;
-
-      item.appendChild(icon);
-      item.appendChild(name);
-    }
-
-    previewGrid.appendChild(item);
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const img = document.createElement("img");
+      img.src = e.target.result;
+      img.style.width = "100px";
+      img.style.height = "100px";
+      img.style.objectFit = "cover";
+      img.style.borderRadius = "12px";
+      previewGrid.appendChild(img);
+    };
+    reader.readAsDataURL(file);
   });
-} 
+}
 
-    function applyModeUI(mode) {
-      const detailsSection = document.getElementById("detailsSection");
-      const modeNote = document.getElementById("modeNote");
-      const pageTitle = document.getElementById("pageTitle");
-      const pageLead = document.getElementById("pageLead");
-      const uploadHeading = document.getElementById("uploadHeading");
-      const uploadHelper = document.getElementById("uploadHelper");
-      const agreeRow = document.getElementById("agreeRow");
-      const saveBtn = document.getElementById("saveBtn");
+function renderExistingPhotos(chip) {
+  const wrap = document.getElementById("existingPhotosWrap");
+  const grid = document.getElementById("existingPhotosGrid");
+  if (!wrap || !grid) return;
 
-      if (mode === "photos") {
-        detailsSection.classList.add("hidden");
-        agreeRow.classList.add("hidden");
-        document.getElementById("agree").checked = true;
-        document.getElementById("agree").required = false;
+  grid.innerHTML = "";
 
-        pageTitle.textContent = "Add More Photos";
-        pageLead.textContent = "You are adding more images to your current chip.";
-        uploadHeading.textContent = "Add Photos";
-        uploadHelper.textContent = "Choose one or more images below, then save to add them to your current chip.";
-        modeNote.textContent = "Photo mode is on. Your story and details stay as they are.";
-        saveBtn.textContent = "Save Photos";
-      } else {
-        detailsSection.classList.remove("hidden");
-        agreeRow.classList.remove("hidden");
-        document.getElementById("agree").required = true;
+  if (!chip || !Array.isArray(chip.images) || chip.images.length === 0) {
+    wrap.style.display = "none";
+    return;
+  }
 
-        pageTitle.textContent = "Set Up Your Chip";
-        pageLead.textContent = "Add the details, story, and uploads that bring your MyStoryChip to life.";
-        uploadHeading.textContent = "Uploads";
-        uploadHelper.textContent = "Add one or more photos now, or come back later and add more.";
-        modeNote.textContent = "Editing your current chip information and uploads.";
-        saveBtn.textContent = "Save My Chip";
-      }
-    }
+  wrap.style.display = "block";
 
-    function loadExistingChip() {
-      const chips = parseStoredChips();
-      const chip = getLatestChip(chips);
-      if (!chip) return null;
+  chip.images.forEach(src => {
+    if (!src) return;
+    const img = document.createElement("img");
+    img.src = src;
+    img.style.width = "100px";
+    img.style.height = "100px";
+    img.style.objectFit = "cover";
+    img.style.borderRadius = "12px";
+    grid.appendChild(img);
+  });
+}
 
-      document.getElementById("name").value = chip.fullName || chip.name || chip.customerName || "";
-      document.getElementById("email").value = chip.email || chip.customerEmail || "";
-      document.getElementById("title").value = chip.title || chip.name || "";
-      document.getElementById("headline").value = chip.headline || "";
-      document.getElementById("desc").value = chip.description || "";
-
-      const categorySelect = document.getElementById("category");
-      const customInput = document.getElementById("customCategory");
-      const knownCategories = Array.from(categorySelect.options).map(opt => opt.value);
-
-      if (chip.category && knownCategories.includes(chip.category)) {
-        categorySelect.value = chip.category;
-        customInput.value = "";
-        customInput.classList.add("hidden");
-      } else if (chip.category) {
-        categorySelect.value = "custom";
-        customInput.value = chip.category;
-        customInput.classList.remove("hidden");
-      }
-
-      return chip;
-    }
-
-    function readFilesAsDataUrls(files) {
-  const promises = Array.from(files).map((file) => {
-    return new Promise((resolve) => {
-      const img = new Image();
-      const reader = new FileReader();
-
-      reader.onload = function (e) {
-        img.src = e.target.result;
-      };
-
-      img.onload = function () {
-        // create canvas
-        const canvas = document.createElement("canvas");
-
-        // 🔧 resize logic (max width)
-        const MAX_WIDTH = 1200;
-        const scale = Math.min(MAX_WIDTH / img.width, 1);
-
-        canvas.width = img.width * scale;
-        canvas.height = img.height * scale;
-
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-        // 🔧 compression (0.7 = good balance)
-        const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.7);
-
-        resolve(compressedDataUrl);
-      };
-
-      img.onerror = function () {
+function readFilesAsDataUrls(files) {
+  const promises = Array.from(files).map(file => {
+    return new Promise(resolve => {
+      if (!file.type.startsWith("image/")) {
         resolve(null);
-      };
+        return;
+      }
 
+      const reader = new FileReader();
+      reader.onload = e => resolve(e.target.result);
+      reader.onerror = () => resolve(null);
       reader.readAsDataURL(file);
     });
   });
@@ -715,22 +607,40 @@ if (existingChip.desc) {
   return Promise.all(promises);
 }
 
+function applyModeUI(mode) {
+  const modeNote = document.getElementById("modeNote");
+  if (!modeNote) return;
+
+  if (mode === "photos") {
+    modeNote.textContent = "Editing your current chip information and uploads.";
+  } else {
+    modeNote.textContent = "";
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-
-  const params = new URLSearchParams(window.location.search);
-  const chipCode = params.get("code");
-
   const mode = getMode();
   const filesInput = document.getElementById("files");
   const form = document.getElementById("form");
   const category = document.getElementById("category");
 
+  if (existingChip.name) document.getElementById("name").value = existingChip.name;
+  if (existingChip.email) document.getElementById("email").value = existingChip.email;
+  if (existingChip.phone) document.getElementById("phone").value = existingChip.phone;
+  if (existingChip.pin) document.getElementById("pin").value = existingChip.pin;
+  if (existingChip.title) document.getElementById("title").value = existingChip.title;
+  if (existingChip.category) document.getElementById("category").value = existingChip.category;
+  if (existingChip.headline) document.getElementById("headline").value = existingChip.headline;
+  if (existingChip.desc) document.getElementById("desc").value = existingChip.desc;
+  if (existingChip.description && !existingChip.desc) {
+    document.getElementById("desc").value = existingChip.description;
+  }
+
   applyModeUI(mode);
 
-  const chip = loadExistingChip();
-  const existingMB = getExistingStorageMB(chip);
+  const existingMB = getExistingStorageMB(existingChip);
   updateUsage(existingMB, []);
-  renderExistingPhotos(chip);
+  renderExistingPhotos(existingChip);
   toggleCustomCategory();
 
   category.addEventListener("change", toggleCustomCategory);
@@ -743,29 +653,28 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    if (!chipCode) {
+      alert("Missing chip code in URL.");
+      return;
+    }
+
     existingChip.name = document.getElementById("name").value;
     existingChip.email = document.getElementById("email").value;
+    existingChip.phone = document.getElementById("phone").value.trim();
+    existingChip.pin = document.getElementById("pin").value.trim();
     existingChip.title = document.getElementById("title").value;
-    existingChip.category = document.getElementById("category").value;
     existingChip.headline = document.getElementById("headline").value;
     existingChip.desc = document.getElementById("desc").value;
+    existingChip.description = document.getElementById("desc").value.trim();
     existingChip.updatedAt = new Date().toISOString();
 
-    if (mode !== "photos") {
-      existingChip.fullName = document.getElementById("name").value.trim();
-      existingChip.phone = document.getElementById("phone").value.trim();
-      existingChip.pin = document.getElementById("pin").value.trim();
+    const selectedCategory = document.getElementById("category").value;
+    const customCategory = document.getElementById("customCategory").value.trim();
 
-      const selectedCategory = document.getElementById("category").value;
-      const customCategory = document.getElementById("customCategory").value.trim();
-
-      existingChip.category =
-        selectedCategory === "custom" && customCategory
-          ? customCategory
-          : selectedCategory;
-
-      existingChip.description = document.getElementById("desc").value.trim();
-    }
+    existingChip.category =
+      selectedCategory === "custom" && customCategory
+        ? customCategory
+        : selectedCategory;
 
     if (!existingChip.phone) {
       alert("Phone number is required.");
@@ -790,11 +699,10 @@ document.addEventListener("DOMContentLoaded", () => {
     existingChip.status = "setup_complete";
     localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
 
-alert("Redirecting now...");
-window.location.href = "success.html?code=" + chipCode;   
+    alert("Redirecting now...");
+    window.location.href = "success.html?code=" + chipCode;
   });
-
-});   
+});
 </script>
 </body>
 </html>
