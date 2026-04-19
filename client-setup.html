@@ -471,6 +471,8 @@ removeBtn.style.fontSize = "16px";
 removeBtn.style.fontWeight = "bold";
 removeBtn.style.cursor = "pointer";
 removeBtn.style.textShadow = "0 0 6px rgba(0,0,0,0.8)";
+removeBtn.onmouseover = () => removeBtn.style.color = "#ffffff";
+removeBtn.onmouseout = () => removeBtn.style.color = "#f5d97a";    
 
     removeBtn.onclick = () => {
       workingImages.splice(index, 1);
