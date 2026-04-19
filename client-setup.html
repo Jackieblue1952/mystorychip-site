@@ -460,22 +460,17 @@ function renderImages() {
     img.src = src;
 
     const removeBtn = document.createElement("button");
-   removeBtn.innerHTML = "✕";
+  removeBtn.innerHTML = "✕";
 removeBtn.style.position = "absolute";
 removeBtn.style.top = "6px";
-removeBtn.style.right = "6px";
-removeBtn.style.background = "rgba(0,0,0,0.65)";
-removeBtn.style.color = "#fff";
-removeBtn.style.border = "1px solid rgba(255,255,255,0.2)";
-removeBtn.style.borderRadius = "50%";
-removeBtn.style.width = "18px";
-removeBtn.style.height = "18px";
-removeBtn.style.fontSize = "12px";
-removeBtn.style.display = "flex";
-removeBtn.style.alignItems = "center";
-removeBtn.style.justifyContent = "center";
+removeBtn.style.right = "8px";
+removeBtn.style.background = "transparent";
+removeBtn.style.color = "#f5d97a";
+removeBtn.style.border = "none";
+removeBtn.style.fontSize = "16px";
+removeBtn.style.fontWeight = "bold";
 removeBtn.style.cursor = "pointer";
-removeBtn.style.backdropFilter = "blur(2px)"; 
+removeBtn.style.textShadow = "0 0 6px rgba(0,0,0,0.8)";
 
     removeBtn.onclick = () => {
       workingImages.splice(index, 1);
