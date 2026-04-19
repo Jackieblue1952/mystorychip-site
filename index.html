@@ -1,141 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MyStoryChip — Tap Into the Story Behind Anything</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyStoryChip</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Georgia, serif;
+  color: #f5e6c8;
+  text-align: center;
+  background:
+    linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.9)),
+    url("landing-page.png") center center / cover no-repeat fixed;
+}
 
-    html, body {
-      width: 100%;
-      height: 100%;
-      background: #050505;
-      font-family: Georgia, "Times New Roman", serif;
-      overflow: hidden;
-    }
+/* MAIN WRAP */
+.wrap {
+  padding: 80px 20px;
+  max-width: 900px;
+  margin: auto;
+}
 
-    .page,
-    .poster-wrap,
-    .poster {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-    }
+/* BRAND */
+.brand {
+  font-size: 20px;
+  letter-spacing: 2px;
+  color: #d4af37;
+  margin-bottom: 10px;
+}
 
-    .poster img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center center;
-      pointer-events: none;
-      user-select: none;
-      filter:
-        drop-shadow(0 0 18px rgba(212,175,55,0.18))
-        drop-shadow(0 0 42px rgba(212,175,55,0.10));
-    }
+/* TAGLINE */
+.tagline {
+  font-size: 14px;
+  color: #e6d3a3;
+  margin-bottom: 30px;
+}
 
-    /* ADMIN BUTTON (leave it alone) */
-    .admin-btn {
-      position: absolute;
-      top: 18px;
-      right: 18px;
-      z-index: 10000;
-      padding: 7px 15px;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 0.8rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #f5e6c8;
-      text-decoration: none;
-      background: rgba(212,175,55,0.10);
-      border: 1px solid rgba(212,175,55,0.35);
-      border-radius: 999px;
-      backdrop-filter: blur(4px);
-      box-shadow: 0 0 10px rgba(212,175,55,0.15);
-    }
+/* HEADLINE */
+h1 {
+  font-size: 42px;
+  margin: 10px 0;
+  line-height: 1.2;
+}
 
-    /* INVISIBLE CLICK AREA (THE CHIP) */
-    .story-hotspot {
-      position: absolute;
-      left: 50%;
-      top: 61%;
-      transform: translate(-50%, -50%);
-      width: 7vw;
-      height: 7vw;
-      max-width: 100px;
-      max-height: 100px;
-      min-width: 60px;
-      min-height: 60px;
-      border-radius: 14px;
-      z-index: 9999;
-      cursor: pointer;
+/* SUBLINE */
+.subline {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #e6d3a3;
+}
 
-      background: radial-gradient(
-        ellipse at center,
-        rgba(255,220,140,0.35) 0%,
-        rgba(212,175,55,0.18) 40%,
-        rgba(212,175,55,0.05) 65%,
-        rgba(212,175,55,0.00) 80%
-      );
+/* DESCRIPTION */
+.desc {
+  margin-top: 25px;
+  font-size: 18px;
+  line-height: 1.6;
+}
 
-      box-shadow:
-        0 0 28px rgba(255,220,140,0.45),
-        0 0 60px rgba(212,175,55,0.35);
+/* BUTTON */
+.btn {
+  display: inline-block;
+  margin-top: 40px;
+  padding: 16px 28px;
+  background: #d4af37;
+  color: #111;
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 18px;
+  box-shadow: 0 0 20px rgba(212,175,55,0.4);
+}
 
-      animation: pulse 2s ease-in-out infinite;
-    }
+.btn:hover {
+  background: #f5d97a;
+}
 
-    @keyframes pulse {
-      0%, 100% { transform: translate(-50%, -50%) scale(0.92); }
-      50% { transform: translate(-50%, -50%) scale(1.12); }
-    }
-
-    /* TAP TEXT (clean + subtle red) */
-    .tap-text {
-      position: absolute;
-      left: 50%;
-      top: 61%;
-      transform: translate(-50%, -50%);
-      z-index: 10000;
-      pointer-events: none;
-
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 1rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-
-      color: rgba(200, 60, 40, 0.95);
-
-      text-shadow:
-        0 0 10px rgba(200, 60, 40, 0.7),
-        0 0 18px rgba(0,0,0,0.85);
-    }
-
-  </style>
+/* FOOTER */
+.footer {
+  margin-top: 80px;
+  font-size: 12px;
+  color: #cdbb8f;
+}
+</style>
 </head>
 
 <body>
-  <div class="page">
-    <div class="poster-wrap">
-      <div class="poster">
 
-        <img src="landing-page.png" alt="MyStoryChip landing page" />
+<div class="wrap">
 
-        <a href="admin.html" class="admin-btn">Admin</a>
+  <div class="brand">MyStoryChip</div>
 
-      <a href="story-new.html" class="story-hotspot"></a>
+  <div class="tagline">YOUR CHIP. YOUR STORY.</div>
 
-        <div class="tap-text">TAP</div>
+  <h1>
+    TAP ANYTHING.<br>
+    INSTANTLY SEE ITS STORY.
+  </h1>
 
-      </div>
-    </div>
+  <div class="subline">
+    Powered by MyStoryChip NFC technology
   </div>
+
+  <div class="desc">
+    Attach a MyStoryChip to anything.<br>
+    Tap it with your phone and instantly open its story, photos, or history.
+  </div>
+
+  <a href="buy.html" class="btn">Get Your Chip</a>
+
+  <div class="footer">
+    MyStoryChip.com<br>
+    Founder & Creator: Jack W. Kennedy
+  </div>
+
+</div>
+
 </body>
 </html>
