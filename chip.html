@@ -688,5 +688,33 @@ const supabaseKey = "sb_publishable_xdy7N3s-1sQLo9vPe700FQ_VTLS8BjQ";
 
 const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 </script>
+  <script>
+const params = new URLSearchParams(window.location.search);
+const code = params.get("code");
+
+async function loadChip() {
+  const { data, error } = await supabase
+    .from("chips")
+    .select("*")
+    .eq("chip_code", code)
+    .single();
+
+  if (data) {
+    document.body.innerHTML = `
+      <h1 style="color:gold; text-align:center; margin-top:50px;">
+        Chip Found: ${data.chip_code}
+      </h1>
+    `;
+  } else {
+    document.body.innerHTML = `
+      <h1 style="color:red; text-align:center; margin-top:50px;">
+        Chip Not Found
+      </h1>
+    `;
+  }
+}
+
+loadChip();
+</script>
 </body>
 </html>
