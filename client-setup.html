@@ -667,18 +667,52 @@
       });
     }
 
-    function readFilesAsDataUrls(files) {
-      const imageFiles = Array.from(files).filter(file => file.type.startsWith("image/"));
+  function readFilesAsDataUrls(files) {
+  const MAX_WIDTH = 1000;
+  const QUALITY = 0.60;
 
-      return Promise.all(imageFiles.map(file => {
-        return new Promise(resolve => {
-          const reader = new FileReader();
-          reader.onload = e => resolve(e.target.result);
-          reader.onerror = () => resolve(null);
-          reader.readAsDataURL(file);
-        });
-      }));
-    }
+  const imageFiles = Array.from(files).filter(file => file.type.startsWith("image/"));
+
+  return Promise.all(imageFiles.map(file => {
+    return new Promise(resolve => {
+      const reader = new FileReader();
+
+      reader.onload = (event) => {
+        const img = new Image();
+
+        img.onload = () => {
+          let width = img.width;
+          let height = img.height;
+
+          if (width > MAX_WIDTH) {
+            height = Math.round(height * (MAX_WIDTH / width));
+            width = MAX_WIDTH;
+          }
+
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+
+          if (!ctx) {
+            resolve(null);
+            return;
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          ctx.drawImage(img, 0, 0, width, height);
+
+          resolve(canvas.toDataURL("image/jpeg", QUALITY));
+        };
+
+        img.onerror = () => resolve(null);
+        img.src = event.target.result;
+      };
+
+      reader.onerror = () => resolve(null);
+      reader.readAsDataURL(file);
+    });
+  }));
+} 
 
     function applyModeUI(mode) {
       const modeNote = document.getElementById("modeNote");
