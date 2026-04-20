@@ -1,205 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Setup Complete | MyStoryChip</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Setup Complete | MyStoryChip</title>
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background:
-        linear-gradient(rgba(10,10,10,0.78), rgba(10,10,10,0.9)),
-        url("landing-page.png") center center / cover no-repeat fixed;
-      color: #f5e6c8;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Georgia, serif;
+  background:
+    linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)),
+    url("landing-page.png") center/cover no-repeat;
+  color: #f5e6c8;
+  text-align: center;
+}
 
-    .card {
-      width: 100%;
-      max-width: 720px;
-      background: rgba(20, 20, 20, 0.88);
-      border: 1px solid rgba(212, 175, 55, 0.35);
-      border-radius: 18px;
-      padding: 34px 26px;
-      box-shadow: 0 0 28px rgba(212, 175, 55, 0.18);
-      text-align: center;
-    }
+.wrap {
+  max-width: 600px;
+  margin: 100px auto;
+  padding: 40px 20px;
+}
 
-    .brand {
-      color: #d4af37;
-      font-size: 14px;
-      font-weight: bold;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 14px;
-    }
+.card {
+  background: rgba(10,7,3,0.75);
+  border: 1px solid rgba(212,175,55,0.3);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
 
-    h1 {
-      margin: 0 0 14px;
-      font-size: 36px;
-      line-height: 1.15;
-      color: #f5e6c8;
-    }
+h1 {
+  margin-bottom: 10px;
+}
 
-    .lead {
-      margin: 0 auto 22px;
-      max-width: 560px;
-      font-size: 18px;
-      line-height: 1.6;
-      color: #e8dcc0;
-    }
+.code {
+  font-size: 28px;
+  margin: 20px 0;
+  color: #f5d97a;
+}
 
-    .chip-box {
-      margin: 22px auto 28px;
-      padding: 18px 16px;
-      max-width: 420px;
-      border-radius: 14px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(212, 175, 55, 0.22);
-    }
+.btn {
+  display: block;
+  margin: 15px auto;
+  padding: 14px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+  width: 80%;
+  max-width: 260px;
+}
 
-    .chip-label {
-      font-size: 13px;
-      color: #d4af37;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 8px;
-    }
+.primary {
+  background: #d4af37;
+  color: #111;
+}
 
-    .chip-code {
-      font-size: 30px;
-      font-weight: bold;
-      color: #ffffff;
-      word-break: break-word;
-    }
+.secondary {
+  border: 1px solid #d4af37;
+  color: #f5e6c8;
+}
 
-    .button-group {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-top: 10px;
-    }
-
-    .btn {
-      display: inline-block;
-      width: 100%;
-      padding: 15px 18px;
-      border-radius: 12px;
-      text-decoration: none;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s ease;
-      border: none;
-    }
-
-    .btn-primary {
-      background: #d4af37;
-      color: #111;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 0 18px rgba(212,175,55,0.35);
-    }
-
-    .btn-secondary {
-      background: transparent;
-      color: #f5e6c8;
-      border: 1px solid rgba(245, 230, 200, 0.28);
-    }
-
-    .btn-secondary:hover {
-      border-color: rgba(212,175,55,0.5);
-      color: #fff;
-    }
-
-    .note {
-      margin-top: 22px;
-      font-size: 15px;
-      color: #cdbf9f;
-      line-height: 1.5;
-    }
-
-    .error {
-      margin-top: 20px;
-      color: #ffb3b3;
-      font-weight: bold;
-      display: none;
-    }
-
-    @media (max-width: 640px) {
-      h1 {
-        font-size: 29px;
-      }
-
-      .lead {
-        font-size: 17px;
-      }
-
-      .chip-code {
-        font-size: 24px;
-      }
-    }
-  </style>
+.footer {
+  margin-top: 30px;
+  font-size: 12px;
+  opacity: 0.7;
+}
+</style>
 </head>
+
 <body>
+
+<div class="wrap">
   <div class="card">
-    <div class="brand">MyStoryChip</div>
 
     <h1>Your Chip Is Ready</h1>
 
-    <p class="lead">
-      Your setup was saved successfully. You can now view this chip or go back and edit this same chip using its code.
-    </p>
+    <div>Your Chip Code:</div>
+    <div id="chipCode" class="code">...</div>
 
-    <div class="chip-box">
-      <div class="chip-label">Chip Code</div>
-      <div class="chip-code" id="chipCode">Loading...</div>
-    </div>
+    <a id="setupBtn" class="btn primary">Set Up My Chip</a>
+    <a id="viewBtn" class="btn secondary">View My Chip</a>
 
-    <div class="button-group">
-      <a id="viewChipBtn" class="btn btn-primary" href="#">View My Chip</a>
-      <a id="editChipBtn" class="btn btn-secondary" href="#">Edit This Chip</a>
-    </div>
-
-    <div class="note">
-      This page now carries your chip code forward so the next page opens the exact same chip.
-    </div>
-
-    <div class="error" id="errorBox">
-      No chip code was found in the page link.
-    </div>
   </div>
 
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const code = params.get("code");
+  <div class="footer">
+    MyStoryChip.com<br>
+    Founder & Creator: Jack W. Kennedy
+  </div>
+</div>
 
-    const chipCodeEl = document.getElementById("chipCode");
-    const viewChipBtn = document.getElementById("viewChipBtn");
-    const editChipBtn = document.getElementById("editChipBtn");
-    const errorBox = document.getElementById("errorBox");
+<script>
+// GET CODE FROM URL
+const params = new URLSearchParams(window.location.search);
+const code = params.get("code") || "TEST123";
 
-    if (code) {
-      chipCodeEl.textContent = code;
-      viewChipBtn.href = `chip.html?code=${encodeURIComponent(code)}`;
-      editChipBtn.href = `client-setup.html?code=${encodeURIComponent(code)}`;
-    } else {
-      chipCodeEl.textContent = "Missing code";
-      viewChipBtn.style.display = "none";
-      editChipBtn.style.display = "none";
-      errorBox.style.display = "block";
-    }
-  </script>
+// SHOW CODE
+document.getElementById("chipCode").textContent = code;
+
+// LINK BUTTONS
+document.getElementById("setupBtn").href = `client-setup.html?code=${code}`;
+document.getElementById("viewBtn").href = `chip.html?code=${code}`;
+</script>
+
 </body>
 </html>
