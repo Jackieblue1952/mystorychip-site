@@ -431,7 +431,7 @@
     function updateLightboxImage() {
       if (!galleryImages.length) return;
       lightboxImg.src = galleryImages[currentImageIndex];
-      lightboxCounter.textContent = \`\${currentImageIndex + 1} of \${galleryImages.length}\`;
+    lightboxCounter.textContent = `${currentImageIndex + 1} of ${galleryImages.length}`;
     }
 
     function openLightbox(index) {
@@ -460,7 +460,7 @@
     if (!code) {
       renderMissing("No chip code was found in the page link.");
     } else {
-      editLinkTop.href = \`client-setup.html?code=\${encodeURIComponent(code)}\`;
+    editLinkTop.href = `client-setup.html?code=${encodeURIComponent(code)}`;
 
       let chips = [];
       try {
@@ -472,7 +472,7 @@
       const chip = chips.find(item => item && item.code === code);
 
       if (!chip) {
-        renderMissing(\`We could not find a saved chip with code \${code}.\`);
+      renderMissing(`We could not find a saved chip with code ${code}.`);
       } else {
         const images = Array.isArray(chip.images) ? [...new Set(chip.images.filter(Boolean))] : [];
         galleryImages = images;
