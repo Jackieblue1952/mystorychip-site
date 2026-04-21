@@ -544,7 +544,10 @@
     const chipCode = params.get("code");
     const STORAGE_KEY = "mscChips";
     const STORAGE_LIMIT_MB = 250;
-
+    
+const supabaseUrl = "YOUR_SUPABASE_PROJECT_URL";
+const supabaseKey = "YOUR_SUPABASE_PUBLISHABLE_KEY";
+const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
     function parseStoredChips() {
       try {
         return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
@@ -793,7 +796,7 @@
         filesInput.value = "";
       });
 
-      form.addEventListener("submit", (e) => {
+     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         if (!chipCode) {
@@ -837,7 +840,7 @@
           return;
         }
 
-        existingChip.name = fullName;
+             existingChip.name = fullName;
         existingChip.fullName = fullName;
         existingChip.email = email;
         existingChip.phone = phone;
@@ -855,8 +858,32 @@
         existingChip.status = "setup_complete";
 
         localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
-        window.location.href = `success.html?code=${encodeURIComponent(chipCode)}`;
-      });
+
+        try {
+          const { error } = await supabaseClient
+            .from("chips")
+            .upsert(
+              {
+                chip_code: chipCode,
+                name: fullName,
+                title: title,
+                headline: headline,
+                description: desc.trim()
+              },
+              { onConflict: "chip_code" }
+            );
+
+          if (error) {
+            console.error("Supabase save error:", error);
+            alert("Cloud save failed. Local save still worked.");
+            return;
+          }
+
+          window.location.href = `success.html?code=${encodeURIComponent(chipCode)}`;
+        } catch (err) {
+          console.error("Unexpected save error:", err);
+          alert("Cloud save failed. Local save still worked.");
+        }  
 
       lightboxClose.addEventListener("click", closeLightbox);
       lightbox.addEventListener("click", (e) => {
@@ -865,6 +892,7 @@
         }
       });
     });
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   </script>
 </body>
 </html>
