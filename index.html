@@ -86,43 +86,62 @@ h1 {
   font-size: 12px;
   color: #cdbb8f;
 }
+ .hero {
+  position: relative;
+  padding-top: 120px;
+  z-index: 2;
+}
+
+.hero-glow {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  width: 500px;
+  height: 500px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(212,175,55,0.25) 0%, rgba(0,0,0,0) 70%);
+  filter: blur(40px);
+  animation: pulseGlow 4s ease-in-out infinite;
+  z-index: 0;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+}
+
+.cta-btn {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 14px 32px;
+  border: 1px solid #d4af37;
+  color: #f5e6c8;
+  background: transparent;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.cta-btn:hover {
+  background: #d4af37;
+  color: #0a0a0a;
+  box-shadow: 0 0 20px rgba(212,175,55,0.6);
+} 
 </style>
 </head>
 
 <body>
 
-<div class="wrap">
-
-  <div class="brand">MyStoryChip</div>
-
-  <div class="tagline">YOUR CHIP. YOUR STORY.</div>
-
-  <h1>
-    TAP ANYTHING.<br>
-    INSTANTLY SEE ITS STORY.
-  </h1>
-
-  <div class="subline">
-    Powered by MyStoryChip NFC technology
-  </div>
-
-  <div class="desc">
-    Attach a MyStoryChip to anything.<br>
-    Tap your phone to instantly open its story, photos, or history.
-  </div>
-
-  <a href="buy.html" class="btn">Begin Your Story</a>
-
-  <div class="footer">
-    MyStoryChip.com<br>
-    Founder & Creator: Jack W. Kennedy
 <div class="hero">
 
   <div class="hero-glow"></div>
 
+  <div class="brand">MyStoryChip</div>
+  <div class="tagline">YOUR CHIP. YOUR STORY.</div>
+
   <h1>Tap the chip.<br>Discover the story.</h1>
 
-  <div class="tagline">
+  <div class="tagline" style="font-style: italic; font-size: 18px; margin-top:15px;">
     Every object has a story… now it can be told.
   </div>
 
@@ -133,7 +152,7 @@ h1 {
     No apps. No subscriptions. Just tap and open.
   </p>
 
-  <button class="cta-btn">Begin Your Story</button>
+  <a href="buy.html" class="cta-btn">Begin Your Story</a>
 
 </div>
 
