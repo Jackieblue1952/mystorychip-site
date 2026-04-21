@@ -858,33 +858,33 @@ try {
         existingChip.updatedAt = new Date().toISOString();
         existingChip.status = "setup_complete";
 
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
+ localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
 
-        try {
-          const { error } = await supabaseClient
-            .from("chips")
-            .upsert(
-              {
-                chip_code: chipCode,
-                name: fullName,
-                title: title,
-                headline: headline,
-                description: desc.trim()
-              },
-              { onConflict: "chip_code" }
-            );
+try {
+  const { error } = await supabaseClient
+    .from("chips")
+    .upsert({
+      chip_code: chipCode,
+      name: fullName,
+      title: title,
+      headline: headline,
+      description: desc.trim()
+    }, {
+      onConflict: "chip_code"
+    });
 
-          if (error) {
-            console.error("Supabase save error:", error);
-            alert("Cloud save failed. Local save still worked.");
-            return;
-          }
+  if (error) {
+    console.error("Supabase error:", error);
+    alert("Saved locally, but cloud failed.");
+    return;
+  }
 
-          window.location.href = `success.html?code=${encodeURIComponent(chipCode)}`;
-        } catch (err) {
-          console.error("Unexpected save error:", err);
-          alert("Cloud save failed. Local save still worked.");
-        }  
+  window.location.href = `success.html?code=${encodeURIComponent(chipCode)}`;
+
+} catch (err) {
+  console.error("Unexpected error:", err);
+  alert("Saved locally, but cloud failed.");
+}      
 
       lightboxClose.addEventListener("click", closeLightbox);
       lightbox.addEventListener("click", (e) => {
