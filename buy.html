@@ -9,22 +9,24 @@
       box-sizing: border-box;
     }
 
-    body {
-      margin: 0;
-      font-family: Georgia, serif;
-      color: #f5e6c8;
-      background:
-        linear-gradient(rgba(0,0,0,0.68), rgba(0,0,0,0.9)),
-      url("chip.png") center center / cover no-repeat fixed; 
-      min-height: 100vh;
-    }
+   body {
+  margin: 0;
+  font-family: Georgia, serif;
+  color: #f5e6c8;
+  background:
+    linear-gradient(rgba(0,0,0,0.86), rgba(0,0,0,0.93)),
+    url("chip.png") center center / cover no-repeat fixed;
+  min-height: 100vh;
+}
 
-    .wrap {
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 50px 20px 70px;
-      text-align: center;
-    }
+ .wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 50px 20px 70px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}   
 
     .brand {
       font-size: 18px;
@@ -55,17 +57,17 @@
       color: #ead8ad;
     }
 
-    .card {
-      max-width: 760px;
-      margin: 0 auto;
-      background: rgba(10, 7, 3, 0.72);
-      border: 1px solid rgba(212,175,55,0.24);
-      border-radius: 24px;
-      padding: 32px 24px;
-      box-shadow:
-        0 0 18px rgba(212,175,55,0.12),
-        0 0 40px rgba(0,0,0,0.45);
-    }
+   .card {
+  max-width: 760px;
+  margin: 0 auto;
+  background: rgba(8, 6, 3, 0.82);
+  border: 1px solid rgba(212,175,55,0.20);
+  border-radius: 24px;
+  padding: 32px 24px;
+  box-shadow:
+    0 0 18px rgba(212,175,55,0.10),
+    0 0 40px rgba(0,0,0,0.52);
+}
 
     .chip-image {
       max-width: 260px;
