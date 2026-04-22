@@ -1,46 +1,1707 @@
-MyStoryChip
-Admin Control Panel
+<!DOCTYPE html>
+<!-- saved from url=(0012)about:srcdoc -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.13/html-to-image.min.js" integrity="sha512-iZ2ORl595Wx6miw+GuadDet4WQbdSWS3JLMoNfY8cRGoEFy6oT3G9IbcrBeL6AfkgpA51ETt/faX6yLV+/gFJg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+      (function() {
+        const originalConsole = window.console;
+        window.console = {
+          log: (...args) => {
+            originalConsole.log(...args);
+            window.parent.postMessage({ type: 'console', message: args.join(' ') }, '*');
+          },
+          error: (...args) => {
+            originalConsole.error(...args);
+            window.parent.postMessage({ type: 'console', message: 'Error: ' + args.join(' ') }, '*');
+          },
+          warn: (...args) => {
+            originalConsole.warn(...args);
+            window.parent.postMessage({ type: 'console', message: 'Warning: ' + args.join(' ') }, '*');
+          }
+        };
 
-● Admin Access
-Total Chips
-8
-Assigned
-1
-Available
-7
-Users
-0
-◆ Chip Registry
-👤 User Accounts
-+ Create Chips
-💾 Storage
-📢 Announce
-📄 Activity Log
-⚙ System
-System Settings
-Platform configuration and admin tools.
-Platform Name
-MyStoryChip
-Default Storage Per Chip (MB)
-250
-Admin Email
-admin@mystorychip.com
-Base Chip Price ($)
-49.95
-✓ Save Settings
-↻ Reload
-Danger Zone
-Destructive actions. These cannot be undone.
-⚠ Reset All Chips
-⚠ Clear All Users
-⚠ Clear Activity Log
-⚠ Wipe Everything
-Platform Info
-Platform: MyStoryChip.com
-Chip Registry: 10 chips (0 assigned, 10 available)
-Registered Users: 0
-Log Entries: 5
-Storage Per Chip: 250 MB
-Chip Price: $49.95 (one-time)
-Current Time: 3/30/2026, 1:31:54 PM
-Founder: Jack W Kennedy
+        let requestId = 0;
+        let callbacksMap = new Map();
+        let streamControllers = new Map();
+        
+        window.claude = {
+          complete: (prompt) => {
+            return new Promise((resolve, reject) => {
+              const id = requestId++;
+              callbacksMap.set(id, { resolve, reject });
+              window.parent.postMessage({ type: 'claudeComplete', id, prompt }, '*');
+            });
+          }
+        };
+
+        window.storage = {
+          get: (key, shared = false) => {
+            return new Promise((resolve, reject) => {
+              const id = requestId++;
+              callbacksMap.set(id, { resolve, reject });
+              window.parent.postMessage({ type: 'storageGet', id, key, shared }, '*');
+            });
+          },
+          set: (key, value, shared = false) => {
+            return new Promise((resolve, reject) => {
+              const id = requestId++;
+              callbacksMap.set(id, { resolve, reject });
+              window.parent.postMessage({ type: 'storageSet', id, key, value, shared }, '*');
+            });
+          },
+          delete: (key, shared = false) => {
+            return new Promise((resolve, reject) => {
+              const id = requestId++;
+              callbacksMap.set(id, { resolve, reject });
+              window.parent.postMessage({ type: 'storageDelete', id, key, shared }, '*');
+            });
+          },
+          list: (prefix, shared = false) => {
+            return new Promise((resolve, reject) => {
+              const id = requestId++;
+              callbacksMap.set(id, { resolve, reject });
+              window.parent.postMessage({ type: 'storageList', id, prefix, shared }, '*');
+            });
+          }
+        };
+
+        let pendingBlobs = new Map();
+        URL.createObjectURL = (blob) => {
+          // Store the blob and create an ID and URL for it
+          const blobId = `blob-${Date.now()}-${Math.random()}`;
+          pendingBlobs.set(blobId, blob);
+          return `blob-request://${blobId}`;
+        };
+
+        URL.revokeObjectURL = (url) => {
+          // Remove the blob from our store
+          const blobId = url.replace("blob-request://", "");
+          pendingBlobs.delete(blobId);
+        };
+
+        const getBlobFromURL = (url) => {
+          const blobId = url.replace("blob-request://", "");
+          return pendingBlobs.get(blobId);
+        };
+
+        // Override global fetch with streaming support
+        window.fetch = (url, init = {}) => {
+          return new Promise((resolve, reject) => {
+            const id = requestId++;
+            const channelId = `fetch-${id}-${Date.now()}`;
+            
+            callbacksMap.set(id, { 
+              resolve: (response) => {
+                // Create a ReadableStream for the response body
+                const stream = new ReadableStream({
+                  start(controller) {
+                    streamControllers.set(channelId, controller);
+                  },
+                  cancel() {
+                    streamControllers.delete(channelId);
+                  }
+                });
+                
+                // Create and return the Response with the stream
+                resolve(new Response(stream, {
+                  status: response.status,
+                  statusText: response.statusText,
+                  headers: response.headers
+                }));
+              },
+              reject,
+              channelId
+            });
+            
+            window.parent.postMessage({
+              type: 'proxyFetch',
+              id,
+              url,
+              init,
+              channelId
+            }, '*');
+          });
+        };
+
+        window.addEventListener('message', async (event) => {
+          if (event.data.type === 'takeScreenshot') {
+            const rootElement = document.getElementById('artifacts-component-root-html');
+            if (!rootElement) {
+              window.parent.postMessage({
+                type: 'screenshotError',
+                error: new Error('Root element not found'),
+              }, '*');
+            }
+            const screenshot = await htmlToImage.toPng(rootElement, {
+              imagePlaceholder:
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjePDgwX8ACOQDoNsk0PMAAAAASUVORK5CYII=",
+            });
+            window.parent.postMessage({
+              type: 'screenshotData',
+              data: screenshot,
+            }, '*');
+          } else if (event.data.type === 'claudeComplete') {
+            const callback = callbacksMap.get(event.data.id);
+            if (event.data.error) {
+              callback.reject(new Error(event.data.error));
+            } else {
+              callback.resolve(event.data.completion);
+            }
+            callbacksMap.delete(event.data.id);
+          } else if (event.data.type === 'proxyFetchResponse') {
+            const callback = callbacksMap.get(event.data.id);
+            if (event.data.error) {
+              callback.reject(new Error(event.data.error));
+              callbacksMap.delete(event.data.id);
+            } else {
+              // Initial response with headers, status, etc.
+              callback.resolve({
+                status: event.data.status,
+                statusText: event.data.statusText,
+                headers: event.data.headers
+              });
+              // Don't delete the callback yet if streaming
+              if (!event.data.body) {
+                callbacksMap.delete(event.data.id);
+              }
+            }
+          } else if (event.data.type === 'proxyFetchStream') {
+            // Handle streaming data chunks
+            const controller = streamControllers.get(event.data.channelId);
+            if (controller) {
+              if (event.data.error) {
+                controller.error(new Error(event.data.error));
+                streamControllers.delete(event.data.channelId);
+              } else if (event.data.done) {
+                controller.close();
+                streamControllers.delete(event.data.channelId);
+                // Clean up the callback
+                const callback = Array.from(callbacksMap.entries()).find(
+                  ([_, value]) => value.channelId === event.data.channelId
+                );
+                if (callback) {
+                  callbacksMap.delete(callback[0]);
+                }
+              } else if (event.data.chunk) {
+                controller.enqueue(new Uint8Array(event.data.chunk));
+              }
+            }
+          } else if (event.data.type === 'storageGet') {
+            const callback = callbacksMap.get(event.data.id);
+            if (event.data.error) {
+              callback.reject(new Error(event.data.error));
+            } else {
+              callback.resolve(event.data.result);
+            }
+            callbacksMap.delete(event.data.id);
+          } else if (event.data.type === 'storageSet') {
+            const callback = callbacksMap.get(event.data.id);
+            if (event.data.error) {
+              callback.reject(new Error(event.data.error));
+            } else {
+              callback.resolve(event.data.result);
+            }
+            callbacksMap.delete(event.data.id);
+          } else if (event.data.type === 'storageDelete') {
+            const callback = callbacksMap.get(event.data.id);
+            if (event.data.error) {
+              callback.reject(new Error(event.data.error));
+            } else {
+              callback.resolve(event.data.result);
+            }
+            callbacksMap.delete(event.data.id);
+          } else if (event.data.type === 'storageList') {
+            const callback = callbacksMap.get(event.data.id);
+            if (event.data.error) {
+              callback.reject(new Error(event.data.error));
+            } else {
+              callback.resolve(event.data.result);
+            }
+            callbacksMap.delete(event.data.id);
+          }
+        });
+
+        window.addEventListener('click', (event) => {
+          const isEl = event.target instanceof HTMLElement;
+          if (!isEl) return;
+    
+          // find ancestor links
+          const linkEl = event.target.closest("a");
+          if (!linkEl || !linkEl.href) return;
+    
+          event.preventDefault();
+          event.stopImmediatePropagation();
+    
+          if (linkEl.href.startsWith("blob-request:")) {
+            const blob = getBlobFromURL(linkEl.href);
+            if (!blob) return;
+            void blob.arrayBuffer().then((data) => {
+              window.parent.postMessage({
+                type: "downloadFile",
+                filename: linkEl.download,
+                data,
+                mimeType: blob.type || "application/octet-stream",
+              });
+            });
+          } else if (linkEl.href.startsWith("data:")) {
+            const [header, base64Data] = linkEl.href.split(",");
+            const mimeMatch = header.match(/data:([^;]+)/);
+            const mimeType = mimeMatch ? mimeMatch[1] : "application/octet-stream";
+            const binaryString = atob(base64Data);
+            const data = Uint8Array.from(binaryString, (c) =>
+              c.charCodeAt(0),
+            ).buffer;
+            window.parent.postMessage({
+              type: "downloadFile",
+              filename: linkEl.download,
+              data,
+              mimeType,
+            });
+          } else {
+            let linkUrl;
+            try {
+              linkUrl = new URL(linkEl.href);
+            } catch (error) {
+              return;
+            }
+    
+            if (linkUrl.hostname === window.location.hostname) return;
+      
+            window.parent.postMessage({
+              type: 'openExternal',
+              href: linkEl.href,
+            }, '*');
+          }
+      });
+
+        const originalOpen = window.open;
+        window.open = function (url) {
+          window.parent.postMessage({
+            type: "openExternal",
+            href: url,
+          }, "*");
+        };
+
+        window.addEventListener('error', (event) => {
+          window.parent.postMessage({ type: 'console', message: 'Uncaught Error: ' + event.message }, '*');
+        });
+      })();
+    </script>
+  
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyStoryChip — Admin Control Panel</title>
+<style>
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: white;
+    background:
+      linear-gradient(rgba(5,10,20,0.82), rgba(5,10,20,0.92)),
+      url("msc-final-hero.png") center center / cover no-repeat fixed;
+    min-height: 100vh;
+  }
+
+  .page-wrap {
+    width: 100%;
+    max-width: 1150px;
+    margin: 0 auto;
+    padding: 28px 20px 60px;
+  }
+
+  /* ── HEADER ── */
+  .hero {
+    text-align: center;
+    margin-bottom: 18px;
+  }
+
+  .hero h1 {
+    margin: 10px 0 4px;
+    font-size: 52px;
+    font-weight: 700;
+  }
+
+  .hero p {
+    margin: 0 0 10px;
+    font-size: 18px;
+    color: #d9e7ff;
+  }
+
+  .admin-badge {
+    display: inline-block;
+    background: rgba(220, 38, 38, 0.25);
+    border: 1px solid rgba(220, 38, 38, 0.55);
+    border-radius: 999px;
+    padding: 6px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #fca5a5;
+  }
+
+  /* ── NAV TABS ── */
+  .tab-bar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 22px;
+  }
+
+  .tab-btn {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 14px;
+    padding: 11px 22px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #b9c7de;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+
+  .tab-btn:hover {
+    background: rgba(20,200,255,0.12);
+    border-color: rgba(20,200,255,0.3);
+    color: white;
+  }
+
+  .tab-btn.active {
+    background: linear-gradient(180deg, #21b9ff, #0d8dff);
+    border-color: transparent;
+    color: white;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: rgba(8, 28, 70, 0.88);
+    border: 1px solid rgba(20, 200, 255, 0.25);
+    border-radius: 28px;
+    padding: 30px 28px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.28);
+    margin-bottom: 22px;
+  }
+
+  .card-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #18c8ff;
+  }
+
+  .card-sub {
+    font-size: 15px;
+    color: #c6d5ee;
+    margin-bottom: 22px;
+  }
+
+  /* ── STATS ROW ── */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(140px, 1fr));
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+
+  .stat {
+    background: rgba(255,255,255,0.10);
+    border-radius: 18px;
+    padding: 16px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .stat .label {
+    display: block;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: #b9c7de;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  .stat .value {
+    font-size: 42px;
+    font-weight: 700;
+    color: #18c8ff;
+  }
+
+  .stat .value.green  { color: #39ff9c; }
+  .stat .value.amber  { color: #fbbf24; }
+  .stat .value.red    { color: #f87171; }
+
+  /* ── TABLE ── */
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+  }
+
+  thead th {
+    background: rgba(255,255,255,0.07);
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #8eb4d8;
+    white-space: nowrap;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  tbody tr {
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    transition: background 0.15s;
+  }
+
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(255,255,255,0.04); }
+
+  td {
+    padding: 14px 16px;
+    vertical-align: middle;
+    color: #e6edf8;
+  }
+
+  .chip-code-cell {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .badge-personal {
+    background: rgba(0,120,180,0.2);
+    border: 1px solid #0ea5d9;
+    color: #7dd3fc;
+  }
+
+  .badge-business {
+    background: rgba(120,60,180,0.2);
+    border: 1px solid #a855f7;
+    color: #d8b4fe;
+  }
+
+  .badge-assigned {
+    background: rgba(0,180,80,0.15);
+    border: 1px solid #22c55e;
+    color: #86efac;
+  }
+
+  .badge-available {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #94a3b8;
+  }
+
+  .badge-active {
+    background: rgba(0,200,120,0.15);
+    border: 1px solid #10b981;
+    color: #6ee7b7;
+  }
+
+  .badge-suspended {
+    background: rgba(220,38,38,0.15);
+    border: 1px solid #ef4444;
+    color: #fca5a5;
+  }
+
+  /* ── BUTTONS ── */
+  button {
+    border: none;
+    border-radius: 12px;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    color: white;
+    transition: transform 0.12s ease, opacity 0.12s ease;
+    white-space: nowrap;
+  }
+
+  button:hover { transform: translateY(-1px); opacity: 0.93; }
+
+  .btn-primary  { background: linear-gradient(180deg, #21b9ff, #0d8dff); }
+  .btn-secondary {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.10);
+  }
+  .btn-good    { background: linear-gradient(180deg, #21d07d, #17a95f); }
+  .btn-warn    { background: linear-gradient(180deg, #f59a2c, #d97706); }
+  .btn-danger  { background: linear-gradient(180deg, #df3d55, #ba243a); }
+  .btn-purple  { background: linear-gradient(180deg, #a855f7, #7c3aed); }
+
+  .action-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  /* ── CONTROLS BAR ── */
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 18px;
+  }
+
+  input[type="text"], input[type="email"],
+  input[type="number"], input[type="password"],
+  select, textarea {
+    background: rgba(255,255,255,0.12);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 14px;
+    padding: 12px 16px;
+    font-size: 15px;
+    outline: none;
+    font-family: Arial, sans-serif;
+  }
+
+  input[type="text"]::placeholder,
+  input[type="email"]::placeholder,
+  input[type="number"]::placeholder,
+  input[type="password"]::placeholder,
+  textarea::placeholder { color: #7a8fa8; }
+
+  select { min-width: 160px; }
+
+  .search-input { width: 100%; max-width: 340px; }
+  .wide-input   { width: 100%; max-width: 500px; }
+
+  textarea {
+    width: 100%;
+    resize: vertical;
+    min-height: 90px;
+  }
+
+  /* ── FORM GRID ── */
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+
+  .field-label {
+    display: block;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #8eb4d8;
+    margin-bottom: 6px;
+  }
+
+  /* ── STATUS / LOG ── */
+  .status-box {
+    text-align: center;
+    color: #c6d5ee;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 14px;
+    padding: 12px 18px;
+  }
+
+  .log-area {
+    background: rgba(0,0,0,0.35);
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.07);
+    padding: 16px;
+    font-size: 13px;
+    color: #8eb4d8;
+    font-family: 'Courier New', monospace;
+    max-height: 240px;
+    overflow-y: auto;
+    line-height: 1.7;
+  }
+
+  .log-entry { padding: 2px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .log-entry:last-child { border-bottom: none; }
+  .log-time  { color: #fbbf24; margin-right: 10px; }
+  .log-action { color: #7dd3fc; }
+  .log-detail { color: #c6d5ee; }
+
+  /* ── USER ROW ── */
+  .user-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    flex-wrap: wrap;
+  }
+
+  .user-row:last-child { border-bottom: none; }
+
+  .user-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #21b9ff, #7c3aed);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .user-info { flex: 1; min-width: 180px; }
+  .user-name { font-size: 16px; font-weight: 700; }
+  .user-email { font-size: 13px; color: #8eb4d8; }
+  .user-chips { font-size: 13px; color: #7dd3fc; margin-top: 2px; }
+
+  /* ── SECTION TAB PANELS ── */
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── STORAGE METER ── */
+  .storage-bar-wrap {
+    background: rgba(255,255,255,0.08);
+    border-radius: 999px;
+    height: 10px;
+    width: 120px;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .storage-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #21d07d, #18c8ff);
+  }
+
+  /* ── ANNOUNCE BOX ── */
+  .announce-preview {
+    background: rgba(20,200,255,0.07);
+    border: 1px solid rgba(20,200,255,0.2);
+    border-radius: 14px;
+    padding: 16px 20px;
+    font-size: 15px;
+    color: #d4def4;
+    margin-top: 12px;
+    line-height: 1.6;
+    min-height: 60px;
+  }
+
+  /* ── CONFIRM MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal-box {
+    background: #0d1e4a;
+    border: 1px solid rgba(20,200,255,0.3);
+    border-radius: 22px;
+    padding: 36px 40px;
+    max-width: 460px;
+    width: 90%;
+    text-align: center;
+  }
+
+  .modal-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #18c8ff;
+  }
+
+  .modal-msg {
+    font-size: 16px;
+    color: #c6d5ee;
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+
+  .modal-actions { display: flex; gap: 12px; justify-content: center; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 800px) {
+    .hero h1 { font-size: 36px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .tab-btn { font-size: 13px; padding: 9px 14px; }
+  }
+</style>
+</head>
+<body id="artifacts-component-root-html">
+
+<!-- CONFIRM MODAL -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal-box">
+    <div class="modal-title" id="modalTitle">Confirm Action</div>
+    <p class="modal-msg" id="modalMsg">Are you sure?</p>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn-danger" id="modalConfirmBtn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+  <!-- HEADER -->
+  <div class="hero">
+    <h1>MyStoryChip</h1>
+    <p>Admin Control Panel</p>
+    <span class="admin-badge">● Admin Access</span>
+  </div>
+
+  <!-- LIVE STATS -->
+  <div class="stats">
+    <div class="stat">
+      <span class="label">Total Chips</span>
+      <span class="value" id="statTotal">10</span>
+    </div>
+    <div class="stat">
+      <span class="label">Assigned</span>
+      <span class="value green" id="statAssigned">0</span>
+    </div>
+    <div class="stat">
+      <span class="label">Available</span>
+      <span class="value" id="statAvailable">10</span>
+    </div>
+    <div class="stat">
+      <span class="label">Users</span>
+      <span class="value amber" id="statUsers">0</span>
+    </div>
+  </div>
+
+  <!-- TAB NAV -->
+  <div class="tab-bar">
+    <button class="tab-btn" onclick="switchTab(&#39;chips&#39;)">◆ Chip Registry</button>
+    <button class="tab-btn" onclick="switchTab(&#39;users&#39;)">👤 User Accounts</button>
+    <button class="tab-btn" onclick="switchTab(&#39;create&#39;)">+ Create Chips</button>
+    <button class="tab-btn" onclick="switchTab(&#39;storage&#39;)">💾 Storage</button>
+    <button class="tab-btn" onclick="switchTab(&#39;announce&#39;)">📢 Announce</button>
+    <button class="tab-btn" onclick="switchTab(&#39;log&#39;)">📄 Activity Log</button>
+    <button class="tab-btn active" onclick="switchTab(&#39;system&#39;)">⚙ System</button>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       TAB 1 — CHIP REGISTRY
+  ═════════════════════════════════════════════ -->
+  <div class="tab-panel" id="panel-chips">
+    <div class="card">
+      <div class="card-title">Chip Registry</div>
+      <div class="card-sub">Search, view, reassign, or delete any chip in the system.</div>
+
+      <div class="controls">
+        <input type="text" class="search-input" id="chipSearch" placeholder="Search chip code or name…" oninput="renderChipRegistry()">
+        <select id="chipFilterStatus" onchange="renderChipRegistry()">
+          <option value="all">All Status</option>
+          <option value="Assigned">Assigned</option>
+          <option value="Available">Available</option>
+        </select>
+        <select id="chipFilterType" onchange="renderChipRegistry()">
+          <option value="all">All Types</option>
+          <option value="P">Personal</option>
+          <option value="B">Business</option>
+        </select>
+        <button class="btn-secondary" onclick="exportAllChips()">⇓ Export All</button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Chip Code</th>
+              <th>Type</th>
+              <th>Status</th>
+              <th>Assigned Name</th>
+              <th>Created</th>
+              <th>Updated</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="chipRegistryBody"></tbody>
+        </table>
+      </div>
+
+      <div id="chipRegistryEmpty" style="display: block;" class="status-box">No chips match the current filter.</div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       TAB 2 — USER ACCOUNTS
+  ═════════════════════════════════════════════ -->
+  <div class="tab-panel" id="panel-users">
+    <div class="card">
+      <div class="card-title">User Accounts</div>
+      <div class="card-sub">View all registered users, their chip count, and account status.</div>
+
+      <div class="controls">
+        <input type="text" class="search-input" id="userSearch" placeholder="Search name or email…" oninput="renderUsers()">
+        <select id="userFilterStatus" onchange="renderUsers()">
+          <option value="all">All Status</option>
+          <option value="active">Active</option>
+          <option value="suspended">Suspended</option>
+        </select>
+        <button class="btn-primary" onclick="openAddUserModal()">+ Add User</button>
+      </div>
+
+      <div id="userList"><div class="status-box">No users found.</div></div>
+    </div>
+
+    <!-- Add User Card -->
+    <div class="card" id="addUserCard" style="display:none">
+      <div class="card-title">Add New User</div>
+      <div class="form-grid">
+        <div>
+          <label class="field-label">Full Name</label>
+          <input type="text" id="newUserName" placeholder="e.g. Jane Smith">
+        </div>
+        <div>
+          <label class="field-label">Email Address</label>
+          <input type="email" id="newUserEmail" placeholder="email@example.com">
+        </div>
+        <div>
+          <label class="field-label">Assign Chip Code (optional)</label>
+          <input type="text" id="newUserChip" placeholder="e.g. MSCP007">
+        </div>
+        <div>
+          <label class="field-label">Account Status</label>
+          <select id="newUserStatus">
+            <option value="active">Active</option>
+            <option value="suspended">Suspended</option>
+          </select>
+        </div>
+      </div>
+      <div class="action-row">
+        <button class="btn-good" onclick="addUser()">Create User</button>
+        <button class="btn-secondary" onclick="closeAddUserModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       TAB 3 — CREATE CHIPS
+  ═════════════════════════════════════════════ -->
+  <div class="tab-panel" id="panel-create">
+    <div class="card">
+      <div class="card-title">Create New Chips</div>
+      <div class="card-sub">Batch-create chips for a new inventory run. Chips are added as Available.</div>
+
+      <div class="form-grid">
+        <div>
+          <label class="field-label">Chip Type</label>
+          <select id="batchType">
+            <option value="P">Personal (MSCP)</option>
+            <option value="B">Business (MSCB)</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label">Quantity</label>
+          <input type="number" id="batchQty" value="10" min="1" max="500" style="max-width:140px">
+        </div>
+      </div>
+
+      <div id="batchPreview" class="status-box" style="margin-bottom:18px">Preview: will create 10 Personal chips — MSCP011 through MSCP020.</div>
+
+      <div class="action-row">
+        <button class="btn-good" onclick="batchCreateChips()">+ Create Chips</button>
+        <button class="btn-secondary" onclick="previewBatch()">Preview</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Import / Export Registry</div>
+      <div class="card-sub">Backup or restore the full chip registry as a JSON file.</div>
+      <div class="action-row">
+        <button class="btn-secondary" onclick="exportAllChips()">⇓ Export Backup</button>
+        <button class="btn-secondary" onclick="document.getElementById(&#39;adminImportFile&#39;).click()">⇧ Import Backup</button>
+        <button class="btn-danger" onclick="confirmResetAll()">⚠ Reset All Chips</button>
+      </div>
+      <input type="file" id="adminImportFile" accept=".json" style="display:none" onchange="importAllChips(event)">
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       TAB 4 — STORAGE
+  ═════════════════════════════════════════════ -->
+  <div class="tab-panel" id="panel-storage">
+    <div class="card">
+      <div class="card-title">Storage Overview</div>
+      <div class="card-sub">Per-chip storage usage across the platform. Each chip includes 250 MB.</div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Chip</th>
+              <th>Owner</th>
+              <th>Storage Used</th>
+              <th>Usage %</th>
+              <th>Meter</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="storageBody"><tr><td colspan="6" style="text-align:center;color:#556;padding:20px">No assigned chips.</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       TAB 5 — ANNOUNCEMENTS
+  ═════════════════════════════════════════════ -->
+  <div class="tab-panel" id="panel-announce">
+    <div class="card">
+      <div class="card-title">System Announcement</div>
+      <div class="card-sub">Post a message that appears on the dashboard for all users.</div>
+
+      <div style="margin-bottom:14px">
+        <label class="field-label">Announcement Title</label>
+        <input type="text" class="wide-input" id="announceTitle" placeholder="e.g. Scheduled Maintenance Tonight">
+      </div>
+      <div style="margin-bottom:14px">
+        <label class="field-label">Message Body</label>
+        <textarea id="announceBody" placeholder="Type your message here…"></textarea>
+      </div>
+      <div style="margin-bottom:18px">
+        <label class="field-label">Type</label>
+        <select id="announceType">
+          <option value="info">Info</option>
+          <option value="warning">Warning</option>
+          <option value="success">Success</option>
+        </select>
+      </div>
+
+      <div class="announce-preview" id="announcePreview">
+        Preview will appear here as you type…
+      </div>
+
+      <div class="action-row" style="margin-top:18px">
+        <button class="btn-primary" onclick="postAnnouncement()">📢 Post Announcement</button>
+        <button class="btn-secondary" onclick="clearAnnouncement()">Clear</button>
+      </div>
+    </div>
+
+    <div class="card" id="activeAnnouncementCard" style="display:none">
+      <div class="card-title">Active Announcement</div>
+      <div id="activeAnnouncementDisplay"></div>
+      <div class="action-row" style="margin-top:16px">
+        <button class="btn-danger" onclick="removeAnnouncement()">Remove Announcement</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       TAB 6 — ACTIVITY LOG
+  ═════════════════════════════════════════════ -->
+  <div class="tab-panel" id="panel-log">
+    <div class="card">
+      <div class="card-title">Activity Log</div>
+      <div class="card-sub">Recent system and admin actions across the platform.</div>
+
+      <div class="controls" style="margin-bottom:14px">
+        <input type="text" class="search-input" id="logSearch" placeholder="Filter log entries…" oninput="renderLog()">
+        <button class="btn-secondary" onclick="exportLog()">⇓ Export Log</button>
+        <button class="btn-danger" onclick="confirmClearLog()">Clear Log</button>
+      </div>
+
+      <div class="log-area" id="logArea"><div class="log-entry">
+         <span class="log-time">3/30/2026, 1:30:04 PM</span>
+         <span class="log-action">Batch created 10 chips</span>
+         <span class="log-detail"> — Personal</span>
+       </div><div class="log-entry">
+         <span class="log-time">3/22/2026, 10:54 AM</span>
+         <span class="log-action">Created chip</span>
+         <span class="log-detail"> — MSCP004</span>
+       </div><div class="log-entry">
+         <span class="log-time">3/22/2026, 10:57 AM</span>
+         <span class="log-action">Assigned chip</span>
+         <span class="log-detail"> — MSCP004 → sunday</span>
+       </div><div class="log-entry">
+         <span class="log-time">3/22/2026, 8:03 PM</span>
+         <span class="log-action">Created chip</span>
+         <span class="log-detail"> — MSCP006</span>
+       </div><div class="log-entry">
+         <span class="log-time">3/22/2026, 8:06 PM</span>
+         <span class="log-action">Assigned chip</span>
+         <span class="log-detail"> — MSCP006 → newchipsunday</span>
+       </div></div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       TAB 7 — SYSTEM
+  ═════════════════════════════════════════════ -->
+  <div class="tab-panel active" id="panel-system">
+    <div class="card">
+      <div class="card-title">System Settings</div>
+      <div class="card-sub">Platform configuration and admin tools.</div>
+
+      <div class="form-grid" style="margin-bottom:22px">
+        <div>
+          <label class="field-label">Platform Name</label>
+          <input type="text" id="settingPlatformName" value="MyStoryChip">
+        </div>
+        <div>
+          <label class="field-label">Default Storage Per Chip (MB)</label>
+          <input type="number" id="settingStorage" value="250" min="50" max="5000">
+        </div>
+        <div>
+          <label class="field-label">Admin Email</label>
+          <input type="email" id="settingAdminEmail" placeholder="admin@mystorychip.com">
+        </div>
+        <div>
+          <label class="field-label">Base Chip Price ($)</label>
+          <input type="number" id="settingPrice" value="49.95" step="0.01">
+        </div>
+      </div>
+
+      <div class="action-row">
+        <button class="btn-good" onclick="saveSettings()">✓ Save Settings</button>
+        <button class="btn-secondary" onclick="loadSettings()">↻ Reload</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Danger Zone</div>
+      <div class="card-sub">Destructive actions. These cannot be undone.</div>
+      <div class="action-row">
+        <button class="btn-danger" onclick="confirmResetAll()">⚠ Reset All Chips</button>
+        <button class="btn-danger" onclick="confirmClearUsers()">⚠ Clear All Users</button>
+        <button class="btn-danger" onclick="confirmClearLog()">⚠ Clear Activity Log</button>
+        <button class="btn-danger" onclick="confirmNukeAll()">⚠ Wipe Everything</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Platform Info</div>
+      <div class="status-box" id="systemInfo" style="text-align:left;line-height:2">
+      <strong>Platform:</strong> MyStoryChip.com<br>
+      <strong>Chip Registry:</strong> 10 chips (0 assigned, 10 available)<br>
+      <strong>Registered Users:</strong> 0<br>
+      <strong>Log Entries:</strong> 5<br>
+      <strong>Storage Per Chip:</strong> 250 MB<br>
+      <strong>Chip Price:</strong> $49.95 (one-time)<br>
+      <strong>Current Time:</strong> 3/30/2026, 1:31:54 PM<br>
+      <strong>Founder:</strong> Jack W Kennedy
+    </div>
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<script>
+  /* ── KEYS ── */
+  const CHIPS_KEY    = "mscChips";
+  const USERS_KEY    = "mscAdminUsers";
+  const LOG_KEY      = "mscAdminLog";
+  const ANNOUNCE_KEY = "mscAnnouncement";
+  const SETTINGS_KEY = "mscSettings";
+  const ACTION_KEY   = "mscLastAction";
+
+  /* ── LOAD / SAVE ── */
+  let chips    = JSON.parse(localStorage.getItem(CHIPS_KEY)    || "[]");
+  let users    = JSON.parse(localStorage.getItem(USERS_KEY)    || "[]");
+  let logItems = JSON.parse(localStorage.getItem(LOG_KEY)      || "[]");
+  let settings = JSON.parse(localStorage.getItem(SETTINGS_KEY) || "{}");
+
+  function saveChips()    { localStorage.setItem(CHIPS_KEY,    JSON.stringify(chips));    }
+  function saveUsers()    { localStorage.setItem(USERS_KEY,    JSON.stringify(users));    }
+  function saveLog()      { localStorage.setItem(LOG_KEY,      JSON.stringify(logItems)); }
+  function saveSettings() { localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));}
+
+  /* ── LOGGING ── */
+  function addLog(action, detail) {
+    const entry = {
+      time:   new Date().toLocaleString(),
+      action: action,
+      detail: detail || ""
+    };
+    logItems.unshift(entry);
+    if (logItems.length > 500) logItems = logItems.slice(0, 500);
+    saveLog();
+    localStorage.setItem(ACTION_KEY, action + (detail ? " — " + detail : ""));
+  }
+
+  /* ── TAB SWITCHING ── */
+  function switchTab(id) {
+    document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    document.getElementById("panel-" + id).classList.add("active");
+    event.target.classList.add("active");
+    if (id === "log")     renderLog();
+    if (id === "storage") renderStorage();
+    if (id === "users")   renderUsers();
+    if (id === "system")  renderSystemInfo();
+  }
+
+  /* ── STATS ── */
+  function refreshStats() {
+    document.getElementById("statTotal").textContent     = chips.length;
+    document.getElementById("statAssigned").textContent  = chips.filter(c => c.status === "Assigned").length;
+    document.getElementById("statAvailable").textContent = chips.filter(c => c.status === "Available").length;
+    document.getElementById("statUsers").textContent     = users.length;
+  }
+
+  /* ── ESCAPING ── */
+  function esc(v) {
+    return String(v || "")
+      .replaceAll("&","&amp;").replaceAll("<","&lt;")
+      .replaceAll(">","&gt;").replaceAll('"',"&quot;")
+      .replaceAll("'","&#39;");
+  }
+
+  /* ═══════════════════════════════════════
+     CHIP REGISTRY
+  ════════════════════════════════════════ */
+  function renderChipRegistry() {
+    const q     = (document.getElementById("chipSearch").value || "").toLowerCase();
+    const fStat = document.getElementById("chipFilterStatus").value;
+    const fType = document.getElementById("chipFilterType").value;
+
+    const visible = chips.filter(c => {
+      const text = (c.code + " " + (c.name || "")).toLowerCase();
+      if (q && !text.includes(q)) return false;
+      if (fStat !== "all" && c.status !== fStat) return false;
+      if (fType !== "all" && c.type  !== fType)  return false;
+      return true;
+    });
+
+    const tbody = document.getElementById("chipRegistryBody");
+    tbody.innerHTML = "";
+
+    if (!visible.length) {
+      document.getElementById("chipRegistryEmpty").style.display = "block";
+    } else {
+      document.getElementById("chipRegistryEmpty").style.display = "none";
+    }
+
+    visible.forEach(c => {
+      const typeLabel   = c.type === "P" ? "PERSONAL" : "BUSINESS";
+      const typeClass   = c.type === "P" ? "badge-personal" : "badge-business";
+      const statusClass = c.status === "Assigned" ? "badge-assigned" : "badge-available";
+
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td class="chip-code-cell">${esc(c.code)}</td>
+        <td><span class="badge ${typeClass}">${typeLabel}</span></td>
+        <td><span class="badge ${statusClass}">${esc(c.status)}</span></td>
+        <td>${esc(c.name) || "<span style='color:#556'>—</span>"}</td>
+        <td style="font-size:13px;color:#8eb4d8">${esc(c.createdAt || "—")}</td>
+        <td style="font-size:13px;color:#8eb4d8">${esc(c.updatedAt || "—")}</td>
+        <td>
+          <div class="action-row">
+            ${c.status === "Assigned"
+              ? `<button class="btn-warn" onclick="adminUnassign('${esc(c.code)}')">Unassign</button>`
+              : `<button class="btn-good" onclick="adminAssignPrompt('${esc(c.code)}')">Assign</button>`
+            }
+            <button class="btn-danger" onclick="confirmDeleteChip('${esc(c.code)}')">Delete</button>
+          </div>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    refreshStats();
+  }
+
+  function adminUnassign(code) {
+    const chip = chips.find(c => c.code === code);
+    if (!chip) return;
+    chip.name    = "";
+    chip.status  = "Available";
+    chip.updatedAt = new Date().toLocaleString();
+    saveChips();
+    addLog("Unassigned chip", code);
+    renderChipRegistry();
+  }
+
+  function adminAssignPrompt(code) {
+    const name = prompt("Assign chip " + code + " — enter owner name:");
+    if (!name || !name.trim()) return;
+    const chip = chips.find(c => c.code === code);
+    if (!chip) return;
+    chip.name    = name.trim();
+    chip.status  = "Assigned";
+    chip.updatedAt = new Date().toLocaleString();
+    saveChips();
+    addLog("Assigned chip", code + " → " + name.trim());
+    renderChipRegistry();
+  }
+
+  function confirmDeleteChip(code) {
+    openModal(
+      "Delete Chip " + code + "?",
+      "This will permanently remove the chip from the registry. This cannot be undone.",
+      () => {
+        chips = chips.filter(c => c.code !== code);
+        saveChips();
+        addLog("Deleted chip", code);
+        renderChipRegistry();
+      }
+    );
+  }
+
+  function exportAllChips() {
+    const blob = new Blob([JSON.stringify(chips, null, 2)], { type:"application/json" });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement("a");
+    const stamp = new Date().toISOString().slice(0,19).replaceAll(":","-");
+    a.href = url; a.download = "msc-admin-backup-" + stamp + ".json";
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a); URL.revokeObjectURL(url);
+    addLog("Exported chip backup", chips.length + " chips");
+  }
+
+  function importAllChips(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      try {
+        const imported = JSON.parse(e.target.result);
+        if (!Array.isArray(imported)) { alert("File must be a JSON array."); return; }
+        chips = imported;
+        saveChips();
+        addLog("Imported chip backup", imported.length + " chips");
+        renderChipRegistry();
+      } catch { alert("Invalid JSON file."); }
+      finally  { event.target.value = ""; }
+    };
+    reader.readAsText(file);
+  }
+
+  /* ═══════════════════════════════════════
+     BATCH CREATE
+  ════════════════════════════════════════ */
+  function previewBatch() {
+    const type  = document.getElementById("batchType").value;
+    const qty   = parseInt(document.getElementById("batchQty").value, 10) || 1;
+    const prefix = type === "P" ? "MSCP" : "MSCB";
+    const same   = chips.filter(c => c.type === type);
+    let maxNum   = 0;
+    same.forEach(c => {
+      const n = parseInt(String(c.code).replace(prefix,""), 10);
+      if (!isNaN(n) && n > maxNum) maxNum = n;
+    });
+    const first = String(maxNum + 1).padStart(3,"0");
+    const last  = String(maxNum + qty).padStart(3,"0");
+    const typeName = type === "P" ? "Personal" : "Business";
+    document.getElementById("batchPreview").textContent =
+      "Preview: will create " + qty + " " + typeName + " chips — " + prefix + first + " through " + prefix + last + ".";
+  }
+
+  function batchCreateChips() {
+    const type  = document.getElementById("batchType").value;
+    const qty   = Math.min(parseInt(document.getElementById("batchQty").value, 10) || 1, 500);
+    const prefix = type === "P" ? "MSCP" : "MSCB";
+    const same   = chips.filter(c => c.type === type);
+    let maxNum   = 0;
+    same.forEach(c => {
+      const n = parseInt(String(c.code).replace(prefix,""), 10);
+      if (!isNaN(n) && n > maxNum) maxNum = n;
+    });
+    const now = new Date().toLocaleString();
+    for (let i = 1; i <= qty; i++) {
+      const code = prefix + String(maxNum + i).padStart(3, "0");
+      chips.push({ code, type, status:"Available", name:"", createdAt:now, updatedAt:now });
+    }
+    saveChips();
+    addLog("Batch created " + qty + " chips", type === "P" ? "Personal" : "Business");
+    previewBatch();
+    renderChipRegistry();
+    refreshStats();
+    alert("Created " + qty + " chips successfully.");
+  }
+
+  /* ═══════════════════════════════════════
+     USERS
+  ════════════════════════════════════════ */
+  function renderUsers() {
+    const q     = (document.getElementById("userSearch").value || "").toLowerCase();
+    const fStat = document.getElementById("userFilterStatus").value;
+
+    const visible = users.filter(u => {
+      const text = ((u.name || "") + " " + (u.email || "")).toLowerCase();
+      if (q && !text.includes(q)) return false;
+      if (fStat !== "all" && u.status !== fStat) return false;
+      return true;
+    });
+
+    const list = document.getElementById("userList");
+    if (!visible.length) {
+      list.innerHTML = `<div class="status-box">No users found.</div>`;
+      return;
+    }
+
+    list.innerHTML = visible.map(u => {
+      const initials = (u.name || "?").split(" ").map(w=>w[0]).join("").slice(0,2).toUpperCase();
+      const userChips = chips.filter(c => c.name && c.name.toLowerCase() === (u.name||"").toLowerCase());
+      const statusClass = u.status === "active" ? "badge-active" : "badge-suspended";
+      const statusLabel = u.status === "active" ? "Active" : "Suspended";
+      return `
+        <div class="user-row">
+          <div class="user-avatar">${esc(initials)}</div>
+          <div class="user-info">
+            <div class="user-name">${esc(u.name)}</div>
+            <div class="user-email">${esc(u.email || "—")}</div>
+            <div class="user-chips">&#9670; ${userChips.length} chip${userChips.length !== 1 ? "s" : ""} assigned</div>
+          </div>
+          <span class="badge ${statusClass}">${statusLabel}</span>
+          <div class="action-row">
+            ${u.status === "active"
+              ? `<button class="btn-warn" onclick="toggleUserStatus('${esc(u.id)}','suspended')">Suspend</button>`
+              : `<button class="btn-good" onclick="toggleUserStatus('${esc(u.id)}','active')">Activate</button>`
+            }
+            <button class="btn-danger" onclick="confirmDeleteUser('${esc(u.id)}')">Delete</button>
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  function openAddUserModal()  { document.getElementById("addUserCard").style.display  = "block"; }
+  function closeAddUserModal() { document.getElementById("addUserCard").style.display  = "none";  }
+
+  function addUser() {
+    const name   = document.getElementById("newUserName").value.trim();
+    const email  = document.getElementById("newUserEmail").value.trim();
+    const chip   = document.getElementById("newUserChip").value.trim();
+    const status = document.getElementById("newUserStatus").value;
+
+    if (!name) { alert("Enter a name."); return; }
+
+    const id = "usr_" + Date.now();
+    users.push({ id, name, email, status, createdAt: new Date().toLocaleString() });
+    saveUsers();
+
+    if (chip) {
+      const c = chips.find(x => x.code.toUpperCase() === chip.toUpperCase());
+      if (c) { c.name = name; c.status = "Assigned"; c.updatedAt = new Date().toLocaleString(); saveChips(); }
+    }
+
+    addLog("Created user", name + (email ? " <" + email + ">" : ""));
+    closeAddUserModal();
+    renderUsers();
+    refreshStats();
+    document.getElementById("newUserName").value  = "";
+    document.getElementById("newUserEmail").value = "";
+    document.getElementById("newUserChip").value  = "";
+  }
+
+  function toggleUserStatus(id, newStatus) {
+    const u = users.find(x => x.id === id);
+    if (!u) return;
+    u.status = newStatus;
+    saveUsers();
+    addLog("User status changed", u.name + " → " + newStatus);
+    renderUsers();
+  }
+
+  function confirmDeleteUser(id) {
+    const u = users.find(x => x.id === id);
+    if (!u) return;
+    openModal("Delete User?", "Remove " + u.name + " from the system?", () => {
+      users = users.filter(x => x.id !== id);
+      saveUsers();
+      addLog("Deleted user", u.name);
+      renderUsers();
+      refreshStats();
+    });
+  }
+
+  /* ═══════════════════════════════════════
+     STORAGE
+  ════════════════════════════════════════ */
+  function renderStorage() {
+    const tbody = document.getElementById("storageBody");
+    tbody.innerHTML = "";
+
+    const assigned = chips.filter(c => c.status === "Assigned");
+    if (!assigned.length) {
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:#556;padding:20px">No assigned chips.</td></tr>`;
+      return;
+    }
+
+    // Simulated usage values (in a real system these come from the backend)
+    assigned.forEach(c => {
+      const fakeMB  = c._fakeMB || (c._fakeMB = Math.floor(Math.random() * 220));
+      c._fakeMB = fakeMB;
+      const pct    = Math.round((fakeMB / 250) * 100);
+      const barColor = pct > 85 ? "#f87171" : pct > 60 ? "#fbbf24" : "#21d07d";
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td class="chip-code-cell">${esc(c.code)}</td>
+        <td>${esc(c.name || "—")}</td>
+        <td>${fakeMB} MB</td>
+        <td>${pct}%</td>
+        <td>
+          <div class="storage-bar-wrap">
+            <div class="storage-bar-fill" style="width:${pct}%;background:${barColor}"></div>
+          </div>
+        </td>
+        <td>
+          <button class="btn-warn" onclick="warnStorageUser('${esc(c.code)}')">Notify</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function warnStorageUser(code) {
+    addLog("Storage warning sent", code);
+    alert("Storage warning logged for " + code + ".\n(In production this would send an email.)");
+  }
+
+  /* ═══════════════════════════════════════
+     ANNOUNCEMENTS
+  ════════════════════════════════════════ */
+  document.getElementById("announceTitle").addEventListener("input", updateAnnouncePreview);
+  document.getElementById("announceBody").addEventListener("input", updateAnnouncePreview);
+
+  function updateAnnouncePreview() {
+    const title = document.getElementById("announceTitle").value;
+    const body  = document.getElementById("announceBody").value;
+    document.getElementById("announcePreview").innerHTML =
+      (title ? `<strong>${esc(title)}</strong><br>` : "") + esc(body);
+  }
+
+  function postAnnouncement() {
+    const title = document.getElementById("announceTitle").value.trim();
+    const body  = document.getElementById("announceBody").value.trim();
+    const type  = document.getElementById("announceType").value;
+    if (!body) { alert("Enter a message."); return; }
+    const obj = { title, body, type, postedAt: new Date().toLocaleString() };
+    localStorage.setItem(ANNOUNCE_KEY, JSON.stringify(obj));
+    addLog("Posted announcement", title || body.slice(0,40));
+    renderActiveAnnouncement();
+    alert("Announcement posted.");
+  }
+
+  function clearAnnouncement() {
+    document.getElementById("announceTitle").value = "";
+    document.getElementById("announceBody").value  = "";
+    document.getElementById("announcePreview").textContent = "Preview will appear here as you type…";
+  }
+
+  function removeAnnouncement() {
+    localStorage.removeItem(ANNOUNCE_KEY);
+    addLog("Removed announcement");
+    renderActiveAnnouncement();
+  }
+
+  function renderActiveAnnouncement() {
+    const raw = localStorage.getItem(ANNOUNCE_KEY);
+    const card = document.getElementById("activeAnnouncementCard");
+    const disp = document.getElementById("activeAnnouncementDisplay");
+    if (!raw) { card.style.display = "none"; return; }
+    const obj = JSON.parse(raw);
+    card.style.display = "block";
+    disp.innerHTML = `
+      <div class="status-box" style="text-align:left">
+        ${obj.title ? `<strong>${esc(obj.title)}</strong><br>` : ""}
+        ${esc(obj.body)}<br>
+        <small style="color:#7a8fa8">Posted: ${esc(obj.postedAt)} &nbsp;|&nbsp; Type: ${esc(obj.type)}</small>
+      </div>
+    `;
+  }
+
+  /* ═══════════════════════════════════════
+     ACTIVITY LOG
+  ════════════════════════════════════════ */
+  function renderLog() {
+    const q   = (document.getElementById("logSearch").value || "").toLowerCase();
+    const area = document.getElementById("logArea");
+
+    const filtered = logItems.filter(e => {
+      const text = (e.action + " " + e.detail + " " + e.time).toLowerCase();
+      return !q || text.includes(q);
+    });
+
+    if (!filtered.length) {
+      area.innerHTML = `<div style="color:#556;text-align:center;padding:12px">No log entries.</div>`;
+      return;
+    }
+
+    area.innerHTML = filtered.map(e =>
+      `<div class="log-entry">
+         <span class="log-time">${esc(e.time)}</span>
+         <span class="log-action">${esc(e.action)}</span>
+         ${e.detail ? `<span class="log-detail"> — ${esc(e.detail)}</span>` : ""}
+       </div>`
+    ).join("");
+  }
+
+  function exportLog() {
+    const text = logItems.map(e => `[${e.time}] ${e.action}${e.detail ? " — " + e.detail : ""}`).join("\n");
+    const blob = new Blob([text], { type:"text/plain" });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement("a");
+    const stamp = new Date().toISOString().slice(0,10);
+    a.href = url; a.download = "msc-log-" + stamp + ".txt";
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a); URL.revokeObjectURL(url);
+  }
+
+  function confirmClearLog() {
+    openModal("Clear Activity Log?", "All log entries will be permanently deleted.", () => {
+      logItems = [];
+      saveLog();
+      renderLog();
+    });
+  }
+
+  /* ═══════════════════════════════════════
+     SYSTEM / SETTINGS
+  ════════════════════════════════════════ */
+  function loadSettings() {
+    const s = JSON.parse(localStorage.getItem(SETTINGS_KEY) || "{}");
+    if (s.platformName)  document.getElementById("settingPlatformName").value = s.platformName;
+    if (s.storage)       document.getElementById("settingStorage").value      = s.storage;
+    if (s.adminEmail)    document.getElementById("settingAdminEmail").value   = s.adminEmail;
+    if (s.price)         document.getElementById("settingPrice").value        = s.price;
+  }
+
+  function saveSettings_fn() {
+    settings = {
+      platformName: document.getElementById("settingPlatformName").value,
+      storage:      document.getElementById("settingStorage").value,
+      adminEmail:   document.getElementById("settingAdminEmail").value,
+      price:        document.getElementById("settingPrice").value,
+    };
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+    addLog("Settings saved");
+    alert("Settings saved.");
+  }
+  // Bind the button to the right function name
+  document.querySelector("#panel-system .btn-good").onclick = saveSettings_fn;
+  document.querySelector("#panel-system .btn-secondary").onclick = loadSettings;
+
+  function renderSystemInfo() {
+    const total   = chips.length;
+    const assigned= chips.filter(c => c.status === "Assigned").length;
+    const now     = new Date().toLocaleString();
+    document.getElementById("systemInfo").innerHTML = `
+      <strong>Platform:</strong> MyStoryChip.com<br>
+      <strong>Chip Registry:</strong> ${total} chips (${assigned} assigned, ${total - assigned} available)<br>
+      <strong>Registered Users:</strong> ${users.length}<br>
+      <strong>Log Entries:</strong> ${logItems.length}<br>
+      <strong>Storage Per Chip:</strong> 250 MB<br>
+      <strong>Chip Price:</strong> $49.95 (one-time)<br>
+      <strong>Current Time:</strong> ${now}<br>
+      <strong>Founder:</strong> Jack W Kennedy
+    `;
+  }
+
+  /* ═══════════════════════════════════════
+     DANGER ZONE
+  ════════════════════════════════════════ */
+  function confirmResetAll() {
+    openModal("Reset All Chips?", "This will permanently delete every chip in the registry.", () => {
+      chips = [];
+      saveChips();
+      addLog("RESET: All chips wiped");
+      renderChipRegistry();
+      refreshStats();
+    });
+  }
+
+  function confirmClearUsers() {
+    openModal("Clear All Users?", "All user accounts will be permanently deleted.", () => {
+      users = [];
+      saveUsers();
+      addLog("RESET: All users wiped");
+      renderUsers();
+      refreshStats();
+    });
+  }
+
+  function confirmNukeAll() {
+    openModal(
+      "⚠ Wipe Everything?",
+      "This will delete ALL chips, ALL users, and ALL logs. There is no undo.",
+      () => {
+        chips = []; users = []; logItems = [];
+        saveChips(); saveUsers(); saveLog();
+        addLog("SYSTEM WIPE executed");
+        renderChipRegistry(); renderUsers(); renderLog(); refreshStats();
+        alert("System wiped.");
+      },
+      "Wipe Everything"
+    );
+  }
+
+  /* ═══════════════════════════════════════
+     MODAL
+  ════════════════════════════════════════ */
+  let pendingAction = null;
+
+  function openModal(title, msg, onConfirm, confirmLabel) {
+    document.getElementById("modalTitle").textContent     = title;
+    document.getElementById("modalMsg").textContent       = msg;
+    document.getElementById("modalConfirmBtn").textContent = confirmLabel || "Confirm";
+    pendingAction = onConfirm;
+    document.getElementById("confirmModal").classList.add("open");
+  }
+
+  function closeModal() {
+    pendingAction = null;
+    document.getElementById("confirmModal").classList.remove("open");
+  }
+
+  document.getElementById("modalConfirmBtn").onclick = () => {
+    if (pendingAction) pendingAction();
+    closeModal();
+  };
+
+  document.getElementById("confirmModal").addEventListener("click", e => {
+    if (e.target === document.getElementById("confirmModal")) closeModal();
+  });
+
+  /* ═══════════════════════════════════════
+     INIT
+  ════════════════════════════════════════ */
+  refreshStats();
+  renderChipRegistry();
+  renderActiveAnnouncement();
+  loadSettings();
+
+  // Seed demo log entries if empty
+  if (!logItems.length) {
+    const seeds = [
+      { time:"3/22/2026, 10:54 AM", action:"Created chip", detail:"MSCP004" },
+      { time:"3/22/2026, 10:57 AM", action:"Assigned chip", detail:"MSCP004 → sunday" },
+      { time:"3/22/2026, 8:03 PM",  action:"Created chip", detail:"MSCP006" },
+      { time:"3/22/2026, 8:06 PM",  action:"Assigned chip", detail:"MSCP006 → newchipsunday" },
+    ];
+    logItems = seeds;
+    saveLog();
+  }
+</script>
+
+
+</body></html>
