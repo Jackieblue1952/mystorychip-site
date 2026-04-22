@@ -428,11 +428,19 @@
     text-transform: uppercase;
   }
 
-  .stat .value {
-    font-size: 42px;
-    font-weight: 700;
-    color: #18c8ff;
-  }
+ .stat .value {
+  display: block;
+  font-size: 28px;
+  font-weight: bold;
+  color: #2ec5ff;
+}
+   .stat .value.green {
+  color: #55f2a3;
+}
+
+.stat .value.amber {
+  color: #ffc94d;
+} 
 
   .stat .value.green  { color: #39ff9c; }
   .stat .value.amber  { color: #fbbf24; }
