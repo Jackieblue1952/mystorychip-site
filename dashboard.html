@@ -406,13 +406,18 @@
     margin-bottom: 28px;
   }
 
-  .stat {
-    background: rgba(255,255,255,0.10);
-    border-radius: 18px;
-    padding: 16px;
-    text-align: center;
-    border: 1px solid rgba(255,255,255,0.08);
-  }
+ .stat {
+  background: #111;
+  border-radius: 12px;
+  padding: 15px;
+  border: 1px solid #333;
+  transition: 0.3s;
+}
+
+.stat:hover {
+  border-color: gold;
+  box-shadow: 0 0 15px rgba(212,175,55,0.4);
+}
 
   .stat .label {
     display: block;
