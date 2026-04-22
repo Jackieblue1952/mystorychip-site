@@ -107,19 +107,63 @@
         width: 26%;
         height: 6.8%;
       }
+      .home-hotspot {
+  position: absolute;
+  left: 10.2%;
+  bottom: 14.6%;
+  width: 15.5%;
+  height: 3.3%;
+  border-radius: 10px;
+  text-indent: -9999px;
+  overflow: hidden;
+  background: transparent;
+  display: block;
+}
+
+.terms-hotspot {
+  position: absolute;
+  left: 0.8%;
+  bottom: 2.8%;
+  width: 33%;
+  height: 10.5%;
+  border-radius: 12px;
+  text-indent: -9999px;
+  overflow: hidden;
+  background: transparent;
+  display: block;
+}
+
+/* optional test glow */
+.home-hotspot:hover,
+.terms-hotspot:hover {
+  box-shadow: 0 0 0 2px rgba(212,175,55,0.18);
+}
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="solo-buy-image">
-      <img src="buy-final.png" alt="Buy MyStoryChip">
-      <a
-        class="buy-hotspot"
-        href="https://buy.stripe.com/00w5kCgXe1Fwcu05dkdby02"
-        aria-label="Buy My Chip"
-      >Buy My Chip</a>
-    </div>
+<div class="wrap">
+  <div class="solo-buy-image">
+    <img src="buy-final.png" alt="Buy MyStoryChip">
+
+    <a
+      class="buy-hotspot"
+      href="https://buy.stripe.com/00w5kCgXe1Fwcu05dkdby02"
+      aria-label="Buy My Chip"
+    >Buy My Chip</a>
+
+    <a
+      class="home-hotspot"
+      href="index.html"
+      aria-label="Back to Home"
+    >Back to Home</a>
+
+    <a
+      class="terms-hotspot"
+      href="terms.html"
+      aria-label="Terms of Use"
+    >Terms of Use</a>
   </div>
+</div>  
 </body>
 </html>
