@@ -76,8 +76,8 @@ h1 {
 
     <h1>Your Chip Is Ready</h1>
 
-    <div>Your Chip Code:</div>
-    <div id="chipCode" class="code">...</div>
+ <div>Next Step:</div>
+<div id="chipCode" class="code">Set Up Your Chip</div>   
 
     <a id="setupBtn" class="btn primary">Edit My Chip</a>
     <a id="viewBtn" class="btn secondary">View My Chip</a>
@@ -103,7 +103,7 @@ if (code) {
   setupBtn.href = `client-setup.html?code=${code}`;
   viewBtn.href = `chip.html?code=${code}`;
 } else {
-  chipCode.textContent = "Ready to Set Up";
+  chipCode.textContent = "Set Up Your Chip";
   setupBtn.href = "client-setup.html";
   viewBtn.href = "index.html";
 }
