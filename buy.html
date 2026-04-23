@@ -9,161 +9,631 @@
       box-sizing: border-box;
     }
 
+    :root {
+      --bg: #050505;
+      --panel: rgba(10, 10, 10, 0.78);
+      --panel-strong: rgba(15, 15, 15, 0.88);
+      --gold: #d4af37;
+      --gold-light: #f5d97a;
+      --text: #f5e6c8;
+      --text-soft: #e6d6b2;
+      --line: rgba(212, 175, 55, 0.35);
+      --shadow: 0 0 22px rgba(212, 175, 55, 0.18);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
       font-family: Georgia, serif;
-      color: #f5e6c8;
-      background:
-        radial-gradient(circle at top, rgba(212,175,55,0.10), transparent 30%),
-        linear-gradient(180deg, #0b0e15 0%, #05070b 100%);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page-shell {
       min-height: 100vh;
+      background:
+        linear-gradient(rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.88)),
+        radial-gradient(circle at top center, rgba(212, 175, 55, 0.08), transparent 40%),
+        url("final-storybook.png") center top / cover no-repeat fixed;
     }
 
-    .wrap {
-      max-width: 1500px;
-      margin: 0 auto;
-      padding: 22px 18px 28px;
-      text-align: center;
-    }
-
-    .solo-buy-image {
-      position: relative;
-      margin: 0 auto;
-      max-width: 1400px;
-    }
-
-    .solo-buy-image img {
+    .topbar {
       width: 100%;
-      max-width: 1400px;
-      display: block;
-      margin: 0 auto;
-      border-radius: 20px;
-      box-shadow:
-        0 0 28px rgba(212,175,55,0.14),
-        0 18px 60px rgba(0,0,0,0.45);
-      animation: heroFadeIn 0.9s ease-out;
-      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      padding: 18px 24px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      position: relative;
+      z-index: 5;
     }
 
-    .solo-buy-image img:hover {
-      transform: scale(1.01);
-      box-shadow:
-        0 0 34px rgba(212,175,55,0.20),
-        0 22px 70px rgba(0,0,0,0.52);
+    .brand {
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+      color: var(--gold-light);
+      text-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
     }
 
-    /* Invisible clickable hotspot over the button area inside the image */
-    .buy-hotspot {
-      position: absolute;
-      left: 10.7%;
-      bottom: 21.5%;
-      width: 25.5%;
-      height: 6.3%;
+    .home-link {
+      display: inline-block;
+      padding: 10px 18px;
+      border: 1px solid rgba(212, 175, 55, 0.5);
       border-radius: 999px;
-      text-indent: -9999px;
+      background: rgba(0, 0, 0, 0.45);
+      color: var(--gold-light);
+      font-size: 0.95rem;
+      transition: all 0.25s ease;
+    }
+
+    .home-link:hover {
+      background: rgba(212, 175, 55, 0.12);
+      box-shadow: 0 0 16px rgba(212, 175, 55, 0.22);
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 42px 24px 40px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-inner {
+      text-align: center;
+      padding: 42px 24px 34px;
+      border-radius: 28px;
+      background: linear-gradient(rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.42));
+    }
+
+    .eyebrow {
+      color: var(--gold-light);
+      font-size: 1rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(2.5rem, 6vw, 5.2rem);
+      line-height: 1.05;
+      color: #f7e5b5;
+      text-shadow:
+        0 0 12px rgba(212, 175, 55, 0.18),
+        0 0 30px rgba(0, 0, 0, 0.75);
+    }
+
+    .hero-sub {
+      max-width: 860px;
+      margin: 18px auto 0;
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
+      color: #fff4d6;
+      text-shadow: 0 0 16px rgba(0, 0, 0, 0.75);
+    }
+
+    .hero-mini {
+      max-width: 900px;
+      margin: 18px auto 0;
+      font-size: 1rem;
+      color: var(--text-soft);
+      text-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
+    }
+
+    .main-wrap {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 6px 24px 48px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .sales-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 1.2fr 0.95fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(2px);
       overflow: hidden;
-      background: transparent;
+    }
+
+    .card-body {
+      padding: 28px 24px;
+    }
+
+    .card h2 {
+      margin: 0 0 18px;
+      text-align: center;
+      font-size: 2rem;
+      color: #f3d57a;
+      text-shadow: 0 0 10px rgba(212, 175, 55, 0.15);
+    }
+
+    .mini-divider {
+      width: 110px;
+      height: 2px;
+      margin: 0 auto 22px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0.85;
+    }
+
+    .feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .feature-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 14px 0;
+      border-top: 1px solid rgba(212, 175, 55, 0.16);
+    }
+
+    .feature-item:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .feature-icon {
+      width: 58px;
+      height: 58px;
+      min-width: 58px;
+      border-radius: 50%;
+      border: 1px solid rgba(212, 175, 55, 0.42);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: var(--gold-light);
+      background: radial-gradient(circle at center, rgba(212, 175, 55, 0.14), rgba(0, 0, 0, 0.2));
+      box-shadow: 0 0 14px rgba(212, 175, 55, 0.12);
+    }
+
+    .feature-text h3 {
+      margin: 0 0 6px;
+      font-size: 1.45rem;
+      line-height: 1.15;
+      color: #fff3cb;
+    }
+
+    .feature-text p {
+      margin: 0;
+      font-size: 1rem;
+      color: var(--text-soft);
+    }
+
+    .uses-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .use-row {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      min-height: 95px;
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      border-radius: 18px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .use-image {
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.78);
+    }
+
+    .memorials {
+      background-image: linear-gradient(rgba(0,0,0,0.18), rgba(0,0,0,0.28)), url("https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=800&q=80");
+    }
+
+    .family {
+      background-image: linear-gradient(rgba(0,0,0,0.18), rgba(0,0,0,0.28)), url("https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=800&q=80");
+    }
+
+    .cars {
+      background-image: linear-gradient(rgba(0,0,0,0.18), rgba(0,0,0,0.28)), url("https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80");
+    }
+
+    .collections {
+      background-image: linear-gradient(rgba(0,0,0,0.18), rgba(0,0,0,0.28)), url("https://images.unsplash.com/photo-1518546305927-5a555bb7020d?auto=format&fit=crop&w=800&q=80");
+    }
+
+    .business {
+      background-image: linear-gradient(rgba(0,0,0,0.18), rgba(0,0,0,0.28)), url("https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=800&q=80");
+    }
+
+    .use-copy {
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      font-size: 1.45rem;
+      color: #fff2c7;
+      background: linear-gradient(90deg, rgba(0,0,0,0.38), rgba(0,0,0,0.16));
+    }
+
+    .price-card {
+      background: var(--panel-strong);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .price-top h2 {
+      margin-bottom: 14px;
+    }
+
+    .price-label {
+      text-align: center;
+      color: var(--gold-light);
+      font-size: 1rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .price {
+      text-align: center;
+      font-size: clamp(3.8rem, 7vw, 6rem);
+      line-height: 1;
+      margin: 0;
+      color: #ffd86c;
+      text-shadow:
+        0 0 18px rgba(212, 175, 55, 0.16),
+        0 0 28px rgba(0, 0, 0, 0.65);
+    }
+
+    .price-sub {
+      margin: 12px 0 0;
+      text-align: center;
+      font-size: 1.25rem;
+      color: #fff0c3;
+    }
+
+    .reassure-list {
+      list-style: none;
+      padding: 0;
+      margin: 26px 0 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .reassure-list li {
+      padding-left: 0;
+      color: var(--text-soft);
+      font-size: 1.06rem;
+      text-align: left;
+    }
+
+    .reassure-list strong {
+      color: #fff3cd;
+    }
+
+    .buy-btn {
       display: block;
+      width: 100%;
+      border: none;
+      border-radius: 18px;
+      padding: 18px 20px;
+      font-size: 1.6rem;
+      font-weight: bold;
+      font-family: Georgia, serif;
+      color: #251800;
+      cursor: pointer;
+      background: linear-gradient(180deg, #f6db83 0%, #d9a92a 100%);
+      box-shadow:
+        0 0 0 1px rgba(255, 228, 142, 0.35) inset,
+        0 0 24px rgba(212, 175, 55, 0.28);
+      transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
     }
 
-    /* Optional subtle hover for testing placement */
-    .buy-hotspot:hover {
-      box-shadow: 0 0 0 2px rgba(212,175,55,0.18);
+    .buy-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.04);
+      box-shadow:
+        0 0 0 1px rgba(255, 228, 142, 0.42) inset,
+        0 0 28px rgba(212, 175, 55, 0.34);
     }
 
-    @keyframes heroFadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(12px);
+    .buy-note {
+      margin: 14px 0 0;
+      text-align: center;
+      color: var(--text-soft);
+      font-size: 0.98rem;
+    }
+
+    .bottom-strip {
+      max-width: 1240px;
+      margin: 18px auto 0;
+      padding: 0 24px 60px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .bottom-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .bottom-item {
+      padding: 18px 16px;
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      border-radius: 18px;
+      background: rgba(0, 0, 0, 0.52);
+      text-align: center;
+      color: var(--text-soft);
+      box-shadow: 0 0 14px rgba(212, 175, 55, 0.08);
+    }
+
+    .bottom-item strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #fff1c0;
+      font-size: 1.1rem;
+    }
+
+    .disclaimer-wrap {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 24px 40px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .disclaimer {
+      text-align: center;
+      color: #cdbd95;
+      font-size: 0.92rem;
+      padding: 18px 14px 0;
+    }
+
+    .disclaimer a {
+      color: var(--gold-light);
+      text-decoration: underline;
+    }
+
+    @media (max-width: 1080px) {
+      .sales-grid {
+        grid-template-columns: 1fr;
       }
-      to {
-        opacity: 1;
-        transform: translateY(0);
+
+      .bottom-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .hero-inner {
+        padding-left: 14px;
+        padding-right: 14px;
       }
     }
 
-    @media (max-width: 900px) {
-      .wrap {
-        padding: 14px 10px 18px;
+    @media (max-width: 700px) {
+      .topbar {
+        padding: 14px 14px 0;
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
       }
 
-      .solo-buy-image img {
-        border-radius: 14px;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .wrap {
-        padding: 8px 6px 14px;
+      .hero {
+        padding: 28px 14px 24px;
       }
 
-      .solo-buy-image img {
-        border-radius: 12px;
+      .main-wrap,
+      .bottom-strip,
+      .disclaimer-wrap {
+        padding-left: 14px;
+        padding-right: 14px;
       }
 
-      .buy-hotspot {
-        left: 6.5%;
-        bottom: 21.2%;
-        width: 26%;
-        height: 6.8%;
+      .hero-inner {
+        padding: 24px 8px 18px;
       }
-      .home-hotspot {
-  position: absolute;
-  left: 15.2%;
-  bottom: 14.6%;
-  width: 15.5%;
-  height: 3.3%;
-  border-radius: 10px;
-  text-indent: -9999px;
-  overflow: hidden;
-  background: transparent;
-  display: block;
-}
 
-.terms-hotspot {
-  position: absolute;
-  left: 0.8%;
-  bottom: 2.8%;
-  width: 33%;
-  height: 10.5%;
-  border-radius: 12px;
-  text-indent: -9999px;
-  overflow: hidden;
-  background: transparent;
-  display: block;
-}
+      .use-row {
+        grid-template-columns: 1fr;
+      }
 
-/* optional test glow */
-.home-hotspot:hover,
-.terms-hotspot:hover {
-  box-shadow: 0 0 0 2px rgba(212,175,55,0.18);
-}
+      .use-image {
+        min-height: 130px;
+      }
+
+      .use-copy {
+        font-size: 1.25rem;
+      }
+
+      .bottom-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card-body {
+        padding: 22px 18px;
+      }
+
+      .buy-btn {
+        font-size: 1.35rem;
+      }
     }
   </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="solo-buy-image">
-    <img src="buy-final.png" alt="Buy MyStoryChip">
+  <div class="page-shell">
 
-    <a
-      class="buy-hotspot"
-      href="https://buy.stripe.com/00w5kCgXe1Fwcu05dkdby02"
-      aria-label="Buy My Chip"
-    >Buy My Chip</a>
+    <div class="topbar">
+      <div class="brand">MyStoryChip</div>
+      <a class="home-link" href="index.html">← Home</a>
+    </div>
 
-    <a
-      class="home-hotspot"
-      href="index.html"
-      aria-label="Back to Home"
-    >Back to Home</a>
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="eyebrow">One-Time Purchase • Yours Forever</div>
+        <h1>Own the Chip. Keep the Story.</h1>
+        <p class="hero-sub">
+          Buy one chip. Use it for memorials, family stories, restorations,
+          collections, business displays, and more.
+        </p>
+        <p class="hero-mini">
+          A soft storybook background keeps the heart of MyStoryChip alive —
+          while this page stays focused on one thing: getting your chip.
+        </p>
+      </div>
+    </section>
 
-    <a
-      class="terms-hotspot"
-      href="terms.html"
-      aria-label="Terms of Use"
-    >Terms of Use</a>
+    <main class="main-wrap">
+      <section class="sales-grid">
+
+        <article class="card">
+          <div class="card-body">
+            <h2>What You Get</h2>
+            <div class="mini-divider"></div>
+
+            <div class="feature-list">
+              <div class="feature-item">
+                <div class="feature-icon">◉</div>
+                <div class="feature-text">
+                  <h3>1 Physical MyStoryChip</h3>
+                  <p>NFC + QR access built into one meaningful keepsake.</p>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-icon">☁</div>
+                <div class="feature-text">
+                  <h3>250 MB Included</h3>
+                  <p>Store photos, documents, memories, and important details.</p>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-icon">✦</div>
+                <div class="feature-text">
+                  <h3>Permanent Story Page</h3>
+                  <p>Your chip connects to a lasting page you control.</p>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-icon">✓</div>
+                <div class="feature-text">
+                  <h3>No Monthly Fees</h3>
+                  <p>Buy it once. Keep using it without subscriptions.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-body">
+            <h2>Perfect For</h2>
+            <div class="mini-divider"></div>
+
+            <div class="uses-list">
+              <div class="use-row">
+                <div class="use-image memorials"></div>
+                <div class="use-copy">Memorials</div>
+              </div>
+
+              <div class="use-row">
+                <div class="use-image family"></div>
+                <div class="use-copy">Family Stories</div>
+              </div>
+
+              <div class="use-row">
+                <div class="use-image cars"></div>
+                <div class="use-copy">Cars &amp; Restorations</div>
+              </div>
+
+              <div class="use-row">
+                <div class="use-image collections"></div>
+                <div class="use-copy">Collections</div>
+              </div>
+
+              <div class="use-row">
+                <div class="use-image business"></div>
+                <div class="use-copy">Business Displays</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card price-card">
+          <div class="card-body">
+            <div class="price-top">
+              <h2>Simple One-Time Price</h2>
+              <div class="mini-divider"></div>
+              <div class="price-label">No subscription required</div>
+              <p class="price">$49.95</p>
+              <p class="price-sub">One-Time Purchase</p>
+            </div>
+
+            <ul class="reassure-list">
+              <li><strong>No monthly fees.</strong> No hidden charges.</li>
+              <li><strong>Your story stays yours.</strong> Private and controllable.</li>
+              <li><strong>Made to last.</strong> A meaningful link people can access with a tap.</li>
+            </ul>
+
+            <a href="https://buy.stripe.com/YOUR-REAL-STRIPE-LINK-HERE">
+              <button class="buy-btn">Get Your Chip</button>
+            </a>
+
+            <p class="buy-note">Secure checkout. Yours forever.</p>
+          </div>
+        </article>
+
+      </section>
+    </main>
+
+    <section class="bottom-strip">
+      <div class="bottom-grid">
+        <div class="bottom-item">
+          <strong>Built for Forever</strong>
+          Secure, lasting, and easy to access.
+        </div>
+        <div class="bottom-item">
+          <strong>You Control It</strong>
+          Your page. Your story. Your way.
+        </div>
+        <div class="bottom-item">
+          <strong>Access Anywhere</strong>
+          Share memories and information with a tap.
+        </div>
+        <div class="bottom-item">
+          <strong>Stories Live On</strong>
+          Preserve what matters for future generations.
+        </div>
+      </div>
+    </section>
+
+    <div class="disclaimer-wrap">
+      <div class="disclaimer">
+        Please use MyStoryChip responsibly. Content submitted by users should remain respectful,
+        lawful, and appropriate. Read our <a href="disclaimer.html">Disclaimer</a>.
+      </div>
+    </div>
+
   </div>
-</div>  
 </body>
 </html>
