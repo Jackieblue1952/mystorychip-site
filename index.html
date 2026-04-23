@@ -8,16 +8,22 @@
 <style>
 body {
   margin: 0;
-  font-family: Georgia, serif;
   background: #0a0a0a;
-  color: #f5e6c8;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
 }
 
-/* HERO BACKGROUND IMAGE */
-.hero {
-  height: 100vh;
-  background: url('landing-image.png') center/cover no-repeat;
-  position: relative;
+.hero-wrap {
+  width: 100%;
+  max-width: 1600px;
+}
+
+.hero-image {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 /* DARK OVERLAY FOR READABILITY */
@@ -115,38 +121,9 @@ h1 {
 
 <body>
 
-<div class="hero">
-
-  <div class="overlay">
-
-    <div class="brand">
-      <span>MyStoryChip.com</span>
-    </div>
-
-    <h1>YOUR CHIP.<br>YOUR STORY.</h1>
-
-    <div class="sub">
-      Tap your phone. <span class="highlight">Open the vault.</span>
-    </div>
-
-    <div class="icons">
-      <div class="icon">🔒<br>One Tap Access</div>
-      <div class="icon">⚡<br>Instant Access</div>
-      <div class="icon">❤️<br>Stories That Last</div>
-    </div>
-
-    <div class="cta">START YOUR STORY →</div>
-
-  </div>
-
-  <div class="perks">
-    <div class="perk">☁️<br>250MB Free Storage</div>
-    <div class="perk">🔐<br>Ownership Privacy</div>
-    <div class="perk">👤<br>Owner Controlled</div>
-    <div class="perk">✏️<br>Easy To Update</div>
-    <div class="perk">👨‍👩‍👧<br>Share With Loved Ones</div>
-    <div class="perk">♾️<br>Built To Last</div>
-  </div>
+<div class="hero-wrap">
+  <img src="landing-image.png" alt="MyStoryChip Landing Page" class="hero-image">
+</div>
 
 </div>
 
