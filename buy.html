@@ -1,131 +1,419 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Buy MyStoryChip</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Get Your Chip | MyStoryChip</title>
+  <style>
+    :root {
+      --bg: #15110c;
+      --bg-soft: #20170f;
+      --panel: rgba(10, 10, 10, 0.78);
+      --panel-soft: rgba(255, 248, 236, 0.80);
+      --gold: #d4af37;
+      --gold-bright: #f5d97a;
+      --gold-deep: #b8871b;
+      --cream: #f6ebd7;
+      --text: #f4ead7;
+      --dark-text: #25180d;
+      --muted: #d8c19d;
+      --shadow: 0 0 28px rgba(212, 175, 55, 0.18);
+      --border: rgba(212, 175, 55, 0.42);
+    }
 
-<style>
-body {
-  margin: 0;
-  font-family: Georgia, serif;
-  background: #0a0a0a;
-  color: #f5e6c8;
-}
+    * { box-sizing: border-box; }
 
-/* MAIN LAYOUT */
-.wrap {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 100vh;
-  padding: 60px;
-  gap: 40px;
-}
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 18% 22%, rgba(212,175,55,0.14), transparent 30%),
+        radial-gradient(circle at 72% 18%, rgba(255,220,120,0.11), transparent 28%),
+        linear-gradient(180deg, #312317 0%, #1c140e 38%, #120d09 100%);
+      min-height: 100vh;
+    }
 
-/* LEFT SIDE */
-.left {
-  max-width: 600px;
-}
+    a { color: inherit; text-decoration: none; }
 
-.brand {
-  font-size: 26px;
-  color: #f5d97a;
-  margin-bottom: 20px;
-}
+    .page {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 28px 24px 18px;
+    }
 
-h1 {
-  font-size: 60px;
-  margin: 0 0 20px;
-}
+    .hero {
+      display: grid;
+      grid-template-columns: 320px 1.1fr 520px;
+      gap: 26px;
+      align-items: start;
+    }
 
-.sub {
-  font-size: 22px;
-  color: #e8dcc0;
-  margin-bottom: 30px;
-}
+    .brand-block,
+    .top-copy,
+    .visual-block,
+    .feature-strip,
+    .main-grid,
+    .storage-strip,
+    .footer-bar {
+      border-radius: 26px;
+    }
 
-.price {
-  font-size: 48px;
-  color: #f5d97a;
-  margin-bottom: 20px;
-}
+    .brand-block {
+      background: linear-gradient(180deg, rgba(255,245,225,0.08), rgba(255,245,225,0.03));
+      padding: 18px 16px 24px;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
 
-.note {
-  margin-bottom: 30px;
-  color: #cfc3a0;
-}
+    .logo-mark {
+      font-size: 6.2rem;
+      font-weight: 700;
+      line-height: 0.9;
+      letter-spacing: 2px;
+      color: var(--gold-bright);
+      text-shadow:
+        0 0 8px rgba(212,175,55,0.55),
+        0 0 28px rgba(212,175,55,0.22);
+      margin-top: 10px;
+    }
 
-/* BUTTON */
-.btn {
-  display: inline-block;
-  background: #d4af37;
-  color: black;
-  padding: 18px 30px;
-  border-radius: 40px;
-  font-size: 20px;
-  text-decoration: none;
-  transition: 0.3s;
-}
+    .brand-name {
+      font-size: 3.3rem;
+      color: var(--gold-bright);
+      margin-top: 12px;
+    }
 
-.btn:hover {
-  box-shadow: 0 0 25px rgba(212,175,55,0.5);
-}
+    .brand-tag {
+      font-family: Arial, Helvetica, sans-serif;
+      letter-spacing: 3px;
+      font-size: 1.1rem;
+      margin-top: 8px;
+      color: #f3ead8;
+    }
 
-/* RIGHT IMAGE */
-.right img {
-  max-width: 650px;
-  width: 100%;
-  border-radius: 20px;
-}
+    .top-copy {
+      padding: 10px 10px 0;
+    }
 
-/* MOBILE */
-@media(max-width:900px){
-  .wrap {
-    flex-direction: column;
-    text-align: center;
-  }
+    .headline {
+      font-size: clamp(3rem, 5vw, 5rem);
+      line-height: 0.95;
+      margin: 8px 0 16px;
+      color: #fff7ec;
+    }
 
-  h1 {
-    font-size: 42px;
-  }
+    .subline {
+      font-size: 1.6rem;
+      line-height: 1.45;
+      color: #f0dec0;
+      max-width: 720px;
+    }
 
-  .right img {
-    max-width: 100%;
-  }
-}
-</style>
-</head>
+    .subline .accent { color: var(--gold-bright); }
 
-<body>
+    .visual-block {
+      position: relative;
+      min-height: 460px;
+      background:
+        radial-gradient(circle at 50% 76%, rgba(255,200,80,0.26), transparent 24%),
+        linear-gradient(180deg, rgba(255,248,236,0.10), rgba(255,248,236,0.02));
+      border: 1px solid rgba(255,255,255,0.06);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
 
-<div class="wrap">
+    .glow-lines {
+      position: absolute;
+      left: 50%;
+      bottom: 110px;
+      width: 280px;
+      height: 280px;
+      transform: translateX(-50%);
+      background: radial-gradient(circle, rgba(255,216,120,0.95) 0%, rgba(255,186,45,0.55) 15%, rgba(255,170,0,0.12) 36%, transparent 68%);
+      filter: blur(2px);
+    }
 
-  <div class="left">
-    <div class="brand">MyStoryChip.com</div>
+    .glow-lines::before,
+    .glow-lines::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: conic-gradient(from 0deg, rgba(255,190,60,0) 0deg, rgba(255,190,60,0.75) 18deg, rgba(255,190,60,0) 36deg, rgba(255,190,60,0.75) 54deg, rgba(255,190,60,0) 72deg, rgba(255,190,60,0.75) 90deg, rgba(255,190,60,0) 108deg, rgba(255,190,60,0.75) 126deg, rgba(255,190,60,0) 144deg, rgba(255,190,60,0.7) 162deg, rgba(255,190,60,0) 180deg, rgba(255,190,60,0.7) 198deg, rgba(255,190,60,0) 216deg, rgba(255,190,60,0.7) 234deg, rgba(255,190,60,0) 252deg, rgba(255,190,60,0.7) 270deg, rgba(255,190,60,0) 288deg, rgba(255,190,60,0.7) 306deg, rgba(255,190,60,0) 324deg, rgba(255,190,60,0.7) 342deg, rgba(255,190,60,0) 360deg);
+      -webkit-mask: radial-gradient(circle at center, transparent 0 16%, #000 17% 100%);
+      mask: radial-gradient(circle at center, transparent 0 16%, #000 17% 100%);
+      opacity: 0.7;
+    }
 
-    <h1>Own the Chip.<br>Keep the Story.</h1>
+    .chip-pedestal {
+      position: absolute;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%);
+      width: 330px;
+      height: 112px;
+      background: linear-gradient(180deg, #3f2b15 0%, #22170e 100%);
+      border-radius: 16px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06), 0 15px 28px rgba(0,0,0,0.35);
+    }
 
-    <div class="sub">
-      Tap your phone. Instantly open a story, memory, or information — anywhere.
-    </div>
+    .chip-disc {
+      position: absolute;
+      left: 50%;
+      bottom: 52px;
+      transform: translateX(-50%);
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 45%, #3c2a15 0%, #19130d 58%, #0d0907 100%);
+      border: 6px solid #b68726;
+      box-shadow: 0 0 35px rgba(242, 189, 65, 0.35), inset 0 0 0 2px rgba(255,232,170,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-bright);
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-shadow: 0 0 12px rgba(255,208,102,0.45);
+    }
 
-    <div class="price">$49.95</div>
+    .use-card {
+      position: absolute;
+      width: 180px;
+      min-height: 110px;
+      border-radius: 18px;
+      padding: 16px 14px;
+      background: rgba(12, 9, 7, 0.85);
+      border: 1px solid rgba(245, 217, 122, 0.6);
+      box-shadow: 0 0 22px rgba(245,217,122,0.22);
+      color: #fff3d7;
+      text-align: center;
+    }
 
-    <div class="note">
-      One-time purchase. No monthly fees. You control everything.
-    </div>
+    .use-card h4 {
+      margin: 0 0 8px;
+      font-size: 1.15rem;
+      color: var(--gold-bright);
+    }
 
-    <a href="PASTE_YOUR_STRIPE_LINK_HERE" class="btn">
-      Buy Your Chip →
-    </a>
-  </div>
+    .use-card p {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.92rem;
+      line-height: 1.35;
+      color: #edd7b0;
+    }
 
-  <div class="right">
-    <img src="buy-image.png">
-  </div>
+    .card-1 { top: 30px; left: 38px; }
+    .card-2 { top: 22px; right: 34px; }
+    .card-3 { top: 165px; left: 12px; }
+    .card-4 { top: 172px; right: 8px; }
+    .card-5 { top: 306px; left: 70px; }
 
-</div>
+    .feature-strip {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      background: rgba(255, 243, 221, 0.88);
+      color: var(--dark-text);
+      border: 1px solid rgba(212,175,55,0.45);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
 
-</body>
-</html>
+    .feature-item {
+      padding: 22px 20px 20px;
+      border-right: 1px solid rgba(184,135,27,0.25);
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .feature-item:last-child { border-right: none; }
+
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      border: 2px solid var(--gold-deep);
+      color: var(--gold-deep);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex: 0 0 52px;
+    }
+
+    .feature-item h3 {
+      margin: 0 0 8px;
+      font-size: 1.2rem;
+    }
+
+    .feature-item p {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.45;
+      color: #3a2a19;
+      font-size: 1rem;
+    }
+
+    .main-grid {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: 1.3fr 0.9fr 0.9fr;
+      background: linear-gradient(180deg, rgba(8,8,8,0.92), rgba(14,10,8,0.96));
+      border: 1px solid var(--border);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .price-panel,
+    .get-panel,
+    .pay-panel {
+      padding: 28px 28px 24px;
+      min-height: 470px;
+    }
+
+    .get-panel,
+    .pay-panel {
+      border-left: 1px solid rgba(212,175,55,0.28);
+    }
+
+    .kicker {
+      color: var(--gold-bright);
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      font-weight: 700;
+    }
+
+    .price-big {
+      font-size: clamp(4.3rem, 8vw, 6.2rem);
+      line-height: 0.95;
+      color: var(--gold-bright);
+      margin: 12px 0 6px;
+      text-shadow: 0 0 16px rgba(212,175,55,0.18);
+    }
+
+    .one-time {
+      font-size: 1.75rem;
+      color: #fff2d8;
+      margin-bottom: 24px;
+    }
+
+    .chip-hero {
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      margin: 0 auto 24px;
+      background: radial-gradient(circle at 50% 42%, #2f2215 0%, #15100b 62%, #090705 100%);
+      border: 8px solid #b98a28;
+      box-shadow: 0 0 30px rgba(242, 192, 74, 0.3), inset 0 0 0 3px rgba(248,230,170,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      color: var(--gold-bright);
+      text-shadow: 0 0 16px rgba(255,212,100,0.35);
+      position: relative;
+    }
+
+    .chip-hero::after {
+      content: "";
+      position: absolute;
+      inset: 16px;
+      border: 1px solid rgba(255,230,165,0.16);
+      border-radius: 50%;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      width: min(100%, 360px);
+      padding: 20px 28px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #f6d476 0%, #dfa632 100%);
+      color: #1d1308;
+      font-size: 2rem;
+      font-weight: 700;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.28), 0 0 16px rgba(245,217,122,0.2);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(0,0,0,0.35), 0 0 22px rgba(245,217,122,0.28);
+    }
+
+    .cta-note {
+      font-family: Arial, Helvetica, sans-serif;
+      margin-top: 10px;
+      font-size: 1rem;
+      color: var(--muted);
+    }
+
+    .list-title {
+      font-size: 2rem;
+      color: var(--gold-bright);
+      margin: 6px 0 18px;
+    }
+
+    .benefit-list,
+    .payment-list,
+    .why-list,
+    .storage-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .benefit-list li,
+    .payment-list li,
+    .why-list li,
+    .storage-list li {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(212,175,55,0.16);
+      line-height: 1.45;
+      color: #f1dec0;
+      font-size: 1.08rem;
+    }
+
+    .benefit-list li:last-child,
+    .payment-list li:last-child,
+    .why-list li:last-child,
+    .storage-list li:last-child {
+      border-bottom: none;
+    }
+
+    .bullet {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid rgba(245,217,122,0.56);
+      color: var(--gold-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      flex: 0 0 28px;
+      margin-top: 1px;
+    }
+
+    .pay-box {
+      margin-top: 22px;
+      background: rgba(255,245,230,0.05);
+      border: 1px solid rgba(212,175,55,0.16);
+      border-radius: 20px;
+      padding: 20px 18px;
+    }
