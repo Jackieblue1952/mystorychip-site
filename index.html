@@ -1,282 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MyStoryChip</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyStoryChip</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
-  <style>
-    * {
-      box-sizing: border-box;
-    }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: Georgia, serif;
-      color: #f5e6c8;
-      text-align: center;
-      background:
-        linear-gradient(rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0.88)),
-        url("landing-page.png") center center / cover no-repeat fixed;
-      overflow-x: hidden;
-    }
+<style>
+* { box-sizing: border-box; }
 
-    .hero {
-      position: relative;
-      z-index: 2;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 70px 20px 90px;
-    }
-
-    .hero-glow {
-      position: absolute;
-      top: 38%;
-      left: 50%;
-      width: 520px;
-      height: 520px;
-      transform: translate(-50%, -50%);
-      background: radial-gradient(
-        circle,
-        rgba(212, 175, 55, 0.22) 0%,
-        rgba(212, 175, 55, 0.10) 28%,
-        rgba(0, 0, 0, 0) 72%
-      );
-      filter: blur(32px);
-      animation: pulseGlow 4.5s ease-in-out infinite;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    @keyframes pulseGlow {
-      0%, 100% {
-        opacity: 0.52;
-        transform: translate(-50%, -50%) scale(1);
-      }
-      50% {
-        opacity: 0.82;
-        transform: translate(-50%, -50%) scale(1.08);
-      }
-    }
-
-    .brand {
-      position: relative;
-      z-index: 2;
-      font-size: 2.3rem;
-      color: #d4af37;
-      margin-bottom: 6px;
-      text-shadow: 0 0 14px rgba(212, 175, 55, 0.16);
-    }
-
-    .micro-tag {
-      position: relative;
-      z-index: 2;
-      font-size: 1rem;
-      letter-spacing: 1px;
-      color: #e6d3a3;
-      margin-bottom: 28px;
-    }
-
-    h1 {
-      position: relative;
-      z-index: 2;
-      margin: 0;
-      font-size: 3.2rem;
-      line-height: 1.15;
-      font-weight: 600;
-      color: #f8ecd2;
-      text-shadow: 0 0 10px rgba(0, 0, 0, 0.55);
-    }
-
-    .accent-line {
-      position: relative;
-      z-index: 2;
-      margin: 22px auto 28px;
-      max-width: 760px;
-      font-size: 1.35rem;
-      font-style: italic;
-      color: #e4c86a;
-      text-shadow: 0 0 12px rgba(0, 0, 0, 0.45);
-    }
-
-    .support {
-      position: relative;
-      z-index: 2;
-      max-width: 820px;
-      margin: 0 auto;
-      font-size: 1.38rem;
-      line-height: 1.65;
-      color: #f1e1bc;
-      text-shadow: 0 0 10px rgba(0, 0, 0, 0.45);
-    }
-
-    .trust-line {
-      position: relative;
-      z-index: 2;
-      margin-top: 22px;
-      font-size: 1rem;
-      color: #d3be8a;
-    }
-
-    .btn-wrap {
-      position: relative;
-      z-index: 2;
-      margin-top: 36px;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 16px 34px;
-      border-radius: 34px;
-      border: 1px solid rgba(212, 175, 55, 0.85);
-      background: rgba(212, 175, 55, 0.14);
-      color: #f8ecd2;
-      text-decoration: none;
-      font-size: 1.2rem;
-      font-weight: 700;
-      box-shadow: 0 0 18px rgba(212, 175, 55, 0.22);
-      transition: all 0.28s ease;
-    }
-
-    .btn:hover {
-      background: #d4af37;
-      color: #111;
-      box-shadow: 0 0 24px rgba(212, 175, 55, 0.55);
-      transform: translateY(-1px);
-    }
-
-    .footer {
-      position: relative;
-      z-index: 2;
-      margin-top: 70px;
-      font-size: 0.92rem;
-      color: #cfbc8f;
-      line-height: 1.5;
-    }
-
-    @media (max-width: 900px) {
-      .hero {
-        padding: 58px 18px 70px;
-      }
-
-      .hero-glow {
-        width: 420px;
-        height: 420px;
-        top: 40%;
-      }
-
-      .brand {
-        font-size: 1.95rem;
-      }
-
-      h1 {
-        font-size: 2.5rem;
-      }
-
-      .accent-line {
-        font-size: 1.18rem;
-      }
-
-      .support {
-        font-size: 1.18rem;
-      }
-    }
-
-    @media (max-width: 600px) {
-      body {
-        background:
-          linear-gradient(rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.90)),
-          url("landing-page.png") center center / cover no-repeat;
-      }
-
-      .hero {
-        padding: 48px 16px 58px;
-      }
-
-      .hero-glow {
-        width: 300px;
-        height: 300px;
-        top: 39%;
-        filter: blur(24px);
-      }
-
-      .brand {
-        font-size: 1.65rem;
-      }
-
-      .micro-tag {
-        font-size: 0.92rem;
-        margin-bottom: 20px;
-      }
-
-      h1 {
-        font-size: 2rem;
-        line-height: 1.2;
-      }
-
-      .accent-line {
-        font-size: 1.02rem;
-        margin: 18px auto 22px;
-      }
-
-      .support {
-        font-size: 1rem;
-        line-height: 1.6;
-      }
-
-      .trust-line {
-        font-size: 0.9rem;
-      }
-
-      .btn {
-        font-size: 1.05rem;
-        padding: 15px 28px;
-      }
-
-      .footer {
-        margin-top: 54px;
-        font-size: 0.82rem;
-      }
-      .signature {
-  font-family: 'Great Vibes', cursive;
-  font-size: 1.4rem;
+body {
+  margin: 0;
+  font-family: Georgia, serif;
+  background: #050505;
   color: #f5e6c8;
-  margin-left: 6px;
-  letter-spacing: 1px;
-    }
-  </style>
+}
+
+/* HERO */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  background:
+    linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.65)),
+    url("final-storybook.png") center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.hero-content {
+  max-width: 900px;
+}
+
+.hero h1 {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  color: #fff6d6;
+  margin-bottom: 20px;
+  text-shadow: 0 0 25px rgba(212,175,55,0.35);
+}
+
+.hero p {
+  font-size: 1.3rem;
+  color: #fff3cc;
+  margin-bottom: 20px;
+}
+
+.trust {
+  font-size: 1rem;
+  color: #e6d6b2;
+  margin-bottom: 30px;
+}
+
+/* BUTTON */
+.cta-btn {
+  background: linear-gradient(180deg, #f6db83, #d9a92a);
+  color: #2b1a00;
+  padding: 16px 30px;
+  font-size: 1.4rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 0 25px rgba(212,175,55,0.5);
+  transition: 0.2s;
+}
+
+.cta-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* SECTIONS */
+.section {
+  padding: 60px 20px;
+  text-align: center;
+  background: #0a0a0a;
+}
+
+.section h2 {
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+  color: #f5d97a;
+}
+
+.uses {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+  gap: 20px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.use-box {
+  border: 1px solid rgba(212,175,55,0.25);
+  padding: 20px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.03);
+}
+
+.value-list {
+  max-width: 600px;
+  margin: auto;
+  text-align: left;
+  line-height: 1.8;
+}
+
+/* SIGNATURE */
+.signature {
+  margin-top: 40px;
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.8rem;
+  color: #f5d97a;
+}
+
+/* DISCLAIMER */
+.disclaimer {
+  font-size: 0.8rem;
+  text-align: center;
+  padding: 20px;
+  color: #bfae88;
+}
+
+/* MOBILE */
+@media(max-width:700px){
+  .hero p { font-size: 1.1rem; }
+  .cta-btn { font-size: 1.2rem; }
+}
+</style>
 </head>
+
 <body>
-  <div class="hero">
-    <div class="hero-glow"></div>
 
-    <div class="brand">MyStoryChip</div>
-    <div class="micro-tag">YOUR CHIP. YOUR STORY.</div>
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
 
-    <h1>Tap the chip.<br>Discover the story.</h1>
+    <h1>Tap the Chip.<br>Instantly See the Story.</h1>
 
-    <div class="accent-line">
-      Every object has a story… now it can be told.
+    <p>
+      A simple NFC chip that opens photos, memories, and information
+      with a phone tap.
+    </p>
+
+    <div class="trust">
+      Simple. Personal. Built to last.
     </div>
 
-    <div class="support">
-      Attach a MyStoryChip to something that matters.<br>
-      Tap your phone to instantly open its story, photos, or history.
-    </div>
+    <a href="buy.html">
+      <button class="cta-btn">Get Your Chip</button>
+    </a>
 
-    <div class="trust-line">
-      No apps. No subscriptions. Just tap and open.
-    </div>
-
-    <div class="btn-wrap">
-      <a href="buy.html" class="btn">Begin Your Story</a>
-    </div>
-
-    <div class="footer">
-      MyStoryChip.com<br>
-      Founder & Creator: <span class="signature">Jack W. Kennedy</span>
-         </div>
   </div>
+</div>
+
+<!-- WHAT IT IS -->
+<div class="section">
+  <h2>What is MyStoryChip?</h2>
+  <p>
+    A small NFC chip you attach to something meaningful —
+    allowing anyone to instantly open its story with a tap.
+  </p>
+</div>
+
+<!-- USES -->
+<div class="section">
+  <h2>Perfect For</h2>
+  <div class="uses">
+    <div class="use-box">Memorials</div>
+    <div class="use-box">Family Stories</div>
+    <div class="use-box">Cars & Restorations</div>
+    <div class="use-box">Collections</div>
+    <div class="use-box">Business Displays</div>
+  </div>
+</div>
+
+<!-- VALUE -->
+<div class="section">
+  <h2>Simple. Powerful. Yours.</h2>
+  <div class="value-list">
+    ✔ One-time purchase<br>
+    ✔ 250 MB included storage<br>
+    ✔ Permanent story page<br>
+    ✔ No monthly fees<br>
+    ✔ NFC instant access
+  </div>
+
+  <div class="signature">
+    Founded & Created by Jack W Kennedy
+  </div>
+</div>
+
+<!-- DISCLAIMER -->
+<div class="disclaimer">
+  Please use MyStoryChip responsibly. Content must remain appropriate and lawful.
+  <br>
+  <a href="terms.html">Read Disclaimer</a>
+</div>
+
 </body>
 </html>
