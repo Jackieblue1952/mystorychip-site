@@ -98,7 +98,7 @@ const chipCode = document.getElementById("chipCode");
 const setupBtn = document.getElementById("setupBtn");
 const viewBtn = document.getElementById("viewBtn");
 
-if (code) {
+if (code && code !== "null") {
   chipCode.textContent = code;
   setupBtn.href = `client-setup.html?code=${code}`;
   viewBtn.href = `chip.html?code=${code}`;
