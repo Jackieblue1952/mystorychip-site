@@ -91,22 +91,22 @@ h1 {
 </div>
 
 <script>
-// GET CODE FROM URL
 const params = new URLSearchParams(window.location.search);
 const code = params.get("code");
 
-if (!code) {
-  document.getElementById("chipCode").textContent = "Ready to Set Up";
+const chipCode = document.getElementById("chipCode");
+const setupBtn = document.getElementById("setupBtn");
+const viewBtn = document.getElementById("viewBtn");
+
+if (code) {
+  chipCode.textContent = code;
+  setupBtn.href = `client-setup.html?code=${code}`;
+  viewBtn.href = `chip.html?code=${code}`;
 } else {
-  document.getElementById("chipCode").textContent = code;
+  chipCode.textContent = "Ready to Set Up";
+  setupBtn.href = "client-setup.html";
+  viewBtn.href = "index.html";
 }
-
-// SHOW CODE
-document.getElementById("chipCode").textContent = code;
-
-// LINK BUTTONS
-document.getElementById("setupBtn").href = `client-setup.html?code=${code}`;
-document.getElementById("viewBtn").href = `chip.html?code=${code}`;
 </script>
 
 </body>
