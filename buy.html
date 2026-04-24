@@ -6,312 +6,489 @@
 <title>Buy MyStoryChip</title>
 
 <style>
-*{box-sizing:border-box}
+* {
+  box-sizing: border-box;
+}
 
-body{
-  margin:0;
-  font-family:Georgia,"Times New Roman",serif;
-  color:#2f2109;
+:root {
+  --cream: #fff8df;
+  --cream2: #f6e7bd;
+  --gold: #d4af37;
+  --gold2: #f5d97a;
+  --darkgold: #7a5612;
+  --brown: #2f2108;
+  --softwhite: rgba(255,255,255,0.78);
+}
+
+body {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  color: var(--brown);
   background:
-    radial-gradient(circle at 50% 0%,rgba(255,232,150,.9),transparent 28%),
-    linear-gradient(180deg,#fff9e8 0%,#efe0b6 54%,#d7b96f 100%);
+    radial-gradient(circle at 50% 0%, rgba(255, 231, 139, 0.95), transparent 26%),
+    linear-gradient(180deg, #fffaf0 0%, #f2dfad 52%, #d7b96f 100%);
+  overflow-x: hidden;
 }
 
-.page{
-  min-height:100vh;
-  padding:26px;
+.page {
+  min-height: 100vh;
+  padding: 22px;
 }
 
-.admin{
-  position:fixed;
-  top:12px;
-  right:18px;
-  z-index:20;
-  background:#fffdf6;
-  color:#6f4b12;
-  text-decoration:none;
-  font-weight:bold;
-  padding:12px 24px;
-  border-radius:999px;
-  box-shadow:0 8px 24px rgba(95,63,10,.16);
-  border:1px solid rgba(130,90,20,.18);
+.admin {
+  position: fixed;
+  top: 14px;
+  right: 18px;
+  z-index: 50;
+  background: rgba(255,255,255,0.92);
+  color: #6b470c;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 12px 24px;
+  border-radius: 999px;
+  border: 1px solid rgba(122,86,18,0.18);
+  box-shadow: 0 10px 28px rgba(82,54,8,0.18);
 }
 
-.brand{
-  text-align:center;
-  margin:10px auto 28px;
+.brand {
+  text-align: center;
+  margin: 10px auto 24px;
 }
 
-.brand h1{
-  margin:0;
-  font-size:clamp(3rem,6vw,5.7rem);
-  color:#7a5616;
-  line-height:.9;
-  text-shadow:0 2px 0 #fff7d6;
+.brand h1 {
+  margin: 0;
+  font-size: clamp(3rem, 6.5vw, 6.2rem);
+  line-height: 0.9;
+  color: #7b5614;
+  text-shadow: 0 2px 0 #fff7d4, 0 12px 32px rgba(160,111,20,0.18);
 }
 
-.brand p{
-  margin:18px 0 0;
-  letter-spacing:9px;
-  font-weight:bold;
-  font-size:clamp(.95rem,1.5vw,1.25rem);
+.brand p {
+  margin: 18px 0 0;
+  font-size: clamp(0.9rem, 1.5vw, 1.25rem);
+  font-weight: bold;
+  letter-spacing: 9px;
 }
 
-.hero{
-  max-width:1320px;
-  margin:0 auto;
-  min-height:680px;
-  border-radius:42px;
-  position:relative;
-  overflow:hidden;
-  padding:46px;
+.hero {
+  max-width: 1380px;
+  min-height: 735px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  border-radius: 44px;
+  padding: 48px;
   background:
-    radial-gradient(circle at 72% 45%,rgba(255,230,115,.82),transparent 28%),
-    radial-gradient(circle at 47% 42%,rgba(255,210,76,.55),transparent 22%),
-    linear-gradient(135deg,#fffaf0 0%,#f4e5bd 42%,#cfaa50 100%);
+    radial-gradient(circle at 72% 47%, rgba(255, 222, 87, 0.98), transparent 22%),
+    radial-gradient(circle at 78% 48%, rgba(255, 248, 190, 0.75), transparent 33%),
+    radial-gradient(circle at 42% 18%, rgba(255,255,255,0.78), transparent 22%),
+    linear-gradient(135deg, #fffdf5 0%, #f7e7bd 45%, #cfa64d 100%);
   box-shadow:
-    inset 0 0 0 1px rgba(130,86,16,.18),
-    0 30px 80px rgba(93,61,9,.23);
+    inset 0 0 0 1px rgba(130, 86, 16, 0.2),
+    0 32px 90px rgba(89, 58, 8, 0.24);
 }
 
-.hero:before{
-  content:"";
-  position:absolute;
-  inset:0;
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
   background-image:
-    radial-gradient(circle,rgba(255,255,255,.9) 0 1px,transparent 2px);
-  background-size:42px 42px;
-  opacity:.28;
-  pointer-events:none;
+    radial-gradient(circle, rgba(255,255,255,0.95) 0 1px, transparent 2px),
+    radial-gradient(circle, rgba(212,175,55,0.45) 0 1px, transparent 2px);
+  background-size: 38px 38px, 64px 64px;
+  opacity: 0.38;
+  pointer-events: none;
 }
 
-.content{
-  position:relative;
-  z-index:3;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:34px;
-  align-items:center;
-  min-height:590px;
-}
-
-.copy h2{
-  margin:0 0 22px;
-  font-size:clamp(3rem,6vw,6rem);
-  line-height:.92;
-  color:#342305;
-}
-
-.copy .lead{
-  font-size:clamp(1.25rem,2vw,1.75rem);
-  line-height:1.35;
-  max-width:680px;
-  margin:0 0 26px;
-}
-
-.price-card{
-  width:min(520px,100%);
-  padding:28px;
-  border-radius:30px;
-  background:rgba(255,255,255,.62);
-  border:1px solid rgba(126,82,10,.22);
-  box-shadow:0 20px 50px rgba(98,64,10,.22);
-  backdrop-filter:blur(8px);
-}
-
-.price{
-  font-size:clamp(4rem,8vw,6.8rem);
-  font-weight:bold;
-  line-height:.9;
-}
-
-.details{
-  margin:18px 0 26px;
-  font-size:1.25rem;
-  line-height:1.7;
-  font-weight:bold;
-}
-
-.btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  text-decoration:none;
-  color:#1d1201;
-  font-weight:bold;
-  font-size:1.55rem;
-  padding:22px 42px;
-  border-radius:999px;
-  background:linear-gradient(135deg,#fff3a4 0%,#ffd84d 38%,#b57b09 100%);
-  box-shadow:
-    0 18px 40px rgba(103,66,5,.35),
-    0 0 38px rgba(255,223,104,.88);
-}
-
-.btn:hover{
-  transform:translateY(-3px) scale(1.02);
-}
-
-.note{
-  margin-top:14px;
-  font-weight:bold;
-  color:#60400d;
-}
-
-.stage{
-  position:relative;
-  height:600px;
-}
-
-.beam{
-  position:absolute;
-  left:50%;
-  top:0;
-  width:34px;
-  height:410px;
-  transform:translateX(-50%);
-  background:linear-gradient(to bottom,rgba(255,255,255,.95),rgba(255,230,84,.95),rgba(255,188,34,.2));
-  filter:blur(5px);
-  border-radius:999px;
-  box-shadow:0 0 55px rgba(255,229,94,.9);
-}
-
-.book{
-  position:absolute;
-  left:50%;
-  bottom:58px;
-  transform:translateX(-50%);
-  width:520px;
-  height:190px;
-  border-radius:50% 50% 38px 38px;
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
   background:
-    radial-gradient(circle at 50% 0%,rgba(255,236,136,.95),transparent 24%),
-    linear-gradient(90deg,#5d3a08,#c8962a 48%,#5d3a08);
-  box-shadow:
-    0 26px 60px rgba(56,35,5,.45),
-    0 0 70px rgba(255,209,80,.75);
+    linear-gradient(90deg, rgba(255,255,255,0.5), transparent 42%),
+    radial-gradient(circle at 74% 55%, transparent 0 26%, rgba(80,46,0,0.11) 72%);
+  pointer-events: none;
 }
 
-.book:before{
-  content:"";
-  position:absolute;
-  inset:24px;
-  border-radius:50%;
-  border-top:3px solid rgba(255,245,190,.8);
-  opacity:.9;
+.hero-inner {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: 0.92fr 1.08fr;
+  gap: 38px;
+  align-items: center;
+  min-height: 635px;
 }
 
-.chip{
-  position:absolute;
-  left:50%;
-  top:235px;
-  transform:translateX(-50%);
-  width:280px;
-  height:280px;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
+.copy h2 {
+  margin: 0 0 24px;
+  font-size: clamp(3.1rem, 6.5vw, 6.6rem);
+  line-height: 0.9;
+  color: #302005;
+  max-width: 720px;
+}
+
+.lead {
+  margin: 0 0 28px;
+  max-width: 680px;
+  font-size: clamp(1.3rem, 2.1vw, 1.85rem);
+  line-height: 1.35;
+}
+
+.buy-panel {
+  width: min(570px, 100%);
+  padding: 30px;
+  border-radius: 34px;
   background:
-    radial-gradient(circle at 35% 25%,#fff9c7,#d8b43d 38%,#8d5d09 78%,#3b2504);
+    linear-gradient(180deg, rgba(255,255,255,0.78), rgba(255,248,225,0.64));
+  border: 1px solid rgba(122,83,18,0.23);
   box-shadow:
-    inset 0 0 26px rgba(255,255,255,.65),
-    0 0 76px rgba(255,221,85,.95),
-    0 30px 70px rgba(67,42,4,.45);
-  z-index:4;
+    0 20px 55px rgba(84,55,9,0.22),
+    inset 0 0 0 1px rgba(255,255,255,0.55);
+  backdrop-filter: blur(8px);
 }
 
-.chip:before{
-  content:"";
-  position:absolute;
-  inset:22px;
-  border-radius:50%;
-  border:3px solid rgba(255,255,255,.42);
+.price {
+  font-size: clamp(4.2rem, 8vw, 7rem);
+  line-height: 0.9;
+  font-weight: bold;
+  color: #281904;
 }
 
-.chip span{
-  font-size:4.8rem;
-  font-weight:bold;
-  z-index:3;
+.buy-list {
+  margin: 20px 0 28px;
+  display: grid;
+  gap: 10px;
+  font-size: 1.28rem;
+  font-weight: bold;
 }
 
-.tap{
-  position:absolute;
-  top:178px;
-  left:50%;
-  transform:translateX(-50%);
-  color:#b60000;
-  font-weight:bold;
-  letter-spacing:3px;
-  z-index:5;
+.buy-list div {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
-.use{
-  position:absolute;
-  z-index:6;
-  width:178px;
-  padding:16px 18px;
-  text-align:center;
-  border-radius:18px;
-  background:rgba(255,255,255,.76);
-  border:1px solid rgba(122,83,18,.2);
-  box-shadow:0 16px 32px rgba(66,43,8,.22);
-  font-weight:bold;
-  font-size:1.05rem;
+.check {
+  width: 26px;
+  height: 26px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #1f1402;
+  background: linear-gradient(135deg, #fff2a8, #d4af37);
+  box-shadow: 0 0 18px rgba(212,175,55,0.5);
+  font-size: 0.92rem;
 }
 
-.u1{top:80px;left:20px}
-.u2{top:118px;right:8px}
-.u3{bottom:142px;left:0}
-.u4{bottom:106px;right:18px}
-.u5{top:20px;left:50%;transform:translateX(-50%)}
-
-.strip{
-  max-width:1320px;
-  margin:28px auto 0;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:18px;
+.cta {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 285px;
+  padding: 22px 38px;
+  border-radius: 999px;
+  text-decoration: none;
+  color: #1b1000;
+  font-size: 1.55rem;
+  font-weight: bold;
+  background: linear-gradient(135deg, #fff5b8 0%, #ffd84d 38%, #b87b08 100%);
+  box-shadow:
+    0 18px 42px rgba(92,58,4,0.36),
+    0 0 46px rgba(255,221,90,0.92);
 }
 
-.box{
-  background:rgba(255,255,255,.72);
-  border:1px solid rgba(126,82,10,.2);
-  border-radius:24px;
-  padding:22px;
-  text-align:center;
-  box-shadow:0 14px 34px rgba(84,55,10,.14);
+.cta:hover {
+  transform: translateY(-3px) scale(1.02);
 }
 
-.box strong{
-  display:block;
-  font-size:1.65rem;
-  margin-bottom:7px;
+.promise {
+  margin-top: 15px;
+  font-weight: bold;
+  color: #65430c;
+  font-size: 1.08rem;
 }
 
-.footer{
-  max-width:1320px;
-  margin:26px auto 0;
-  text-align:center;
-  font-weight:bold;
-  color:#61410c;
+.stage {
+  position: relative;
+  height: 650px;
 }
 
-@media(max-width:900px){
-  .content{grid-template-columns:1fr}
-  .hero{padding:30px}
-  .stage{height:540px}
-  .strip{grid-template-columns:1fr 1fr}
+.light-column {
+  position: absolute;
+  left: 50%;
+  top: 4px;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 485px;
+  border-radius: 999px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.96), rgba(255,239,122,0.95), rgba(255,183,34,0.16));
+  filter: blur(6px);
+  box-shadow: 0 0 80px rgba(255,230,93,0.95);
+  z-index: 1;
 }
 
-@media(max-width:560px){
-  .page{padding:14px}
-  .brand p{letter-spacing:4px}
-  .hero{border-radius:26px;padding:22px}
-  .book{width:340px;height:140px}
-  .chip{width:210px;height:210px;top:230px}
-  .chip span{font-size:3.5rem}
-  .use{width:132px;font-size:.85rem;padding:12px}
-  .strip{grid-template-columns:1fr}
+.light-column::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 80px;
+  transform: translateX(-50%);
+  width: 190px;
+  height: 520px;
+  background: radial-gradient(ellipse, rgba(255,231,96,0.42), transparent 62%);
+  filter: blur(18px);
+}
+
+.story-burst {
+  position: absolute;
+  left: 50%;
+  top: 300px;
+  transform: translateX(-50%);
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(255,255,255,0.9) 0 5%, rgba(255,230,93,0.82) 17%, rgba(212,175,55,0.3) 42%, transparent 70%);
+  filter: blur(4px);
+  z-index: 1;
+}
+
+.book {
+  position: absolute;
+  left: 50%;
+  bottom: 44px;
+  transform: translateX(-50%);
+  width: min(620px, 94%);
+  height: 225px;
+  border-radius: 52% 52% 38px 38px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255,238,146,0.95), transparent 24%),
+    linear-gradient(90deg, #4d2e05 0%, #af7d1f 28%, #f0cf6a 50%, #af7d1f 72%, #4d2e05 100%);
+  box-shadow:
+    0 28px 65px rgba(49,31,5,0.45),
+    0 0 95px rgba(255,209,75,0.75);
+  z-index: 2;
+}
+
+.book::before {
+  content: "";
+  position: absolute;
+  inset: 32px 42px;
+  border-radius: 50%;
+  border-top: 4px solid rgba(255,248,204,0.78);
+  border-left: 2px solid rgba(255,232,141,0.35);
+  border-right: 2px solid rgba(255,232,141,0.35);
+}
+
+.book::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 20px;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 150px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.75), rgba(255,220,80,0.2));
+  box-shadow: 0 0 18px rgba(255,231,109,0.9);
+}
+
+.chip {
+  position: absolute;
+  left: 50%;
+  top: 260px;
+  transform: translateX(-50%);
+  width: 285px;
+  height: 285px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 35% 24%, #fff9c8 0%, #e4c64f 32%, #b48720 56%, #5c3906 88%);
+  box-shadow:
+    inset 0 0 30px rgba(255,255,255,0.7),
+    inset 0 -28px 45px rgba(69,41,3,0.28),
+    0 0 85px rgba(255,220,74,1),
+    0 30px 70px rgba(68,42,3,0.45);
+  z-index: 5;
+}
+
+.chip::before {
+  content: "";
+  position: absolute;
+  inset: 20px;
+  border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.42);
+}
+
+.chip::after {
+  content: "TAP";
+  position: absolute;
+  top: 176px;
+  color: #b40000;
+  font-size: 1.05rem;
+  letter-spacing: 3px;
+  font-weight: bold;
+}
+
+.chip span {
+  position: relative;
+  z-index: 3;
+  font-size: 4.8rem;
+  font-weight: bold;
+  color: #2d1d04;
+  text-shadow: 0 2px 10px rgba(255,255,255,0.55);
+}
+
+.orbit-card {
+  position: absolute;
+  z-index: 8;
+  width: 185px;
+  min-height: 98px;
+  padding: 15px 14px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.82);
+  border: 1px solid rgba(128,88,20,0.22);
+  box-shadow:
+    0 16px 34px rgba(66,43,8,0.22),
+    0 0 24px rgba(255,221,100,0.25);
+  backdrop-filter: blur(7px);
+  text-align: center;
+  font-weight: bold;
+}
+
+.orbit-card strong {
+  display: block;
+  font-size: 1.08rem;
+  margin-bottom: 6px;
+  color: #3b2505;
+}
+
+.orbit-card span {
+  display: block;
+  font-size: 0.86rem;
+  line-height: 1.25;
+  color: #6d4a12;
+}
+
+.o1 { top: 82px; left: 38px; transform: rotate(-3deg); }
+.o2 { top: 118px; right: 20px; transform: rotate(3deg); }
+.o3 { left: 4px; bottom: 150px; transform: rotate(3deg); }
+.o4 { right: 12px; bottom: 128px; transform: rotate(-3deg); }
+.o5 { top: 28px; left: 50%; transform: translateX(-50%); }
+
+.badge-strip {
+  max-width: 1380px;
+  margin: 28px auto 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.badge {
+  background: rgba(255,255,255,0.74);
+  border: 1px solid rgba(126,82,10,0.19);
+  border-radius: 26px;
+  padding: 22px 18px;
+  text-align: center;
+  box-shadow:
+    0 16px 36px rgba(84,55,10,0.14),
+    inset 0 0 0 1px rgba(255,255,255,0.58);
+}
+
+.badge strong {
+  display: block;
+  font-size: 1.55rem;
+  margin-bottom: 8px;
+}
+
+.footer {
+  max-width: 1380px;
+  margin: 24px auto 0;
+  text-align: center;
+  color: #60400b;
+  font-weight: bold;
+}
+
+@media (max-width: 980px) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .stage {
+    height: 610px;
+  }
+
+  .badge-strip {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .page {
+    padding: 14px;
+  }
+
+  .hero {
+    padding: 24px;
+    border-radius: 30px;
+  }
+
+  .brand p {
+    letter-spacing: 4px;
+  }
+
+  .buy-panel {
+    padding: 22px;
+  }
+
+  .cta {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .stage {
+    height: 560px;
+  }
+
+  .chip {
+    width: 220px;
+    height: 220px;
+    top: 250px;
+  }
+
+  .chip span {
+    font-size: 3.5rem;
+  }
+
+  .chip::after {
+    top: 136px;
+  }
+
+  .book {
+    width: 360px;
+    height: 150px;
+  }
+
+  .orbit-card {
+    width: 138px;
+    min-height: 78px;
+    padding: 10px;
+  }
+
+  .orbit-card span {
+    display: none;
+  }
+
+  .o1 { top: 86px; left: 0; }
+  .o2 { top: 108px; right: 0; }
+  .o3 { bottom: 122px; left: 0; }
+  .o4 { bottom: 112px; right: 0; }
+  .o5 { top: 30px; }
+
+  .badge-strip {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
 </head>
@@ -329,47 +506,69 @@ body{
 
   <section class="hero">
 
-    <div class="content">
+    <div class="hero-inner">
 
       <div class="copy">
         <h2>Own the Chip.<br>Keep the Story.</h2>
 
         <p class="lead">
-          Tap a phone and instantly open the story, memory, photos,
-          documents, or information connected to the chip.
+          Tap a phone and instantly open stories, photos, documents,
+          memories, and information connected to the things that matter.
         </p>
 
-        <div class="price-card">
+        <div class="buy-panel">
           <div class="price">$49.95</div>
 
-          <div class="details">
-            One-time purchase<br>
-            250 MB storage included<br>
-            No monthly fee
+          <div class="buy-list">
+            <div><span class="check">✓</span> One physical MyStoryChip</div>
+            <div><span class="check">✓</span> 250 MB storage included</div>
+            <div><span class="check">✓</span> Your own permanent story page</div>
+            <div><span class="check">✓</span> No monthly fee</div>
           </div>
 
-          <a class="btn" href="PASTE_YOUR_STRIPE_LINK_HERE">
+          <a class="cta" href="PASTE_YOUR_STRIPE_LINK_HERE">
             👉 Get Your Chip
           </a>
 
-          <div class="note">Buy once. Tap forever. No subscription.</div>
+          <div class="promise">
+            One-time purchase. Simple setup. Yours to control.
+          </div>
         </div>
       </div>
 
       <div class="stage">
-        <div class="beam"></div>
+        <div class="light-column"></div>
+        <div class="story-burst"></div>
 
-        <div class="use u5">Tap to Unlock</div>
-        <div class="use u1">Memorials</div>
-        <div class="use u2">Family Stories</div>
-        <div class="use u3">Autos & Restorations</div>
-        <div class="use u4">Collections</div>
+        <div class="orbit-card o5">
+          <strong>Tap to Unlock</strong>
+          <span>Open the story instantly</span>
+        </div>
+
+        <div class="orbit-card o1">
+          <strong>Memorials</strong>
+          <span>Photos, stories, and tributes</span>
+        </div>
+
+        <div class="orbit-card o2">
+          <strong>Family Stories</strong>
+          <span>Keep memories connected</span>
+        </div>
+
+        <div class="orbit-card o3">
+          <strong>Autos & Restorations</strong>
+          <span>Build history and details</span>
+        </div>
+
+        <div class="orbit-card o4">
+          <strong>Collections</strong>
+          <span>Coins, keepsakes, and records</span>
+        </div>
 
         <div class="chip">
           <span>MSC</span>
         </div>
 
-        <div class="tap">TAP</div>
         <div class="book"></div>
       </div>
 
@@ -377,23 +576,23 @@ body{
 
   </section>
 
-  <section class="strip">
-    <div class="box">
+  <section class="badge-strip">
+    <div class="badge">
       <strong>$49.95</strong>
       One-time purchase
     </div>
 
-    <div class="box">
+    <div class="badge">
       <strong>250 MB</strong>
       Storage included
     </div>
 
-    <div class="box">
+    <div class="badge">
       <strong>No Monthly Fee</strong>
       No subscription
     </div>
 
-    <div class="box">
+    <div class="badge">
       <strong>Tap to Open</strong>
       Phone-ready access
     </div>
