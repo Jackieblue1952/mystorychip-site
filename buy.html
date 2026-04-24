@@ -11,13 +11,13 @@
 }
 
 :root {
-  --cream: #fff8df;
-  --cream2: #f6e7bd;
+  --cream: #fff8e6;
+  --cream2: #f4e2b0;
   --gold: #d4af37;
-  --gold2: #f5d97a;
-  --darkgold: #7a5612;
-  --brown: #2f2108;
-  --softwhite: rgba(255,255,255,0.78);
+  --gold2: #f6d66d;
+  --deep: #241604;
+  --brown: #3a2608;
+  --soft: rgba(255,255,255,0.78);
 }
 
 body {
@@ -25,14 +25,13 @@ body {
   font-family: Georgia, "Times New Roman", serif;
   color: var(--brown);
   background:
-    radial-gradient(circle at 50% 0%, rgba(255, 231, 139, 0.95), transparent 26%),
-    linear-gradient(180deg, #fffaf0 0%, #f2dfad 52%, #d7b96f 100%);
-  overflow-x: hidden;
+    radial-gradient(circle at top, rgba(255,235,154,0.95), transparent 28%),
+    linear-gradient(180deg, #fffaf0 0%, #f4e6bd 52%, #d8ba70 100%);
 }
 
 .page {
   min-height: 100vh;
-  padding: 22px;
+  padding: 20px;
 }
 
 .admin {
@@ -40,73 +39,56 @@ body {
   top: 14px;
   right: 18px;
   z-index: 50;
-  background: rgba(255,255,255,0.92);
-  color: #6b470c;
   text-decoration: none;
-  font-weight: bold;
+  color: #704b10;
+  background: rgba(255,255,255,0.9);
   padding: 12px 24px;
   border-radius: 999px;
-  border: 1px solid rgba(122,86,18,0.18);
-  box-shadow: 0 10px 28px rgba(82,54,8,0.18);
+  font-weight: bold;
+  box-shadow: 0 10px 26px rgba(90,55,5,0.18);
 }
 
 .brand {
   text-align: center;
-  margin: 10px auto 24px;
+  margin: 8px auto 24px;
 }
 
 .brand h1 {
   margin: 0;
-  font-size: clamp(3rem, 6.5vw, 6.2rem);
+  font-size: clamp(3.2rem, 6vw, 6rem);
+  color: #7a5612;
   line-height: 0.9;
-  color: #7b5614;
-  text-shadow: 0 2px 0 #fff7d4, 0 12px 32px rgba(160,111,20,0.18);
+  text-shadow: 0 2px 0 #fff6d0;
 }
 
 .brand p {
   margin: 18px 0 0;
-  font-size: clamp(0.9rem, 1.5vw, 1.25rem);
-  font-weight: bold;
   letter-spacing: 9px;
+  font-weight: bold;
+  font-size: clamp(0.9rem, 1.4vw, 1.2rem);
 }
 
 .hero {
   max-width: 1380px;
-  min-height: 735px;
   margin: 0 auto;
-  position: relative;
-  overflow: hidden;
   border-radius: 44px;
-  padding: 48px;
+  overflow: hidden;
+  position: relative;
+  min-height: 720px;
   background:
-    radial-gradient(circle at 72% 47%, rgba(255, 222, 87, 0.98), transparent 22%),
-    radial-gradient(circle at 78% 48%, rgba(255, 248, 190, 0.75), transparent 33%),
-    radial-gradient(circle at 42% 18%, rgba(255,255,255,0.78), transparent 22%),
-    linear-gradient(135deg, #fffdf5 0%, #f7e7bd 45%, #cfa64d 100%);
+    linear-gradient(90deg, rgba(255,255,255,0.88) 0%, rgba(255,248,225,0.68) 42%, rgba(45,28,4,0.94) 43%, rgba(22,13,2,0.98) 100%);
   box-shadow:
-    inset 0 0 0 1px rgba(130, 86, 16, 0.2),
-    0 32px 90px rgba(89, 58, 8, 0.24);
+    0 34px 90px rgba(87,54,5,0.25),
+    inset 0 0 0 1px rgba(130,86,16,0.2);
 }
 
 .hero::before {
   content: "";
   position: absolute;
   inset: 0;
-  background-image:
-    radial-gradient(circle, rgba(255,255,255,0.95) 0 1px, transparent 2px),
-    radial-gradient(circle, rgba(212,175,55,0.45) 0 1px, transparent 2px);
-  background-size: 38px 38px, 64px 64px;
-  opacity: 0.38;
-  pointer-events: none;
-}
-
-.hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
   background:
-    linear-gradient(90deg, rgba(255,255,255,0.5), transparent 42%),
-    radial-gradient(circle at 74% 55%, transparent 0 26%, rgba(80,46,0,0.11) 72%);
+    radial-gradient(circle at 72% 48%, rgba(255,216,75,0.68), transparent 25%),
+    radial-gradient(circle at 76% 50%, rgba(255,244,185,0.3), transparent 38%);
   pointer-events: none;
 }
 
@@ -114,85 +96,86 @@ body {
   position: relative;
   z-index: 3;
   display: grid;
-  grid-template-columns: 0.92fr 1.08fr;
-  gap: 38px;
-  align-items: center;
-  min-height: 635px;
+  grid-template-columns: 0.9fr 1.1fr;
+  min-height: 720px;
 }
 
-.copy h2 {
-  margin: 0 0 24px;
-  font-size: clamp(3.1rem, 6.5vw, 6.6rem);
+.sell {
+  padding: 58px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sell h2 {
+  margin: 0 0 22px;
+  font-size: clamp(3.2rem, 6vw, 6.4rem);
   line-height: 0.9;
-  color: #302005;
-  max-width: 720px;
+  color: #2b1c04;
 }
 
-.lead {
-  margin: 0 0 28px;
-  max-width: 680px;
-  font-size: clamp(1.3rem, 2.1vw, 1.85rem);
+.sell .lead {
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
   line-height: 1.35;
+  margin: 0 0 28px;
+  max-width: 650px;
 }
 
-.buy-panel {
-  width: min(570px, 100%);
+.buy-card {
+  width: min(560px, 100%);
   padding: 30px;
   border-radius: 34px;
   background:
-    linear-gradient(180deg, rgba(255,255,255,0.78), rgba(255,248,225,0.64));
-  border: 1px solid rgba(122,83,18,0.23);
+    linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,249,229,0.74));
+  border: 1px solid rgba(122,82,10,0.22);
   box-shadow:
-    0 20px 55px rgba(84,55,9,0.22),
+    0 22px 55px rgba(83,52,5,0.22),
     inset 0 0 0 1px rgba(255,255,255,0.55);
-  backdrop-filter: blur(8px);
 }
 
 .price {
-  font-size: clamp(4.2rem, 8vw, 7rem);
+  font-size: clamp(4.4rem, 8vw, 7rem);
   line-height: 0.9;
   font-weight: bold;
-  color: #281904;
+  color: #251703;
 }
 
-.buy-list {
-  margin: 20px 0 28px;
+.includes {
+  margin: 22px 0 28px;
   display: grid;
-  gap: 10px;
-  font-size: 1.28rem;
+  gap: 11px;
+  font-size: 1.25rem;
   font-weight: bold;
 }
 
-.buy-list div {
+.includes div {
   display: flex;
-  gap: 10px;
   align-items: center;
+  gap: 10px;
 }
 
 .check {
-  width: 26px;
-  height: 26px;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
   display: inline-grid;
   place-items: center;
-  border-radius: 50%;
-  color: #1f1402;
-  background: linear-gradient(135deg, #fff2a8, #d4af37);
-  box-shadow: 0 0 18px rgba(212,175,55,0.5);
-  font-size: 0.92rem;
+  background: linear-gradient(135deg, #fff4a8, #d4af37);
+  box-shadow: 0 0 18px rgba(212,175,55,0.55);
 }
 
 .cta {
   display: inline-flex;
-  justify-content: center;
   align-items: center;
-  min-width: 285px;
-  padding: 22px 38px;
-  border-radius: 999px;
+  justify-content: center;
   text-decoration: none;
-  color: #1b1000;
+  color: #1d1101;
   font-size: 1.55rem;
   font-weight: bold;
-  background: linear-gradient(135deg, #fff5b8 0%, #ffd84d 38%, #b87b08 100%);
+  padding: 22px 42px;
+  min-width: 300px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #fff5b8 0%, #ffd84d 38%, #b77a08 100%);
   box-shadow:
     0 18px 42px rgba(92,58,4,0.36),
     0 0 46px rgba(255,221,90,0.92);
@@ -204,99 +187,120 @@ body {
 
 .promise {
   margin-top: 15px;
-  font-weight: bold;
   color: #65430c;
-  font-size: 1.08rem;
+  font-weight: bold;
 }
 
 .stage {
   position: relative;
-  height: 650px;
+  min-height: 720px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 48%, rgba(255,216,72,0.7), transparent 26%),
+    radial-gradient(circle at 50% 44%, rgba(255,255,255,0.23), transparent 38%),
+    linear-gradient(180deg, #211303 0%, #090501 100%);
 }
 
-.light-column {
-  position: absolute;
-  left: 50%;
-  top: 4px;
-  transform: translateX(-50%);
-  width: 44px;
-  height: 485px;
-  border-radius: 999px;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.96), rgba(255,239,122,0.95), rgba(255,183,34,0.16));
-  filter: blur(6px);
-  box-shadow: 0 0 80px rgba(255,230,93,0.95);
-  z-index: 1;
-}
-
-.light-column::before {
+.stage::before {
   content: "";
   position: absolute;
-  left: 50%;
-  top: 80px;
-  transform: translateX(-50%);
-  width: 190px;
-  height: 520px;
-  background: radial-gradient(ellipse, rgba(255,231,96,0.42), transparent 62%);
-  filter: blur(18px);
+  inset: 0;
+  background-image:
+    radial-gradient(circle, rgba(255,209,80,0.62) 0 1px, transparent 2px),
+    radial-gradient(circle, rgba(255,255,255,0.34) 0 1px, transparent 2px);
+  background-size: 42px 42px, 70px 70px;
+  opacity: 0.36;
 }
 
-.story-burst {
+.stage-title {
+  position: absolute;
+  top: 34px;
+  left: 44px;
+  z-index: 7;
+  color: #f8e7b6;
+}
+
+.stage-title strong {
+  display: block;
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.stage-title span {
+  color: #f6d66d;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.beam {
   position: absolute;
   left: 50%;
-  top: 300px;
+  top: 45px;
   transform: translateX(-50%);
-  width: 520px;
-  height: 520px;
+  width: 48px;
+  height: 480px;
+  border-radius: 999px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.94), rgba(255,232,95,0.96), rgba(255,167,24,0.12));
+  filter: blur(7px);
+  box-shadow: 0 0 90px rgba(255,224,88,1);
+  z-index: 2;
+}
+
+.burst {
+  position: absolute;
+  left: 50%;
+  top: 245px;
+  transform: translateX(-50%);
+  width: 590px;
+  height: 590px;
   border-radius: 50%;
   background:
-    radial-gradient(circle, rgba(255,255,255,0.9) 0 5%, rgba(255,230,93,0.82) 17%, rgba(212,175,55,0.3) 42%, transparent 70%);
-  filter: blur(4px);
+    radial-gradient(circle, rgba(255,255,255,0.78) 0%, rgba(255,229,84,0.82) 15%, rgba(212,175,55,0.28) 45%, transparent 70%);
+  filter: blur(5px);
   z-index: 1;
 }
 
 .book {
   position: absolute;
   left: 50%;
-  bottom: 44px;
+  bottom: 56px;
   transform: translateX(-50%);
-  width: min(620px, 94%);
-  height: 225px;
+  width: min(640px, 92%);
+  height: 230px;
   border-radius: 52% 52% 38px 38px;
   background:
-    radial-gradient(circle at 50% 0%, rgba(255,238,146,0.95), transparent 24%),
-    linear-gradient(90deg, #4d2e05 0%, #af7d1f 28%, #f0cf6a 50%, #af7d1f 72%, #4d2e05 100%);
+    radial-gradient(circle at 50% 0%, rgba(255,235,138,0.95), transparent 24%),
+    linear-gradient(90deg, #3c2304 0%, #8c5e13 26%, #f2ce66 50%, #8c5e13 74%, #3c2304 100%);
   box-shadow:
-    0 28px 65px rgba(49,31,5,0.45),
-    0 0 95px rgba(255,209,75,0.75);
-  z-index: 2;
+    0 30px 70px rgba(0,0,0,0.55),
+    0 0 95px rgba(255,210,75,0.78);
+  z-index: 3;
 }
 
 .book::before {
   content: "";
   position: absolute;
-  inset: 32px 42px;
+  inset: 32px 44px;
   border-radius: 50%;
-  border-top: 4px solid rgba(255,248,204,0.78);
-  border-left: 2px solid rgba(255,232,141,0.35);
-  border-right: 2px solid rgba(255,232,141,0.35);
+  border-top: 4px solid rgba(255,246,199,0.78);
 }
 
 .book::after {
   content: "";
   position: absolute;
   left: 50%;
-  top: 20px;
+  top: 18px;
   transform: translateX(-50%);
-  width: 4px;
+  width: 5px;
   height: 150px;
   background: linear-gradient(to bottom, rgba(255,255,255,0.75), rgba(255,220,80,0.2));
-  box-shadow: 0 0 18px rgba(255,231,109,0.9);
+  box-shadow: 0 0 22px rgba(255,231,109,0.95);
 }
 
 .chip {
   position: absolute;
   left: 50%;
-  top: 260px;
+  top: 280px;
   transform: translateX(-50%);
   width: 285px;
   height: 285px;
@@ -308,9 +312,9 @@ body {
   box-shadow:
     inset 0 0 30px rgba(255,255,255,0.7),
     inset 0 -28px 45px rgba(69,41,3,0.28),
-    0 0 85px rgba(255,220,74,1),
-    0 30px 70px rgba(68,42,3,0.45);
-  z-index: 5;
+    0 0 95px rgba(255,220,74,1),
+    0 34px 75px rgba(0,0,0,0.5);
+  z-index: 6;
 }
 
 .chip::before {
@@ -321,63 +325,62 @@ body {
   border: 3px solid rgba(255,255,255,0.42);
 }
 
-.chip::after {
-  content: "TAP";
-  position: absolute;
-  top: 176px;
-  color: #b40000;
-  font-size: 1.05rem;
-  letter-spacing: 3px;
-  font-weight: bold;
-}
-
 .chip span {
   position: relative;
   z-index: 3;
-  font-size: 4.8rem;
+  font-size: 4.7rem;
   font-weight: bold;
-  color: #2d1d04;
+  color: #2b1b03;
   text-shadow: 0 2px 10px rgba(255,255,255,0.55);
 }
 
-.orbit-card {
+.tap {
   position: absolute;
+  left: 50%;
+  top: 463px;
+  transform: translateX(-50%);
+  color: #b60000;
+  font-weight: bold;
+  letter-spacing: 3px;
   z-index: 8;
-  width: 185px;
-  min-height: 98px;
-  padding: 15px 14px;
+}
+
+.story-card {
+  position: absolute;
+  z-index: 9;
+  width: 180px;
+  padding: 16px 14px;
   border-radius: 18px;
-  background: rgba(255,255,255,0.82);
-  border: 1px solid rgba(128,88,20,0.22);
-  box-shadow:
-    0 16px 34px rgba(66,43,8,0.22),
-    0 0 24px rgba(255,221,100,0.25);
-  backdrop-filter: blur(7px);
   text-align: center;
+  background: rgba(255,249,229,0.9);
+  border: 1px solid rgba(255,220,105,0.28);
+  box-shadow:
+    0 18px 38px rgba(0,0,0,0.36),
+    0 0 24px rgba(255,213,75,0.26);
   font-weight: bold;
 }
 
-.orbit-card strong {
+.story-card strong {
   display: block;
-  font-size: 1.08rem;
+  color: #3a2505;
+  font-size: 1.05rem;
   margin-bottom: 6px;
-  color: #3b2505;
 }
 
-.orbit-card span {
+.story-card span {
   display: block;
-  font-size: 0.86rem;
+  color: #755015;
+  font-size: 0.84rem;
   line-height: 1.25;
-  color: #6d4a12;
 }
 
-.o1 { top: 82px; left: 38px; transform: rotate(-3deg); }
-.o2 { top: 118px; right: 20px; transform: rotate(3deg); }
-.o3 { left: 4px; bottom: 150px; transform: rotate(3deg); }
-.o4 { right: 12px; bottom: 128px; transform: rotate(-3deg); }
-.o5 { top: 28px; left: 50%; transform: translateX(-50%); }
+.c1 { top: 118px; left: 70px; transform: rotate(-4deg); }
+.c2 { top: 110px; right: 66px; transform: rotate(4deg); }
+.c3 { bottom: 195px; left: 44px; transform: rotate(4deg); }
+.c4 { bottom: 178px; right: 50px; transform: rotate(-4deg); }
+.c5 { top: 58px; left: 50%; transform: translateX(-50%); }
 
-.badge-strip {
+.bottom-strip {
   max-width: 1380px;
   margin: 28px auto 0;
   display: grid;
@@ -385,18 +388,18 @@ body {
   gap: 18px;
 }
 
-.badge {
-  background: rgba(255,255,255,0.74);
-  border: 1px solid rgba(126,82,10,0.19);
-  border-radius: 26px;
+.info {
   padding: 22px 18px;
+  border-radius: 26px;
+  background: rgba(255,255,255,0.76);
   text-align: center;
+  border: 1px solid rgba(126,82,10,0.18);
   box-shadow:
     0 16px 36px rgba(84,55,10,0.14),
     inset 0 0 0 1px rgba(255,255,255,0.58);
 }
 
-.badge strong {
+.info strong {
   display: block;
   font-size: 1.55rem;
   margin-bottom: 8px;
@@ -411,15 +414,19 @@ body {
 }
 
 @media (max-width: 980px) {
+  .hero {
+    background: linear-gradient(180deg, rgba(255,255,255,0.88) 0%, rgba(255,248,225,0.78) 45%, rgba(28,16,2,0.98) 46%, rgba(12,7,1,1) 100%);
+  }
+
   .hero-inner {
     grid-template-columns: 1fr;
   }
 
   .stage {
-    height: 610px;
+    min-height: 680px;
   }
 
-  .badge-strip {
+  .bottom-strip {
     grid-template-columns: 1fr 1fr;
   }
 }
@@ -429,16 +436,19 @@ body {
     padding: 14px;
   }
 
-  .hero {
-    padding: 24px;
-    border-radius: 30px;
-  }
-
   .brand p {
     letter-spacing: 4px;
   }
 
-  .buy-panel {
+  .hero {
+    border-radius: 30px;
+  }
+
+  .sell {
+    padding: 34px 24px;
+  }
+
+  .buy-card {
     padding: 22px;
   }
 
@@ -448,21 +458,25 @@ body {
   }
 
   .stage {
-    height: 560px;
+    min-height: 600px;
+  }
+
+  .stage-title {
+    left: 24px;
   }
 
   .chip {
     width: 220px;
     height: 220px;
-    top: 250px;
+    top: 278px;
   }
 
   .chip span {
     font-size: 3.5rem;
   }
 
-  .chip::after {
-    top: 136px;
+  .tap {
+    top: 414px;
   }
 
   .book {
@@ -470,23 +484,22 @@ body {
     height: 150px;
   }
 
-  .orbit-card {
-    width: 138px;
-    min-height: 78px;
-    padding: 10px;
+  .story-card {
+    width: 135px;
+    padding: 11px 9px;
   }
 
-  .orbit-card span {
+  .story-card span {
     display: none;
   }
 
-  .o1 { top: 86px; left: 0; }
-  .o2 { top: 108px; right: 0; }
-  .o3 { bottom: 122px; left: 0; }
-  .o4 { bottom: 112px; right: 0; }
-  .o5 { top: 30px; }
+  .c1 { top: 130px; left: 10px; }
+  .c2 { top: 130px; right: 10px; }
+  .c3 { bottom: 150px; left: 8px; }
+  .c4 { bottom: 145px; right: 8px; }
+  .c5 { top: 70px; }
 
-  .badge-strip {
+  .bottom-strip {
     grid-template-columns: 1fr;
   }
 }
@@ -508,7 +521,7 @@ body {
 
     <div class="hero-inner">
 
-      <div class="copy">
+      <div class="sell">
         <h2>Own the Chip.<br>Keep the Story.</h2>
 
         <p class="lead">
@@ -516,19 +529,17 @@ body {
           memories, and information connected to the things that matter.
         </p>
 
-        <div class="buy-panel">
+        <div class="buy-card">
           <div class="price">$49.95</div>
 
-          <div class="buy-list">
+          <div class="includes">
             <div><span class="check">✓</span> One physical MyStoryChip</div>
             <div><span class="check">✓</span> 250 MB storage included</div>
             <div><span class="check">✓</span> Your own permanent story page</div>
             <div><span class="check">✓</span> No monthly fee</div>
           </div>
 
-          <a class="cta" href="PASTE_YOUR_STRIPE_LINK_HERE">
-            👉 Get Your Chip
-          </a>
+          <a class="cta" href="PASTE_YOUR_STRIPE_LINK_HERE">👉 Get Your Chip</a>
 
           <div class="promise">
             One-time purchase. Simple setup. Yours to control.
@@ -537,30 +548,35 @@ body {
       </div>
 
       <div class="stage">
-        <div class="light-column"></div>
-        <div class="story-burst"></div>
-
-        <div class="orbit-card o5">
-          <strong>Tap to Unlock</strong>
-          <span>Open the story instantly</span>
+        <div class="stage-title">
+          <span>TAP TO UNLOCK</span>
+          <strong>Stories That Last</strong>
         </div>
 
-        <div class="orbit-card o1">
+        <div class="beam"></div>
+        <div class="burst"></div>
+
+        <div class="story-card c5">
+          <strong>Instant Access</strong>
+          <span>Open by phone tap</span>
+        </div>
+
+        <div class="story-card c1">
           <strong>Memorials</strong>
           <span>Photos, stories, and tributes</span>
         </div>
 
-        <div class="orbit-card o2">
+        <div class="story-card c2">
           <strong>Family Stories</strong>
           <span>Keep memories connected</span>
         </div>
 
-        <div class="orbit-card o3">
+        <div class="story-card c3">
           <strong>Autos & Restorations</strong>
           <span>Build history and details</span>
         </div>
 
-        <div class="orbit-card o4">
+        <div class="story-card c4">
           <strong>Collections</strong>
           <span>Coins, keepsakes, and records</span>
         </div>
@@ -569,6 +585,7 @@ body {
           <span>MSC</span>
         </div>
 
+        <div class="tap">TAP</div>
         <div class="book"></div>
       </div>
 
@@ -576,23 +593,23 @@ body {
 
   </section>
 
-  <section class="badge-strip">
-    <div class="badge">
+  <section class="bottom-strip">
+    <div class="info">
       <strong>$49.95</strong>
       One-time purchase
     </div>
 
-    <div class="badge">
+    <div class="info">
       <strong>250 MB</strong>
       Storage included
     </div>
 
-    <div class="badge">
+    <div class="info">
       <strong>No Monthly Fee</strong>
       No subscription
     </div>
 
-    <div class="badge">
+    <div class="info">
       <strong>Tap to Open</strong>
       Phone-ready access
     </div>
