@@ -130,7 +130,7 @@
       }
     }
 
-  .hero-panel {
+ .hero-panel {
   position: absolute;
   left: 50%;
   bottom: 30px;
@@ -139,23 +139,23 @@
   max-width: 900px;
 
   padding: 18px 24px;
-
   border-radius: 22px;
 
-  /* 🔥 GLASS EFFECT */
-  background: rgba(255, 248, 230, 0.55);   /* lower opacity */
+  /* ONE background only */
+  background: linear-gradient(
+    rgba(255,255,255,0.25),
+    rgba(255,240,200,0.18)
+  );
+
   border: 1px solid rgba(212,175,55,0.35);
 
-  backdrop-filter: blur(10px);             /* blur behind it */
+  backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 
   box-shadow:
     0 12px 30px rgba(90,55,10,0.15),
     0 0 25px rgba(245,217,122,0.12);
-    background: linear-gradient(
-  rgba(255,255,255,0.45),
-  rgba(255,240,200,0.35)
-);
+} 
 } 
 
     .hero-panel h1 {
