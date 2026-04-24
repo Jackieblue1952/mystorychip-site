@@ -1,426 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Buy MyStoryChip</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buy MyStoryChip</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
+body {
+  margin:0;
+  font-family: Georgia, serif;
+  background: linear-gradient(to bottom, #f8f1df, #e7d3a4);
+  color:#3b2a0c;
+}
 
-    body {
-      margin: 0;
-      font-family: Georgia, "Times New Roman", serif;
-      color: #3a2608;
-      background:
-        radial-gradient(circle at top center, rgba(255, 232, 170, 0.95), transparent 34%),
-        linear-gradient(135deg, #fff8df 0%, #f7ddb0 42%, #e6b85e 100%);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+.container {
+  max-width:1200px;
+  margin:auto;
+  padding:40px 20px;
+}
 
-    .page {
-      min-height: 100vh;
-      padding: 28px;
-      position: relative;
-    }
+.header {
+  text-align:center;
+  margin-bottom:40px;
+}
 
-    .top-nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      max-width: 1180px;
-      margin: 0 auto 24px;
-      position: relative;
-      z-index: 5;
-    }
+.header h1 {
+  font-size:3.5rem;
+  margin:0;
+  color:#7a5612;
+}
 
-    .logo {
-      font-size: 1.35rem;
-      font-weight: bold;
-      letter-spacing: 1px;
-      color: #5d3a08;
-    }
+.header p {
+  letter-spacing:3px;
+  margin-top:10px;
+}
 
-    .home-link {
-      text-decoration: none;
-      color: #5d3a08;
-      border: 1px solid rgba(93, 58, 8, 0.35);
-      padding: 10px 18px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.45);
-      font-weight: bold;
-    }
+.hero {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:40px;
+}
 
-    .hero {
-      max-width: 1180px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 34px;
-      align-items: center;
-      position: relative;
-      z-index: 2;
-    }
+.left {
+  flex:1;
+}
 
-    .left-panel {
-      padding: 28px 10px;
-    }
+.right {
+  flex:1;
+  display:flex;
+  justify-content:center;
+}
 
-    .eyebrow {
-      display: inline-block;
-      padding: 9px 16px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.55);
-      color: #6b4208;
-      font-weight: bold;
-      letter-spacing: 0.6px;
-      box-shadow: 0 0 24px rgba(212, 175, 55, 0.25);
-      margin-bottom: 18px;
-    }
+.title {
+  font-size:3rem;
+  margin-bottom:20px;
+}
 
-    h1 {
-      margin: 0;
-      font-size: clamp(3rem, 7vw, 6.3rem);
-      line-height: 0.92;
-      color: #3a2304;
-      text-shadow: 0 8px 30px rgba(255, 214, 107, 0.65);
-    }
+.subtitle {
+  font-size:1.2rem;
+  margin-bottom:30px;
+}
 
-    .subtitle {
-      font-size: clamp(1.2rem, 2.2vw, 1.75rem);
-      line-height: 1.45;
-      max-width: 700px;
-      color: #513307;
-      margin: 24px 0;
-    }
+.price {
+  font-size:4rem;
+  font-weight:bold;
+  margin-bottom:10px;
+}
 
-    .price-box {
-      display: flex;
-      align-items: center;
-      gap: 22px;
-      flex-wrap: wrap;
-      margin: 28px 0;
-    }
+.details {
+  margin-bottom:30px;
+  line-height:1.6;
+}
 
-    .price {
-      font-size: clamp(3.5rem, 7vw, 5.8rem);
-      font-weight: bold;
-      color: #2b1902;
-      line-height: 1;
-    }
+.button {
+  background: linear-gradient(135deg,#ffd86b,#b88a1a);
+  padding:18px 35px;
+  border-radius:50px;
+  font-size:1.3rem;
+  text-decoration:none;
+  color:black;
+  font-weight:bold;
+  box-shadow:0 10px 25px rgba(0,0,0,0.3);
+  display:inline-block;
+}
 
-    .price-details {
-      font-size: 1.25rem;
-      color: #5b3909;
-      line-height: 1.5;
-      font-weight: bold;
-    }
+.button:hover {
+  transform:scale(1.05);
+}
 
-    .cta-row {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-top: 22px;
-    }
+.chip {
+  width:250px;
+  height:250px;
+  border-radius:50%;
+  background: radial-gradient(circle,#fff2a8,#d4af37,#8a5c09);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:3rem;
+  font-weight:bold;
+  box-shadow:0 0 60px gold;
+}
 
-    .buy-button {
-      display: inline-block;
-      text-decoration: none;
-      background: linear-gradient(135deg, #fff4ad, #d4af37 42%, #8c5a08);
-      color: #1e1201;
-      padding: 20px 34px;
-      border-radius: 999px;
-      font-size: 1.35rem;
-      font-weight: bold;
-      box-shadow:
-        0 12px 32px rgba(118, 73, 0, 0.38),
-        0 0 34px rgba(245, 217, 122, 0.75);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
+.features {
+  margin-top:60px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
 
-    .buy-button:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow:
-        0 18px 44px rgba(118, 73, 0, 0.45),
-        0 0 48px rgba(245, 217, 122, 0.95);
-    }
+.box {
+  background:white;
+  padding:20px;
+  border-radius:15px;
+  text-align:center;
+  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
 
-    .no-fee {
-      font-size: 1.1rem;
-      font-weight: bold;
-      color: #684207;
-    }
+.box h3 {
+  margin:0;
+}
 
-    .chip-stage {
-      min-height: 620px;
-      position: relative;
-      display: grid;
-      place-items: center;
-    }
-
-    .glow {
-      position: absolute;
-      width: 460px;
-      height: 460px;
-      border-radius: 50%;
-      background:
-        radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(255,228,121,0.9) 22%, rgba(212,175,55,0.45) 46%, transparent 72%);
-      filter: blur(4px);
-      animation: pulse 3s infinite ease-in-out;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(0.96); opacity: 0.85; }
-      50% { transform: scale(1.06); opacity: 1; }
-    }
-
-    .chip {
-      position: relative;
-      width: 310px;
-      height: 310px;
-      border-radius: 50%;
-      background:
-        radial-gradient(circle at 35% 25%, #fff8c8, #d4af37 38%, #8b5d12 72%, #3b2404 100%);
-      box-shadow:
-        inset 0 0 28px rgba(255,255,255,0.7),
-        0 0 70px rgba(255, 220, 95, 0.95),
-        0 26px 60px rgba(78, 45, 0, 0.45);
-      display: grid;
-      place-items: center;
-      z-index: 3;
-    }
-
-    .chip::before {
-      content: "";
-      position: absolute;
-      inset: 26px;
-      border-radius: 50%;
-      border: 3px solid rgba(255,255,255,0.45);
-    }
-
-    .chip-text {
-      text-align: center;
-      color: #201201;
-      font-weight: bold;
-      z-index: 4;
-      text-shadow: 0 1px 8px rgba(255,255,255,0.8);
-    }
-
-    .chip-text .msc {
-      display: block;
-      font-size: 4.4rem;
-      letter-spacing: 2px;
-    }
-
-    .chip-text .tap {
-      display: block;
-      font-size: 1.25rem;
-      color: #b00000;
-      letter-spacing: 2px;
-      margin-top: 6px;
-    }
-
-    .use-card {
-      position: absolute;
-      background: rgba(255, 255, 255, 0.72);
-      border: 1px solid rgba(140, 90, 8, 0.25);
-      border-radius: 22px;
-      padding: 16px 18px;
-      box-shadow:
-        0 18px 40px rgba(92, 57, 0, 0.22),
-        0 0 24px rgba(255, 225, 125, 0.35);
-      font-weight: bold;
-      color: #4e3005;
-      backdrop-filter: blur(8px);
-      z-index: 4;
-      min-width: 150px;
-      text-align: center;
-    }
-
-    .card-1 { top: 58px; left: 18px; }
-    .card-2 { top: 120px; right: 4px; }
-    .card-3 { bottom: 118px; left: 0; }
-    .card-4 { bottom: 58px; right: 38px; }
-
-    .feature-strip {
-      max-width: 1180px;
-      margin: 18px auto 0;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      position: relative;
-      z-index: 5;
-    }
-
-    .feature {
-      background: rgba(255,255,255,0.62);
-      border: 1px solid rgba(120, 77, 8, 0.22);
-      border-radius: 24px;
-      padding: 20px;
-      text-align: center;
-      font-weight: bold;
-      color: #4b2e05;
-      box-shadow: 0 12px 30px rgba(94, 60, 0, 0.16);
-    }
-
-    .feature strong {
-      display: block;
-      font-size: 1.55rem;
-      color: #2f1b02;
-      margin-bottom: 6px;
-    }
-
-    .footer-note {
-      text-align: center;
-      max-width: 900px;
-      margin: 28px auto 0;
-      color: #60400b;
-      font-size: 1rem;
-      line-height: 1.5;
-    }
-
-    @media (max-width: 900px) {
-      .hero {
-        grid-template-columns: 1fr;
-      }
-
-      .chip-stage {
-        min-height: 520px;
-      }
-
-      .feature-strip {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    @media (max-width: 560px) {
-      .page {
-        padding: 18px;
-      }
-
-      .top-nav {
-        align-items: flex-start;
-        gap: 12px;
-      }
-
-      .chip {
-        width: 240px;
-        height: 240px;
-      }
-
-      .chip-text .msc {
-        font-size: 3.2rem;
-      }
-
-      .glow {
-        width: 330px;
-        height: 330px;
-      }
-
-      .use-card {
-        font-size: 0.9rem;
-        min-width: 120px;
-        padding: 12px;
-      }
-
-      .card-1 { top: 28px; left: 0; }
-      .card-2 { top: 86px; right: 0; }
-      .card-3 { bottom: 98px; left: 0; }
-      .card-4 { bottom: 30px; right: 0; }
-
-      .feature-strip {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+</style>
 </head>
 
 <body>
-  <main class="page">
 
-    <nav class="top-nav">
-      <div class="logo">MyStoryChip</div>
-      <a class="home-link" href="index.html">Home</a>
-    </nav>
+<div class="container">
 
-    <section class="hero">
+<div class="header">
+<h1>MyStoryChip</h1>
+<p>YOUR CHIP. YOUR STORY.</p>
+</div>
 
-      <div class="left-panel">
-        <div class="eyebrow">Own the Chip. Keep the Story.</div>
+<div class="hero">
 
-        <h1>Get Your Chip</h1>
+<div class="left">
+<div class="title">Own the Chip. Keep the Story.</div>
 
-        <p class="subtitle">
-          Tap your phone and instantly open the story, photos, documents,
-          or information connected to your chip.
-        </p>
+<div class="subtitle">
+Tap your phone and instantly open stories, photos, and memories connected to your chip.
+</div>
 
-        <div class="price-box">
-          <div class="price">$49.95</div>
-          <div class="price-details">
-            One-time purchase<br>
-            250 MB storage included<br>
-            No monthly fee
-          </div>
-        </div>
+<div class="price">$49.95</div>
 
-        <div class="cta-row">
-          <a class="buy-button" href="PASTE_YOUR_STRIPE_LINK_HERE">
-            👉 Get Your Chip
-          </a>
-          <div class="no-fee">Simple. Personal. Yours.</div>
-        </div>
-      </div>
+<div class="details">
+One-time purchase<br>
+250 MB storage included<br>
+No monthly fee
+</div>
 
-      <div class="chip-stage">
-        <div class="glow"></div>
+<a href="PASTE_YOUR_STRIPE_LINK_HERE" class="button">
+👉 Get Your Chip
+</a>
 
-        <div class="use-card card-1">Memorials</div>
-        <div class="use-card card-2">Family Stories</div>
-        <div class="use-card card-3">Autos & Restorations</div>
-        <div class="use-card card-4">Collections</div>
+</div>
 
-        <div class="chip">
-          <div class="chip-text">
-            <span class="msc">MSC</span>
-            <span class="tap">TAP</span>
-          </div>
-        </div>
-      </div>
+<div class="right">
+<div class="chip">MSC</div>
+</div>
 
-    </section>
+</div>
 
-    <section class="feature-strip">
-      <div class="feature">
-        <strong>$49.95</strong>
-        One chip purchase
-      </div>
+<div class="features">
 
-      <div class="feature">
-        <strong>250 MB</strong>
-        Storage included
-      </div>
+<div class="box">
+<h3>$49.95</h3>
+<p>One-time purchase</p>
+</div>
 
-      <div class="feature">
-        <strong>No Monthly Fee</strong>
-        No subscription
-      </div>
+<div class="box">
+<h3>250 MB</h3>
+<p>Storage included</p>
+</div>
 
-      <div class="feature">
-        <strong>Tap to Open</strong>
-        Phone-ready experience
-      </div>
-    </section>
+<div class="box">
+<h3>No Monthly Fee</h3>
+<p>No subscription</p>
+</div>
 
-    <p class="footer-note">
-      Your MyStoryChip gives you a simple way to connect real-world items
-      to stories, photos, documents, and memories that can be opened with a phone.
-    </p>
+<div class="box">
+<h3>Tap to Open</h3>
+<p>Instant phone access</p>
+</div>
 
-  </main>
+</div>
+
+</div>
+
 </body>
 </html>
