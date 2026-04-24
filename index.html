@@ -10,188 +10,319 @@
       box-sizing: border-box;
     }
 
+    :root {
+      --cream: #fff7e8;
+      --cream2: #f6ead1;
+      --gold: #d4af37;
+      --gold2: #f5d97a;
+      --text: #2b2113;
+      --softText: #5e4a25;
+      --line: rgba(180, 130, 35, 0.32);
+      --whiteGlass: rgba(255, 255, 255, 0.74);
+    }
+
     body {
       margin: 0;
-      font-family: Georgia, "Times New Roman", serif;
-      background:
-        radial-gradient(circle at top, rgba(255, 226, 150, 0.45), transparent 38%),
-        linear-gradient(180deg, #fff7e8 0%, #f2dfb8 48%, #ead09a 100%);
-      color: #2d2112;
       min-height: 100vh;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255, 224, 135, 0.52), transparent 34%),
+        radial-gradient(circle at 20% 35%, rgba(255, 245, 210, 0.7), transparent 28%),
+        linear-gradient(180deg, #fffaf0 0%, #f7ecd2 50%, #ecd59f 100%);
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
     }
 
     .admin-btn {
       position: fixed;
-      top: 16px;
-      right: 18px;
-      z-index: 20;
-      padding: 8px 16px;
+      top: 18px;
+      right: 20px;
+      z-index: 50;
+      padding: 9px 17px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.75);
-      color: #7c5510;
-      border: 1px solid rgba(180, 130, 35, 0.35);
-      text-decoration: none;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid var(--line);
+      color: #7e570e;
       font-weight: bold;
-      font-size: 0.9rem;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.10);
+      box-shadow: 0 8px 22px rgba(100,70,20,0.12);
     }
 
     .page {
-      max-width: 1200px;
+      width: min(1220px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 34px 18px 24px;
+      padding: 34px 0 24px;
       text-align: center;
     }
 
     .brand {
-      font-size: clamp(2.8rem, 6vw, 5.8rem);
-      margin: 10px 0 0;
-      color: #a66f12;
-      text-shadow: 0 3px 0 rgba(255,255,255,0.35);
-      line-height: 1;
+      font-size: clamp(3rem, 6vw, 6.2rem);
+      line-height: 0.95;
+      margin: 8px 0 6px;
+      color: #9b6812;
+      text-shadow:
+        0 2px 0 rgba(255,255,255,0.8),
+        0 10px 30px rgba(160,105,20,0.14);
     }
 
     .tagline {
-      margin: 8px 0 22px;
       font-family: Arial, sans-serif;
+      font-size: 1rem;
       letter-spacing: 4px;
-      font-weight: bold;
-      color: #4e3a1b;
+      font-weight: 800;
+      color: #5b431d;
+      margin-bottom: 22px;
     }
 
-    .hero-card {
+    .hero {
       position: relative;
-      border-radius: 30px;
+      border-radius: 34px;
       overflow: hidden;
-      background: #fff2d7;
-      border: 1px solid rgba(180, 130, 35, 0.35);
+      background: #fff2d2;
+      border: 1px solid rgba(180,130,35,0.36);
       box-shadow:
-        0 18px 50px rgba(80, 48, 10, 0.18),
-        0 0 45px rgba(212, 175, 55, 0.22);
+        0 28px 65px rgba(120,76,16,0.16),
+        0 0 60px rgba(245,217,122,0.24);
     }
 
     .hero-img {
       width: 100%;
       display: block;
-      filter: brightness(1.22) contrast(1.06) saturate(1.12);
+      filter: brightness(1.24) contrast(1.06) saturate(1.14);
     }
 
-    .hero-overlay {
+    .light-wash {
       position: absolute;
       inset: 0;
+      pointer-events: none;
       background:
-        radial-gradient(circle at 50% 34%, rgba(255, 236, 160, 0.22), transparent 24%),
-        linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.03));
+        radial-gradient(circle at 50% 35%, rgba(255,240,180,0.34), transparent 24%),
+        radial-gradient(circle at 50% 55%, rgba(245,217,122,0.18), transparent 32%),
+        linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.02));
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: rgba(255, 232, 145, 0.95);
+      box-shadow: 0 0 18px rgba(245, 217, 122, 0.9);
+      animation: floatSpark 4.5s ease-in-out infinite;
       pointer-events: none;
     }
 
-    .hero-content {
+    .s1 { left: 45%; top: 28%; animation-delay: 0s; }
+    .s2 { left: 55%; top: 31%; animation-delay: 0.8s; }
+    .s3 { left: 49%; top: 22%; animation-delay: 1.5s; }
+    .s4 { left: 60%; top: 43%; animation-delay: 2.1s; }
+    .s5 { left: 39%; top: 40%; animation-delay: 2.8s; }
+
+    @keyframes floatSpark {
+      0%, 100% { transform: translateY(0) scale(0.75); opacity: 0.25; }
+      50% { transform: translateY(-26px) scale(1.25); opacity: 1; }
+    }
+
+    .hero-panel {
       position: absolute;
       left: 50%;
-      bottom: 28px;
+      bottom: 26px;
       transform: translateX(-50%);
-      width: min(92%, 880px);
-      padding: 22px;
-      border-radius: 24px;
-      background: rgba(255, 248, 230, 0.82);
-      border: 1px solid rgba(212, 175, 55, 0.42);
-      box-shadow: 0 12px 36px rgba(0,0,0,0.18);
+      width: min(92%, 930px);
+      padding: 24px;
+      border-radius: 28px;
+      background: rgba(255, 250, 237, 0.86);
+      border: 1px solid rgba(212,175,55,0.45);
+      box-shadow: 0 20px 48px rgba(90,55,10,0.18);
       backdrop-filter: blur(8px);
     }
 
-    .hero-content h1 {
+    .hero-panel h1 {
       margin: 0 0 8px;
-      font-size: clamp(2rem, 4vw, 3.8rem);
+      font-size: clamp(2.1rem, 4.2vw, 4.3rem);
       color: #7e520d;
+      line-height: 1;
     }
 
-    .hero-content p {
+    .hero-panel p {
       margin: 0 auto 18px;
-      max-width: 760px;
-      font-size: clamp(1rem, 2vw, 1.35rem);
+      max-width: 780px;
+      font-family: Arial, sans-serif;
+      font-size: clamp(1.05rem, 2vw, 1.35rem);
       line-height: 1.45;
-      color: #3a2b17;
+      color: #3b2c17;
     }
 
-    .button-grid {
+    .nav-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: 1.25fr repeat(3, 1fr);
       gap: 12px;
-      margin-top: 16px;
+      margin-top: 12px;
     }
 
     .btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 54px;
-      padding: 13px 16px;
+      min-height: 56px;
       border-radius: 999px;
-      text-decoration: none;
-      font-weight: bold;
+      padding: 13px 18px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      font-weight: 800;
       font-size: 1rem;
-      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 24px rgba(100, 65, 12, 0.18);
+      transform: translateY(-3px);
+      box-shadow: 0 14px 25px rgba(120,76,16,0.18);
     }
 
     .primary {
-      background: linear-gradient(180deg, #f6d875, #d9a62e);
-      color: #1f1608;
-      border: 1px solid #b9851d;
+      background: linear-gradient(180deg, #ffe38b, #d7a530);
+      color: #211606;
+      border: 1px solid #b98117;
     }
 
     .secondary {
-      background: rgba(255,255,255,0.78);
-      color: #6d4a10;
-      border: 1px solid rgba(180, 130, 35, 0.35);
+      background: rgba(255,255,255,0.82);
+      color: #7a5310;
+      border: 1px solid rgba(180,130,35,0.34);
     }
 
-    .info-row {
+    .quick-info {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 16px;
-      margin: 22px 0 18px;
+      margin: 22px 0;
     }
 
     .info-card {
-      background: rgba(255, 250, 238, 0.88);
-      border: 1px solid rgba(180, 130, 35, 0.28);
-      border-radius: 20px;
-      padding: 18px;
-      box-shadow: 0 8px 24px rgba(80, 48, 10, 0.08);
+      background: rgba(255, 252, 244, 0.86);
+      border: 1px solid rgba(180,130,35,0.26);
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: 0 12px 28px rgba(120,76,16,0.08);
     }
 
     .info-card h3 {
       margin: 0 0 8px;
       color: #8b5d13;
-      font-size: 1.25rem;
+      font-size: 1.35rem;
     }
 
     .info-card p {
       margin: 0;
       font-family: Arial, sans-serif;
+      line-height: 1.5;
+      color: #4d3b1d;
+    }
+
+    .use-section {
+      margin: 28px auto 18px;
+      padding: 24px;
+      background: rgba(255,250,238,0.72);
+      border: 1px solid rgba(180,130,35,0.24);
+      border-radius: 28px;
+      box-shadow: 0 14px 34px rgba(120,76,16,0.08);
+    }
+
+    .use-section h2 {
+      margin: 0 0 8px;
+      font-size: clamp(1.9rem, 3vw, 3rem);
+      color: #80540f;
+    }
+
+    .use-section .lead {
+      margin: 0 auto 18px;
+      max-width: 760px;
+      font-family: Arial, sans-serif;
+      color: #5a4320;
       line-height: 1.45;
-      color: #4b3a22;
+    }
+
+    .use-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .use-btn {
+      border: 1px solid rgba(180,130,35,0.32);
+      background: rgba(255,255,255,0.78);
+      color: #7a5310;
+      border-radius: 18px;
+      padding: 14px 10px;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
+      box-shadow: 0 8px 18px rgba(120,76,16,0.06);
+    }
+
+    .use-btn.active {
+      background: linear-gradient(180deg, #ffe59a, #e2b748);
+      color: #211606;
+      border-color: #b98117;
+    }
+
+    .use-detail {
+      min-height: 92px;
+      border-radius: 20px;
+      padding: 18px;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(180,130,35,0.26);
+      font-family: Arial, sans-serif;
+      color: #3d2f18;
+      line-height: 1.55;
+      font-size: 1.05rem;
+    }
+
+    .bottom-cta {
+      margin: 24px 0 12px;
+      padding: 26px;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at top, rgba(255,226,140,0.42), transparent 45%),
+        rgba(255,252,244,0.86);
+      border: 1px solid rgba(180,130,35,0.28);
+      box-shadow: 0 14px 34px rgba(120,76,16,0.08);
+    }
+
+    .bottom-cta h2 {
+      margin: 0 0 8px;
+      color: #7e520d;
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+    }
+
+    .bottom-cta p {
+      margin: 0 auto 18px;
+      max-width: 720px;
+      font-family: Arial, sans-serif;
+      color: #4d3b1d;
+      line-height: 1.5;
     }
 
     .footer {
-      margin-top: 22px;
-      padding: 18px 10px 6px;
+      padding: 18px 8px 6px;
+      font-family: Arial, sans-serif;
       font-size: 0.95rem;
-      color: #5a421f;
+      color: #5d421c;
     }
 
     .footer a {
-      color: #7d5614;
       font-weight: bold;
+      color: #80540f;
+      text-decoration: underline;
+      text-underline-offset: 3px;
     }
 
-    @media (max-width: 850px) {
-      .hero-content {
+    @media (max-width: 900px) {
+      .hero-panel {
         position: relative;
         left: auto;
         bottom: auto;
@@ -200,13 +331,18 @@
         border-radius: 0;
       }
 
-      .button-grid,
-      .info-row {
+      .nav-grid,
+      .quick-info,
+      .use-grid {
         grid-template-columns: 1fr;
       }
 
-      .hero-card {
-        border-radius: 22px;
+      .brand {
+        font-size: 3.1rem;
+      }
+
+      .hero {
+        border-radius: 24px;
       }
     }
   </style>
@@ -219,18 +355,23 @@
     <div class="brand">MyStoryChip</div>
     <div class="tagline">YOUR CHIP. YOUR STORY.</div>
 
-    <section class="hero-card">
-      <img class="hero-img" src="landing-page.png"alt="Open storybook with glowing MyStoryChip" />
-      <div class="hero-overlay"></div>
+    <section class="hero">
+      <img class="hero-img" src="landing-page.png" alt="MyStoryChip glowing storybook and chip" />
 
-      <div class="hero-content">
+      <div class="light-wash"></div>
+      <span class="sparkle s1"></span>
+      <span class="sparkle s2"></span>
+      <span class="sparkle s3"></span>
+      <span class="sparkle s4"></span>
+      <span class="sparkle s5"></span>
+
+      <div class="hero-panel">
         <h1>Tap Anything. Open Its Story.</h1>
         <p>
-          MyStoryChip connects a real object to photos, videos, documents, and stories
-          through one simple chip.
+          Connect a real object to photos, videos, documents, and stories through one simple MyStoryChip.
         </p>
 
-        <div class="button-grid">
+        <div class="nav-grid">
           <a class="btn primary" href="buy.html">Get Your Chip</a>
           <a class="btn secondary" href="uses.html">How It Works</a>
           <a class="btn secondary" href="client-setup.html">Set Up Chip</a>
@@ -239,21 +380,50 @@
       </div>
     </section>
 
-    <section class="info-row">
+    <section class="quick-info">
       <div class="info-card">
         <h3>One Tap Access</h3>
-        <p>Tap a phone to open the story, memory, or information connected to the chip.</p>
+        <p>Tap a phone and instantly open the story, memory, or information connected to the chip.</p>
       </div>
 
       <div class="info-card">
         <h3>250 MB Included</h3>
-        <p>Store photos, videos, documents, and stories with no monthly subscription.</p>
+        <p>Every chip includes space for photos, videos, documents, and written stories.</p>
       </div>
 
       <div class="info-card">
-        <h3>You Control It</h3>
-        <p>Your chip page belongs to you. Add, update, or remove your content anytime.</p>
+        <h3>No Monthly Fee</h3>
+        <p>Buy the chip once. Keep control of the page and the story behind it.</p>
       </div>
+    </section>
+
+    <section class="use-section">
+      <h2>What Can MyStoryChip Be Used For?</h2>
+      <p class="lead">
+        Tap any button below to see how one chip can turn an object, memory, or place into a living story.
+      </p>
+
+      <div class="use-grid">
+        <button class="use-btn active" data-use="memorials">Memorials</button>
+        <button class="use-btn" data-use="family">Family</button>
+        <button class="use-btn" data-use="vehicles">Vehicles</button>
+        <button class="use-btn" data-use="collections">Collections</button>
+        <button class="use-btn" data-use="business">Business</button>
+        <button class="use-btn" data-use="tributes">Tributes</button>
+      </div>
+
+      <div id="useDetail" class="use-detail">
+        Attach a MyStoryChip to a memorial, keepsake, or tribute item so family and friends can tap and see photos, stories, videos, and memories.
+      </div>
+    </section>
+
+    <section class="bottom-cta">
+      <h2>Own the Chip. Keep the Story.</h2>
+      <p>
+        MyStoryChip gives people a simple way to preserve meaning behind the things that matter —
+        with one tap, one page, and one clear connection.
+      </p>
+      <a class="btn primary" href="buy.html" style="display:inline-flex; min-width:260px;">Get Your Chip</a>
     </section>
 
     <footer class="footer">
@@ -262,5 +432,33 @@
       <a href="terms.html">Terms &amp; Disclaimer</a>
     </footer>
   </main>
+
+  <script>
+    const useText = {
+      memorials:
+        "Attach a MyStoryChip to a memorial, keepsake, or tribute item so family and friends can tap and see photos, stories, videos, and memories.",
+      family:
+        "Save family stories, recipes, letters, photos, and meaningful moments so they are not lost in a box or forgotten over time.",
+      vehicles:
+        "Place a chip with a car, truck, motorcycle, or restoration project to show build history, upgrades, documents, photos, and the story behind it.",
+      collections:
+        "Use a chip with coins, antiques, tools, art, or collectibles to explain where it came from, why it matters, and what makes it special.",
+      business:
+        "Share business information, product details, service instructions, customer welcome pages, or special offers with one simple tap.",
+      tributes:
+        "Create a heartfelt page for someone special, with words, images, and memories that can be shared by one simple chip scan."
+    };
+
+    const buttons = document.querySelectorAll(".use-btn");
+    const detail = document.getElementById("useDetail");
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        buttons.forEach((btn) => btn.classList.remove("active"));
+        button.classList.add("active");
+        detail.textContent = useText[button.dataset.use];
+      });
+    });
+  </script>
 </body>
 </html>
