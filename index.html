@@ -142,15 +142,21 @@
 
   border-radius: 22px;
 
-  background: rgba(255, 248, 230, 0.92);
-  border: 1px solid rgba(212,175,55,0.45);
+  /* 🔥 GLASS EFFECT */
+  background: rgba(255, 248, 230, 0.55);   /* lower opacity */
+  border: 1px solid rgba(212,175,55,0.35);
+
+  backdrop-filter: blur(10px);             /* blur behind it */
+  -webkit-backdrop-filter: blur(10px);
 
   box-shadow:
-    0 12px 30px rgba(90,55,10,0.18),
-    0 0 25px rgba(245,217,122,0.18);
-
-  backdrop-filter: blur(6px);
-}  
+    0 12px 30px rgba(90,55,10,0.15),
+    0 0 25px rgba(245,217,122,0.12);
+    background: linear-gradient(
+  rgba(255,255,255,0.45),
+  rgba(255,240,200,0.35)
+);
+} 
 
     .hero-panel h1 {
       margin: 0 0 8px;
