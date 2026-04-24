@@ -33,10 +33,29 @@ body {
   position: absolute;
   right: 6%;
   bottom: 12%;
-  width: 260px;
-  height: 70px;
-  z-index: 3;
-  cursor: pointer;
+  padding: 18px 36px;
+  border-radius: 40px;
+
+  background: linear-gradient(135deg, #f5d97a, #d4af37);
+  color: #000;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-decoration: none;
+
+  box-shadow:
+    0 0 18px rgba(245,217,122,0.6),
+    0 0 35px rgba(212,175,55,0.4);
+
+  z-index: 5;
+  transition: all 0.2s ease;
+}
+  .buy-click:hover {
+  transform: scale(1.05);
+
+  box-shadow:
+    0 0 28px rgba(245,217,122,0.95),
+    0 0 55px rgba(212,175,55,0.7),
+    0 0 85px rgba(212,175,55,0.4);
 }
 
 /* OPTIONAL glow hover so YOU can see it working */
@@ -76,7 +95,9 @@ body {
   </div>
 
   <!-- INVISIBLE BUY BUTTON -->
-  <a class="buy-click" href=https://buy.stripe.com/00w5kCgXe1Fwcu05dkdby02></a>
+ <a class="buy-click" href="https://buy.stripe.com/00w5kCgXe1Fwcu05dkdby02">
+  GET YOUR CHIP →
+</a> 
 
 </div>
 
