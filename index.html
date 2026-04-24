@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MyStoryChip | Your Chip. Your Story.</title>
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
   <style>
     * {
       box-sizing: border-box;
@@ -16,6 +16,7 @@
       --text: #2b2113;
       --soft-text: #5e4a25;
       --line: rgba(180, 130, 35, 0.32);
+      --cream: #fff8e6;
     }
 
     body {
@@ -24,7 +25,7 @@
       font-family: Georgia, "Times New Roman", serif;
       color: var(--text);
       background:
-        radial-gradient(circle at 50% 0%, rgba(255, 224, 135, 0.52), transparent 34%),
+        radial-gradient(circle at 50% 0%, rgba(255, 224, 135, 0.55), transparent 34%),
         linear-gradient(180deg, #fffaf0 0%, #f7ecd2 52%, #ecd59f 100%);
       overflow-x: hidden;
     }
@@ -41,7 +42,7 @@
       z-index: 50;
       padding: 9px 17px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.86);
+      background: rgba(255,255,255,0.88);
       border: 1px solid var(--line);
       color: #7e570e;
       font-weight: bold;
@@ -85,20 +86,26 @@
         0 0 60px rgba(245,217,122,0.24);
     }
 
-    .hero-img {
-      width: 100%;
-      display: block;
-      filter: brightness(1.24) contrast(1.06) saturate(1.14);
-    }
+   .hero-img {
+  width: 100%;
+  display: block;
+
+  /* 🔥 shrink height cleanly */
+  max-height: 520px;
+  object-fit: cover;
+  object-position: center 60%;
+
+  filter: brightness(1.24) contrast(1.06) saturate(1.14);
+} 
 
     .light-wash {
       position: absolute;
       inset: 0;
       pointer-events: none;
       background:
-        radial-gradient(circle at 50% 35%, rgba(255,240,180,0.34), transparent 24%),
-        radial-gradient(circle at 50% 55%, rgba(245,217,122,0.18), transparent 32%),
-        linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.02));
+        radial-gradient(circle at 50% 35%, rgba(255,240,180,0.28), transparent 24%),
+        radial-gradient(circle at 50% 55%, rgba(245,217,122,0.14), transparent 32%),
+        linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.01));
     }
 
     .sparkle {
@@ -130,48 +137,30 @@
       }
     }
 
- .hero-panel {
-  position: absolute;
-  left: 60%;
-  bottom: 7px;
-  transform: translateX(-50%);
-  width: 60%;
-  max-width: 500px;
+    .control-card {
+      margin: 22px auto 0;
+      padding: 22px 22px 24px;
+      max-width: 920px;
+      border-radius: 28px;
+      background: rgba(255, 248, 230, 0.92);
+      border: 1px solid rgba(212,175,55,0.38);
+      box-shadow:
+        0 14px 34px rgba(120,76,16,0.10),
+        0 0 24px rgba(245,217,122,0.14);
+    }
 
-  padding: 20px 26px;
-  border-radius: 22px;
-
-  background: #fff8e6;
-  border: 1px solid rgba(212,175,55,0.45);
-
-  box-shadow:
-    0 10px 30px rgba(90,55,10,0.18),
-    0 0 20px rgba(245,217,122,0.15);
-}
-
-  border: 1px solid rgba(212,175,55,0.35);
-
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-
-  box-shadow:
-    0 12px 30px rgba(90,55,10,0.15),
-    0 0 25px rgba(245,217,122,0.12);
-} 
-} 
-
-    .hero-panel h1 {
+    .control-card h1 {
       margin: 0 0 8px;
-      font-size: clamp(2.1rem, 4.2vw, 4.1rem);
+      font-size: clamp(2rem, 4vw, 3.8rem);
       color: #7e520d;
       line-height: 1;
     }
 
-    .hero-panel p {
-      margin: 0 auto 16px;
+    .control-card p {
+      margin: 0 auto 18px;
       max-width: 760px;
       font-family: Arial, sans-serif;
-      font-size: clamp(1.05rem, 2vw, 1.28rem);
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
       line-height: 1.45;
       color: #3b2c17;
     }
@@ -187,9 +176,9 @@
 
     .btn {
       min-height: 56px;
-      min-width: 180px;
+      min-width: 190px;
       border-radius: 999px;
-      padding: 13px 20px;
+      padding: 13px 22px;
       display: inline-flex;
       justify-content: center;
       align-items: center;
@@ -275,38 +264,30 @@
     }
 
     .use-btn {
-  border: 1px solid rgba(180,130,35,0.32);
-  background: rgba(255,255,255,0.80);
-  color: #7a5310;
-  border-radius: 18px;
-  padding: 14px 10px;
-  font-weight: 800;
-  cursor: pointer;
-  font-family: Arial, sans-serif;
-  box-shadow: 0 8px 18px rgba(120,76,16,0.06);
-  transition: all 0.18s ease;
-}
+      border: 1px solid rgba(180,130,35,0.32);
+      background: rgba(255,255,255,0.80);
+      color: #7a5310;
+      border-radius: 18px;
+      padding: 14px 10px;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
+      box-shadow: 0 8px 18px rgba(120,76,16,0.06);
+      transition: all 0.18s ease;
+    }
 
-/* HOVER STATE */
-.use-btn:hover {
-  background: linear-gradient(180deg, #fff2c2, #f1cd6a);
-  color: #2a1b07;
-  transform: translateY(-2px);
-  box-shadow: 0 12px 22px rgba(120,76,16,0.18);
-}
-
-/* CLICK / ACTIVE STATE */
-.use-btn.active {
-  background: linear-gradient(180deg, #ffe59a, #e2b748);
-  color: #211606;
-  border-color: #b98117;
-  box-shadow: inset 0 2px 6px rgba(0,0,0,0.15);
-}
+    .use-btn:hover {
+      background: linear-gradient(180deg, #fff2c2, #f1cd6a);
+      color: #2a1b07;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 22px rgba(120,76,16,0.18);
+    }
 
     .use-btn.active {
       background: linear-gradient(180deg, #ffe59a, #e2b748);
       color: #211606;
       border-color: #b98117;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.15);
     }
 
     .use-detail {
@@ -346,35 +327,29 @@
       line-height: 1.5;
     }
 
- .footer {
-  padding: 18px 8px 6px;
-  text-align: center;
-  color: #7a5310;
-}
+    .footer {
+      padding: 18px 8px 6px;
+      text-align: center;
+      color: #7a5310;
+    }
 
-.founder-line {
-  font-family: 'Great Vibes', cursive;
-  font-size: 1.4rem;
-  letter-spacing: 1px;
-}
-.footer a {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1rem;
-  font-weight: bold;
-  color: #80540f;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
+    .founder-line {
+      font-family: "Georgia", "Times New Roman", serif;
+      font-style: italic;
+      font-size: 1.25rem;
+      letter-spacing: 0.4px;
+    }
+
+    .footer a {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1rem;
+      font-weight: bold;
+      color: #80540f;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
     @media (max-width: 900px) {
-      .hero-panel {
-        position: relative;
-        left: auto;
-        bottom: auto;
-        transform: none;
-        width: 100%;
-        border-radius: 0;
-      }
-
       .quick-info,
       .use-grid {
         grid-template-columns: 1fr;
@@ -390,6 +365,10 @@
 
       .btn {
         width: 100%;
+      }
+
+      .control-card {
+        border-radius: 22px;
       }
     }
   </style>
@@ -411,16 +390,16 @@
       <span class="sparkle s3"></span>
       <span class="sparkle s4"></span>
       <span class="sparkle s5"></span>
+    </section>
 
-      <div class="hero-panel">
-        <h1>Tap Anything. Open Its Story.</h1>
-        <p>Connect a real object to its story through one simple MyStoryChip.</p>
+    <section class="control-card">
+      <h1>Tap Anything. Open Its Story.</h1>
+      <p>Connect a real object to its story through one simple MyStoryChip.</p>
 
-        <div class="nav-grid">
-          <a class="btn secondary" href="uses.html">How It Works</a>
-          <a class="btn secondary" href="client-setup.html">Set Up Chip</a>
-          <!-- Future Demo Button -->
-        </div>
+      <div class="nav-grid">
+        <a class="btn secondary" href="uses.html">How It Works</a>
+        <a class="btn secondary" href="client-setup.html">Set Up Chip</a>
+        <!-- Future Demo Button -->
       </div>
     </section>
 
@@ -457,7 +436,7 @@
       </div>
 
       <div id="useDetail" class="use-detail">
-        Attach a MyStoryChip to a memorial, keepsake, or tribute item so family and friends can tap and see photos, stories,and memories.
+        Attach a MyStoryChip to a memorial, keepsake, or tribute item so family and friends can tap and see photos, stories, videos, and memories.
       </div>
     </section>
 
@@ -470,13 +449,13 @@
       <a class="btn primary" href="buy.html">Get Your Chip</a>
     </section>
 
-  <footer class="footer">
-  <span class="founder-line">
-    MyStoryChip.com &nbsp; | &nbsp; Founder &amp; Creator: Jack W. Kennedy
-  </span>
-  &nbsp; | &nbsp;
-  <a href="terms.html">Terms &amp; Disclaimer</a>
-</footer>  
+    <footer class="footer">
+      <span class="founder-line">
+        MyStoryChip.com &nbsp; | &nbsp; Founder &amp; Creator: Jack W. Kennedy
+      </span>
+      &nbsp; | &nbsp;
+      <a href="terms.html">Terms &amp; Disclaimer</a>
+    </footer>
   </main>
 
   <script>
