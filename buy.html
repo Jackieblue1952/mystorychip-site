@@ -12,79 +12,125 @@ body {
   font-family: Georgia, serif;
 }
 
-/* FULL IMAGE BACKGROUND */
 .hero {
   position: relative;
   width: 100%;
   height: 100vh;
   background: url("chip.png") center/cover no-repeat;
+  overflow: hidden;
 }
 
-/* DARK OVERLAY (slight for readability) */
-.hero::after {
-  content: "";
+/* cover the baked right-side box */
+.purchase-panel {
   position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.25);
+  right: 4.5%;
+  top: 14%;
+  width: 330px;
+  min-height: 620px;
+  z-index: 5;
+
+  background: rgba(5, 5, 5, 0.96);
+  border: 1px solid rgba(212,175,55,0.7);
+  border-radius: 22px;
+  padding: 28px 28px;
+
+  color: #f5e6c8;
+  box-shadow:
+    0 0 30px rgba(212,175,55,0.35),
+    inset 0 0 22px rgba(212,175,55,0.10);
 }
 
-/* CLICKABLE BUY BUTTON OVER IMAGE BUTTON */
-.buy-click {
-  position: absolute;
-  right: 5.5%;
-  bottom: 11%;
+.purchase-panel h2 {
+  margin: 0 0 24px;
+  text-align: center;
+  color: #f5d97a;
+  font-size: 1.65rem;
+}
 
-  padding: 22px 48px;   /* BIGGER */
-  border-radius: 50px;
+.purchase-panel ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 28px;
+}
 
-  background: linear-gradient(135deg, #f5d97a, #d4af37);
-  color: #000;
-  font-size: 1.35rem;
+.purchase-panel li {
+  margin-bottom: 18px;
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.price {
+  text-align: center;
+  font-size: 2.9rem;
+  color: #f5d97a;
+  font-weight: bold;
+  margin: 18px 0 4px;
+}
+
+.subprice {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #e8dcc0;
+}
+
+.get-chip {
+  display: block;
+  text-align: center;
+  padding: 18px 20px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f8dd79, #d4af37, #a87818);
+  color: #050505;
+  font-size: 1.25rem;
   font-weight: bold;
   text-decoration: none;
+  box-shadow:
+    0 0 22px rgba(245,217,122,0.8),
+    0 0 45px rgba(212,175,55,0.55);
+}
+
+.get-chip:hover {
+  transform: scale(1.04);
+}
+
+.home-link {
+  display: block;
+  margin-top: 22px;
   text-align: center;
-
-  z-index: 10;
-
-  /* STRONG BASE GLOW */
-  box-shadow:
-    0 0 25px rgba(245,217,122,0.85),
-    0 0 50px rgba(212,175,55,0.6);
-
-  transition: all 0.2s ease;
-}
-  .buy-click:hover {
-  transform: scale(1.06);
-
-  box-shadow:
-    0 0 35px rgba(255,230,150,1),
-    0 0 70px rgba(245,217,122,0.95),
-    0 0 120px rgba(212,175,55,0.75);
-}
-
-/* OPTIONAL glow hover so YOU can see it working */
-.buy-click:hover {
-  box-shadow: 0 0 25px rgba(245,217,122,.8);
-  border-radius: 40px;
-}
-
-/* TOP NAV */
-.topbar {
-  position: absolute;
-  top: 20px;
-  left: 30px;
-  right: 30px;
-  display: flex;
-  justify-content: space-between;
-  z-index: 3;
-}
-
-.home {
-  color: #f5e6c8;
+  color: #f5d97a;
   text-decoration: none;
-  border: 1px solid #d4af37;
-  padding: 8px 14px;
-  border-radius: 20px;
+}
+
+/* invisible active areas over the lower left image icons */
+.hotspot {
+  position: absolute;
+  z-index: 4;
+  bottom: 7%;
+  height: 95px;
+}
+
+.memorials { left: 37%; width: 9%; }
+.cars { left: 47%; width: 9%; }
+.family { left: 57%; width: 9%; }
+.collections { left: 67%; width: 9%; }
+
+@media (max-width: 900px) {
+  .hero {
+    height: auto;
+    min-height: 100vh;
+    background-position: center top;
+  }
+
+  .purchase-panel {
+    position: relative;
+    right: auto;
+    top: auto;
+    width: calc(100% - 32px);
+    margin: 70vh auto 30px;
+  }
+
+  .hotspot {
+    display: none;
+  }
 }
 </style>
 </head>
@@ -93,15 +139,39 @@ body {
 
 <div class="hero">
 
-  <div class="topbar">
-    <div style="color:#f5d97a;font-weight:bold;">MyStoryChip</div>
-    <a class="home" href="index.html">Home</a>
-  </div>
+  <a class="hotspot memorials" href="story.html" aria-label="Memorials"></a>
+  <a class="hotspot cars" href="story.html" aria-label="Cars and Restorations"></a>
+  <a class="hotspot family" href="story.html" aria-label="Family Stories"></a>
+  <a class="hotspot collections" href="story.html" aria-label="Collections"></a>
 
-  <!-- INVISIBLE BUY BUTTON -->
- <a class="buy-click" href="https://buy.stripe.com/00w5kCgXe1Fwcu05dkdby02">
-  GET YOUR CHIP →
-</a> 
+  <div class="purchase-panel">
+    <h2>What You Get</h2>
+
+    <ul>
+      <li>✓ One physical MyStoryChip</li>
+      <li>✓ 250 MB of included storage</li>
+      <li>✓ Your own permanent story page</li>
+      <li>✓ No subscription or monthly fee</li>
+    </ul>
+
+    <h2>Great For</h2>
+
+    <ul>
+      <li>• Memorials</li>
+      <li>• Cars & Restorations</li>
+      <li>• Family Stories</li>
+      <li>• Collections</li>
+    </ul>
+
+    <div class="price">$49.95</div>
+    <div class="subprice">One-time purchase</div>
+
+    <a class="get-chip" href="https://buy.stripe.com/00w5kCgXe1Fwcu05dkdby02">
+      GET YOUR CHIP →
+    </a>
+
+    <a class="home-link" href="index.html">Back to Home</a>
+  </div>
 
 </div>
 
