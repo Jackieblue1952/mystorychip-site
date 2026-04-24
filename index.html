@@ -11,14 +11,11 @@
     }
 
     :root {
-      --cream: #fff7e8;
-      --cream2: #f6ead1;
       --gold: #d4af37;
-      --gold2: #f5d97a;
+      --gold-light: #f5d97a;
       --text: #2b2113;
-      --softText: #5e4a25;
+      --soft-text: #5e4a25;
       --line: rgba(180, 130, 35, 0.32);
-      --whiteGlass: rgba(255, 255, 255, 0.74);
     }
 
     body {
@@ -28,8 +25,7 @@
       color: var(--text);
       background:
         radial-gradient(circle at 50% 0%, rgba(255, 224, 135, 0.52), transparent 34%),
-        radial-gradient(circle at 20% 35%, rgba(255, 245, 210, 0.7), transparent 28%),
-        linear-gradient(180deg, #fffaf0 0%, #f7ecd2 50%, #ecd59f 100%);
+        linear-gradient(180deg, #fffaf0 0%, #f7ecd2 52%, #ecd59f 100%);
       overflow-x: hidden;
     }
 
@@ -45,7 +41,7 @@
       z-index: 50;
       padding: 9px 17px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.82);
+      background: rgba(255,255,255,0.86);
       border: 1px solid var(--line);
       color: #7e570e;
       font-weight: bold;
@@ -90,10 +86,10 @@
     }
 
     .hero-img {
-  width: 100%;
-  display: block;
-  filter: brightness(1.24) contrast(1.06) saturate(1.14);
-}
+      width: 100%;
+      display: block;
+      filter: brightness(1.24) contrast(1.06) saturate(1.14);
+    }
 
     .light-wash {
       position: absolute;
@@ -123,52 +119,62 @@
     .s5 { left: 39%; top: 40%; animation-delay: 2.8s; }
 
     @keyframes floatSpark {
-      0%, 100% { transform: translateY(0) scale(0.75); opacity: 0.25; }
-      50% { transform: translateY(-26px) scale(1.25); opacity: 1; }
+      0%, 100% {
+        transform: translateY(0) scale(0.75);
+        opacity: 0.25;
+      }
+
+      50% {
+        transform: translateY(-26px) scale(1.25);
+        opacity: 1;
+      }
     }
 
-   .hero-panel {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%);
-  width: 100%;
-  padding: 22px 28px;
-  border-radius: 0 0 34px 34px;
-  background: rgba(255, 250, 237, 0.94);
-  border-top: 1px solid rgba(212,175,55,0.45);
-  box-shadow: 0 -12px 36px rgba(90,55,10,0.18);
-  backdrop-filter: blur(8px);
-} 
+    .hero-panel {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      width: 100%;
+      padding: 22px 28px;
+      border-radius: 0 0 34px 34px;
+      background: rgba(255, 250, 237, 0.94);
+      border-top: 1px solid rgba(212,175,55,0.45);
+      box-shadow: 0 -12px 36px rgba(90,55,10,0.18);
+      backdrop-filter: blur(8px);
+    }
 
     .hero-panel h1 {
       margin: 0 0 8px;
-      font-size: clamp(2.1rem, 4.2vw, 4.3rem);
+      font-size: clamp(2.1rem, 4.2vw, 4.1rem);
       color: #7e520d;
       line-height: 1;
     }
 
     .hero-panel p {
-      margin: 0 auto 18px;
-      max-width: 780px;
+      margin: 0 auto 16px;
+      max-width: 760px;
       font-family: Arial, sans-serif;
-      font-size: clamp(1.05rem, 2vw, 1.35rem);
+      font-size: clamp(1.05rem, 2vw, 1.28rem);
       line-height: 1.45;
       color: #3b2c17;
     }
 
     .nav-grid {
-      display: grid;
-      grid-template-columns: 1.25fr repeat(3, 1fr);
-      gap: 12px;
-      margin-top: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 14px;
     }
 
     .btn {
       min-height: 56px;
+      min-width: 180px;
       border-radius: 999px;
-      padding: 13px 18px;
-      display: flex;
+      padding: 13px 20px;
+      display: inline-flex;
       justify-content: center;
       align-items: center;
       font-family: Arial, sans-serif;
@@ -189,7 +195,7 @@
     }
 
     .secondary {
-      background: rgba(255,255,255,0.82);
+      background: rgba(255,255,255,0.84);
       color: #7a5310;
       border: 1px solid rgba(180,130,35,0.34);
     }
@@ -202,7 +208,7 @@
     }
 
     .info-card {
-      background: rgba(255, 252, 244, 0.86);
+      background: rgba(255, 252, 244, 0.88);
       border: 1px solid rgba(180,130,35,0.26);
       border-radius: 22px;
       padding: 20px;
@@ -225,7 +231,7 @@
     .use-section {
       margin: 28px auto 18px;
       padding: 24px;
-      background: rgba(255,250,238,0.72);
+      background: rgba(255,250,238,0.76);
       border: 1px solid rgba(180,130,35,0.24);
       border-radius: 28px;
       box-shadow: 0 14px 34px rgba(120,76,16,0.08);
@@ -254,7 +260,7 @@
 
     .use-btn {
       border: 1px solid rgba(180,130,35,0.32);
-      background: rgba(255,255,255,0.78);
+      background: rgba(255,255,255,0.80);
       color: #7a5310;
       border-radius: 18px;
       padding: 14px 10px;
@@ -274,7 +280,7 @@
       min-height: 92px;
       border-radius: 20px;
       padding: 18px;
-      background: rgba(255,255,255,0.82);
+      background: rgba(255,255,255,0.84);
       border: 1px solid rgba(180,130,35,0.26);
       font-family: Arial, sans-serif;
       color: #3d2f18;
@@ -288,7 +294,7 @@
       border-radius: 28px;
       background:
         radial-gradient(circle at top, rgba(255,226,140,0.42), transparent 45%),
-        rgba(255,252,244,0.86);
+        rgba(255,252,244,0.88);
       border: 1px solid rgba(180,130,35,0.28);
       box-shadow: 0 14px 34px rgba(120,76,16,0.08);
     }
@@ -331,7 +337,6 @@
         border-radius: 0;
       }
 
-      .nav-grid,
       .quick-info,
       .use-grid {
         grid-template-columns: 1fr;
@@ -343,6 +348,10 @@
 
       .hero {
         border-radius: 24px;
+      }
+
+      .btn {
+        width: 100%;
       }
     }
   </style>
@@ -367,15 +376,13 @@
 
       <div class="hero-panel">
         <h1>Tap Anything. Open Its Story.</h1>
-        <p>
-          Connect a real object to photos,documents,and stories through one simple MyStoryChip.
-        </p>
+        <p>Connect a real object to its story through one simple MyStoryChip.</p>
 
         <div class="nav-grid">
           <a class="btn primary" href="buy.html">Get Your Chip</a>
           <a class="btn secondary" href="uses.html">How It Works</a>
           <a class="btn secondary" href="client-setup.html">Set Up Chip</a>
-         <!-- Future Demo Button -->                                                                >
+          <!-- Future Demo Button -->
         </div>
       </div>
     </section>
@@ -388,7 +395,7 @@
 
       <div class="info-card">
         <h3>250 MB Included</h3>
-        <p>Every chip includes space for photos,documents,and written stories.</p>
+        <p>Every chip includes space for photos, videos, documents, and written stories.</p>
       </div>
 
       <div class="info-card">
@@ -413,7 +420,7 @@
       </div>
 
       <div id="useDetail" class="use-detail">
-        Attach a MyStoryChip to a memorial, keepsake, or tribute item so family and friends can tap and see photos, stories,and memories.
+        Attach a MyStoryChip to a memorial, keepsake, or tribute item so family and friends can tap and see photos, stories, videos, and memories.
       </div>
     </section>
 
@@ -423,12 +430,12 @@
         MyStoryChip gives people a simple way to preserve meaning behind the things that matter —
         with one tap, one page, and one clear connection.
       </p>
-      <a class="btn primary" href="buy.html" style="display:inline-flex; min-width:260px;">Get Your Chip</a>
+      <a class="btn primary" href="buy.html">Get Your Chip</a>
     </section>
 
     <footer class="footer">
       MyStoryChip.com &nbsp; | &nbsp;
-      Founder &amp; Creator: Jack W Kennedy &nbsp; | &nbsp;
+      Founder &amp; Creator: Jack W. Kennedy &nbsp; | &nbsp;
       <a href="terms.html">Terms &amp; Disclaimer</a>
     </footer>
   </main>
@@ -436,7 +443,7 @@
   <script>
     const useText = {
       memorials:
-        "Attach a MyStoryChip to a memorial, keepsake, or tribute item so family and friends can tap and see photos, stories,and memories.",
+        "Attach a MyStoryChip to a memorial, keepsake, or tribute item so family and friends can tap and see photos, stories, videos, and memories.",
       family:
         "Save family stories, recipes, letters, photos, and meaningful moments so they are not lost in a box or forgotten over time.",
       vehicles:
