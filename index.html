@@ -1,143 +1,266 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MyStoryChip</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MyStoryChip | Your Chip. Your Story.</title>
 
-<style>
-body {
-  margin: 0;
-  background: #0a0a0a;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
-}
-  .hero-wrap {
-  width: 100%;
-  max-width: 1600px;
-  position: relative;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-.hero-button {
-  position: absolute;
-  left: 7.8%;
-  top: 74.5%;
-  width: 29%;
-  height: 9.5%;
-  display: block;
-  border-radius: 40px;
-  cursor: pointer;
-}
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        radial-gradient(circle at top, rgba(255, 226, 150, 0.45), transparent 38%),
+        linear-gradient(180deg, #fff7e8 0%, #f2dfb8 48%, #ead09a 100%);
+      color: #2d2112;
+      min-height: 100vh;
+    }
 
-.hero-image {
-  display: block;
-  width: 100%;
-  height: auto;
-}
+    .admin-btn {
+      position: fixed;
+      top: 16px;
+      right: 18px;
+      z-index: 20;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.75);
+      color: #7c5510;
+      border: 1px solid rgba(180, 130, 35, 0.35);
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 0.9rem;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.10);
+    }
 
-/* DARK OVERLAY FOR READABILITY */
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 55%;
-  height: 100%;
-  background: linear-gradient(to right, rgba(0,0,0,0.95), rgba(0,0,0,0.4), transparent);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 60px;
-}
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 34px 18px 24px;
+      text-align: center;
+    }
 
-/* BRAND */
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 20px;
-}
+    .brand {
+      font-size: clamp(2.8rem, 6vw, 5.8rem);
+      margin: 10px 0 0;
+      color: #a66f12;
+      text-shadow: 0 3px 0 rgba(255,255,255,0.35);
+      line-height: 1;
+    }
 
-.brand img {
-  width: 80px;
-}
+    .tagline {
+      margin: 8px 0 22px;
+      font-family: Arial, sans-serif;
+      letter-spacing: 4px;
+      font-weight: bold;
+      color: #4e3a1b;
+    }
 
-.brand span {
-  font-size: 32px;
-  color: #f5d97a;
-  font-weight: bold;
-}
+    .hero-card {
+      position: relative;
+      border-radius: 30px;
+      overflow: hidden;
+      background: #fff2d7;
+      border: 1px solid rgba(180, 130, 35, 0.35);
+      box-shadow:
+        0 18px 50px rgba(80, 48, 10, 0.18),
+        0 0 45px rgba(212, 175, 55, 0.22);
+    }
 
-/* HEADLINE */
-h1 {
-  font-size: 56px;
-  margin: 10px 0;
-}
+    .hero-img {
+      width: 100%;
+      display: block;
+      filter: brightness(1.22) contrast(1.06) saturate(1.12);
+    }
 
-.sub {
-  font-size: 20px;
-  margin-bottom: 25px;
-}
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 34%, rgba(255, 236, 160, 0.22), transparent 24%),
+        linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.03));
+      pointer-events: none;
+    }
 
-.highlight {
-  color: #f5d97a;
-}
+    .hero-content {
+      position: absolute;
+      left: 50%;
+      bottom: 28px;
+      transform: translateX(-50%);
+      width: min(92%, 880px);
+      padding: 22px;
+      border-radius: 24px;
+      background: rgba(255, 248, 230, 0.82);
+      border: 1px solid rgba(212, 175, 55, 0.42);
+      box-shadow: 0 12px 36px rgba(0,0,0,0.18);
+      backdrop-filter: blur(8px);
+    }
 
-/* ICON ROW */
-.icons {
-  display: flex;
-  gap: 40px;
-  margin: 25px 0;
-}
+    .hero-content h1 {
+      margin: 0 0 8px;
+      font-size: clamp(2rem, 4vw, 3.8rem);
+      color: #7e520d;
+    }
 
-.icon {
-  text-align: center;
-  font-size: 14px;
-}
+    .hero-content p {
+      margin: 0 auto 18px;
+      max-width: 760px;
+      font-size: clamp(1rem, 2vw, 1.35rem);
+      line-height: 1.45;
+      color: #3a2b17;
+    }
 
-/* BUTTON */
-.cta {
-  background: #d4af37;
-  color: black;
-  padding: 16px 28px;
-  border-radius: 30px;
-  font-size: 18px;
-  width: fit-content;
-  cursor: pointer;
-  transition: 0.3s;
-}
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
 
-.cta:hover {
-  box-shadow: 0 0 20px rgba(212,175,55,0.6);
-}
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 54px;
+      padding: 13px 16px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
 
-/* PERKS BAR */
-.perks {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  background: rgba(0,0,0,0.85);
-  display: flex;
-  justify-content: space-around;
-  padding: 20px 10px;
-  font-size: 14px;
-}
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(100, 65, 12, 0.18);
+    }
 
-.perk {
-  text-align: center;
-}
-</style>
+    .primary {
+      background: linear-gradient(180deg, #f6d875, #d9a62e);
+      color: #1f1608;
+      border: 1px solid #b9851d;
+    }
+
+    .secondary {
+      background: rgba(255,255,255,0.78);
+      color: #6d4a10;
+      border: 1px solid rgba(180, 130, 35, 0.35);
+    }
+
+    .info-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 22px 0 18px;
+    }
+
+    .info-card {
+      background: rgba(255, 250, 238, 0.88);
+      border: 1px solid rgba(180, 130, 35, 0.28);
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 8px 24px rgba(80, 48, 10, 0.08);
+    }
+
+    .info-card h3 {
+      margin: 0 0 8px;
+      color: #8b5d13;
+      font-size: 1.25rem;
+    }
+
+    .info-card p {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      line-height: 1.45;
+      color: #4b3a22;
+    }
+
+    .footer {
+      margin-top: 22px;
+      padding: 18px 10px 6px;
+      font-size: 0.95rem;
+      color: #5a421f;
+    }
+
+    .footer a {
+      color: #7d5614;
+      font-weight: bold;
+    }
+
+    @media (max-width: 850px) {
+      .hero-content {
+        position: relative;
+        left: auto;
+        bottom: auto;
+        transform: none;
+        width: 100%;
+        border-radius: 0;
+      }
+
+      .button-grid,
+      .info-row {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-card {
+        border-radius: 22px;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <a class="admin-btn" href="admin.html">Admin</a>
 
-<div class="hero-wrap">
-  <img src="landing-image.png" alt="MyStoryChip Landing Page" class="hero-image">
-  <a href="buy.html" class="hero-button" aria-label="Start Your Story"></a>
-</div>
+  <main class="page">
+    <div class="brand">MyStoryChip</div>
+    <div class="tagline">YOUR CHIP. YOUR STORY.</div>
 
-</div>
+    <section class="hero-card">
+      <img class="hero-img" src="landing-page.png"alt="Open storybook with glowing MyStoryChip" />
+      <div class="hero-overlay"></div>
 
+      <div class="hero-content">
+        <h1>Tap Anything. Open Its Story.</h1>
+        <p>
+          MyStoryChip connects a real object to photos, videos, documents, and stories
+          through one simple chip.
+        </p>
+
+        <div class="button-grid">
+          <a class="btn primary" href="buy.html">Get Your Chip</a>
+          <a class="btn secondary" href="uses.html">How It Works</a>
+          <a class="btn secondary" href="client-setup.html">Set Up Chip</a>
+          <a class="btn secondary" href="chip.html">View Demo</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="info-row">
+      <div class="info-card">
+        <h3>One Tap Access</h3>
+        <p>Tap a phone to open the story, memory, or information connected to the chip.</p>
+      </div>
+
+      <div class="info-card">
+        <h3>250 MB Included</h3>
+        <p>Store photos, videos, documents, and stories with no monthly subscription.</p>
+      </div>
+
+      <div class="info-card">
+        <h3>You Control It</h3>
+        <p>Your chip page belongs to you. Add, update, or remove your content anytime.</p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      MyStoryChip.com &nbsp; | &nbsp;
+      Founder &amp; Creator: Jack W. Kennedy &nbsp; | &nbsp;
+      <a href="terms.html">Terms &amp; Disclaimer</a>
+    </footer>
+  </main>
 </body>
 </html>
