@@ -6,17 +6,12 @@
   <title>MyStoryChip | Your Chip. Your Story.</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     :root {
       --gold: #d4af37;
-      --gold-light: #f5d97a;
       --text: #2b2113;
-      --soft-text: #5e4a25;
       --line: rgba(180, 130, 35, 0.32);
-      --cream: #fff8e6;
     }
 
     body {
@@ -25,15 +20,12 @@
       font-family: Georgia, "Times New Roman", serif;
       color: var(--text);
       background:
-        radial-gradient(circle at 50% 0%, rgba(255, 224, 135, 0.55), transparent 34%),
+        radial-gradient(circle at 50% 0%, rgba(255,224,135,0.55), transparent 34%),
         linear-gradient(180deg, #fffaf0 0%, #f7ecd2 52%, #ecd59f 100%);
       overflow-x: hidden;
     }
 
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
+    a { text-decoration: none; color: inherit; }
 
     .admin-btn {
       position: fixed;
@@ -61,9 +53,7 @@
       line-height: 0.95;
       margin: 8px 0 6px;
       color: #9b6812;
-      text-shadow:
-        0 2px 0 rgba(255,255,255,0.8),
-        0 10px 30px rgba(160,105,20,0.14);
+      text-shadow: 0 2px 0 rgba(255,255,255,0.8);
     }
 
     .tagline {
@@ -76,36 +66,27 @@
     }
 
     .hero {
-      position: relative;
+      height: 520px;
       border-radius: 34px;
       overflow: hidden;
-      background: #fff2d2;
+      background-image: url("landing-page.png");
+      background-size: cover;
+      background-position: center 44%;
       border: 1px solid rgba(180,130,35,0.36);
       box-shadow:
         0 28px 65px rgba(120,76,16,0.16),
         0 0 60px rgba(245,217,122,0.24);
+      position: relative;
     }
 
-   .hero-img {
-  width: 100%;
-  display: block;
-
-  /* 🔥 shrink height cleanly */
-  max-height: 520px;
-  object-fit: cover;
-  object-position: center 60%;
-
-  filter: brightness(1.24) contrast(1.06) saturate(1.14);
-} 
-
-    .light-wash {
+    .hero::after {
+      content: "";
       position: absolute;
       inset: 0;
-      pointer-events: none;
       background:
-        radial-gradient(circle at 50% 35%, rgba(255,240,180,0.28), transparent 24%),
-        radial-gradient(circle at 50% 55%, rgba(245,217,122,0.14), transparent 32%),
-        linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.01));
+        radial-gradient(circle at 50% 43%, rgba(255,240,180,0.22), transparent 26%),
+        linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+      pointer-events: none;
     }
 
     .sparkle {
@@ -113,72 +94,38 @@
       width: 9px;
       height: 9px;
       border-radius: 50%;
-      background: rgba(255, 232, 145, 0.95);
-      box-shadow: 0 0 18px rgba(245, 217, 122, 0.9);
+      background: rgba(255,232,145,0.95);
+      box-shadow: 0 0 18px rgba(245,217,122,0.9);
       animation: floatSpark 4.5s ease-in-out infinite;
       pointer-events: none;
+      z-index: 2;
     }
 
-    .s1 { left: 45%; top: 28%; animation-delay: 0s; }
-    .s2 { left: 55%; top: 31%; animation-delay: 0.8s; }
-    .s3 { left: 49%; top: 22%; animation-delay: 1.5s; }
-    .s4 { left: 60%; top: 43%; animation-delay: 2.1s; }
-    .s5 { left: 39%; top: 40%; animation-delay: 2.8s; }
+    .s1 { left: 45%; top: 36%; animation-delay: 0s; }
+    .s2 { left: 55%; top: 38%; animation-delay: 0.8s; }
+    .s3 { left: 49%; top: 30%; animation-delay: 1.5s; }
+    .s4 { left: 60%; top: 50%; animation-delay: 2.1s; }
+    .s5 { left: 39%; top: 49%; animation-delay: 2.8s; }
 
     @keyframes floatSpark {
-      0%, 100% {
-        transform: translateY(0) scale(0.75);
-        opacity: 0.25;
-      }
-
-      50% {
-        transform: translateY(-26px) scale(1.25);
-        opacity: 1;
-      }
+      0%, 100% { transform: translateY(0) scale(0.75); opacity: 0.25; }
+      50% { transform: translateY(-26px) scale(1.25); opacity: 1; }
     }
 
-    .control-card {
+    .control-row {
       margin: 22px auto 0;
-      padding: 22px 22px 24px;
-      max-width: 920px;
-      border-radius: 28px;
-      background: rgba(255, 248, 230, 0.92);
-      border: 1px solid rgba(212,175,55,0.38);
-      box-shadow:
-        0 14px 34px rgba(120,76,16,0.10),
-        0 0 24px rgba(245,217,122,0.14);
-    }
-
-    .control-card h1 {
-      margin: 0 0 8px;
-      font-size: clamp(2rem, 4vw, 3.8rem);
-      color: #7e520d;
-      line-height: 1;
-    }
-
-    .control-card p {
-      margin: 0 auto 18px;
-      max-width: 760px;
-      font-family: Arial, sans-serif;
-      font-size: clamp(1.05rem, 2vw, 1.25rem);
-      line-height: 1.45;
-      color: #3b2c17;
-    }
-
-    .nav-grid {
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 14px;
+      gap: 18px;
       flex-wrap: wrap;
-      margin-top: 14px;
     }
 
     .btn {
       min-height: 56px;
-      min-width: 190px;
+      min-width: 210px;
       border-radius: 999px;
-      padding: 13px 22px;
+      padding: 13px 24px;
       display: inline-flex;
       justify-content: center;
       align-items: center;
@@ -193,14 +140,8 @@
       box-shadow: 0 14px 25px rgba(120,76,16,0.18);
     }
 
-    .primary {
-      background: linear-gradient(180deg, #ffe38b, #d7a530);
-      color: #211606;
-      border: 1px solid #b98117;
-    }
-
     .secondary {
-      background: rgba(255,255,255,0.84);
+      background: rgba(255,255,255,0.88);
       color: #7a5310;
       border: 1px solid rgba(180,130,35,0.34);
     }
@@ -209,15 +150,20 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 16px;
-      margin: 22px 0;
+      margin: 28px 0 22px;
+    }
+
+    .info-card,
+    .use-section,
+    .bottom-cta {
+      background: rgba(255,252,244,0.88);
+      border: 1px solid rgba(180,130,35,0.26);
+      border-radius: 22px;
+      box-shadow: 0 12px 28px rgba(120,76,16,0.08);
     }
 
     .info-card {
-      background: rgba(255, 252, 244, 0.88);
-      border: 1px solid rgba(180,130,35,0.26);
-      border-radius: 22px;
       padding: 20px;
-      box-shadow: 0 12px 28px rgba(120,76,16,0.08);
     }
 
     .info-card h3 {
@@ -236,10 +182,7 @@
     .use-section {
       margin: 28px auto 18px;
       padding: 24px;
-      background: rgba(255,250,238,0.76);
-      border: 1px solid rgba(180,130,35,0.24);
       border-radius: 28px;
-      box-shadow: 0 14px 34px rgba(120,76,16,0.08);
     }
 
     .use-section h2 {
@@ -306,11 +249,6 @@
       margin: 24px 0 12px;
       padding: 26px;
       border-radius: 28px;
-      background:
-        radial-gradient(circle at top, rgba(255,226,140,0.42), transparent 45%),
-        rgba(255,252,244,0.88);
-      border: 1px solid rgba(180,130,35,0.28);
-      box-shadow: 0 14px 34px rgba(120,76,16,0.08);
     }
 
     .bottom-cta h2 {
@@ -327,6 +265,12 @@
       line-height: 1.5;
     }
 
+    .primary {
+      background: linear-gradient(180deg, #ffe38b, #d7a530);
+      color: #211606;
+      border: 1px solid #b98117;
+    }
+
     .footer {
       padding: 18px 8px 6px;
       text-align: center;
@@ -334,7 +278,7 @@
     }
 
     .founder-line {
-      font-family: "Georgia", "Times New Roman", serif;
+      font-family: Georgia, "Times New Roman", serif;
       font-style: italic;
       font-size: 1.25rem;
       letter-spacing: 0.4px;
@@ -350,6 +294,12 @@
     }
 
     @media (max-width: 900px) {
+      .hero {
+        height: 420px;
+        background-position: center 45%;
+        border-radius: 24px;
+      }
+
       .quick-info,
       .use-grid {
         grid-template-columns: 1fr;
@@ -359,16 +309,8 @@
         font-size: 3.1rem;
       }
 
-      .hero {
-        border-radius: 24px;
-      }
-
       .btn {
         width: 100%;
-      }
-
-      .control-card {
-        border-radius: 22px;
       }
     }
   </style>
@@ -382,9 +324,6 @@
     <div class="tagline">YOUR CHIP. YOUR STORY.</div>
 
     <section class="hero">
-      <img class="hero-img" src="landing-page.png" alt="MyStoryChip glowing storybook and chip" />
-
-      <div class="light-wash"></div>
       <span class="sparkle s1"></span>
       <span class="sparkle s2"></span>
       <span class="sparkle s3"></span>
@@ -392,16 +331,10 @@
       <span class="sparkle s5"></span>
     </section>
 
-    <section class="control-card">
-      <h1>Tap Anything. Open Its Story.</h1>
-      <p>Connect a real object to its story through one simple MyStoryChip.</p>
-
-      <div class="nav-grid">
-        <a class="btn secondary" href="uses.html">How It Works</a>
-        <a class="btn secondary" href="client-setup.html">Set Up Chip</a>
-        <!-- Future Demo Button -->
-      </div>
-    </section>
+    <div class="control-row">
+      <a class="btn secondary" href="uses.html">How It Works</a>
+      <a class="btn secondary" href="client-setup.html">Set Up Chip</a>
+    </div>
 
     <section class="quick-info">
       <div class="info-card">
@@ -422,9 +355,7 @@
 
     <section class="use-section">
       <h2>What Can MyStoryChip Be Used For?</h2>
-      <p class="lead">
-        Tap any button below to see how one chip can turn an object, memory, or place into a living story.
-      </p>
+      <p class="lead">Tap any button below to see how one chip can turn an object, memory, or place into a living story.</p>
 
       <div class="use-grid">
         <button class="use-btn active" data-use="memorials">Memorials</button>
@@ -442,17 +373,12 @@
 
     <section class="bottom-cta">
       <h2>Own the Chip. Keep the Story.</h2>
-      <p>
-        MyStoryChip gives people a simple way to preserve meaning behind the things that matter —
-        with one tap, one page, and one clear connection.
-      </p>
+      <p>MyStoryChip gives people a simple way to preserve meaning behind the things that matter — with one tap, one page, and one clear connection.</p>
       <a class="btn primary" href="buy.html">Get Your Chip</a>
     </section>
 
     <footer class="footer">
-      <span class="founder-line">
-        MyStoryChip.com &nbsp; | &nbsp; Founder &amp; Creator: Jack W. Kennedy
-      </span>
+      <span class="founder-line">MyStoryChip.com &nbsp; | &nbsp; Founder &amp; Creator: Jack W. Kennedy</span>
       &nbsp; | &nbsp;
       <a href="terms.html">Terms &amp; Disclaimer</a>
     </footer>
@@ -460,18 +386,12 @@
 
   <script>
     const useText = {
-      memorials:
-        "Attach a MyStoryChip to a memorial, keepsake, or tribute item so family and friends can tap and see photos, stories, videos, and memories.",
-      family:
-        "Save family stories, recipes, letters, photos, and meaningful moments so they are not lost in a box or forgotten over time.",
-      vehicles:
-        "Place a chip with a car, truck, motorcycle, or restoration project to show build history, upgrades, documents, photos, and the story behind it.",
-      collections:
-        "Use a chip with coins, antiques, tools, art, or collectibles to explain where it came from, why it matters, and what makes it special.",
-      business:
-        "Share business information, product details, service instructions, customer welcome pages, or special offers with one simple tap.",
-      tributes:
-        "Create a heartfelt page for someone special, with words, images, and memories that can be shared by one simple chip scan."
+      memorials: "Attach a MyStoryChip to a memorial, keepsake, or tribute item so family and friends can tap and see photos, stories, videos, and memories.",
+      family: "Save family stories, recipes, letters, photos, and meaningful moments so they are not lost in a box or forgotten over time.",
+      vehicles: "Place a chip with a car, truck, motorcycle, or restoration project to show build history, upgrades, documents, photos, and the story behind it.",
+      collections: "Use a chip with coins, antiques, tools, art, or collectibles to explain where it came from, why it matters, and what makes it special.",
+      business: "Share business information, product details, service instructions, customer welcome pages, or special offers with one simple tap.",
+      tributes: "Create a heartfelt page for someone special, with words, images, and memories that can be shared by one simple chip scan."
     };
 
     const buttons = document.querySelectorAll(".use-btn");
