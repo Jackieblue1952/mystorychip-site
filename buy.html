@@ -93,17 +93,44 @@
   gap: 24px;
   align-items: start;
 }  
+.art-info {
+  padding: 28px;
+  background: linear-gradient(180deg, #fff8e7, #f0dfb8);
+}
 
-    .art-card {
-      position: relative;
-      min-height: 0px;
-      border-radius: 30px;
-      overflow: hidden;
-      background: transparent;
-      box-shadow:
-        0 20px 55px rgba(74, 45, 7, 0.35),
-        inset 0 0 0 1px rgba(255,255,255,0.3);
-    }
+.art-info h3 {
+  margin: 0 0 20px;
+  text-align: center;
+  color: #5a3a0a;
+  font-size: 1.7rem;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.steps div {
+  padding: 18px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.7);
+  border: 1px solid rgba(156,116,23,0.18);
+  text-align: center;
+}
+
+.steps strong {
+  display: block;
+  color: #5a3a0a;
+  font-size: 1.15rem;
+  margin-bottom: 8px;
+}
+
+.steps span {
+  color: #6d521e;
+  font-size: 0.95rem;
+}
+   
 
     .art-card img {
   width: 100%;
@@ -392,104 +419,123 @@
       </header>
 
       <section class="hero">
-        <div class="art-card">
-          <img src="chip.png" alt="MyStoryChip product preview">
-          <div class="art-badge">Tap. Open. Remember.</div>
+       <div class="art-card">
+  <img src="chip.png" alt="MyStoryChip product preview">
+
+  <div class="art-info">
+    <h3>Tap. Open. Remember.</h3>
+
+    <div class="steps">
+      <div>
+        <strong>Tap</strong>
+        <span>Tap the chip with your phone</span>
+      </div>
+
+      <div>
+        <strong>Open</strong>
+        <span>Your story loads instantly</span>
+      </div>
+
+      <div>
+        <strong>Remember</strong>
+        <span>Photos, stories, and memories come to life</span>
+      </div>
+    </div>
+  </div>
+   </div>
+
+  <aside class="panel">
+  <div class="eyebrow">One chip. Endless stories.</div>
+
+  <h2>Get Your Chip</h2>
+
+  <p class="lead">
+   MyStoryChip gives real objects a digital story page. Tap the chip with a phone
+  and instantly open photos,documents, memories, details, or keepsakes.
+  </p>
+
+    <div class="price-box">
+      <div class="price">$49.95</div>
+      <div class="once">One-time purchase</div>
+    </div>
+
+   <a class="cta" href="https://buy.stripe.com/00w5kCgXe1Fwcu05dkdby02">
+   GET YOUR CHIP →
+    </a>
+
+    <div class="small-note">
+    Includes your physical MyStoryChip and 250 MB starter storage.
+   </div>
+
+     <div class="features">
+    <div class="feature">
+     <div class="check">✓</div>
+     <div>
+     <strong>No monthly fee</strong>
+     <span>Buy the chip once and start building your story page.</span>
+     </div>
+     </div>
+
+     <div class="feature">
+      <div class="check">✓</div>
+     <div>
+        <strong>Works with phone tap or QR</strong>
+     <span>Simple access for family, friends, customers, or visitors.</span>
+       </div>
         </div>
 
-        <aside class="panel">
-          <div class="eyebrow">One chip. Endless stories.</div>
-
-          <h2>Get Your Chip</h2>
-
-          <p class="lead">
-            MyStoryChip gives real objects a digital story page. Tap the chip with a phone
-            and instantly open photos,documents, memories, details, or keepsakes.
-          </p>
-
-          <div class="price-box">
-            <div class="price">$49.95</div>
-            <div class="once">One-time purchase</div>
-          </div>
-
-          <a class="cta" href="https://buy.stripe.com/00w5kCgXe1Fwcu05dkdby02">
-            GET YOUR CHIP →
-          </a>
-
-          <div class="small-note">
-            Includes your physical MyStoryChip and 250 MB starter storage.
-          </div>
-
-          <div class="features">
-            <div class="feature">
-              <div class="check">✓</div>
-              <div>
-                <strong>No monthly fee</strong>
-                <span>Buy the chip once and start building your story page.</span>
-              </div>
-            </div>
-
-            <div class="feature">
-              <div class="check">✓</div>
-              <div>
-                <strong>Works with phone tap or QR</strong>
-                <span>Simple access for family, friends, customers, or visitors.</span>
-              </div>
-            </div>
-
-            <div class="feature">
-              <div class="check">✓</div>
-              <div>
-                <strong>You control the content</strong>
-                <span>Add, update, or remove your story, photos, and files.</span>
-              </div>
-            </div>
-          </div>
-        </aside>
+     <div class="feature">
+     <div class="check">✓</div>
+     <div>
+       <strong>You control the content</strong>
+     <span>Add, update, or remove your story, photos, and files.</span>
+       </div>
+     </div>
+      </div>
+      </aside>
       </section>
 
       <section class="uses">
         <div class="use">
-          <div class="icon">🕊️</div>
-          <strong>Memorials</strong>
-        </div>
-
-        <div class="use">
-          <div class="icon">🚗</div>
-          <strong>Autos & Restorations</strong>
-        </div>
-
-        <div class="use">
-          <div class="icon">📖</div>
-          <strong>Family Stories</strong>
-        </div>
-
-        <div class="use">
-          <div class="icon">🪙</div>
-          <strong>Collections</strong>
-        </div>
-      </section>
-
-      <section class="story-strip">
-        <div>
-          <h3>Own the Chip. Keep the Story.</h3>
-          <p>
-            From a keepsake box to a restored car, a family recipe, a grave marker,
-            a coin collection, or a special gift — MyStoryChip turns something physical
-            into something people can experience.
-          </p>
-        </div>
-
-        <a class="secondary" href="story.html">See the Story</a>
-      </section>
-
-      <footer>
-        <a href="terms.html">Terms & Disclaimer</a>
-        <br><br>
-        MyStoryChip is for clean, safe, appropriate personal and business storytelling content.
-      </footer>
-
+       <div class="icon">🕊️</div>
+      <strong>Memorials</strong>
     </div>
-  </main>
+
+   <div class="use">
+   <div class="icon">🚗</div>
+    <strong>Autos & Restorations</strong>
+    </div>
+
+  <div class="use">
+  <div class="icon">📖</div>
+  <strong>Family Stories</strong>
+ </div>
+
+  <div class="use">
+   <div class="icon">🪙</div>
+   <strong>Collections</strong>
+   </div>
+   </section>
+
+ <section class="story-strip">
+ <div>
+  <h3>Own the Chip. Keep the Story.</h3>
+   <p>  From a keepsake box to a restored car, a family recipe, a grave marker,
+     a coin collection, or a special gift — MyStoryChip turns something physical
+     into something people can experience.
+    </p>
+   </div>
+
+    <a class="secondary" href="story.html">See the Story</a>
+   </section>
+
+  <footer>
+  <a href="terms.html">Terms & Disclaimer</a>
+   <br><br>
+   MyStoryChip is for clean, safe, appropriate personal and business storytelling content.
+   </footer>
+
+</div>
+</main>
 </body>
 </html>
