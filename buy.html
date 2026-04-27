@@ -11,14 +11,14 @@
     }
 
     body {
-  margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
-  color: #3f2a10;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(255, 247, 216, 0.4), transparent 60%),
-    linear-gradient(180deg, #fff6d8 0%, #f7e2a5 55%, #efd38a 100%);
-  min-height: 100vh;
-}
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      color: #3f2a10;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255, 247, 216, 0.45), transparent 60%),
+        linear-gradient(180deg, #fff6d8 0%, #f7e2a5 55%, #efd38a 100%);
+      min-height: 100vh;
+    }
 
     a {
       color: inherit;
@@ -35,98 +35,95 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 54px;
+      margin-bottom: 42px;
     }
 
     .brand {
       font-size: 1.2rem;
       letter-spacing: 0.08em;
-      color: #ffe8ad;
-      text-shadow: 0 0 18px rgba(255, 206, 92, 0.55);
+      color: #7a5416;
+      font-weight: bold;
     }
 
     .home-btn {
-      border: 1px solid rgba(255, 220, 150, 0.45);
+      border: 1px solid rgba(150, 105, 28, 0.35);
       padding: 10px 18px;
       border-radius: 999px;
-      color: #fff0cf;
-      background: rgba(255, 255, 255, 0.05);
-      box-shadow: 0 0 22px rgba(255, 207, 103, 0.14);
+      color: #6d4813;
+      background: rgba(255, 250, 235, 0.78);
+      box-shadow: 0 8px 22px rgba(120, 76, 16, 0.10);
+      font-weight: bold;
     }
 
     .hero {
       display: grid;
       grid-template-columns: 1.05fr 0.95fr;
-      gap: 44px;
+      gap: 38px;
       align-items: center;
-      padding: 36px;
+      max-width: 980px;
+      margin: 0 auto 42px auto;
+      padding: 34px;
       border-radius: 34px;
       background:
-        linear-gradient(135deg, rgba(255, 248, 216, 0.12), rgba(255, 196, 74, 0.06)),
-        rgba(255, 255, 255, 0.035);
-      border: 1px solid rgba(255, 220, 150, 0.25);
+        radial-gradient(circle at top left, rgba(255, 244, 200, 0.9), transparent 55%),
+        rgba(255, 250, 235, 0.72);
+      border: 1px solid rgba(150, 105, 28, 0.24);
       box-shadow:
-        0 0 70px rgba(255, 197, 77, 0.18),
-        inset 0 0 60px rgba(255, 255, 255, 0.04);
+        0 24px 54px rgba(120, 76, 16, 0.14),
+        inset 0 0 38px rgba(255, 255, 255, 0.35);
     }
 
     .eyebrow {
-      color: #ffd978;
+      color: #9b6a18;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      font-size: 0.84rem;
-      margin-bottom: 16px;
+      font-size: 0.82rem;
+      margin-bottom: 14px;
+      font-weight: bold;
     }
 
     h1 {
-      font-size: clamp(2.7rem, 5.8vw, 5.8rem);
+      font-size: clamp(2.55rem, 5vw, 5rem);
       line-height: 0.94;
-      margin: 0 0 20px;
-      color: #fff4d4;
-      text-shadow:
-        0 0 28px rgba(255, 210, 107, 0.52),
-        0 0 70px rgba(255, 174, 42, 0.22);
+      margin: 0 0 18px;
+      color: #7a5416;
+      text-shadow: 0 0 22px rgba(255, 210, 110, 0.45);
     }
 
     .hero p {
-  font-size: 1.22rem;
-  line-height: 1.65;
-  color: #f7dfae;
-  max-width: 900px;
-}
-
-.hero {
-  max-width: 900px;
-  margin: 0 auto 30px auto;
-} 
+      font-size: 1.13rem;
+      line-height: 1.62;
+      color: #4a3215;
+      max-width: 620px;
+      margin-bottom: 22px;
     }
 
     .price {
-      font-size: 2rem;
-      color: #fff1c7;
-      margin: 22px 0 10px;
+      font-size: 1.8rem;
+      color: #5b3b10;
+      margin: 20px 0 8px;
     }
 
     .price span {
-      color: #ffd36a;
+      color: #9b6a18;
       font-weight: bold;
     }
 
     .small-note {
-      color: #cdbb91;
-      font-size: 0.95rem;
-      margin-bottom: 28px;
+      color: #5a3d18;
+      font-size: 0.94rem;
+      margin-bottom: 22px;
     }
-    .cta-row {
-  display: flex;
-  gap: 18px;
-  flex-wrap: wrap;
-  align-items: center;
-}
+
+    .reassurance {
+      color: #7a5416;
+      font-weight: bold;
+      margin-bottom: 26px;
+    }
 
     .cta-row {
       display: flex;
-      gap: 16px;
+      gap: 18px;
       flex-wrap: wrap;
       align-items: center;
     }
@@ -135,35 +132,41 @@
       display: inline-block;
       padding: 16px 30px;
       border-radius: 999px;
-      background: linear-gradient(135deg, #fff2b6, #d49a27);
+      background: linear-gradient(135deg, #fff2b6, #d4a437);
       color: #1b1005;
       font-weight: bold;
       font-size: 1.05rem;
       box-shadow:
-        0 0 30px rgba(255, 206, 87, 0.55),
-        0 12px 34px rgba(0, 0, 0, 0.42);
+        0 0 28px rgba(255, 206, 87, 0.45),
+        0 12px 28px rgba(120, 76, 16, 0.24);
     }
 
     .ghost {
-      color: #ffe5a3;
-      border-bottom: 1px solid rgba(255, 220, 150, 0.55);
+      color: #7a5416;
+      border-bottom: 1px solid rgba(122, 84, 22, 0.45);
       padding-bottom: 4px;
+      font-weight: bold;
+      transition: all 0.2s ease;
+    }
+
+    .ghost:hover {
+      color: #4a3215;
+      border-bottom: 1px solid #9b6a18;
+      text-shadow: 0 0 10px rgba(255, 210, 120, 0.45);
     }
 
     .hero-card {
-      border-radius: 28px;
-      padding: 28px;
-      background:
-        radial-gradient(circle at center, rgba(255, 214, 115, 0.22), transparent 58%),
-        rgba(0, 0, 0, 0.24);
-      border: 1px solid rgba(255, 225, 160, 0.22);
-      box-shadow: inset 0 0 50px rgba(255, 231, 170, 0.05);
+      border-radius: 24px;
+      padding: 26px;
+      background: rgba(255, 250, 235, 0.84);
+      border: 1px solid rgba(150, 105, 28, 0.22);
+      box-shadow: inset 0 0 28px rgba(255, 230, 170, 0.18);
     }
 
     .hero-card h2 {
       margin: 0 0 18px;
-      color: #fff2c7;
-      font-size: 1.7rem;
+      color: #7a5416;
+      font-size: 1.55rem;
     }
 
     .hero-card ul {
@@ -174,8 +177,8 @@
 
     .hero-card li {
       padding: 12px 0;
-      border-bottom: 1px solid rgba(255, 230, 170, 0.12);
-      color: #f4deb0;
+      border-bottom: 1px solid rgba(150, 105, 28, 0.14);
+      color: #4a3215;
       line-height: 1.45;
     }
 
@@ -184,41 +187,45 @@
     }
 
     .hero-card strong {
-      color: #ffd978;
+      color: #9b6a18;
     }
 
     .excitement {
-      margin: 52px 0;
-      border-radius: 36px;
+      margin: 40px auto 52px;
+      max-width: 980px;
+      border-radius: 32px;
       overflow: hidden;
-      border: 1px solid rgba(255, 220, 150, 0.25);
-      box-shadow: 0 0 80px rgba(255, 194, 74, 0.18);
-      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(150, 105, 28, 0.22);
+      box-shadow: 0 20px 48px rgba(120, 76, 16, 0.16);
+      background: rgba(255, 250, 235, 0.5);
     }
 
     .excitement img {
       width: 100%;
+      max-height: 380px;
+      object-fit: contain;
       display: block;
+      background: rgba(255, 246, 216, 0.6);
     }
 
     .section {
-      margin: 58px 0;
+      margin: 54px 0;
       text-align: center;
     }
 
     .section h2 {
-      font-size: clamp(2rem, 4vw, 3.4rem);
+      font-size: clamp(2rem, 4vw, 3.25rem);
       margin: 0 0 16px;
-      color: #fff0c4;
-      text-shadow: 0 0 24px rgba(255, 204, 95, 0.28);
+      color: #7b5419;
+      text-shadow: 0 0 18px rgba(255, 210, 110, 0.35);
     }
 
     .section p {
       max-width: 820px;
       margin: 0 auto 28px;
-      color: #ead3a4;
-      font-size: 1.12rem;
-      line-height: 1.7;
+      color: #4a3215;
+      font-size: 1.1rem;
+      line-height: 1.68;
     }
 
     .soft-grid {
@@ -232,21 +239,21 @@
       padding: 24px;
       border-radius: 24px;
       text-align: left;
-      background: rgba(255, 255, 255, 0.045);
-      border: 1px solid rgba(255, 220, 150, 0.18);
-      box-shadow: inset 0 0 34px rgba(255, 255, 255, 0.025);
+      background: rgba(255, 250, 235, 0.74);
+      border: 1px solid rgba(150, 105, 28, 0.22);
+      box-shadow: 0 12px 28px rgba(120, 76, 16, 0.08);
     }
 
     .soft-card h3 {
       margin: 0 0 10px;
-      color: #ffd978;
-      font-size: 1.25rem;
+      color: #9b6a18;
+      font-size: 1.22rem;
     }
 
     .soft-card p {
       margin: 0;
       font-size: 1rem;
-      color: #e8d2a3;
+      color: #4a3215;
       line-height: 1.55;
     }
 
@@ -261,9 +268,10 @@
     .use-pill {
       padding: 11px 18px;
       border-radius: 999px;
-      background: rgba(255, 236, 180, 0.075);
-      border: 1px solid rgba(255, 220, 150, 0.2);
-      color: #ffe5aa;
+      background: rgba(255, 250, 235, 0.74);
+      border: 1px solid rgba(150, 105, 28, 0.22);
+      color: #6d4813;
+      font-weight: bold;
     }
 
     .final-cta {
@@ -272,22 +280,22 @@
       text-align: center;
       border-radius: 34px;
       background:
-        radial-gradient(circle at top, rgba(255, 214, 115, 0.25), transparent 52%),
-        rgba(255, 255, 255, 0.045);
-      border: 1px solid rgba(255, 220, 150, 0.26);
-      box-shadow: 0 0 70px rgba(255, 194, 74, 0.16);
+        radial-gradient(circle at top, rgba(255, 230, 150, 0.45), transparent 52%),
+        rgba(255, 250, 235, 0.78);
+      border: 1px solid rgba(150, 105, 28, 0.26);
+      box-shadow: 0 18px 42px rgba(120, 76, 16, 0.12);
     }
 
     .final-cta h2 {
-      font-size: clamp(2rem, 4vw, 3.6rem);
+      font-size: clamp(2rem, 4vw, 3.4rem);
       margin: 0 0 14px;
-      color: #fff1c7;
+      color: #7b5419;
     }
 
     .final-cta p {
       max-width: 740px;
       margin: 0 auto 28px;
-      color: #ead3a4;
+      color: #4a3215;
       font-size: 1.12rem;
       line-height: 1.65;
     }
@@ -295,24 +303,20 @@
     .contact {
       margin-top: 36px;
       text-align: center;
-      color: #d7c29a;
+      color: #4a3215;
       font-size: 0.98rem;
     }
 
     .contact strong {
-      color: #ffe2a0;
+      color: #7a5416;
     }
 
     .footer {
       text-align: center;
       margin-top: 42px;
-      color: #927f5f;
+      color: #6d4813;
       font-size: 0.86rem;
     }
-    .hero img {
-  max-height: 380px;
-  object-fit: contain;
-}
 
     @media (max-width: 850px) {
       .hero {
@@ -328,58 +332,11 @@
         gap: 16px;
         align-items: flex-start;
       }
+
+      .excitement img {
+        max-height: none;
+      }
     }
-    .btn.ghost:hover {
-  color: #fff4d4;
-  border-bottom: 1px solid #ffd36a;
-  text-shadow: 0 0 10px rgba(255, 210, 120, 0.4);
-}
-    .section h2,
-.final-cta h2 {
-  color: #7b5419;
-}
-
-.section p,
-.final-cta p,
-.soft-card p,
-.hero-card li,
-.small-note {
-  color: #4a3215;
-}
-
-.soft-card h3,
-.hero-card strong,
-.price span {
-  color: #9b6a18;
-}
-
-.soft-card,
-.hero-card,
-.final-cta {
-  background: rgba(255, 250, 235, 0.72);
-  border-color: rgba(150, 105, 28, 0.22);
-}
- .hero h1 {
-  color: #7a5416;
-}
-
-.hero p {
-  color: #4a3215;
-}
-
-.hero-card {
-  background: rgba(120, 90, 30, 0.18);
-  color: #3f2a10;
-}
-
-.hero-card h2 {
-  color: #7a5416;
-}
-
-.hero-card p,
-.hero-card li {
-  color: #4a3215;
-}   
   </style>
 </head>
 
@@ -404,12 +361,18 @@
         </p>
 
         <div class="price">One-time price: <span>$49.95</span></div>
-        <div class="small-note">Includes one MyStoryChip, a customer page, and 250MB of usable shared storage. No monthly fee.</div>
+        <div class="small-note">
+          Includes one MyStoryChip, a customer page, and 250MB of usable shared storage. No monthly fee.
+        </div>
 
-    <div class="cta-row">
-  <a class="cta" href="https://buy.stripe.com/00w5kCgXe1Fwcu05dkdby02">Get Your Chip</a>
-  <a class="ghost" href="story-new.html">Story of Origin</a>
-</div>   
+        <div class="reassurance">
+          Set up your page in minutes — no technical skills needed.
+        </div>
+
+        <div class="cta-row">
+          <a class="cta" href="https://buy.stripe.com/00w5kCgXe1Fwcu05dkdby02">Get Your Chip</a>
+          <a class="ghost" href="story-new.html">Story of Origin</a>
+        </div>
       </div>
 
       <aside class="hero-card">
@@ -425,10 +388,10 @@
     </section>
 
     <section class="excitement">
-      <img src="buy-excitement.png" alt="MyStoryChip excitement display" />
+      <img src="buy-excitement.png" alt="MyStoryChip digital space preview">
     </section>
 
-    <section class="section" id="what-you-get">
+    <section class="section">
       <h2>Why the website matters</h2>
       <p>
         A blank chip can only point somewhere. MyStoryChip gives that tap a real home.
@@ -517,9 +480,9 @@
       <a class="cta" href="https://buy.stripe.com/00w5kCgXe1Fwcu05dkdby02">Get Your Chip</a>
 
       <div class="contact">
-        <p><strong>Questions?</strong></p>
-        <p>Text: <strong>931-387-6060</strong></p>
-        <p>Email: <strong>MyStoryChip@GMail.com</strong></p>
+        <p><strong>Questions or need help?</strong></p>
+        <p>Text us anytime: <strong><a href="sms:9313876060">931-387-6060</a></strong></p>
+        <p>Email: <strong><a href="mailto:MyStoryChip@gmail.com">MyStoryChip@gmail.com</a></strong></p>
       </div>
     </section>
 
