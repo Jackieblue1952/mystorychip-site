@@ -4,32 +4,36 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MyStoryChip Setup</title>
-<style>
+
+  <style>
     * {
       box-sizing: border-box;
     }
 
-   html, body {
-  margin: 0;
-  padding: 0;
-  min-height: 100%;
-  height: auto;
-  overflow-y: auto;
-  font-family: Georgia, "Times New Roman", serif;
-  background: #050505;
-  color: #f5e6c8;
-} 
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      height: auto;
+      overflow-y: auto;
+      font-family: Georgia, "Times New Roman", serif;
+      background: #050505;
+      color: #f5e6c8;
+    }
 
-body {
-  background:
-    radial-gradient(circle at top, rgba(255,215,120,0.25), transparent 35%),
-    radial-gradient(circle at bottom, rgba(255,200,100,0.18), transparent 40%),
-    linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.70)),
-    url("final-storybook.png") center center / cover no-repeat fixed;
-  
-  padding: 32px 18px 60px;
-  overflow-y: auto;
-}  
+    body {
+      background:
+        radial-gradient(circle at top, rgba(255, 225, 145, 0.30), transparent 34%),
+        radial-gradient(circle at bottom, rgba(255, 210, 120, 0.16), transparent 42%),
+        linear-gradient(rgba(0,0,0,0.40), rgba(0,0,0,0.78)),
+        url("final-storybook.png") center center / cover no-repeat fixed;
+      padding: 32px 18px 60px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
     .wrap {
       width: 100%;
@@ -37,43 +41,44 @@ body {
       margin: 0 auto;
     }
 
-   .hero-card,
-.card {
-  background: rgba(18, 16, 12, 0.42);
-  border: 1px solid rgba(245, 217, 122, 0.38);
-  border-radius: 26px;
-  box-shadow:
-    0 0 22px rgba(245, 217, 122, 0.18),
-    0 0 34px rgba(0, 0, 0, 0.28);
-  backdrop-filter: blur(5px);
-} 
+    .hero-card,
+    .card {
+      background: rgba(18, 16, 12, 0.56);
+      border: 1px solid rgba(245, 217, 122, 0.38);
+      border-radius: 26px;
+      box-shadow:
+        0 0 22px rgba(245, 217, 122, 0.16),
+        0 0 34px rgba(0, 0, 0, 0.34);
+      backdrop-filter: blur(6px);
+    }
+
     .hero-card {
-      padding: 28px 24px;
+      padding: 30px 24px;
       margin-bottom: 22px;
       text-align: center;
     }
 
     .brand {
-  display: inline-block;
-  margin-bottom: 12px;
-  padding: 8px 16px;
-  border: 1px solid rgba(245, 217, 122, 0.55);
-  border-radius: 999px;
-  color: #fff2b8;
-  background: rgba(245, 217, 122, 0.12);
-  font-size: 13px;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-}
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 8px 16px;
+      border: 1px solid rgba(245, 217, 122, 0.55);
+      border-radius: 999px;
+      color: #fff2b8;
+      background: rgba(245, 217, 122, 0.12);
+      font-size: 13px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
 
     h1 {
       margin: 0 0 10px;
-      font-size: clamp(2rem, 4vw, 3.4rem);
+      font-size: clamp(2rem, 4vw, 3.45rem);
       line-height: 1.05;
       color: #f5d984;
       text-shadow:
-        0 0 10px rgba(212,175,55,0.22),
-        0 0 30px rgba(0,0,0,0.75);
+        0 0 12px rgba(212,175,55,0.25),
+        0 0 32px rgba(0,0,0,0.75);
     }
 
     p {
@@ -81,10 +86,10 @@ body {
     }
 
     #pageLead {
-      max-width: 720px;
+      max-width: 760px;
       margin: 0 auto;
-      font-size: 1.05rem;
-      line-height: 1.6;
+      font-size: 1.08rem;
+      line-height: 1.62;
       color: #ead8ad;
     }
 
@@ -93,14 +98,14 @@ body {
       justify-content: center;
       gap: 10px;
       flex-wrap: wrap;
-      margin-top: 20px;
+      margin-top: 22px;
     }
 
     .progress-pill {
       padding: 10px 14px;
       border-radius: 999px;
-      background: rgba(20,12,4,0.52);
-      border: 1px solid rgba(212,175,55,0.22);
+      background: rgba(20,12,4,0.56);
+      border: 1px solid rgba(212,175,55,0.26);
       color: #f2dfb0;
       font-size: 0.95rem;
     }
@@ -109,6 +114,13 @@ body {
       margin-top: 14px;
       color: #f5d97a;
       min-height: 20px;
+    }
+
+    .debug-chip {
+      margin-top: 12px;
+      font-size: 0.92rem;
+      color: #cdbb8f;
+      word-break: break-word;
     }
 
     form {
@@ -128,9 +140,16 @@ body {
     }
 
     .card h2 {
-      margin: 0 0 18px;
+      margin: 0 0 10px;
       color: #f5d97a;
       font-size: 1.5rem;
+    }
+
+    .card-intro {
+      color: #d8c79c;
+      line-height: 1.6;
+      margin-bottom: 18px;
+      font-size: 0.98rem;
     }
 
     label {
@@ -143,13 +162,12 @@ body {
     input[type="text"],
     input[type="email"],
     input[type="tel"],
-    textarea,
-    select {
+    textarea {
       width: 100%;
       padding: 14px 14px;
       border-radius: 14px;
-      border: 1px solid rgba(212,175,55,0.28);
-      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(212,175,55,0.30);
+      background: rgba(255,255,255,0.06);
       color: #f5e6c8;
       font-size: 1rem;
       outline: none;
@@ -161,10 +179,9 @@ body {
     }
 
     input:focus,
-    textarea:focus,
-    select:focus {
-      border-color: rgba(245,217,122,0.8);
-      box-shadow: 0 0 0 3px rgba(212,175,55,0.12);
+    textarea:focus {
+      border-color: rgba(245,217,122,0.82);
+      box-shadow: 0 0 0 3px rgba(212,175,55,0.13);
     }
 
     textarea {
@@ -172,14 +189,23 @@ body {
       resize: vertical;
     }
 
-    .hidden {
-      display: none;
-    }
-
     .helper,
     .small-note {
       color: #d8c79c;
       line-height: 1.6;
+    }
+
+    .pin-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .pin-note {
+      margin-top: 10px;
+      color: #d8c79c;
+      font-size: 0.92rem;
+      line-height: 1.5;
     }
 
     .upload input[type="file"] {
@@ -271,6 +297,7 @@ body {
       gap: 12px;
       margin-top: 10px;
       line-height: 1.5;
+      color: #f2dfb0;
     }
 
     .agree-row input {
@@ -290,7 +317,7 @@ body {
       display: inline-block;
       padding: 14px 22px;
       border-radius: 999px;
-      border: 1px solid rgba(212,175,55,0.38);
+      border: 1px solid rgba(212,175,55,0.42);
       cursor: pointer;
       font-size: 1rem;
       font-weight: bold;
@@ -302,8 +329,8 @@ body {
       background: linear-gradient(180deg, #f3d77b, #d4af37);
       color: #1a1206;
       box-shadow:
-        0 0 18px rgba(212,175,55,0.24),
-        0 0 34px rgba(212,175,55,0.10);
+        0 0 18px rgba(212,175,55,0.26),
+        0 0 34px rgba(212,175,55,0.12);
     }
 
     button:hover,
@@ -312,15 +339,8 @@ body {
     }
 
     .link-btn.secondary {
-      background: rgba(20,12,4,0.50);
+      background: rgba(20,12,4,0.58);
       color: #f3deae;
-    }
-
-    .debug-chip {
-      margin-top: 12px;
-      font-size: 0.92rem;
-      color: #cdbb8f;
-      word-break: break-word;
     }
 
     .lightbox {
@@ -399,6 +419,10 @@ body {
         border-radius: 20px;
       }
 
+      .pin-row {
+        grid-template-columns: 1fr;
+      }
+
       .actions {
         flex-direction: column;
       }
@@ -421,20 +445,21 @@ body {
     }
   </style>
 </head>
-<body>
 
+<body>
   <div class="wrap">
 
     <div class="hero-card">
       <div class="brand">MyStoryChip Setup</div>
       <h1 id="pageTitle">Set Up Your Chip</h1>
       <p id="pageLead">
-        Add the details, story, and uploads that bring your MyStoryChip to life.
+        Tell us what this chip is attached to and what people should see when they tap it.
+        Each chip can become its own useful digital space.
       </p>
 
       <div class="progress">
-        <div class="progress-pill">Step 1: Basic Info</div>
-        <div class="progress-pill">Step 2: Add Story</div>
+        <div class="progress-pill">Step 1: What is this chip for?</div>
+        <div class="progress-pill">Step 2: What should people see?</div>
         <div class="progress-pill">Step 3: Upload & Save</div>
       </div>
 
@@ -446,53 +471,64 @@ body {
       <div class="grid-two" id="detailsSection">
 
         <div class="card">
-          <h2>Basic Info</h2>
+          <h2>Step 1: Chip Details</h2>
+          <p class="card-intro">
+            This helps define the purpose of this chip. It can be used for a person, pet,
+            vehicle, keepsake, collection, business item, property, or anything meaningful.
+          </p>
 
-          <label for="name">Full Name</label>
-          <input type="text" id="name" required>
+          <label for="chipPurpose">What is this chip attached to?</label>
+          <input type="text" id="chipPurpose" placeholder="Example: Dad's guitar, classic car, pet tag, family keepsake" required>
+
+          <label for="title">Chip Title</label>
+          <input type="text" id="title" placeholder="Example: Dad's Story, 1968 Mustang, Bella's Info" required>
+
+          <label for="name">Your Name</label>
+          <input type="text" id="name" placeholder="Your name" required>
 
           <label for="email">Email</label>
-          <input type="email" id="email">
+          <input type="email" id="email" placeholder="Optional">
 
           <label for="phone">Phone Number</label>
           <input type="tel" id="phone" placeholder="Enter phone number" required>
-
-          <label for="pin">4-Digit PIN</label>
-          <input type="text" id="pin" placeholder="4-digit PIN" maxlength="4" inputmode="numeric" required>
-
-          <label for="title">Chip Title</label>
-          <input type="text" id="title" placeholder="Example: Dad's Story" required>
-
-          <label for="category">Category</label>
-          <select id="category">
-            <option value="Family Memories">Family Memories</option>
-            <option value="Memorial">Memorial</option>
-            <option value="Wedding / Graduation">Wedding / Graduation</option>
-            <option value="Auto / Restoration">Auto / Restoration</option>
-            <option value="Collection">Collection</option>
-            <option value="Business">Business</option>
-            <option value="custom">Other (Custom)</option>
-          </select>
-
-          <input type="text" id="customCategory" placeholder="Enter your category" class="hidden">
         </div>
 
         <div class="card">
-          <h2>Your Story</h2>
+          <h2>Step 2: Security & Tap Message</h2>
+          <p class="card-intro">
+            Your PIN protects future editing. The public message is what someone sees when
+            they tap the chip.
+          </p>
+
+          <div class="pin-row">
+            <div>
+              <label for="pin">Create 4-Digit PIN</label>
+              <input type="text" id="pin" placeholder="4 digits" maxlength="4" inputmode="numeric" required>
+            </div>
+
+            <div>
+              <label for="pinConfirm">Confirm PIN</label>
+              <input type="text" id="pinConfirm" placeholder="Re-enter PIN" maxlength="4" inputmode="numeric" required>
+            </div>
+          </div>
+
+          <p class="pin-note">
+            Use numbers only. You will need this PIN later to edit this chip page.
+          </p>
 
           <label for="headline">Headline</label>
-          <input type="text" id="headline" placeholder="Example: A Life Well Lived">
+          <input type="text" id="headline" placeholder="Example: Tap to see the story behind this item">
 
-          <label for="desc">Description</label>
-          <textarea id="desc" placeholder="Write the story, meaning, history, purpose, or information you want connected to this chip."></textarea>
+          <label for="desc">Description / Notes</label>
+          <textarea id="desc" placeholder="Write the story, history, instructions, care notes, ownership information, or details you want connected to this chip."></textarea>
         </div>
 
       </div>
 
       <div class="card">
-        <h2 id="uploadHeading">Uploads</h2>
+        <h2>Step 3: Upload Photos or Documents</h2>
         <p class="helper" id="uploadHelper">
-          Add one or more photos now, or come back later and add more.
+          Add photos or documents now, or come back later and add more. Videos are not supported.
         </p>
 
         <div id="savedPhotosWrap" class="saved-photos-wrap">
@@ -505,19 +541,22 @@ body {
           <input type="file" id="files" multiple accept="image/*,.pdf,.doc,.docx,.txt">
         </div>
 
-        <p id="usage">0 photos selected • 0.00 MB of 250 MB used</p>
+        <p id="usage">0 new photos selected • 0.00 MB of 250 MB used</p>
 
         <div class="meter">
           <div class="fill" id="fill"></div>
         </div>
 
         <div class="small-note">
-          You currently receive 250 MB of included storage with your chip.
+          You currently receive 250 MB of included shared storage with your chip.
         </div>
       </div>
 
       <div class="card">
         <h2>Agreement</h2>
+        <p class="card-intro">
+          Please keep uploaded content clean, safe, and appropriate. Important files should also be backed up separately.
+        </p>
 
         <label class="agree-row" id="agreeRow">
           <input type="checkbox" id="agree" required>
@@ -542,21 +581,23 @@ body {
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script>
-const params = new URLSearchParams(window.location.search);
-const chipCode = params.get("code");
-const STORAGE_KEY = "mscChips";
-const STORAGE_LIMIT_MB = 250;
-const supabaseUrl = "https://ulbmdqwavkphcnjgrchd.supabase.co";  
-const supabaseKey = "sb_publishable_xdy7N3s-1sQLo9vPe70OFQ_VTLS8BjQ";
-const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
-function parseStoredChips() {
-try {
-  return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-  } catch (error) {
-   return [];
-  }
-  }
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const chipCode = params.get("code");
+    const STORAGE_KEY = "mscChips";
+    const STORAGE_LIMIT_MB = 250;
+
+    const supabaseUrl = "https://ulbmdqwavkphcnjgrchd.supabase.co";
+    const supabaseKey = "sb_publishable_xdy7N3s-1sQLo9vPe70OFQ_VTLS8BjQ";
+    const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+    function parseStoredChips() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      } catch (error) {
+        return [];
+      }
+    }
 
     let chips = parseStoredChips();
     let existingChip = chips.find(c => c.code === chipCode);
@@ -569,23 +610,6 @@ try {
       chips.push(existingChip);
     }
 
-    function getMode() {
-      const localParams = new URLSearchParams(window.location.search);
-      return localParams.get("mode") || "full";
-    }
-
-    function toggleCustomCategory() {
-      const category = document.getElementById("category");
-      const customCategory = document.getElementById("customCategory");
-
-      if (category.value === "custom") {
-        customCategory.classList.remove("hidden");
-      } else {
-        customCategory.classList.add("hidden");
-        customCategory.value = "";
-      }
-    }
-
     function uniqueImages(images) {
       return [...new Set((images || []).filter(Boolean))];
     }
@@ -594,11 +618,13 @@ try {
 
     function getStorageMBFromImages(images) {
       let totalBytes = 0;
+
       images.forEach(src => {
         if (typeof src === "string") {
           totalBytes += src.length;
         }
       });
+
       return totalBytes / (1024 * 1024);
     }
 
@@ -616,6 +642,7 @@ try {
     function openLightbox(src) {
       const lightbox = document.getElementById("lightbox");
       const lightboxImg = document.getElementById("lightboxImg");
+
       lightboxImg.src = src;
       lightbox.classList.add("active");
     }
@@ -623,6 +650,7 @@ try {
     function closeLightbox() {
       const lightbox = document.getElementById("lightbox");
       const lightboxImg = document.getElementById("lightboxImg");
+
       lightbox.classList.remove("active");
       lightboxImg.src = "";
     }
@@ -633,7 +661,6 @@ try {
       const empty = document.getElementById("emptyPhotos");
 
       grid.innerHTML = "";
-
       wrap.style.display = "block";
 
       if (workingImages.length === 0) {
@@ -658,9 +685,11 @@ try {
         removeBtn.className = "photo-remove";
         removeBtn.setAttribute("aria-label", "Remove photo");
         removeBtn.textContent = "×";
+
         removeBtn.addEventListener("click", (e) => {
           e.preventDefault();
           e.stopPropagation();
+
           workingImages.splice(index, 1);
           renderSavedPhotos();
           updateUsage(0);
@@ -672,72 +701,80 @@ try {
       });
     }
 
-  function readFilesAsDataUrls(files) {
-  const MAX_WIDTH = 1000;
-  const QUALITY = 0.60;
+    function readFilesAsDataUrls(files) {
+      const MAX_WIDTH = 1000;
+      const QUALITY = 0.60;
 
-  const imageFiles = Array.from(files).filter(file => file.type.startsWith("image/"));
+      const imageFiles = Array.from(files).filter(file => file.type.startsWith("image/"));
 
-  return Promise.all(imageFiles.map(file => {
-    return new Promise(resolve => {
-      const reader = new FileReader();
+      return Promise.all(imageFiles.map(file => {
+        return new Promise(resolve => {
+          const reader = new FileReader();
 
-      reader.onload = (event) => {
-        const img = new Image();
+          reader.onload = (event) => {
+            const img = new Image();
 
-        img.onload = () => {
-          let width = img.width;
-          let height = img.height;
+            img.onload = () => {
+              let width = img.width;
+              let height = img.height;
 
-          if (width > MAX_WIDTH) {
-            height = Math.round(height * (MAX_WIDTH / width));
-            width = MAX_WIDTH;
-          }
+              if (width > MAX_WIDTH) {
+                height = Math.round(height * (MAX_WIDTH / width));
+                width = MAX_WIDTH;
+              }
 
-          const canvas = document.createElement("canvas");
-          const ctx = canvas.getContext("2d");
+              const canvas = document.createElement("canvas");
+              const ctx = canvas.getContext("2d");
 
-          if (!ctx) {
-            resolve(null);
-            return;
-          }
+              if (!ctx) {
+                resolve(null);
+                return;
+              }
 
-          canvas.width = width;
-          canvas.height = height;
-          ctx.drawImage(img, 0, 0, width, height);
+              canvas.width = width;
+              canvas.height = height;
+              ctx.drawImage(img, 0, 0, width, height);
 
-          resolve(canvas.toDataURL("image/jpeg", QUALITY));
-        };
+              resolve(canvas.toDataURL("image/jpeg", QUALITY));
+            };
 
-        img.onerror = () => resolve(null);
-        img.src = event.target.result;
-      };
+            img.onerror = () => resolve(null);
+            img.src = event.target.result;
+          };
 
-      reader.onerror = () => resolve(null);
-      reader.readAsDataURL(file);
-    });
-  }));
-} 
+          reader.onerror = () => resolve(null);
+          reader.readAsDataURL(file);
+        });
+      }));
+    }
 
-    function applyModeUI(mode) {
-      const modeNote = document.getElementById("modeNote");
-      const uploadHeading = document.getElementById("uploadHeading");
-      const uploadHelper = document.getElementById("uploadHelper");
+    function applyExistingChipData() {
+      if (!existingChip) return;
 
-      if (mode === "photos") {
-        modeNote.textContent = "Editing your current chip information and uploads.";
-        uploadHeading.textContent = "Add More Photos";
-        uploadHelper.textContent = "Add more photos to this chip and save again.";
-      } else {
-        modeNote.textContent = "";
+      if (existingChip.chipPurpose) document.getElementById("chipPurpose").value = existingChip.chipPurpose;
+      if (existingChip.category && !existingChip.chipPurpose) document.getElementById("chipPurpose").value = existingChip.category;
+
+      if (existingChip.name) document.getElementById("name").value = existingChip.name;
+      if (existingChip.email) document.getElementById("email").value = existingChip.email;
+      if (existingChip.phone) document.getElementById("phone").value = existingChip.phone;
+
+      if (existingChip.pin) {
+        document.getElementById("pin").value = existingChip.pin;
+        document.getElementById("pinConfirm").value = existingChip.pin;
+      }
+
+      if (existingChip.title) document.getElementById("title").value = existingChip.title;
+      if (existingChip.headline) document.getElementById("headline").value = existingChip.headline;
+
+      if (existingChip.desc) document.getElementById("desc").value = existingChip.desc;
+      if (existingChip.description && !existingChip.desc) {
+        document.getElementById("desc").value = existingChip.description;
       }
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      const mode = getMode();
       const filesInput = document.getElementById("files");
       const form = document.getElementById("form");
-      const category = document.getElementById("category");
       const debugChip = document.getElementById("debugChip");
       const viewerLink = document.getElementById("viewerLink");
       const lightbox = document.getElementById("lightbox");
@@ -757,48 +794,24 @@ try {
         alert("Missing chip code in URL.");
       }
 
-      if (existingChip) {
-        if (existingChip.name) document.getElementById("name").value = existingChip.name;
-        if (existingChip.email) document.getElementById("email").value = existingChip.email;
-        if (existingChip.phone) document.getElementById("phone").value = existingChip.phone;
-        if (existingChip.pin) document.getElementById("pin").value = existingChip.pin;
-        if (existingChip.title) document.getElementById("title").value = existingChip.title;
-        if (existingChip.category) {
-          const categorySelect = document.getElementById("category");
-          const optionValues = Array.from(categorySelect.options).map(option => option.value);
-
-          if (optionValues.includes(existingChip.category)) {
-            categorySelect.value = existingChip.category;
-          } else {
-            categorySelect.value = "custom";
-            document.getElementById("customCategory").value = existingChip.category;
-          }
-        }
-        if (existingChip.headline) document.getElementById("headline").value = existingChip.headline;
-        if (existingChip.desc) document.getElementById("desc").value = existingChip.desc;
-        if (existingChip.description && !existingChip.desc) {
-          document.getElementById("desc").value = existingChip.description;
-        }
-      }
-
-      applyModeUI(mode);
-      toggleCustomCategory();
+      applyExistingChipData();
       renderSavedPhotos();
       updateUsage(0);
-
-      category.addEventListener("change", toggleCustomCategory);
 
       filesInput.addEventListener("change", async () => {
         const selectedCount = filesInput.files ? filesInput.files.length : 0;
         const loadedImages = await readFilesAsDataUrls(filesInput.files);
         const newImages = uniqueImages(loadedImages);
+
         workingImages = uniqueImages([...workingImages, ...newImages]);
+
         renderSavedPhotos();
         updateUsage(selectedCount);
+
         filesInput.value = "";
       });
 
-     form.addEventListener("submit", async (e) => {
+      form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         if (!chipCode) {
@@ -806,19 +819,29 @@ try {
           return;
         }
 
-        const agree = document.getElementById("agree").checked;
+        const chipPurpose = document.getElementById("chipPurpose").value.trim();
+        const title = document.getElementById("title").value.trim();
         const fullName = document.getElementById("name").value.trim();
         const email = document.getElementById("email").value.trim();
         const phone = document.getElementById("phone").value.trim();
         const pin = document.getElementById("pin").value.trim();
-        const title = document.getElementById("title").value.trim();
+        const pinConfirm = document.getElementById("pinConfirm").value.trim();
         const headline = document.getElementById("headline").value.trim();
         const desc = document.getElementById("desc").value;
-        const selectedCategory = document.getElementById("category").value;
-        const customCategory = document.getElementById("customCategory").value.trim();
+        const agree = document.getElementById("agree").checked;
+
+        if (!chipPurpose) {
+          alert("Please enter what this chip is attached to.");
+          return;
+        }
+
+        if (!title) {
+          alert("Chip Title is required.");
+          return;
+        }
 
         if (!fullName) {
-          alert("Full Name is required.");
+          alert("Your Name is required.");
           return;
         }
 
@@ -828,12 +851,12 @@ try {
         }
 
         if (!/^[0-9]{4}$/.test(pin)) {
-          alert("PIN must be exactly 4 digits.");
+          alert("PIN must be exactly 4 numbers.");
           return;
         }
 
-        if (!title) {
-          alert("Chip Title is required.");
+        if (pin !== pinConfirm) {
+          alert("PIN numbers do not match.");
           return;
         }
 
@@ -842,54 +865,52 @@ try {
           return;
         }
 
-             existingChip.name = fullName;
+        existingChip.code = chipCode;
+        existingChip.chipPurpose = chipPurpose;
+        existingChip.category = chipPurpose;
+
+        existingChip.name = fullName;
         existingChip.fullName = fullName;
         existingChip.email = email;
         existingChip.phone = phone;
         existingChip.pin = pin;
+
         existingChip.title = title;
         existingChip.headline = headline;
         existingChip.desc = desc;
         existingChip.description = desc.trim();
-        existingChip.category =
-          selectedCategory === "custom" && customCategory
-            ? customCategory
-            : selectedCategory;
+
         existingChip.images = uniqueImages(workingImages);
         existingChip.updatedAt = new Date().toISOString();
         existingChip.status = "setup_complete";
 
- localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
 
-try {
-  const { error } = await supabaseClient
-    .from("Chips")
-    .upsert({
-      chip_code: chipCode,
-      name: fullName,
-      title: title,
-      headline: headline,
-      description: desc.trim()
-    }, {
-      onConflict: "chip_code"
-    });
+        try {
+          const { error } = await supabaseClient
+            .from("Chips")
+            .upsert({
+              chip_code: chipCode,
+              name: fullName,
+              title: title,
+              headline: headline,
+              description: desc.trim()
+            }, {
+              onConflict: "chip_code"
+            });
 
-  if (error) {
-    console.error("Supabase error:", error);
-    alert("Saved locally, but cloud failed.");
-    return;
-  }
+          if (error) {
+            console.warn("Saved locally, but cloud failed:", error);
+          }
+        } catch (err) {
+          console.warn("Saved locally, but cloud failed:", err);
+        }
 
-  window.location.href = `success.html?code=${encodeURIComponent(chipCode)}`;
-
-} catch (err) {
-  console.error("Unexpected error:", err);
- alert("Saved locally, but cloud failed.");
-}
-
-});       
+        window.location.href = `success.html?code=${encodeURIComponent(chipCode)}`;
+      });
 
       lightboxClose.addEventListener("click", closeLightbox);
+
       lightbox.addEventListener("click", (e) => {
         if (e.target === lightbox) {
           closeLightbox();
