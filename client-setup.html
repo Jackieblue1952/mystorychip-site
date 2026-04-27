@@ -12,6 +12,7 @@
 
     html, body {
       margin: 0;
+      position: relative;
       padding: 0;
       min-height: 100%;
       height: auto;
@@ -20,6 +21,23 @@
       background: #050505;
       color: #f5e6c8;
     }
+    body::before {
+  content: "";
+  position: fixed;
+  top: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(circle, rgba(255, 232, 150, 0.42), transparent 68%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wrap {
+  position: relative;
+  z-index: 2;
+}
 
     body {
       background:
@@ -41,23 +59,25 @@
       margin: 0 auto;
     }
 
-    .hero-card,
-    .card {
-    background: rgba(255, 244, 210, 0.08);  
-    border: 1px solid rgba(245, 217, 122, 0.55);  
-      border-radius: 26px;
-    box-shadow:
-  0 0 25px rgba(255, 220, 140, 0.18),
-  0 0 50px rgba(0,0,0,0.25),
-  inset 0 0 20px rgba(255, 230, 160, 0.06);  
-      backdrop-filter: blur(6px);
-    }
+.hero-card {
+  padding: 36px 26px;
+  margin-bottom: 26px;
+  text-align: center;
 
-    .hero-card {
-      padding: 30px 24px;
-      margin-bottom: 22px;
-      text-align: center;
-    }
+  background:
+    radial-gradient(circle at top center, rgba(255, 250, 210, 0.55), transparent 60%),
+    linear-gradient(135deg, rgba(255, 240, 190, 0.35), rgba(120, 80, 20, 0.25));
+
+  border: 1px solid rgba(255, 230, 150, 0.7);
+  border-radius: 30px;
+
+  box-shadow:
+    0 0 35px rgba(255, 220, 120, 0.28),
+    0 0 70px rgba(255, 200, 80, 0.12),
+    inset 0 0 30px rgba(255, 240, 190, 0.10);
+
+  backdrop-filter: blur(8px);
+}   
 
     .brand {
       display: inline-block;
@@ -135,10 +155,20 @@
       margin-bottom: 22px;
     }
 
-    .card {
-      padding: 24px;
-      margin-bottom: 22px;
-    }
+   .card {
+  padding: 26px;
+  margin-bottom: 24px;
+
+  background:
+    linear-gradient(145deg, rgba(255, 238, 176, 0.14), rgba(60, 38, 12, 0.28));
+
+  border: 1px solid rgba(245, 217, 122, 0.45);
+  border-radius: 26px;
+
+  box-shadow:
+    0 12px 30px rgba(0,0,0,0.35),
+    inset 0 0 18px rgba(255, 230, 160, 0.05);
+}
 
     .card h2 {
       margin: 0 0 10px;
