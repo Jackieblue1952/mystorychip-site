@@ -191,35 +191,38 @@ background:
       font-weight: bold;
     }
 
-    input[type="text"],
-    input[type="email"],
-    input[type="tel"],
-    textarea {
-      width: 100%;
-      padding: 14px 14px;
-      border-radius: 14px;
-      border: 1px solid rgba(212,175,55,0.30);
-   background: rgba(255, 248, 220, 0.38); 
-    color: #3a2a12;
-      font-size: 1rem;
-      outline: none;
-    }
+  input,
+textarea,
+select {
+  width: 100%;
+  padding: 14px 14px;
+  border-radius: 14px;
 
-    input::placeholder,
-    textarea::placeholder {
-      color: #c9b98c;
-    }
+  border: 1px solid rgba(212,175,55,0.45);
 
-    input:focus,
-    textarea:focus {
-      border-color: rgba(245,217,122,0.82);
-      box-shadow: 0 0 0 3px rgba(212,175,55,0.13);
-    }
+  background: rgba(255, 248, 220, 0.42);
 
-    textarea {
-      min-height: 190px;
-      resize: vertical;
-    }
+  color: #3a2a12;
+  font-size: 1rem;
+
+  outline: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #8a6a2f;
+}
+
+input:focus,
+textarea:focus {
+  border-color: rgba(255, 215, 120, 0.9);
+  box-shadow: 0 0 0 3px rgba(212,175,55,0.18);
+}
+
+textarea {
+  min-height: 190px;
+  resize: vertical;
+} 
 
     .helper,
     .small-note {
