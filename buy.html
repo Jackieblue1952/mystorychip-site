@@ -10,18 +10,17 @@
       box-sizing: border-box;
     }
 
-   body {
-  margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
-  color: #fff3d7;
-
- background:
-  radial-gradient(circle at top center, rgba(255, 214, 126, 0.30), transparent 40%),
-  radial-gradient(circle at 20% 20%, rgba(255, 247, 216, 0.14), transparent 30%),
-  linear-gradient(180deg, #120d07 0%, #1e150a 45%, #2a1c0d 100%); 
-
-  min-height: 100vh;
-}
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      color: #fff3d7;
+      background:
+        radial-gradient(circle at top center, rgba(255, 236, 172, 0.46), transparent 40%),
+        radial-gradient(circle at 18% 14%, rgba(255, 250, 225, 0.26), transparent 32%),
+        radial-gradient(circle at 82% 8%, rgba(255, 204, 90, 0.18), transparent 28%),
+        linear-gradient(180deg, #fff2c8 0%, #e7c46a 18%, #92661d 42%, #2a1a08 72%, #0b0602 100%);
+      min-height: 100vh;
+    }
 
     a {
       color: inherit;
@@ -46,15 +45,18 @@
       letter-spacing: 0.08em;
       color: #7a5416;
       font-weight: bold;
+      text-shadow: 0 0 18px rgba(255, 226, 145, 0.55);
     }
 
     .home-btn {
       border: 1px solid rgba(150, 105, 28, 0.35);
       padding: 10px 18px;
       border-radius: 999px;
-      color: #6d4813;
-      background: rgba(255, 250, 235, 0.78);
-      box-shadow: 0 8px 22px rgba(120, 76, 16, 0.10);
+      color: #5c3a0c;
+      background: linear-gradient(135deg, #fff8df, #e7c86f);
+      box-shadow:
+        0 0 20px rgba(255, 220, 128, 0.36),
+        0 8px 22px rgba(50, 30, 8, 0.22);
       font-weight: bold;
     }
 
@@ -68,12 +70,13 @@
       padding: 34px;
       border-radius: 34px;
       background:
-        radial-gradient(circle at top left, rgba(255, 244, 200, 0.9), transparent 55%),
-        rgba(255, 250, 235, 0.72);
-      border: 1px solid rgba(150, 105, 28, 0.24);
+        radial-gradient(circle at top left, rgba(255, 247, 210, 0.95), transparent 56%),
+        linear-gradient(135deg, rgba(255, 251, 235, 0.94), rgba(232, 214, 162, 0.84));
+      border: 1px solid rgba(150, 105, 28, 0.28);
       box-shadow:
-        0 24px 54px rgba(120, 76, 16, 0.14),
-        inset 0 0 38px rgba(255, 255, 255, 0.35);
+        0 28px 70px rgba(42, 25, 7, 0.34),
+        0 0 46px rgba(255, 220, 125, 0.22),
+        inset 0 0 42px rgba(255, 255, 255, 0.38);
     }
 
     .eyebrow {
@@ -90,13 +93,13 @@
       line-height: 0.94;
       margin: 0 0 18px;
       color: #7a5416;
-      text-shadow: 0 0 22px rgba(255, 210, 110, 0.45);
+      text-shadow: 0 0 24px rgba(255, 210, 110, 0.5);
     }
 
     .hero p {
       font-size: 1.13rem;
       line-height: 1.62;
-      color: #4a3215;
+      color: #3e2a12;
       max-width: 620px;
       margin-bottom: 22px;
     }
@@ -108,7 +111,7 @@
     }
 
     .price span {
-      color: #9b6a18;
+      color: #a46f16;
       font-weight: bold;
     }
 
@@ -133,15 +136,25 @@
 
     .cta {
       display: inline-block;
-      padding: 16px 30px;
+      padding: 16px 32px;
       border-radius: 999px;
-      background: linear-gradient(135deg, #fff2b6, #d4a437);
+      background: linear-gradient(135deg, #fff7bf 0%, #f0c756 42%, #c28a1e 100%);
       color: #1b1005;
       font-weight: bold;
       font-size: 1.05rem;
+      border: 1px solid rgba(255, 242, 180, 0.75);
       box-shadow:
-        0 0 28px rgba(255, 206, 87, 0.45),
-        0 12px 28px rgba(120, 76, 16, 0.24);
+        0 0 32px rgba(255, 213, 86, 0.7),
+        0 0 8px rgba(255, 245, 190, 0.85) inset,
+        0 14px 32px rgba(54, 30, 6, 0.38);
+    }
+
+    .cta:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 0 42px rgba(255, 219, 105, 0.9),
+        0 0 10px rgba(255, 250, 210, 0.9) inset,
+        0 16px 36px rgba(54, 30, 6, 0.42);
     }
 
     .ghost {
@@ -161,9 +174,11 @@
     .hero-card {
       border-radius: 24px;
       padding: 26px;
-      background: rgba(255, 250, 235, 0.84);
-      border: 1px solid rgba(150, 105, 28, 0.22);
-      box-shadow: inset 0 0 28px rgba(255, 230, 170, 0.18);
+      background: linear-gradient(145deg, rgba(255, 252, 239, 0.94), rgba(238, 222, 178, 0.88));
+      border: 1px solid rgba(150, 105, 28, 0.24);
+      box-shadow:
+        inset 0 0 30px rgba(255, 236, 185, 0.26),
+        0 16px 32px rgba(59, 35, 8, 0.16);
     }
 
     .hero-card h2 {
@@ -181,7 +196,7 @@
     .hero-card li {
       padding: 12px 0;
       border-bottom: 1px solid rgba(150, 105, 28, 0.14);
-      color: #4a3215;
+      color: #3e2a12;
       line-height: 1.45;
     }
 
@@ -198,9 +213,11 @@
       max-width: 980px;
       border-radius: 32px;
       overflow: hidden;
-      border: 1px solid rgba(150, 105, 28, 0.22);
-      box-shadow: 0 20px 48px rgba(120, 76, 16, 0.16);
-      background: rgba(255, 250, 235, 0.5);
+      border: 1px solid rgba(255, 222, 140, 0.26);
+      box-shadow:
+        0 22px 56px rgba(22, 12, 3, 0.46),
+        0 0 34px rgba(255, 201, 83, 0.18);
+      background: rgba(255, 250, 235, 0.58);
     }
 
     .excitement img {
@@ -208,56 +225,64 @@
       max-height: 380px;
       object-fit: contain;
       display: block;
-      background: rgba(255, 246, 216, 0.6);
+      background: rgba(255, 246, 216, 0.66);
     }
 
     .section {
-      margin: 54px 0;
+      margin: 58px 0;
       text-align: center;
+      padding: 10px 0;
     }
 
     .section h2 {
       font-size: clamp(2rem, 4vw, 3.25rem);
       margin: 0 0 16px;
-     color: #f3c46f;
-      text-shadow: 0 0 18px rgba(255, 210, 110, 0.35);
+      color: #ffd98a;
+      text-shadow:
+        0 0 20px rgba(255, 210, 110, 0.5),
+        0 3px 12px rgba(0, 0, 0, 0.65);
     }
 
     .section p {
       max-width: 820px;
       margin: 0 auto 28px;
-      color: #4a3215;
+      color: #fff0c4;
       font-size: 1.1rem;
       line-height: 1.68;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.62);
     }
 
     .soft-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-      margin-top: 28px;
+      gap: 22px;
+      margin-top: 32px;
     }
 
     .soft-card {
-      padding: 24px;
+      padding: 26px;
       border-radius: 24px;
       text-align: left;
-      background: rgba(255, 250, 235, 0.74);
-      border: 1px solid rgba(150, 105, 28, 0.22);
-      box-shadow: 0 12px 28px rgba(120, 76, 16, 0.08);
+      background: linear-gradient(145deg, rgba(255, 252, 239, 0.94), rgba(232, 217, 178, 0.9));
+      border: 1px solid rgba(255, 230, 160, 0.32);
+      box-shadow:
+        0 18px 38px rgba(18, 9, 2, 0.34),
+        inset 0 0 24px rgba(255, 244, 208, 0.22);
     }
 
     .soft-card h3 {
       margin: 0 0 10px;
-      color: #9b6a18;
+      color: #a46f16;
       font-size: 1.22rem;
+      text-shadow: none;
     }
 
     .soft-card p {
       margin: 0;
       font-size: 1rem;
-      color: #4a3215;
+      color: #33220f;
       line-height: 1.55;
+      text-shadow: none;
     }
 
     .uses {
@@ -271,34 +296,41 @@
     .use-pill {
       padding: 11px 18px;
       border-radius: 999px;
-      background: rgba(255, 250, 235, 0.74);
-      border: 1px solid rgba(150, 105, 28, 0.22);
-      color: #6d4813;
+      background: linear-gradient(135deg, rgba(255, 252, 238, 0.95), rgba(232, 207, 139, 0.86));
+      border: 1px solid rgba(255, 232, 160, 0.38);
+      color: #5f3d0d;
       font-weight: bold;
+      box-shadow:
+        0 10px 22px rgba(16, 8, 2, 0.24),
+        inset 0 0 14px rgba(255, 249, 220, 0.32);
     }
 
     .final-cta {
       margin-top: 64px;
-      padding: 44px 28px;
+      padding: 46px 28px;
       text-align: center;
       border-radius: 34px;
       background:
-        radial-gradient(circle at top, rgba(255, 230, 150, 0.45), transparent 52%),
-        rgba(255, 250, 235, 0.78);
-      border: 1px solid rgba(150, 105, 28, 0.26);
-      box-shadow: 0 18px 42px rgba(120, 76, 16, 0.12);
+        radial-gradient(circle at top, rgba(255, 232, 153, 0.55), transparent 56%),
+        linear-gradient(145deg, rgba(255, 252, 238, 0.92), rgba(225, 201, 135, 0.86));
+      border: 1px solid rgba(255, 230, 160, 0.38);
+      box-shadow:
+        0 24px 58px rgba(18, 9, 2, 0.42),
+        0 0 40px rgba(255, 202, 74, 0.18),
+        inset 0 0 36px rgba(255, 255, 255, 0.28);
     }
 
     .final-cta h2 {
       font-size: clamp(2rem, 4vw, 3.4rem);
       margin: 0 0 14px;
       color: #7b5419;
+      text-shadow: 0 0 18px rgba(255, 224, 142, 0.45);
     }
 
     .final-cta p {
       max-width: 740px;
       margin: 0 auto 28px;
-      color: #4a3215;
+      color: #3e2a12;
       font-size: 1.12rem;
       line-height: 1.65;
     }
@@ -306,7 +338,7 @@
     .contact {
       margin-top: 36px;
       text-align: center;
-      color: #4a3215;
+      color: #3e2a12;
       font-size: 0.98rem;
     }
 
@@ -317,8 +349,9 @@
     .footer {
       text-align: center;
       margin-top: 42px;
-      color: #6d4813;
+      color: #fff0c4;
       font-size: 0.86rem;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.7);
     }
 
     @media (max-width: 850px) {
