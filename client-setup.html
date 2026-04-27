@@ -23,7 +23,7 @@
 
     body {
       background:
-        radial-gradient(circle at top, rgba(255, 225, 145, 0.30), transparent 34%),
+        radial-gradient(circle at top, rgba(255, 225, 145, 0.55), transparent 34%),
         radial-gradient(circle at bottom, rgba(255, 210, 120, 0.16), transparent 42%),
         linear-gradient(rgba(0,0,0,0.40), rgba(0,0,0,0.78)),
         url("final-storybook.png") center center / cover no-repeat fixed;
@@ -43,12 +43,13 @@
 
     .hero-card,
     .card {
-      background: rgba(18, 16, 12, 0.56);
-      border: 1px solid rgba(245, 217, 122, 0.38);
+    background: rgba(255, 244, 210, 0.08);  
+    border: 1px solid rgba(245, 217, 122, 0.55);  
       border-radius: 26px;
-      box-shadow:
-        0 0 22px rgba(245, 217, 122, 0.16),
-        0 0 34px rgba(0, 0, 0, 0.34);
+    box-shadow:
+  0 0 25px rgba(255, 220, 140, 0.18),
+  0 0 50px rgba(0,0,0,0.25),
+  inset 0 0 20px rgba(255, 230, 160, 0.06);  
       backdrop-filter: blur(6px);
     }
 
@@ -65,7 +66,7 @@
       border: 1px solid rgba(245, 217, 122, 0.55);
       border-radius: 999px;
       color: #fff2b8;
-      background: rgba(245, 217, 122, 0.12);
+    background: rgba(255, 244, 210, 0.08);
       font-size: 13px;
       letter-spacing: 1.2px;
       text-transform: uppercase;
@@ -167,8 +168,8 @@
       padding: 14px 14px;
       border-radius: 14px;
       border: 1px solid rgba(212,175,55,0.30);
-      background: rgba(255,255,255,0.06);
-      color: #f5e6c8;
+    background: rgba(255, 248, 220, 0.12); 
+    color: #3a2a12;
       font-size: 1rem;
       outline: none;
     }
@@ -451,11 +452,11 @@
 
     <div class="hero-card">
       <div class="brand">MyStoryChip Setup</div>
-      <h1 id="pageTitle">Set Up Your Chip</h1>
-      <p id="pageLead">
-        Tell us what this chip is attached to and what people should see when they tap it.
-        Each chip can become its own useful digital space.
-      </p>
+     <h1 id="pageTitle">Activate Your MyStoryChip</h1>
+ <p id="pageLead">
+  This is where your chip becomes more than a chip. Tell us what it is attached to,
+  what story or information it should open, and what people should see when they tap it.
+</p>     
 
       <div class="progress">
         <div class="progress-pill">Step 1: What is this chip for?</div>
