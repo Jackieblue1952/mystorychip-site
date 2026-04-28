@@ -3,107 +3,117 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MyStoryChip Uses</title>
+<title>How It Works - MyStoryChip</title>
 
 <style>
-  *{
-    box-sizing: border-box;
-  }
 
-  html, body {
-    margin: 0;
-    padding: 0;
-    background: #050505;
-   min-height: 100vh;
-overflow-y: auto;
-    font-family: Georgia, "Times New Roman", serif;
-  }
+body {
+  margin: 0;
+  font-family: Georgia, serif;
+  background: linear-gradient(180deg, #fff8ec 0%, #f5e6c8 100%);
+  color: #3a2a12;
+}
 
-  body {
-    background: linear-gradient(to bottom, #120904 0%, #050505 100%);
-  }
+/* HERO SECTION */
+.how-hero {
+  position: relative;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
 
-  .nav-buttons {
-    position: fixed;
-    top: 16px;
-    right: 16px;
-    z-index: 9999;
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
+.hero-img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
-  .btn {
-    display: inline-block;
-    padding: 10px 16px;
-    text-decoration: none;
-    color: #f5e6c8;
-    border: 1px solid #d4af37;
-    border-radius: 30px;
-    background: rgba(20, 12, 4, 0.88);
-    font-size: 14px;
-    transition: all 0.25s ease;
-    box-shadow: 0 0 10px rgba(212,175,55,0.15);
-  }
+/* LIGHT GOLD OVERLAY */
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 245, 220, 0.65);
+}
 
-  .btn:hover {
-    background: rgba(60, 35, 10, 0.95);
-    box-shadow: 0 0 16px rgba(212,175,55,0.35);
-  }
+/* TEXT */
+.hero-content {
+  position: relative;
+  text-align: center;
+  max-width: 700px;
+  padding: 20px;
+}
 
-  .btn.primary {
-    background: linear-gradient(180deg, #d4af37, #8e6a17);
-    color: #1a1206;
-    font-weight: bold;
-  }
+.hero-content h1 {
+  font-size: 2.8rem;
+  margin-bottom: 10px;
+}
 
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0;
-    position: relative;
-  }
+.hero-content p {
+  font-size: 1.2rem;
+}
 
-  .hero img {
-    width: 100%;
-    max-width: 1200px;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-  }
+/* STEPS */
+.steps {
+  display: flex;
+  justify-content: space-around;
+  padding: 60px 20px;
+  background: #fff8ec;
+  text-align: center;
+  flex-wrap: wrap;
+}
 
-  @media (max-width: 900px) {
-   
-    .nav-buttons {
-      top: 10px;
-      right: 10px;
-      gap: 8px;
-    }
+.step {
+  max-width: 250px;
+  margin: 20px;
+}
 
-    .btn {
-      padding: 8px 12px;
-      font-size: 12px;
-    }
+.step h2 {
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+}
 
-  }
 </style>
-
 </head>
 
 <body>
 
-  <div class="nav-buttons">
-    <a href="story-new.html" class="btn">← Story</a>
-    <a href="buy.html" class="btn primary">Start Your Story</a>
+<!-- HERO -->
+<section class="how-hero">
+
+  <img src="tap-demo.png" class="hero-img" alt="Tap the chip and view content">
+
+  <div class="overlay"></div>
+
+  <div class="hero-content">
+    <h1>Tap the Chip. Instantly See the Story.</h1>
+    <p>Your phone opens a private page with photos, information, and more.</p>
   </div>
 
-  <div class="hero">
-    <img src="chip.png" alt="MyStoryChip Uses">
+</section>
 
-    
+<!-- STEPS -->
+<section class="steps">
+
+  <div class="step">
+    <h2>1. Tap</h2>
+    <p>Hold your phone near the chip</p>
   </div>
+
+  <div class="step">
+    <h2>2. It Opens</h2>
+    <p>Your personal page loads instantly</p>
+  </div>
+
+  <div class="step">
+    <h2>3. View or Share</h2>
+    <p>See photos, details, and information</p>
+  </div>
+
+</section>
 
 </body>
 </html>
