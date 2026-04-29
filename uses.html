@@ -14,7 +14,7 @@ body {
   color: #3a2a12;
 }
 
-/* HERO SECTION */
+/* HERO */
 .how-hero {
   position: relative;
   height: 90vh;
@@ -31,7 +31,7 @@ body {
   object-fit: cover;
 }
 
-/* LIGHT GOLD OVERLAY */
+/* LIGHT OVERLAY */
 .overlay {
   position: absolute;
   width: 100%;
@@ -39,7 +39,7 @@ body {
   background: rgba(255, 245, 220, 0.65);
 }
 
-/* TEXT */
+/* HERO TEXT */
 .hero-content {
   position: relative;
   text-align: center;
@@ -76,6 +76,44 @@ body {
   margin-bottom: 10px;
 }
 
+/* POSSIBILITIES */
+.possibilities {
+  padding: 80px 20px;
+  text-align: center;
+  background: linear-gradient(180deg, #fff8ec, #f3e0b8);
+}
+
+.poss-title {
+  font-size: 2.2rem;
+  margin-bottom: 40px;
+}
+
+.poss-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.poss-card {
+  background: white;
+  padding: 25px;
+  width: 250px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.poss-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+}
+
+.poss-card h3 {
+  margin-bottom: 10px;
+  color: #6b4b1f;
+}
+
 </style>
 </head>
 
@@ -84,7 +122,7 @@ body {
 <!-- HERO -->
 <section class="how-hero">
 
-  <img src="tap-demo.png" class="hero-img" alt="Tap the chip and view content">
+  <img src="YOUR-IMAGE-NAME.png" class="hero-img">
 
   <div class="overlay"></div>
 
@@ -109,8 +147,39 @@ body {
   </div>
 
   <div class="step">
-    <h2>3. View or Share</h2>
-    <p>See photos, details, and information</p>
+    <h2>3. View, Edit, or Share</h2>
+    <p>See, update, or share your information anytime</p>
+  </div>
+
+</section>
+
+<!-- POSSIBILITIES -->
+<section class="possibilities">
+
+  <h2 class="poss-title">One Chip. Endless Possibilities.</h2>
+
+  <div class="poss-grid">
+
+    <div class="poss-card">
+      <h3>Everyday Life</h3>
+      <p>Notes, lists, reminders, and important personal info always within reach.</p>
+    </div>
+
+    <div class="poss-card">
+      <h3>Family & Memories</h3>
+      <p>Photos, stories, and moments that stay connected and easy to share.</p>
+    </div>
+
+    <div class="poss-card">
+      <h3>Medical & Emergency</h3>
+      <p>Medications, allergies, and emergency contacts when they matter most.</p>
+    </div>
+
+    <div class="poss-card">
+      <h3>Business & Assets</h3>
+      <p>Vehicles, items for sale, ownership details, and more.</p>
+    </div>
+
   </div>
 
 </section>
