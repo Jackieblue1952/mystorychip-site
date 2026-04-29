@@ -34,11 +34,21 @@ body {
   object-fit: cover;
   animation: slowZoom 20s ease-in-out infinite alternate;
 }
+  .hero-content {
+  max-width: 600px;
+  margin-left: 5%;
+  text-align: left;
+  padding: 25px;
+
+  background: rgba(20, 10, 0, 0.35);
+  backdrop-filter: blur(6px);
+  border-radius: 12px;
+}
 
 .overlay {
   background: linear-gradient(
     rgba(255, 248, 230, 0.55),
-    rgba(255, 235, 200, 0.45)
+    rgba(255, 235, 200, 0.25)
   );
 }
 
@@ -52,17 +62,16 @@ body {
 }
 
 .hero-content h1 {
-  font-size: clamp(2.2rem, 5vw, 4.5rem);
-  line-height: 1.05;
-  margin: 0 0 18px;
-  text-shadow: 0 0 18px rgba(255, 210, 120, 0.7);
+  color: #fff4d6;
+  text-shadow:
+    0 0 10px rgba(0,0,0,0.7),
+    0 0 20px rgba(0,0,0,0.8);
 }
 
 .hero-content p {
-  font-size: clamp(1.1rem, 2vw, 1.45rem);
-  line-height: 1.5;
-  margin: 0;
-  text-shadow: 0 0 12px rgba(255, 220, 150, 0.7);
+  color: #f5e6c8;
+  text-shadow:
+    0 0 8px rgba(0,0,0,0.7);
 }
 
 /* STEPS */
