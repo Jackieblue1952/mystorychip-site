@@ -92,77 +92,111 @@ body {
 }
 
 /* STEPS */
+/* BOTTOM CONTENT AREA - SAFE TO EDIT ONLY BELOW HERE */
+
 .steps {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 26px;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 70px 24px 50px;
+  padding: 85px 24px 55px;
   text-align: center;
+
+  background:
+    radial-gradient(circle at top center, rgba(255, 214, 126, 0.22), transparent 45%);
 }
 
 .step {
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(160, 112, 35, 0.25);
-  border-radius: 18px;
-  padding: 28px 22px;
-  box-shadow: 0 14px 35px rgba(72, 43, 8, 0.12);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.86), rgba(255,246,226,0.78));
+  border: 1px solid rgba(180, 126, 36, 0.28);
+  border-radius: 22px;
+  padding: 30px 24px;
+  box-shadow:
+    0 16px 36px rgba(72, 43, 8, 0.13),
+    inset 0 0 0 1px rgba(255,255,255,0.55);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.step:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 22px 48px rgba(72, 43, 8, 0.18),
+    0 0 18px rgba(255, 198, 96, 0.28);
 }
 
 .step h2 {
-  font-size: 1.55rem;
+  font-size: 1.6rem;
   margin: 0 0 12px;
+  color: #5a3b12;
 }
 
 .step p {
   font-size: 1rem;
-  line-height: 1.45;
+  line-height: 1.48;
   margin: 0;
+  color: #4a3518;
 }
 
-/* POSSIBILITIES */
 .possibilities {
   max-width: 1150px;
   margin: 0 auto;
-  padding: 30px 24px 80px;
+  padding: 42px 24px 90px;
   text-align: center;
 }
 
 .poss-title {
   font-size: clamp(2rem, 4vw, 3rem);
-  margin: 0 0 34px;
+  margin: 0 0 38px;
+  color: #3a2a12;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.7);
+}
+
+.poss-title::after {
+  content: "";
+  display: block;
+  width: 140px;
+  height: 2px;
+  margin: 16px auto 0;
+  background: linear-gradient(to right, transparent, #d4a94f, transparent);
 }
 
 .poss-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 22px;
+  gap: 24px;
 }
 
 .poss-card {
-  background: rgba(255, 255, 255, 0.78);
-  border: 1px solid rgba(160, 112, 35, 0.25);
-  border-radius: 18px;
-  padding: 26px 20px;
-  box-shadow: 0 14px 35px rgba(72, 43, 8, 0.12);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.88), rgba(255,246,226,0.8));
+  border: 1px solid rgba(180, 126, 36, 0.28);
+  border-radius: 22px;
+  padding: 28px 22px;
+  box-shadow:
+    0 16px 36px rgba(72, 43, 8, 0.13),
+    inset 0 0 0 1px rgba(255,255,255,0.55);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .poss-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 18px 42px rgba(72, 43, 8, 0.18);
+  transform: translateY(-7px);
+  box-shadow:
+    0 22px 48px rgba(72, 43, 8, 0.18),
+    0 0 18px rgba(255, 198, 96, 0.28);
 }
 
 .poss-card h3 {
   margin: 0 0 12px;
   color: #6b4b1f;
-  font-size: 1.2rem;
+  font-size: 1.22rem;
 }
 
 .poss-card p {
   margin: 0;
-  line-height: 1.45;
+  line-height: 1.48;
+  color: #4a3518;
 }
 
 /* MOTION */
