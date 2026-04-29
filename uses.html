@@ -216,12 +216,16 @@ body {
     min-height: 75vh;
   }
 }
-  .bottom-area {
-  background:
-    radial-gradient(circle at 15% 45%, rgba(255, 236, 185, 0.55), transparent 34%),
-    radial-gradient(circle at 85% 55%, rgba(222, 170, 72, 0.22), transparent 36%),
-    linear-gradient(180deg, #fff7e7 0%, #f3dfb9 55%, #ead0a0 100%);
+.bottom-area {
+  margin-top: -80px;  /* pulls it UP into the hero glow */
+
+  padding-top: 120px;
   padding-bottom: 20px;
+
+  background:
+    radial-gradient(circle at top center, rgba(255, 214, 126, 0.35), transparent 45%),
+    linear-gradient(180deg, #fff8ec 0%, #f2e2c4 60%, #ead7b0 100%);
+}  
 }
   .bottom-area::before {
   content: "";
