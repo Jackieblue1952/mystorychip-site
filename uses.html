@@ -34,11 +34,14 @@ body {
   object-fit: cover;
   animation: slowZoom 20s ease-in-out infinite alternate;
 }
-  .hero-content {
-  max-width: 600px;
-  margin-left: 5%;
-  text-align: left;
-  padding: 25px;
+ .hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 28px 34px;
+  text-align: center;
+} 
 
   background: rgba(20, 10, 0, 0.35);
   backdrop-filter: blur(6px);
@@ -62,16 +65,23 @@ body {
 }
 
 .hero-content h1 {
+  font-size: clamp(2.2rem, 5vw, 4.5rem);
+  line-height: 1.05;
+  margin: 0 0 18px;
   color: #fff4d6;
   text-shadow:
-    0 0 10px rgba(0,0,0,0.7),
-    0 0 20px rgba(0,0,0,0.8);
+    0 3px 6px rgba(0,0,0,0.9),
+    0 0 18px rgba(255, 190, 70, 0.7);
 }
 
 .hero-content p {
-  color: #f5e6c8;
+  font-size: clamp(1.1rem, 2vw, 1.45rem);
+  line-height: 1.5;
+  margin: 0;
+  color: #fff1cf;
   text-shadow:
-    0 0 8px rgba(0,0,0,0.7);
+    0 2px 5px rgba(0,0,0,0.9),
+    0 0 12px rgba(255, 190, 70, 0.55);
 }
 
 /* STEPS */
