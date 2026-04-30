@@ -3,231 +3,211 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MyStoryChip Setup</title>
+  <title>Set Up Your MyStoryChip</title>
 
   <style>
     * {
       box-sizing: border-box;
     }
 
-    html, body {
+    html,
+    body {
       margin: 0;
-      position: relative;
       padding: 0;
       min-height: 100%;
-      height: auto;
-      overflow-y: auto;
       font-family: Georgia, "Times New Roman", serif;
-      background: #050505;
-      color: #f5e6c8;
+      color: #3a2a12;
+      background:
+        radial-gradient(circle at top center, rgba(255, 219, 132, 0.42), transparent 38%),
+        linear-gradient(180deg, #fff8ec 0%, #f2e2c4 58%, #e7c98e 100%);
     }
-    body::before {
-  content: "";
-  position: fixed;
-  top: -120px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 520px;
-  height: 520px;
-  background: radial-gradient(circle, rgba(255, 232, 150, 0.42), transparent 68%);
-  pointer-events: none;
-  z-index: 0;
-}
 
-.wrap {
-  position: relative;
-  z-index: 2;
-}
-
-body {
-  background:
-    radial-gradient(circle at top, rgba(255, 225, 145, 0.55), transparent 40%),
-    radial-gradient(circle at bottom, rgba(255, 210, 120, 0.18), transparent 45%),
-    linear-gradient(145deg, rgba(255, 240, 190, 0.38), rgba(120, 80, 20, 0.32)),
-    url("final-storybook.png") center center / cover no-repeat fixed;
-
-  padding: 32px 18px 60px;
-} 
+    body {
+      padding: 24px 16px 50px;
+    }
 
     a {
       color: inherit;
       text-decoration: none;
     }
 
+    .top-nav {
+      position: sticky;
+      top: 12px;
+      z-index: 100;
+      max-width: 1180px;
+      margin: 0 auto 18px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .nav-btn {
+      border: 1px solid rgba(140, 92, 18, 0.35);
+      background: rgba(255, 250, 237, 0.88);
+      color: #3a2a12;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 8px 22px rgba(80, 48, 8, 0.12);
+    }
+
     .wrap {
       width: 100%;
-      max-width: 1100px;
+      max-width: 1180px;
       margin: 0 auto;
     }
 
-.hero-card {
-  padding: 36px 26px;
-  margin-bottom: 26px;
-  text-align: center;
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 34px;
+      padding: 42px 28px;
+      text-align: center;
+      background:
+        radial-gradient(circle at top center, rgba(255, 245, 205, 0.95), transparent 58%),
+        linear-gradient(135deg, rgba(255, 251, 238, 0.96), rgba(238, 205, 142, 0.86));
+      border: 1px solid rgba(172, 119, 35, 0.28);
+      box-shadow:
+        0 22px 60px rgba(78, 48, 9, 0.18),
+        inset 0 0 38px rgba(255, 255, 255, 0.45);
+      margin-bottom: 24px;
+    }
 
-background:
-  radial-gradient(circle at top center, rgba(255, 250, 210, 0.85), transparent 60%),
-  linear-gradient(135deg, rgba(255, 240, 190, 0.88), rgba(120, 80, 20, 0.55));
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -20% -55% -20%;
+      height: 70%;
+      background: radial-gradient(circle at center, rgba(255, 205, 92, 0.35), transparent 70%);
+      pointer-events: none;
+    }
 
-  border: 1px solid rgba(255, 230, 150, 0.7);
-  border-radius: 30px;
-
-  box-shadow:
-    0 0 35px rgba(255, 220, 120, 0.28),
-    0 0 70px rgba(255, 200, 80, 0.12),
-    inset 0 0 30px rgba(255, 240, 190, 0.10);
-
-  backdrop-filter: blur(8px);
-}   
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+    }
 
     .brand {
       display: inline-block;
-      margin-bottom: 12px;
-      padding: 8px 16px;
-      border: 1px solid rgba(245, 217, 122, 0.55);
+      padding: 8px 17px;
       border-radius: 999px;
-      color: #fff2b8;
-    background: rgba(255, 244, 210, 0.08);
-      font-size: 13px;
-      letter-spacing: 1.2px;
+      background: rgba(255, 255, 255, 0.58);
+      border: 1px solid rgba(172, 119, 35, 0.28);
+      font-size: 0.82rem;
+      letter-spacing: 1.3px;
       text-transform: uppercase;
+      font-weight: bold;
+      color: #7a551d;
+      margin-bottom: 14px;
     }
 
     h1 {
-      margin: 0 0 10px;
-      font-size: clamp(2rem, 4vw, 3.45rem);
-      line-height: 1.05;
-      color: #f5d984;
-      text-shadow:
-        0 0 12px rgba(212,175,55,0.25),
-        0 0 32px rgba(0,0,0,0.75);
+      margin: 0 0 12px;
+      font-size: clamp(2.1rem, 5vw, 4.3rem);
+      line-height: 1.04;
+      color: #3a2a12;
     }
 
-    p {
-      margin: 0;
-    }
-
-    #pageLead {
-      max-width: 760px;
+    .lead {
+      max-width: 780px;
       margin: 0 auto;
-      font-size: 1.08rem;
-      line-height: 1.62;
-      color: #ead8ad;
+      color: #6b4b1f;
+      font-size: 1.12rem;
+      line-height: 1.6;
     }
 
-    .progress {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 22px;
-    }
-
-    .progress-pill {
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(20,12,4,0.56);
-      border: 1px solid rgba(212,175,55,0.26);
-      color: #f2dfb0;
-      font-size: 0.95rem;
-    }
-
-    .mode-note {
-      margin-top: 14px;
-      color: #f5d97a;
-      min-height: 20px;
-    }
-
-    .debug-chip {
-      margin-top: 12px;
-      font-size: 0.92rem;
-      color: #cdbb8f;
+    .chip-code {
+      margin-top: 18px;
+      color: #7a551d;
+      font-weight: bold;
       word-break: break-word;
     }
 
-    form {
-      display: block;
-    }
-
-    .grid-two {
+    .progress {
+      margin-top: 24px;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 22px;
-      margin-bottom: 22px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
     }
 
-   .card {
-  padding: 26px;
-  margin-bottom: 24px;
+    .progress-pill {
+      background: rgba(255, 255, 255, 0.62);
+      border: 1px solid rgba(172, 119, 35, 0.22);
+      border-radius: 18px;
+      padding: 14px;
+      color: #5a3b12;
+      font-weight: bold;
+      box-shadow: 0 10px 24px rgba(80, 48, 8, 0.08);
+    }
 
- background:
-  linear-gradient(145deg, rgba(35, 24, 10, 0.82), rgba(70, 44, 14, 0.72)); 
+    form {
+      margin-top: 24px;
+    }
 
-  border: 1px solid rgba(245, 217, 122, 0.45);
-  border-radius: 26px;
+    .setup-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+      align-items: start;
+    }
 
-  box-shadow:
-    0 12px 30px rgba(0,0,0,0.35),
-    inset 0 0 18px rgba(255, 230, 160, 0.05);
-}
+    .card {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.86), rgba(255,246,226,0.82));
+      border: 1px solid rgba(172, 119, 35, 0.25);
+      border-radius: 28px;
+      padding: 26px;
+      margin-bottom: 24px;
+      box-shadow:
+        0 18px 45px rgba(80, 48, 8, 0.13),
+        inset 0 0 0 1px rgba(255,255,255,0.48);
+    }
 
     .card h2 {
       margin: 0 0 10px;
-      color: #f5d97a;
-      font-size: 1.5rem;
+      color: #4a3210;
+      font-size: 1.55rem;
     }
 
     .card-intro {
-      color: #d8c79c;
-      line-height: 1.6;
-      margin-bottom: 18px;
-      font-size: 0.98rem;
+      color: #6a5530;
+      line-height: 1.55;
+      margin: 0 0 18px;
     }
 
     label {
       display: block;
-      margin: 14px 0 8px;
-      color: #f2dfb0;
+      margin: 15px 0 7px;
+      color: #4a3210;
       font-weight: bold;
     }
 
-  input,
-textarea,
-select {
-  width: 100%;
-  padding: 14px 14px;
-  border-radius: 14px;
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(150, 100, 28, 0.34);
+      background: rgba(255, 255, 255, 0.82);
+      color: #3a2a12;
+      font-size: 1rem;
+      outline: none;
+      font-family: Georgia, "Times New Roman", serif;
+    }
 
-  border: 1px solid rgba(212,175,55,0.45);
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: rgba(212, 160, 60, 0.85);
+      box-shadow: 0 0 0 4px rgba(212, 160, 60, 0.16);
+    }
 
-  background: rgba(255, 248, 220, 0.42);
-
-  color: #3a2a12;
-  font-size: 1rem;
-
-  outline: none;
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: #8a6a2f;
-}
-
-input:focus,
-textarea:focus {
-  border-color: rgba(255, 215, 120, 0.9);
-  box-shadow: 0 0 0 3px rgba(212,175,55,0.18);
-}
-
-textarea {
-  min-height: 190px;
-  resize: vertical;
-} 
-
-    .helper,
-    .small-note {
-      color: #d8c79c;
-      line-height: 1.6;
+    textarea {
+      min-height: 165px;
+      resize: vertical;
     }
 
     .pin-row {
@@ -236,42 +216,71 @@ textarea {
       gap: 14px;
     }
 
-    .pin-note {
-      margin-top: 10px;
-      color: #d8c79c;
-      font-size: 0.92rem;
-      line-height: 1.5;
+    .visibility-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .choice {
+      padding: 15px;
+      border-radius: 18px;
+      border: 1px solid rgba(150, 100, 28, 0.28);
+      background: rgba(255,255,255,0.65);
+      color: #5a3b12;
+      line-height: 1.45;
+    }
+
+    .choice strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #3a2a12;
+    }
+
+    .notes-button {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 13px 18px;
+      border-radius: 999px;
+      background: rgba(74, 50, 16, 0.08);
+      border: 1px solid rgba(150, 100, 28, 0.28);
+      color: #4a3210;
+      font-weight: bold;
     }
 
     .upload input[type="file"] {
-      width: 100%;
-      padding: 14px;
-      border-radius: 14px;
-      border: 1px dashed rgba(212,175,55,0.35);
-    background: rgba(255, 248, 220, 0.28);
-      color: #f5e6c8;
+      border: 1px dashed rgba(150, 100, 28, 0.45);
+      background: rgba(255, 255, 255, 0.68);
     }
 
     .meter {
       width: 100%;
       height: 16px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.08);
+      background: rgba(90, 58, 16, 0.12);
       overflow: hidden;
       margin: 12px 0;
-      border: 1px solid rgba(212,175,55,0.18);
+      border: 1px solid rgba(150, 100, 28, 0.22);
     }
 
     .fill {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, #d4af37, #f5d97a);
       border-radius: 999px;
+      background: linear-gradient(90deg, #b88425, #f1cc66);
       transition: width 0.2s ease;
     }
 
+    .small-note,
+    .helper {
+      color: #6a5530;
+      line-height: 1.55;
+      margin: 10px 0 0;
+    }
+
     .saved-photos-wrap {
-      margin: 16px 0 18px;
+      margin: 16px 0;
       display: none;
     }
 
@@ -279,103 +288,114 @@ textarea {
       display: flex;
       flex-wrap: wrap;
       gap: 14px;
-      margin-top: 10px;
+      margin-top: 12px;
     }
 
     .photo-tile {
       position: relative;
       width: 118px;
       height: 118px;
-      border-radius: 14px;
+      border-radius: 16px;
       overflow: hidden;
-      border: 1px solid rgba(212,175,55,0.28);
-      background: rgba(255,255,255,0.04);
-      box-shadow: 0 0 12px rgba(0,0,0,0.28);
+      border: 1px solid rgba(150, 100, 28, 0.24);
+      background: rgba(255,255,255,0.55);
+      box-shadow: 0 10px 22px rgba(80, 48, 8, 0.13);
     }
 
     .photo-thumb {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      display: block;
       cursor: pointer;
+      display: block;
     }
 
     .photo-remove {
       position: absolute;
       top: 6px;
-      right: 8px;
-      background: transparent;
+      right: 7px;
       border: none;
-      color: #f5d97a;
-      font-size: 18px;
-      font-weight: bold;
-      line-height: 1;
+      background: rgba(58, 42, 18, 0.78);
+      color: #fff2c0;
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
       cursor: pointer;
-      padding: 0;
-      text-shadow: 0 0 8px rgba(0,0,0,0.95);
-    }
-
-    .photo-remove:hover {
-      color: #ffffff;
+      font-size: 17px;
+      line-height: 1;
     }
 
     .empty-photos {
-      color: #cdbb8f;
+      color: #6a5530;
       font-style: italic;
       margin-top: 10px;
     }
 
+    .hidden {
+      display: none;
+    }
+
     .agree-row {
       display: flex;
-      align-items: flex-start;
       gap: 12px;
-      margin-top: 10px;
+      align-items: flex-start;
+      color: #5a3b12;
       line-height: 1.5;
-      color: #f2dfb0;
+      margin-top: 12px;
     }
 
     .agree-row input {
-      margin-top: 3px;
-      transform: scale(1.2);
+      width: auto;
+      margin-top: 4px;
+      transform: scale(1.15);
     }
 
     .actions {
       display: flex;
       gap: 14px;
       flex-wrap: wrap;
-      margin-top: 24px;
+      margin-top: 22px;
     }
 
     button,
     .link-btn {
       display: inline-block;
-      padding: 14px 22px;
       border-radius: 999px;
-      border: 1px solid rgba(212,175,55,0.42);
+      border: 1px solid rgba(150, 100, 28, 0.34);
+      padding: 14px 22px;
+      font-weight: bold;
       cursor: pointer;
       font-size: 1rem;
-      font-weight: bold;
-      text-decoration: none;
-      transition: all 0.2s ease;
+      font-family: Georgia, "Times New Roman", serif;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     button {
-      background: linear-gradient(180deg, #f3d77b, #d4af37);
-      color: #1a1206;
-      box-shadow:
-        0 0 18px rgba(212,175,55,0.26),
-        0 0 34px rgba(212,175,55,0.12);
+      background: linear-gradient(180deg, #ffe39a, #d4a447);
+      color: #2a1a06;
+      box-shadow: 0 12px 28px rgba(120, 78, 16, 0.18);
+    }
+
+    .link-btn.secondary {
+      background: rgba(255, 255, 255, 0.68);
+      color: #4a3210;
     }
 
     button:hover,
     .link-btn:hover {
-      transform: translateY(-1px);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(120, 78, 16, 0.22);
     }
 
-    .link-btn.secondary {
-      background: rgba(20,12,4,0.58);
-      color: #f3deae;
+    .disclaimer {
+      max-width: 980px;
+      margin: 28px auto 0;
+      padding: 22px 20px;
+      text-align: center;
+      font-size: 0.76rem;
+      line-height: 1.55;
+      color: #6a5530;
+      opacity: 0.9;
     }
 
     .lightbox {
@@ -397,21 +417,15 @@ textarea {
       position: relative;
       max-width: min(92vw, 1100px);
       max-height: 88vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     .lightbox-img {
       display: block;
       max-width: 92vw;
       max-height: 88vh;
-      width: auto;
-      height: auto;
       object-fit: contain;
       border-radius: 16px;
       border: 1px solid rgba(212,175,55,0.25);
-      box-shadow: 0 0 28px rgba(0,0,0,0.5);
       background: #111;
     }
 
@@ -425,33 +439,27 @@ textarea {
       border: 1px solid rgba(212,175,55,0.32);
       background: rgba(20,12,4,0.86);
       color: #f5d97a;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       cursor: pointer;
       font-size: 20px;
       line-height: 1;
+      padding: 0;
     }
 
-    .lightbox-close:hover {
-      color: #fff;
-    }
-
-    @media (max-width: 860px) {
-      .grid-two {
+    @media (max-width: 900px) {
+      .setup-grid,
+      .progress,
+      .visibility-box {
         grid-template-columns: 1fr;
       }
-    }
 
-    @media (max-width: 640px) {
       body {
-        padding: 18px 12px 40px;
+        padding: 16px 10px 36px;
       }
 
       .hero-card,
       .card {
-        padding: 18px;
-        border-radius: 20px;
+        border-radius: 22px;
+        padding: 20px;
       }
 
       .pin-row {
@@ -467,143 +475,185 @@ textarea {
         width: 100%;
         text-align: center;
       }
-
-      .photo-tile {
-        width: 96px;
-        height: 96px;
-      }
-
-      .lightbox-close {
-        top: -10px;
-        right: 0;
-      }
     }
   </style>
 </head>
 
 <body>
+
+  <div class="top-nav">
+    <a href="index.html" class="nav-btn">Home</a>
+    <button type="button" class="nav-btn" onclick="history.back()">Back</button>
+  </div>
+
   <div class="wrap">
 
-    <div class="hero-card">
-      <div class="brand">MyStoryChip Setup</div>
-     <h1 id="pageTitle">Activate Your MyStoryChip</h1>
- <p id="pageLead">
-  This is where your chip becomes more than a chip. Tell us what it is attached to,
-  what story or information it should open, and what people should see when they tap it.
-</p>     
+    <section class="hero-card">
+      <div class="hero-inner">
+        <div class="brand">MyStoryChip Setup</div>
+        <h1>Build the Page Your Chip Opens</h1>
+        <p class="lead">
+          Add the story, details, photos, documents, and visibility choices connected to this chip.
+          Keep it simple today — you can come back and update it later.
+        </p>
 
-      <div class="progress">
-        <div class="progress-pill">Step 1: What is this chip for?</div>
-        <div class="progress-pill">Step 2: What should people see?</div>
-        <div class="progress-pill">Step 3: Upload & Save</div>
+        <div class="chip-code" id="debugChip"></div>
+
+        <div class="progress">
+          <div class="progress-pill">1. Owner & Chip Details</div>
+          <div class="progress-pill">2. Story, Notes & Visibility</div>
+          <div class="progress-pill">3. Upload & Save</div>
+        </div>
       </div>
-
-      <div class="mode-note" id="modeNote"></div>
-      <div class="debug-chip" id="debugChip"></div>
-    </div>
+    </section>
 
     <form id="form" novalidate>
-      <div class="grid-two" id="detailsSection">
 
-        <div class="card">
-          <h2>Step 1: Chip Details</h2>
-          <p class="card-intro">
-            This helps define the purpose of this chip. It can be used for a person, pet,
-            vehicle, keepsake, collection, business item, property, or anything meaningful.
-          </p>
+      <div class="setup-grid">
 
-          <label for="chipPurpose">What is this chip attached to?</label>
-          <input type="text" id="chipPurpose" placeholder="Example: Dad's guitar, classic car, pet tag, family keepsake" required>
+        <div>
 
-          <label for="title">Chip Title</label>
-          <input type="text" id="title" placeholder="Example: Dad's Story, 1968 Mustang, Bella's Info" required>
+          <section class="card">
+            <h2>Step 1: Owner & Chip Details</h2>
+            <p class="card-intro">
+              Tell us what this chip belongs to. This can be a family story, memorial, vehicle,
+              collection item, pet, business asset, property, or anything important.
+            </p>
 
-          <label for="name">Your Name</label>
-          <input type="text" id="name" placeholder="Your name" required>
+            <label for="chipPurpose">What is this chip attached to?</label>
+            <input type="text" id="chipPurpose" placeholder="Example: Dad's guitar, 1968 Mustang, pet tag, family keepsake" required>
 
-          <label for="email">Email</label>
-          <input type="email" id="email" placeholder="Optional">
+            <label for="title">Page Title</label>
+            <input type="text" id="title" placeholder="Example: Dad's Story, Bella's Info, 1968 Mustang" required>
 
-          <label for="phone">Phone Number</label>
-          <input type="tel" id="phone" placeholder="Enter phone number" required>
+            <label for="name">Your Name</label>
+            <input type="text" id="name" placeholder="Your name" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Optional">
+
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" placeholder="Required for owner access" required>
+          </section>
+
+          <section class="card">
+            <h2>Step 2: Story, Notes & Details</h2>
+            <p class="card-intro">
+              This area is for written information that may not need a photo. Use it for history,
+              family details, care notes, ownership notes, instructions, or anything connected to the chip.
+            </p>
+
+            <label for="headline">Short Headline</label>
+            <input type="text" id="headline" placeholder="Example: Tap to see the story behind this item">
+
+            <label for="desc">Main Story / Notes</label>
+            <textarea id="desc" placeholder="Write the story, history, family tree details, instructions, care notes, ownership information, or anything else this chip should hold."></textarea>
+
+            <a href="#desc" class="notes-button">Generic Notes / Details Form Area</a>
+          </section>
+
         </div>
 
-        <div class="card">
-          <h2>Step 2: Security & Tap Message</h2>
-          <p class="card-intro">
-            Your PIN protects future editing. The public message is what someone sees when
-            they tap the chip.
-          </p>
+        <div>
 
-          <div class="pin-row">
-            <div>
-              <label for="pin">Create 4-Digit PIN</label>
-              <input type="text" id="pin" placeholder="4 digits" maxlength="4" inputmode="numeric" required>
+          <section class="card">
+            <h2>Security & Visibility</h2>
+            <p class="card-intro">
+              Your PIN protects future editing. Visibility helps decide what people see when they tap the chip.
+            </p>
+
+            <div class="pin-row">
+              <div>
+                <label for="pin">Create 4-Digit PIN</label>
+                <input type="text" id="pin" placeholder="4 digits" maxlength="4" inputmode="numeric" required>
+              </div>
+
+              <div>
+                <label for="pinConfirm">Confirm PIN</label>
+                <input type="text" id="pinConfirm" placeholder="Re-enter PIN" maxlength="4" inputmode="numeric" required>
+              </div>
             </div>
 
-            <div>
-              <label for="pinConfirm">Confirm PIN</label>
-              <input type="text" id="pinConfirm" placeholder="Re-enter PIN" maxlength="4" inputmode="numeric" required>
+            <label for="visibility">Default Page Visibility</label>
+            <select id="visibility">
+              <option value="public">Public when tapped</option>
+              <option value="private">Private / owner only</option>
+              <option value="mixed">Mixed sections later</option>
+            </select>
+
+            <div class="visibility-box">
+              <div class="choice">
+                <strong>Public</strong>
+                Shows when someone taps the chip.
+              </div>
+              <div class="choice">
+                <strong>Private</strong>
+                Saved for owner access later.
+              </div>
             </div>
-          </div>
 
-          <p class="pin-note">
-            Use numbers only. You will need this PIN later to edit this chip page.
-          </p>
+            <p class="small-note">
+              Full section-by-section visibility controls will be expanded as the dashboard grows.
+            </p>
+          </section>
 
-          <label for="headline">Headline</label>
-          <input type="text" id="headline" placeholder="Example: Tap to see the story behind this item">
+          <section class="card">
+            <h2>Step 3: Upload Photos or Documents</h2>
+            <p class="helper">
+              Add photos or documents now, or come back later. Photos are automatically resized to help save storage.
+              Videos are not supported.
+            </p>
 
-          <label for="desc">Description / Notes</label>
-          <textarea id="desc" placeholder="Write the story, history, instructions, care notes, ownership information, or details you want connected to this chip."></textarea>
+            <div id="savedPhotosWrap" class="saved-photos-wrap">
+              <p class="helper">Current Saved Photos</p>
+              <div id="savedPhotosGrid" class="saved-photos-grid"></div>
+              <div id="emptyPhotos" class="empty-photos hidden">No saved photos yet.</div>
+            </div>
+
+            <div class="upload">
+              <input type="file" id="files" multiple accept="image/*,.pdf,.doc,.docx,.txt">
+            </div>
+
+            <p id="usage" class="small-note">0 new photos selected • 0.00 MB of 250 MB used</p>
+
+            <div class="meter">
+              <div class="fill" id="fill"></div>
+            </div>
+
+            <div class="small-note">
+              Your chip includes 250 MB of shared storage.
+            </div>
+          </section>
+
+          <section class="card">
+            <h2>Agreement</h2>
+            <p class="card-intro">
+              Keep uploaded content clean, safe, and appropriate. Important files should also be backed up separately.
+            </p>
+
+            <label class="agree-row">
+              <input type="checkbox" id="agree" required>
+              <span>I agree to the content rules and disclaimer.</span>
+            </label>
+
+            <div class="actions">
+              <button type="submit" id="saveBtn">Save My Chip</button>
+              <a href="chip.html" id="viewerLink" class="link-btn secondary">Back to Viewer</a>
+            </div>
+          </section>
+
         </div>
 
       </div>
 
-      <div class="card">
-        <h2>Step 3: Upload Photos or Documents</h2>
-        <p class="helper" id="uploadHelper">
-          Add photos or documents now, or come back later and add more. Videos are not supported.
-        </p>
-
-        <div id="savedPhotosWrap" class="saved-photos-wrap">
-          <p class="helper">Current Saved Photos</p>
-          <div id="savedPhotosGrid" class="saved-photos-grid"></div>
-          <div id="emptyPhotos" class="empty-photos hidden">No saved photos yet.</div>
-        </div>
-
-        <div class="upload">
-          <input type="file" id="files" multiple accept="image/*,.pdf,.doc,.docx,.txt">
-        </div>
-
-        <p id="usage">0 new photos selected • 0.00 MB of 250 MB used</p>
-
-        <div class="meter">
-          <div class="fill" id="fill"></div>
-        </div>
-
-        <div class="small-note">
-          You currently receive 250 MB of included shared storage with your chip.
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>Agreement</h2>
-        <p class="card-intro">
-          Please keep uploaded content clean, safe, and appropriate. Important files should also be backed up separately.
-        </p>
-
-        <label class="agree-row" id="agreeRow">
-          <input type="checkbox" id="agree" required>
-          <span>I agree to the content rules and disclaimer.</span>
-        </label>
-
-        <div class="actions">
-          <button type="submit" id="saveBtn">Save My Chip</button>
-          <a href="chip.html" id="viewerLink" class="link-btn secondary">Back to Viewer</a>
-        </div>
-      </div>
     </form>
+
+    <div class="disclaimer">
+      MyStoryChip provides tools for storing and sharing your stories, images, and information.
+      While we work to keep the platform available and secure, access to content cannot be guaranteed at all times.
+      Users are responsible for the content they choose to store and share.
+      It is recommended that important files also be backed up separately.
+    </div>
 
   </div>
 
@@ -805,6 +855,10 @@ textarea {
       if (existingChip.description && !existingChip.desc) {
         document.getElementById("desc").value = existingChip.description;
       }
+
+      if (existingChip.visibility) {
+        document.getElementById("visibility").value = existingChip.visibility;
+      }
     }
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -863,6 +917,7 @@ textarea {
         const pinConfirm = document.getElementById("pinConfirm").value.trim();
         const headline = document.getElementById("headline").value.trim();
         const desc = document.getElementById("desc").value;
+        const visibility = document.getElementById("visibility").value;
         const agree = document.getElementById("agree").checked;
 
         if (!chipPurpose) {
@@ -871,7 +926,7 @@ textarea {
         }
 
         if (!title) {
-          alert("Chip Title is required.");
+          alert("Page Title is required.");
           return;
         }
 
@@ -914,6 +969,7 @@ textarea {
         existingChip.headline = headline;
         existingChip.desc = desc;
         existingChip.description = desc.trim();
+        existingChip.visibility = visibility;
 
         existingChip.images = uniqueImages(workingImages);
         existingChip.updatedAt = new Date().toISOString();
