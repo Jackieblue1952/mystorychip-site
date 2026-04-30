@@ -880,11 +880,11 @@
         viewerLink.href = `chip.html?code=${encodeURIComponent(chipCode)}`;
       }
 
-      if (debugChip) {
-        debugChip.textContent = chipCode
-          ? `Chip Code: ${chipCode}`
-       debugChip.textContent = "Preview Mode";   
-      }
+     if (debugChip) {
+  debugChip.textContent = chipCode
+    ? `Chip Code: ${chipCode}`
+    : "Preview Mode";
+}
 
       if (!chipCode) {
         alert("Missing chip code in URL.");
