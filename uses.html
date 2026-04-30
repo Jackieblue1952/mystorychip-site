@@ -225,12 +225,51 @@ body {
   background:
     radial-gradient(circle at top center, rgba(255, 214, 126, 0.35), transparent 45%),
     linear-gradient(180deg, #fff8ec 0%, #f2e2c4 60%, #ead7b0 100%);
-}  
+} 
+  .top-nav {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 999;
+  display: flex;
+  gap: 10px;
+}
+
+.home-btn,
+.back-btn {
+  background: rgba(255, 245, 220, 0.9);
+  border: 1px solid rgba(180, 126, 36, 0.5);
+  color: #3a2a12;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.home-btn:hover,
+.back-btn:hover {
+  background: #ffe2a8;
+}
+ .disclaimer {
+  font-size: 0.75rem;
+  color: #6a5530;
+  text-align: center;
+  padding: 30px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  opacity: 0.8;
+} 
 }
 </style> 
 </head>
 
 <body>
+  <div class="top-nav">
+  <a href="index.html" class="home-btn">Home</a>
+  <button onclick="history.back()" class="back-btn">Back</button>
+</div>
 <!-- HERO -->
 <section class="how-hero">
 
@@ -295,6 +334,11 @@ body {
   </div>
 
 </section>
-
+<div class="disclaimer">
+  MyStoryChip provides tools for storing and sharing your stories, images, and information. 
+  While we work to keep the platform available and secure, access to content cannot be guaranteed at all times. 
+  Users are responsible for the content they choose to store and share. 
+  It is recommended that important files also be backed up separately.
+</div>
 </body>
 </html>
