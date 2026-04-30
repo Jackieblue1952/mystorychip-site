@@ -119,8 +119,14 @@
     }
 
     .chip-code {
+      display: inline-block;
       margin-top: 18px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid rgba(172, 119, 35, 0.22);
       color: #7a551d;
+      font-size: 0.9rem;
       font-weight: bold;
       word-break: break-word;
     }
@@ -247,6 +253,7 @@
       border: 1px solid rgba(150, 100, 28, 0.28);
       color: #4a3210;
       font-weight: bold;
+      box-shadow: none;
     }
 
     .upload input[type="file"] {
@@ -323,6 +330,7 @@
       cursor: pointer;
       font-size: 17px;
       line-height: 1;
+      padding: 0;
     }
 
     .empty-photos {
@@ -546,12 +554,12 @@
             <label for="headline">Short Headline</label>
             <input type="text" id="headline" placeholder="Example: Tap to see the story behind this item">
 
-            <label for="desc">Main Story / Notes</label>
+            <label for="desc">Section Content</label>
             <textarea id="desc" placeholder="Write the story, history, family tree details, instructions, care notes, ownership information, or anything else this chip should hold."></textarea>
 
-        <button type="button" class="notes-button">
-  + Add Another Section (Story, Notes, Details)
-</button>
+            <button type="button" class="notes-button">
+              + Add Another Section (Story, Notes, Details)
+            </button>
           </section>
 
         </div>
@@ -586,75 +594,75 @@
             <div class="visibility-box">
               <div class="choice">
                 <strong>Public</strong>
-         Shows when someone taps the chip.
-       </div>
-      <div class="choice">
-      <strong>Private</strong>
-        Saved for owner access later.
+                Shows when someone taps the chip.
+              </div>
+              <div class="choice">
+                <strong>Private</strong>
+                Saved for owner access later.
+              </div>
+            </div>
+
+            <p class="small-note">
+              Full section-by-section visibility controls will be expanded as the dashboard grows.
+            </p>
+          </section>
+
+          <section class="card">
+            <h2>Step 3: Upload Photos or Documents</h2>
+            <p class="helper">
+              Add photos or documents now, or come back later. Photos are automatically resized to help save storage.
+              Videos are not supported.
+            </p>
+
+            <label for="imageVisibility">Where should uploaded images show?</label>
+            <select id="imageVisibility">
+              <option value="public">Show on tapped chip page</option>
+              <option value="private">Save in owner page only</option>
+              <option value="both">Show on tapped page and owner page</option>
+              <option value="undecided">Decide later</option>
+            </select>
+
+            <div id="savedPhotosWrap" class="saved-photos-wrap">
+              <p class="helper">Current Saved Photos</p>
+              <div id="savedPhotosGrid" class="saved-photos-grid"></div>
+              <div id="emptyPhotos" class="empty-photos hidden">No saved photos yet.</div>
+            </div>
+
+            <div class="upload">
+              <input type="file" id="files" multiple accept="image/*,.pdf,.doc,.docx,.txt">
+            </div>
+
+            <p id="usage" class="small-note">0 new photos selected • 0.00 MB of 250 MB used</p>
+
+            <div class="meter">
+              <div class="fill" id="fill"></div>
+            </div>
+
+            <div class="small-note">
+              Your chip includes 250 MB of shared storage.
+            </div>
+          </section>
+
+          <section class="card">
+            <h2>Agreement</h2>
+            <p class="card-intro">
+              Keep uploaded content clean, safe, and appropriate. Important files should also be backed up separately.
+            </p>
+
+            <label class="agree-row">
+              <input type="checkbox" id="agree" required>
+              <span>I agree to the content rules and disclaimer.</span>
+            </label>
+
+            <div class="actions">
+              <button type="submit" id="saveBtn">Save My Chip</button>
+              <a href="chip.html" id="viewerLink" class="link-btn secondary">Back to Viewer</a>
+            </div>
+          </section>
+
+        </div>
+
       </div>
-     </div>
-
-       <p class="small-note">
-     Full section-by-section visibility controls will be expanded as the dashboard grows.
-    </p>
-    </section>
-
-    <section class="card">
-   <h2>Step 3: Upload Photos or Documents</h2>
-  <p class="helper">
-  Add photos or documents now, or come back later. Photos are automatically resized to help save storage. Videos are not supported.
-</p>
-
-<label for="imageVisibility">Where should uploaded images show?</label>
-
-<select id="imageVisibility">
-  <option value="public">Show on tapped chip page</option>
-  <option value="private">Save in owner page only</option>
-  <option value="both">Show on tapped page and owner page</option>
-  <option value="undecided">Decide later</option>
-</select> 
-
-  <div id="savedPhotosWrap" class="saved-photos-wrap"> 
-    <p class="helper">Current Saved Photos</p>
-    <div id="savedPhotosGrid" class="saved-photos-grid"></div>
-    <div id="emptyPhotos" class="empty-photos hidden">No saved photos yet.</div>
-    </div>
-
-    <div class="upload">
-    <input type="file" id="files" multiple accept="image/*,.pdf,.doc,.docx,.txt">
-    </div>
-
-    <p id="usage" class="small-note">0 new photos selected • 0.00 MB of 250 MB used</p>
-
-    <div class="meter">
-    <div class="fill" id="fill"></div>
-   </div>
-
-   <div class="small-note">
-    Your chip includes 250 MB of shared storage.
-  </div>
-  </section>
-
- <section class="card">
-<h2>Agreement</h2>
-<p class="card-intro">
- Keep uploaded content clean, safe, and appropriate. Important files should also be backed up separately.
-</p>
-
-  <label class="agree-row">
-  <input type="checkbox" id="agree" required>
-   <span>I agree to the content rules and disclaimer.</span>
-  </label>
-
-  <div class="actions">
-  <button type="submit" id="saveBtn">Save My Chip</button>
- <a href="chip.html" id="viewerLink" class="link-btn secondary">Back to Viewer</a>
-</div>
-</section>
-
-<div>
-
-</div>
 
     </form>
 
@@ -869,6 +877,10 @@
       if (existingChip.visibility) {
         document.getElementById("visibility").value = existingChip.visibility;
       }
+
+      if (existingChip.imageVisibility) {
+        document.getElementById("imageVisibility").value = existingChip.imageVisibility;
+      }
     }
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -883,14 +895,10 @@
         viewerLink.href = `chip.html?code=${encodeURIComponent(chipCode)}`;
       }
 
-     if (debugChip) {
-  debugChip.textContent = chipCode
-    ? `Chip Code: ${chipCode}`
-    : "Preview Mode";
-}
-
-      if (!chipCode) {
-        alert("Missing chip code in URL.");
+      if (debugChip) {
+        debugChip.textContent = chipCode
+          ? `Chip Code: ${chipCode}`
+          : "Preview Mode";
       }
 
       applyExistingChipData();
@@ -914,7 +922,7 @@
         e.preventDefault();
 
         if (!chipCode) {
-          alert("Missing chip code in URL.");
+          alert("Missing chip code in URL. Use client-setup.html?code=TEST123 for testing.");
           return;
         }
 
@@ -928,6 +936,7 @@
         const headline = document.getElementById("headline").value.trim();
         const desc = document.getElementById("desc").value;
         const visibility = document.getElementById("visibility").value;
+        const imageVisibility = document.getElementById("imageVisibility").value;
         const agree = document.getElementById("agree").checked;
 
         if (!chipPurpose) {
@@ -980,6 +989,7 @@
         existingChip.desc = desc;
         existingChip.description = desc.trim();
         existingChip.visibility = visibility;
+        existingChip.imageVisibility = imageVisibility;
 
         existingChip.images = uniqueImages(workingImages);
         existingChip.updatedAt = new Date().toISOString();
