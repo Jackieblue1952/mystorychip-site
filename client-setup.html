@@ -569,58 +569,51 @@
           <section class="card">
             <h2>Security & Visibility</h2>
             <p class="card-intro">
-              Your PIN protects future editing. Visibility helps decide what people see when they tap the chip.
-            </p>
+  Your PIN protects future editing. Visibility helps decide what people see when they tap the chip.
+  </p>
 
-            <div class="pin-row">
-              <div>
-                <label for="pin">Create 4-Digit PIN</label>
-                <input type="text" id="pin" placeholder="4 digits" maxlength="4" inputmode="numeric" required>
-              </div>
+   <div class="pin-row">
+   <div>
+   <label for="pin">Create 4-Digit PIN</label>
+  <input type="text" id="pin" placeholder="4 digits" maxlength="4" inputmode="numeric" required>
+  </div>
 
-              <div>
-                <label for="pinConfirm">Confirm PIN</label>
-                <input type="text" id="pinConfirm" placeholder="Re-enter PIN" maxlength="4" inputmode="numeric" required>
-              </div>
-            </div>
+   <div>
+   <label for="pinConfirm">Confirm PIN</label>
+  <input type="text" id="pinConfirm" placeholder="Re-enter PIN" maxlength="4" inputmode="numeric" required>
+   </div>
+     <p class="small-note">
+  If you forget your PIN, recovery may require your email if provided.
+</p>
+    </div>
 
-            <label for="visibility">Default Page Visibility</label>
-            <select id="visibility">
-              <option value="public">Public when tapped</option>
-              <option value="private">Private / owner only</option>
-              <option value="mixed">Mixed sections later</option>
-            </select>
+    <label for="visibility">Default Page Visibility</label>
+  <select id="visibility">
+  <option value="public">Public when tapped</option>
+  <option value="private">Private / owner only</option>
+  <option value="mixed">Mixed sections later</option>
+  </select>
 
-            <div class="visibility-box">
-              <div class="choice">
-                <strong>Public</strong>
-                Shows when someone taps the chip.
-              </div>
-              <div class="choice">
-                <strong>Private</strong>
-                Saved for owner access later.
-              </div>
-            </div>
+    <div class="visibility-box">
+   <div class="choice">
+   <strong>Public</strong>
+   Shows when someone taps the chip.
+  </div>
+ <div class="choice">
+  <strong>Private</strong>
+  <p class="small-note">
+  Without email, recovery may not be possible if access is lost.
+</p>
+Saved for owner access later.
+</div>  
+</div>
+<p class="small-note">
+ Full section-by-section visibility controls will be expanded as the dashboard grows.
+</p>
+</section>
 
-            <p class="small-note">
-              Full section-by-section visibility controls will be expanded as the dashboard grows.
-            </p>
-          </section>
-
-          <section class="card">
-            <h2>Step 3: Upload Photos or Documents</h2>
-            <p class="helper">
-              Add photos or documents now, or come back later. Photos are automatically resized to help save storage.
-              Videos are not supported.
-            </p>
-
-            <label for="imageVisibility">Where should uploaded images show?</label>
-            <select id="imageVisibility">
-              <option value="public">Show on tapped chip page</option>
-              <option value="private">Save in owner page only</option>
-              <option value="both">Show on tapped page and owner page</option>
-              <option value="undecided">Decide later</option>
-            </select>
+<section class="card">
+ <h2>Step 3: Upload Photos or Documents</h2>
 
             <div id="savedPhotosWrap" class="saved-photos-wrap">
               <p class="helper">Current Saved Photos</p>
