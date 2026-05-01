@@ -6,12 +6,9 @@
   <title>Set Up Your MyStoryChip</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
-    html,
-    body {
+    html, body {
       margin: 0;
       padding: 0;
       min-height: 100%;
@@ -22,14 +19,9 @@
         linear-gradient(180deg, #fff8ec 0%, #f2e2c4 58%, #e7c98e 100%);
     }
 
-    body {
-      padding: 24px 16px 50px;
-    }
+    body { padding: 24px 16px 50px; }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+    a { color: inherit; text-decoration: none; }
 
     .top-nav {
       position: sticky;
@@ -84,10 +76,7 @@
       pointer-events: none;
     }
 
-    .hero-inner {
-      position: relative;
-      z-index: 2;
-    }
+    .hero-inner { position: relative; z-index: 2; }
 
     .brand {
       display: inline-block;
@@ -148,9 +137,7 @@
       box-shadow: 0 10px 24px rgba(80, 48, 8, 0.08);
     }
 
-    form {
-      margin-top: 24px;
-    }
+    form { margin-top: 24px; }
 
     .setup-grid {
       display: grid;
@@ -190,9 +177,7 @@
       font-weight: bold;
     }
 
-    input,
-    textarea,
-    select {
+    input, textarea, select {
       width: 100%;
       padding: 14px;
       border-radius: 16px;
@@ -204,9 +189,7 @@
       font-family: Georgia, "Times New Roman", serif;
     }
 
-    input:focus,
-    textarea:focus,
-    select:focus {
+    input:focus, textarea:focus, select:focus {
       border-color: rgba(212, 160, 60, 0.85);
       box-shadow: 0 0 0 4px rgba(212, 160, 60, 0.16);
     }
@@ -249,11 +232,23 @@
       margin-top: 14px;
       padding: 13px 18px;
       border-radius: 999px;
-      background: rgba(74, 50, 16, 0.08);
-      border: 1px solid rgba(150, 100, 28, 0.28);
-      color: #4a3210;
+      background: linear-gradient(180deg, #ffe39a, #d4a447);
+      border: 1px solid rgba(150, 100, 28, 0.34);
+      color: #2a1a06;
       font-weight: bold;
-      box-shadow: none;
+      cursor: pointer;
+    }
+
+    .extra-section {
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px dashed rgba(150, 100, 40, 0.35);
+    }
+
+    .extra-section-title {
+      font-weight: bold;
+      color: #6b4b1f;
+      margin-bottom: 8px;
     }
 
     .upload input[type="file"] {
@@ -279,8 +274,7 @@
       transition: width 0.2s ease;
     }
 
-    .small-note,
-    .helper {
+    .small-note, .helper {
       color: #6a5530;
       line-height: 1.55;
       margin: 10px 0 0;
@@ -339,9 +333,7 @@
       margin-top: 10px;
     }
 
-    .hidden {
-      display: none;
-    }
+    .hidden { display: none; }
 
     .agree-row {
       display: flex;
@@ -365,8 +357,7 @@
       margin-top: 22px;
     }
 
-    button,
-    .link-btn {
+    button, .link-btn {
       display: inline-block;
       border-radius: 999px;
       border: 1px solid rgba(150, 100, 28, 0.34);
@@ -389,8 +380,7 @@
       color: #4a3210;
     }
 
-    button:hover,
-    .link-btn:hover {
+    button:hover, .link-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 14px 30px rgba(120, 78, 16, 0.22);
     }
@@ -417,9 +407,7 @@
       z-index: 9999;
     }
 
-    .lightbox.active {
-      display: flex;
-    }
+    .lightbox.active { display: flex; }
 
     .lightbox-panel {
       position: relative;
@@ -460,26 +448,18 @@
         grid-template-columns: 1fr;
       }
 
-      body {
-        padding: 16px 10px 36px;
-      }
+      body { padding: 16px 10px 36px; }
 
-      .hero-card,
-      .card {
+      .hero-card, .card {
         border-radius: 22px;
         padding: 20px;
       }
 
-      .pin-row {
-        grid-template-columns: 1fr;
-      }
+      .pin-row { grid-template-columns: 1fr; }
 
-      .actions {
-        flex-direction: column;
-      }
+      .actions { flex-direction: column; }
 
-      button,
-      .link-btn {
+      button, .link-btn {
         width: 100%;
         text-align: center;
       }
@@ -501,15 +481,15 @@
         <div class="brand">MyStoryChip Setup</div>
         <h1>Build the Page Your Chip Opens</h1>
         <p class="lead">
-          Add the story, details, photos, documents, and visibility choices connected to this chip.
-          Keep it simple today — you can come back and update it later.
+          One chip opens one clean page. That page can hold stories, photos, documents,
+          and structured info sections without becoming cluttered.
         </p>
 
         <div class="chip-code" id="debugChip"></div>
 
         <div class="progress">
           <div class="progress-pill">1. Owner & Chip Details</div>
-          <div class="progress-pill">2. Story, Notes & Visibility</div>
+          <div class="progress-pill">2. Story & Structured Info</div>
           <div class="progress-pill">3. Upload & Save</div>
         </div>
       </div>
@@ -524,8 +504,8 @@
           <section class="card">
             <h2>Step 1: Owner & Chip Details</h2>
             <p class="card-intro">
-              Tell us what this chip belongs to. This can be a family story, memorial, vehicle,
-              collection item, pet, business asset, property, or anything important.
+              Tell us what this chip belongs to. This can be a family story, memorial,
+              vehicle, collection item, pet, business asset, property, or anything important.
             </p>
 
             <label for="chipPurpose">What is this chip attached to?</label>
@@ -535,34 +515,36 @@
             <input type="text" id="title" placeholder="Example: Dad's Story, Bella's Info, 1968 Mustang" required>
 
             <label for="name">Your Name</label>
-          <input type="text" id="name" placeholder="Your name" required>
+            <input type="text" id="name" placeholder="Your name" required>
 
-          <label for="email">Email</label>
-    <input type="email" id="email" placeholder="Optional">
-     <p class="small-note">
-Recommended for backup & recovery access.
-</p>     
+            <label for="email">Email (recommended for backup & recovery)</label>
+            <input type="email" id="email" placeholder="Optional">
+            <p class="small-note">
+              Without email, recovery may not be possible if access is lost.
+            </p>
 
-<label for="phone">Phone Number</label>
-<input type="tel" id="phone" placeholder="Required for owner access" required>
-</section>
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" placeholder="Required for owner access" required>
+          </section>
 
-<section class="card"> 
-<h2>Step 2: Story, Notes & Details</h2>   
-<p class="card-intro">
- This area is for written information that may not need a photo. Use it for history,
-family details, care notes, ownership notes, instructions, or anything connected to the Page.
-</p>
+          <section class="card">
+            <h2>Step 2: Story & Structured Info</h2>
+            <p class="card-intro">
+              Add the main story first. Then add structured info sections for details like
+              family connections, instructions, ownership notes, medical info, vehicle history, or anything else.
+            </p>
 
- <label for="headline">Short Headline</label>
-          <input type="text" id="headline" placeholder="Example: Tap to see the story behind this item">
+            <label for="headline">Short Headline</label>
+            <input type="text" id="headline" placeholder="Example: Tap to see the story behind this item">
 
-          <label for="desc">Section Content</label>
-          <textarea id="desc" placeholder="Write the story, history, family tree details, instructions, care notes, ownership information, or anything else this chip should hold."></textarea>
+            <label for="desc">Main Story / First Section</label>
+            <textarea id="desc" placeholder="Write the main story, history, instructions, ownership information, or opening details for this chip page."></textarea>
 
-          <button type="button" class="notes-button">
-            + Add Another Section (Story, Notes, Details)
-          </button>
+            <div id="extraSections"></div>
+
+            <button type="button" id="addSectionBtn" class="notes-button">
+              + Add Structured Info Section
+            </button>
           </section>
 
         </div>
@@ -572,49 +554,58 @@ family details, care notes, ownership notes, instructions, or anything connected
           <section class="card">
             <h2>Security & Visibility</h2>
             <p class="card-intro">
-  Your PIN protects future editing. Visibility helps decide what people see when they tap the chip.
-  </p>
+              Your PIN protects future editing. Visibility helps decide what people see when they tap the chip.
+            </p>
 
-   <div class="pin-row">
-   <div>
-   <label for="pin">Create 4-Digit PIN</label>
-  <input type="text" id="pin" placeholder="4 digits" maxlength="4" inputmode="numeric" required>
-  </div>
+            <div class="pin-row">
+              <div>
+                <label for="pin">Create 4-Digit PIN</label>
+                <input type="text" id="pin" placeholder="4 digits" maxlength="4" inputmode="numeric" required>
+              </div>
 
-   <div>
-   <label for="pinConfirm">Confirm PIN</label>
-  <input type="text" id="pinConfirm" placeholder="Re-enter PIN" maxlength="4" inputmode="numeric" required>
-   </div>
-     <p class="small-note">
-  If you forget your PIN, recovery may require your email if provided.
-</p>
-    </div>
+              <div>
+                <label for="pinConfirm">Confirm PIN</label>
+                <input type="text" id="pinConfirm" placeholder="Re-enter PIN" maxlength="4" inputmode="numeric" required>
+              </div>
+            </div>
 
-    <label for="visibility">Default Page Visibility</label>
-  <select id="visibility">
-  <option value="public">Public when tapped</option>
-  <option value="private">Private / owner only</option>
-  <option value="mixed">Mixed sections later</option>
-  </select>
+            <p class="small-note">
+              If you forget your PIN, recovery may require your backup email if provided.
+            </p>
 
-    <div class="visibility-box">
-   <div class="choice">
-   <strong>Public</strong>
-   Shows when someone taps the chip.
-  </div>
- <div class="choice">
-  <strong>Private</strong>
-  <p class="small-note">
-Saved for owner access later.
-</div>  
-</div>
-<p class="small-note">
- Full section-by-section visibility controls will be expanded as the dashboard grows.
-</p>
-</section>
+            <label for="visibility">Default Page Visibility</label>
+            <select id="visibility">
+              <option value="public">Public when tapped</option>
+              <option value="private">Private / owner only</option>
+              <option value="mixed">Mixed sections later</option>
+            </select>
 
-<section class="card">
- <h2>Step 3: Upload Photos or Documents</h2>
+            <div class="visibility-box">
+              <div class="choice">
+                <strong>Public</strong>
+                Shows when someone taps the chip.
+              </div>
+              <div class="choice">
+                <strong>Private</strong>
+                Saved for owner access later.
+              </div>
+            </div>
+          </section>
+
+          <section class="card">
+            <h2>Step 3: Upload Photos or Documents</h2>
+            <p class="helper">
+              Add photos or documents now, or come back later. Photos are automatically resized to help save storage.
+              Videos are not supported.
+            </p>
+
+            <label for="imageVisibility">Where should uploaded images show?</label>
+            <select id="imageVisibility">
+              <option value="public">Show on tapped chip page</option>
+              <option value="private">Save in owner page only</option>
+              <option value="both">Show on tapped page and owner page</option>
+              <option value="undecided">Decide later</option>
+            </select>
 
             <div id="savedPhotosWrap" class="saved-photos-wrap">
               <p class="helper">Current Saved Photos</p>
@@ -688,6 +679,8 @@ Saved for owner access later.
     const supabaseKey = "sb_publishable_xdy7N3s-1sQLo9vPe70OFQ_VTLS8BjQ";
     const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
+    let sectionCount = 0;
+
     function parseStoredChips() {
       try {
         return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
@@ -702,7 +695,8 @@ Saved for owner access later.
     if (!existingChip && chipCode) {
       existingChip = {
         code: chipCode,
-        images: []
+        images: [],
+        structuredSections: []
       };
       chips.push(existingChip);
     }
@@ -715,20 +709,15 @@ Saved for owner access later.
 
     function getStorageMBFromImages(images) {
       let totalBytes = 0;
-
       images.forEach(src => {
-        if (typeof src === "string") {
-          totalBytes += src.length;
-        }
+        if (typeof src === "string") totalBytes += src.length;
       });
-
       return totalBytes / (1024 * 1024);
     }
 
     function updateUsage(selectedCount = 0) {
       const usage = document.getElementById("usage");
       const fill = document.getElementById("fill");
-
       const totalMB = getStorageMBFromImages(workingImages);
       const percent = Math.min((totalMB / STORAGE_LIMIT_MB) * 100, 100);
 
@@ -737,19 +726,13 @@ Saved for owner access later.
     }
 
     function openLightbox(src) {
-      const lightbox = document.getElementById("lightbox");
-      const lightboxImg = document.getElementById("lightboxImg");
-
-      lightboxImg.src = src;
-      lightbox.classList.add("active");
+      document.getElementById("lightboxImg").src = src;
+      document.getElementById("lightbox").classList.add("active");
     }
 
     function closeLightbox() {
-      const lightbox = document.getElementById("lightbox");
-      const lightboxImg = document.getElementById("lightboxImg");
-
-      lightbox.classList.remove("active");
-      lightboxImg.src = "";
+      document.getElementById("lightbox").classList.remove("active");
+      document.getElementById("lightboxImg").src = "";
     }
 
     function renderSavedPhotos() {
@@ -780,13 +763,11 @@ Saved for owner access later.
         const removeBtn = document.createElement("button");
         removeBtn.type = "button";
         removeBtn.className = "photo-remove";
-        removeBtn.setAttribute("aria-label", "Remove photo");
         removeBtn.textContent = "×";
 
         removeBtn.addEventListener("click", (e) => {
           e.preventDefault();
           e.stopPropagation();
-
           workingImages.splice(index, 1);
           renderSavedPhotos();
           updateUsage(0);
@@ -798,10 +779,52 @@ Saved for owner access later.
       });
     }
 
+    function addStructuredSection(section = {}) {
+      sectionCount++;
+
+      const container = document.getElementById("extraSections");
+      const block = document.createElement("div");
+      block.className = "extra-section";
+
+      block.innerHTML = `
+        <div class="extra-section-title">Structured Info Section ${sectionCount}</div>
+
+        <label>Section Type</label>
+        <select class="section-type">
+          <option value="story">Story</option>
+          <option value="notes">Notes / Details</option>
+          <option value="family">Family / Relationships</option>
+          <option value="medical">Medical Info</option>
+          <option value="vehicle">Vehicle / Asset History</option>
+          <option value="instructions">Instructions / Care</option>
+          <option value="other">Other</option>
+        </select>
+
+        <label>Section Title</label>
+        <input type="text" class="section-title-input" placeholder="Example: Family History, Care Instructions, Ownership Notes">
+
+        <label>Section Content</label>
+        <textarea class="section-content-input" placeholder="Write details for this section..."></textarea>
+      `;
+
+      container.appendChild(block);
+
+      if (section.type) block.querySelector(".section-type").value = section.type;
+      if (section.title) block.querySelector(".section-title-input").value = section.title;
+      if (section.content) block.querySelector(".section-content-input").value = section.content;
+    }
+
+    function collectStructuredSections() {
+      return Array.from(document.querySelectorAll(".extra-section")).map(block => ({
+        type: block.querySelector(".section-type").value,
+        title: block.querySelector(".section-title-input").value.trim(),
+        content: block.querySelector(".section-content-input").value.trim()
+      })).filter(section => section.title || section.content);
+    }
+
     function readFilesAsDataUrls(files) {
       const MAX_WIDTH = 1000;
       const QUALITY = 0.60;
-
       const imageFiles = Array.from(files).filter(file => file.type.startsWith("image/"));
 
       return Promise.all(imageFiles.map(file => {
@@ -850,7 +873,6 @@ Saved for owner access later.
 
       if (existingChip.chipPurpose) document.getElementById("chipPurpose").value = existingChip.chipPurpose;
       if (existingChip.category && !existingChip.chipPurpose) document.getElementById("chipPurpose").value = existingChip.category;
-
       if (existingChip.name) document.getElementById("name").value = existingChip.name;
       if (existingChip.email) document.getElementById("email").value = existingChip.email;
       if (existingChip.phone) document.getElementById("phone").value = existingChip.phone;
@@ -862,18 +884,13 @@ Saved for owner access later.
 
       if (existingChip.title) document.getElementById("title").value = existingChip.title;
       if (existingChip.headline) document.getElementById("headline").value = existingChip.headline;
-
       if (existingChip.desc) document.getElementById("desc").value = existingChip.desc;
-      if (existingChip.description && !existingChip.desc) {
-        document.getElementById("desc").value = existingChip.description;
-      }
+      if (existingChip.description && !existingChip.desc) document.getElementById("desc").value = existingChip.description;
+      if (existingChip.visibility) document.getElementById("visibility").value = existingChip.visibility;
+      if (existingChip.imageVisibility) document.getElementById("imageVisibility").value = existingChip.imageVisibility;
 
-      if (existingChip.visibility) {
-        document.getElementById("visibility").value = existingChip.visibility;
-      }
-
-      if (existingChip.imageVisibility) {
-        document.getElementById("imageVisibility").value = existingChip.imageVisibility;
+      if (Array.isArray(existingChip.structuredSections)) {
+        existingChip.structuredSections.forEach(section => addStructuredSection(section));
       }
     }
 
@@ -884,16 +901,17 @@ Saved for owner access later.
       const viewerLink = document.getElementById("viewerLink");
       const lightbox = document.getElementById("lightbox");
       const lightboxClose = document.getElementById("lightboxClose");
+      const addSectionBtn = document.getElementById("addSectionBtn");
 
       if (viewerLink && chipCode) {
         viewerLink.href = `chip.html?code=${encodeURIComponent(chipCode)}`;
       }
 
       if (debugChip) {
-        debugChip.textContent = chipCode
-          ? `Chip Code: ${chipCode}`
-          : "Preview Mode";
+        debugChip.textContent = chipCode ? `Chip Code: ${chipCode}` : "Preview Mode";
       }
+
+      addSectionBtn.addEventListener("click", () => addStructuredSection());
 
       applyExistingChipData();
       renderSavedPhotos();
@@ -971,20 +989,18 @@ Saved for owner access later.
         existingChip.code = chipCode;
         existingChip.chipPurpose = chipPurpose;
         existingChip.category = chipPurpose;
-
         existingChip.name = fullName;
         existingChip.fullName = fullName;
         existingChip.email = email;
         existingChip.phone = phone;
         existingChip.pin = pin;
-
         existingChip.title = title;
         existingChip.headline = headline;
         existingChip.desc = desc;
         existingChip.description = desc.trim();
         existingChip.visibility = visibility;
         existingChip.imageVisibility = imageVisibility;
-
+        existingChip.structuredSections = collectStructuredSections();
         existingChip.images = uniqueImages(workingImages);
         existingChip.updatedAt = new Date().toISOString();
         existingChip.status = "setup_complete";
@@ -1004,9 +1020,7 @@ Saved for owner access later.
               onConflict: "chip_code"
             });
 
-          if (error) {
-            console.warn("Saved locally, but cloud failed:", error);
-          }
+          if (error) console.warn("Saved locally, but cloud failed:", error);
         } catch (err) {
           console.warn("Saved locally, but cloud failed:", err);
         }
@@ -1017,9 +1031,7 @@ Saved for owner access later.
       lightboxClose.addEventListener("click", closeLightbox);
 
       lightbox.addEventListener("click", (e) => {
-        if (e.target === lightbox) {
-          closeLightbox();
-        }
+        if (e.target === lightbox) closeLightbox();
       });
     });
   </script>
