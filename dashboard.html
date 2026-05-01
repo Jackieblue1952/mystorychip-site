@@ -1,191 +1,644 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MyStoryChip Control Center</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <title>MyStoryChip Control Center</title>
 
-<style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f7e3b8;
-  margin: 0;
-  padding: 20px;
-}
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-h1 {
-  text-align: center;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-.section {
-  background: #fff;
-  padding: 15px;
-  margin-bottom: 20px;
-  border-radius: 10px;
-}
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      color: #2f1f10;
+      background:
+        radial-gradient(circle at top center, rgba(255, 228, 150, 0.95), transparent 32%),
+        linear-gradient(180deg, #fff8e8 0%, #f4dfae 42%, #c78c2f 100%);
+      min-height: 100vh;
+    }
 
-input, textarea, select {
-  width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  margin-bottom: 10px;
-}
+    .page {
+      width: min(1180px, 94%);
+      margin: 0 auto;
+      padding: 28px 0 60px;
+    }
 
-button {
-  padding: 10px 15px;
-  cursor: pointer;
-}
+    .hero {
+      text-align: center;
+      padding: 34px 24px;
+      border-radius: 30px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.82), rgba(255,225,145,0.68)),
+        radial-gradient(circle at center, rgba(255,190,68,0.35), transparent 65%);
+      border: 1px solid rgba(122, 75, 17, 0.22);
+      box-shadow: 0 24px 60px rgba(82, 47, 8, 0.22);
+    }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
+    .brand {
+      font-size: 14px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #8a5a12;
+      font-weight: bold;
+    }
 
-td, th {
-  border: 1px solid #ccc;
-  padding: 8px;
-}
-</style>
+    h1 {
+      margin: 10px 0 8px;
+      font-size: clamp(34px, 6vw, 62px);
+      color: #3a230d;
+    }
+
+    .subtitle {
+      max-width: 760px;
+      margin: 0 auto;
+      color: #654118;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    .actions {
+      margin-top: 22px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    button,
+    .btn {
+      border: 0;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-weight: bold;
+      font-size: 15px;
+      color: #2d1b0c;
+      background: linear-gradient(180deg, #ffe5a3, #d89b28);
+      box-shadow: 0 9px 18px rgba(91, 54, 8, 0.22);
+    }
+
+    button:hover,
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .secondary {
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(123, 78, 12, 0.22);
+    }
+
+    .danger {
+      background: linear-gradient(180deg, #ffd1b8, #d96c35);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-top: 26px;
+    }
+
+    .stat {
+      background: rgba(255,255,255,0.74);
+      border: 1px solid rgba(125, 78, 18, 0.18);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: 0 14px 35px rgba(99, 59, 8, 0.13);
+    }
+
+    .stat small {
+      color: #7b511e;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 34px;
+      margin-top: 8px;
+    }
+
+    .section {
+      margin-top: 24px;
+      padding: 22px;
+      border-radius: 26px;
+      background: rgba(255,255,255,0.74);
+      border: 1px solid rgba(113, 75, 23, 0.18);
+      box-shadow: 0 16px 40px rgba(88, 54, 9, 0.14);
+    }
+
+    h2 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      color: #35200e;
+    }
+
+    p {
+      color: #67451f;
+      line-height: 1.5;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+      color: #4a2e12;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      margin-top: 6px;
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(107, 69, 19, 0.25);
+      background: #fffaf0;
+      color: #2d1b0c;
+      font-size: 15px;
+      font-family: Arial, sans-serif;
+    }
+
+    textarea {
+      min-height: 88px;
+      resize: vertical;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #fffaf0;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid rgba(107, 69, 19, 0.13);
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f4d58a;
+      color: #3b240f;
+      font-family: Georgia, serif;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #f3d37f;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .note-card {
+      background: #fff6df;
+      border-left: 6px solid #c88b20;
+      padding: 16px;
+      border-radius: 16px;
+      margin-top: 12px;
+      font-family: Arial, sans-serif;
+    }
+
+    .log {
+      background: #2f210f;
+      color: #ffe8ae;
+      border-radius: 18px;
+      padding: 14px;
+      font-family: monospace;
+      min-height: 120px;
+      white-space: pre-wrap;
+    }
+
+    .mini-btn {
+      padding: 7px 10px;
+      font-size: 12px;
+      margin-right: 6px;
+      box-shadow: none;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      color: #6a471d;
+      font-size: 13px;
+    }
+
+    @media (max-width: 900px) {
+      .stats,
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <main class="page">
 
-<h1>MyStoryChip Control Center</h1>
+    <section class="hero">
+      <div class="brand">Private Owner Area</div>
+      <h1>MyStoryChip Control Center</h1>
+      <p class="subtitle">
+        Private, simple, thorough, and KOOL. Your owner-side control room for chip records,
+        demo chips, customer notes, sales/tax notes, storage planning, and activity history.
+      </p>
 
-<div class="section">
-<h2>Add Chip</h2>
+      <div class="actions">
+        <a class="btn" href="index.html">Home</a>
+        <a class="btn secondary" href="buy.html">Buy Page</a>
+        <a class="btn secondary" href="client-setup.html">Setup Page</a>
+        <a class="btn secondary" href="chip.html">View Chip</a>
+      </div>
+    </section>
 
-<input id="code" placeholder="Chip Code">
-<select id="type">
-  <option>Paid</option>
-  <option>Demo</option>
-  <option>Test</option>
-</select>
+    <section class="stats">
+      <div class="stat">
+        <small>Total Chips</small>
+        <strong id="totalChips">0</strong>
+      </div>
+      <div class="stat">
+        <small>Demo Chips</small>
+        <strong id="demoChips">0</strong>
+      </div>
+      <div class="stat">
+        <small>Customer Records</small>
+        <strong id="customerCount">0</strong>
+      </div>
+      <div class="stat">
+        <small>Database</small>
+        <strong id="dbStatus">Checking</strong>
+      </div>
+    </section>
 
-<select id="status">
-  <option>Available</option>
-  <option>Assigned</option>
-  <option>Live</option>
-</select>
+    <section class="section">
+      <h2>Overview</h2>
+      <p>
+        This dashboard is connected to Supabase. Records saved here are no longer browser-only.
+      </p>
+      <div class="note-card">
+        <strong>Build status:</strong> Supabase-powered dashboard. No localStorage record system.
+      </div>
+    </section>
 
-<input id="name" placeholder="Customer Name">
-<input id="email" placeholder="Customer Email">
-<textarea id="notes" placeholder="Notes"></textarea>
+    <section class="section">
+      <h2>Create / Demo Chips</h2>
+      <p>Create a paid chip, demo chip, personal chip, replacement chip, or internal test chip.</p>
 
-<button onclick="addChip()">Add Chip</button>
-</div>
+      <div class="two-col">
+        <div>
+          <label>Chip Code</label>
+          <input id="chipCode" placeholder="Example: MSC-1001" />
 
-<div class="section">
-<h2>Chip Registry</h2>
-<table>
-<thead>
-<tr>
-<th>Code</th>
-<th>Type</th>
-<th>Status</th>
-<th>Name</th>
-<th>Email</th>
-</tr>
-</thead>
-<tbody id="chipsTable"></tbody>
-</table>
-</div>
+          <label>Chip Type</label>
+          <select id="chipType">
+            <option>Paid Customer Chip</option>
+            <option>Demo Chip</option>
+            <option>Family / Personal Chip</option>
+            <option>Replacement Chip</option>
+            <option>Test Chip</option>
+          </select>
 
-<div class="section">
-<h2>Tax Notes</h2>
-<textarea id="taxNote"></textarea>
-<button onclick="addNote()">Save Note</button>
+          <label>Status</label>
+          <select id="chipStatus">
+            <option>Available</option>
+            <option>Assigned</option>
+            <option>Setup Started</option>
+            <option>Live</option>
+            <option>Needs Review</option>
+          </select>
+        </div>
 
-<ul id="notesList"></ul>
-</div>
+        <div>
+          <label>Customer Name</label>
+          <input id="customerName" placeholder="Customer name" />
 
-<script>
-const supabase = window.supabase.createClient(
-  "https://ulbmdqwavkphcnjgrchd.supabase.co",
-  "sb_publishable_xdy7N3s-1sQLo9vPe70OFQ_VTLS8BjQ"
-);
+          <label>Customer Email</label>
+          <input id="customerEmail" placeholder="Customer email" />
 
-async function addChip() {
-  const { error } = await supabase
-    .from('chips')
-    .insert([{
-      code: document.getElementById("code").value,
-      type: document.getElementById("type").value,
-      status: document.getElementById("status").value,
-      customer_name: document.getElementById("name").value,
-      customer_email: document.getElementById("email").value,
-      notes: document.getElementById("notes").value
-    }]);
+          <label>Private Notes</label>
+          <textarea id="chipNotes" placeholder="Private notes for Jack only"></textarea>
+        </div>
+      </div>
 
-  if (error) {
-    alert("Error: " + error.message);
-  } else {
-    alert("Chip saved!");
-    loadChips();
-  }
-}
+      <br />
+      <button onclick="addChip()">Add Chip Record</button>
+      <button class="secondary" onclick="generateCode()">Generate Code</button>
+      <button class="secondary" onclick="clearForm()">Clear Form</button>
+    </section>
 
-async function loadChips() {
-  const { data, error } = await supabase
-    .from('chips')
-    .select('*')
-    .order('created_at', { ascending: false });
+    <section class="section">
+      <h2>Chip Registry</h2>
+      <p>All chip records saved in Supabase.</p>
 
-  if (error) {
-    console.log(error);
-    return;
-  }
+      <table>
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Customer</th>
+            <th>Email</th>
+            <th>Notes</th>
+            <th>Tools</th>
+          </tr>
+        </thead>
+        <tbody id="chipTable">
+          <tr><td colspan="7">Loading chips...</td></tr>
+        </tbody>
+      </table>
+    </section>
 
-  const table = document.getElementById("chipsTable");
-  table.innerHTML = "";
+    <section class="section">
+      <h2>Sales / Tax Notes</h2>
+      <p>Private record area for purchases, demos, giveaways, expenses, and IRS backup reminders.</p>
 
-  data.forEach(chip => {
-    table.innerHTML += `
-      <tr>
-        <td>${chip.code}</td>
-        <td>${chip.type}</td>
-        <td>${chip.status}</td>
-        <td>${chip.customer_name || ''}</td>
-        <td>${chip.customer_email || ''}</td>
-      </tr>
-    `;
-  });
-}
+      <label>Sales / Tax Note</label>
+      <textarea id="taxNote" placeholder="Example: Sold chip MSC-1001 for $49.95."></textarea>
+      <br /><br />
+      <button onclick="addTaxNote()">Save Tax Note</button>
 
-async function addNote() {
-  const note = document.getElementById("taxNote").value;
+      <div id="taxNotes"></div>
+    </section>
 
-  const { error } = await supabase
-    .from('tax_notes')
-    .insert([{ note }]);
+    <section class="section">
+      <h2>Storage</h2>
+      <p>
+        Each chip includes 250 MB shared storage. Sections organize content, but storage is one shared pool.
+      </p>
+      <div class="note-card">
+        <strong>Storage rule:</strong> 250 MB per chip. Expand later when more chips or storage upgrades are purchased.
+      </div>
+    </section>
 
-  if (error) {
-    alert(error.message);
-  } else {
-    document.getElementById("taxNote").value = "";
-    loadNotes();
-  }
-}
+    <section class="section">
+      <h2>Activity Log</h2>
+      <p>Live owner history from Supabase.</p>
+      <div class="log" id="activityLog">Loading activity...</div>
+    </section>
 
-async function loadNotes() {
-  const { data } = await supabase
-    .from('tax_notes')
-    .select('*')
-    .order('created_at', { ascending: false });
+    <section class="section">
+      <h2>System Tools</h2>
+      <p>Owner tools for checking and refreshing the dashboard.</p>
+      <button onclick="loadAll()">Refresh Dashboard</button>
+      <button class="secondary" onclick="testConnection()">Test Supabase</button>
+    </section>
 
-  const list = document.getElementById("notesList");
-  list.innerHTML = "";
+    <footer>
+      MyStoryChip Control Center · Founder & Creator: Jack W. Kennedy · Private Owner Records
+    </footer>
 
-  data.forEach(n => {
-    list.innerHTML += `<li>${n.note}</li>`;
-  });
-}
+  </main>
 
-loadChips();
-loadNotes();
-</script>
+  <script>
+    const supabaseClient = window.supabase.createClient(
+      "https://ulbmdqwavkphcnjgrchd.supabase.co",
+      "sb_publishable_xdy7N3s-1sQLo9vPe70OFQ_VTLS8BjQ"
+    );
 
+    let chips = [];
+
+    function escapeHTML(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function generateCode() {
+      const number = Math.floor(1000 + Math.random() * 9000);
+      document.getElementById("chipCode").value = `MSC-${number}`;
+    }
+
+    function clearForm() {
+      document.getElementById("chipCode").value = "";
+      document.getElementById("customerName").value = "";
+      document.getElementById("customerEmail").value = "";
+      document.getElementById("chipNotes").value = "";
+    }
+
+    async function logActivity(message) {
+      await supabaseClient
+        .from("activity_log")
+        .insert([{ message }]);
+
+      loadActivity();
+    }
+
+    async function addChip() {
+      const code = document.getElementById("chipCode").value.trim();
+
+      if (!code) {
+        alert("Please enter or generate a chip code first.");
+        return;
+      }
+
+      const record = {
+        code,
+        type: document.getElementById("chipType").value,
+        status: document.getElementById("chipStatus").value,
+        customer_name: document.getElementById("customerName").value.trim(),
+        customer_email: document.getElementById("customerEmail").value.trim(),
+        notes: document.getElementById("chipNotes").value.trim()
+      };
+
+      const { error } = await supabaseClient
+        .from("chips")
+        .insert([record]);
+
+      if (error) {
+        alert("Chip save failed: " + error.message);
+        return;
+      }
+
+      await logActivity(`Added chip record ${code}.`);
+      clearForm();
+      loadAll();
+      alert("Chip saved to Supabase.");
+    }
+
+    async function loadChips() {
+      const { data, error } = await supabaseClient
+        .from("chips")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      const table = document.getElementById("chipTable");
+
+      if (error) {
+        table.innerHTML = `<tr><td colspan="7">Error loading chips: ${escapeHTML(error.message)}</td></tr>`;
+        document.getElementById("dbStatus").textContent = "Error";
+        return;
+      }
+
+      chips = data || [];
+      document.getElementById("dbStatus").textContent = "Live";
+
+      document.getElementById("totalChips").textContent = chips.length;
+      document.getElementById("demoChips").textContent =
+        chips.filter(c => (c.type || "").toLowerCase().includes("demo")).length;
+      document.getElementById("customerCount").textContent =
+        chips.filter(c => c.customer_name || c.customer_email).length;
+
+      if (chips.length === 0) {
+        table.innerHTML = `<tr><td colspan="7">No chip records yet.</td></tr>`;
+        return;
+      }
+
+      table.innerHTML = chips.map(chip => `
+        <tr>
+          <td><strong>${escapeHTML(chip.code)}</strong></td>
+          <td>${escapeHTML(chip.type)}</td>
+          <td><span class="pill">${escapeHTML(chip.status)}</span></td>
+          <td>${escapeHTML(chip.customer_name || "—")}</td>
+          <td>${escapeHTML(chip.customer_email || "—")}</td>
+          <td>${escapeHTML(chip.notes || "—")}</td>
+          <td>
+            <button class="mini-btn secondary" onclick="openChip('${escapeHTML(chip.code)}')">View</button>
+            <button class="mini-btn danger" onclick="deleteChip('${escapeHTML(chip.id)}','${escapeHTML(chip.code)}')">Delete</button>
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    function openChip(code) {
+      window.open(`chip.html?code=${encodeURIComponent(code)}`, "_blank");
+    }
+
+    async function deleteChip(id, code) {
+      const ok = confirm(`Delete chip record ${code}?`);
+      if (!ok) return;
+
+      const { error } = await supabaseClient
+        .from("chips")
+        .delete()
+        .eq("id", id);
+
+      if (error) {
+        alert("Delete failed: " + error.message);
+        return;
+      }
+
+      await logActivity(`Deleted chip record ${code}.`);
+      loadAll();
+    }
+
+    async function addTaxNote() {
+      const note = document.getElementById("taxNote").value.trim();
+
+      if (!note) {
+        alert("Please type a tax or sales note first.");
+        return;
+      }
+
+      const { error } = await supabaseClient
+        .from("tax_notes")
+        .insert([{ note }]);
+
+      if (error) {
+        alert("Tax note save failed: " + error.message);
+        return;
+      }
+
+      document.getElementById("taxNote").value = "";
+      await logActivity("Saved a sales / tax note.");
+      loadTaxNotes();
+    }
+
+    async function loadTaxNotes() {
+      const { data, error } = await supabaseClient
+        .from("tax_notes")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      const box = document.getElementById("taxNotes");
+
+      if (error) {
+        box.innerHTML = `<div class="note-card">Error loading tax notes: ${escapeHTML(error.message)}</div>`;
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        box.innerHTML = `<div class="note-card">No sales or tax notes saved yet.</div>`;
+        return;
+      }
+
+      box.innerHTML = data.map(note => `
+        <div class="note-card">
+          <strong>${new Date(note.created_at).toLocaleString()}</strong><br>
+          ${escapeHTML(note.note)}
+        </div>
+      `).join("");
+    }
+
+    async function loadActivity() {
+      const { data, error } = await supabaseClient
+        .from("activity_log")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(20);
+
+      const log = document.getElementById("activityLog");
+
+      if (error) {
+        log.textContent = "Error loading activity: " + error.message;
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        log.textContent = "No activity yet.";
+        return;
+      }
+
+      log.textContent = data
+        .map(item => `[${new Date(item.created_at).toLocaleString()}] ${item.message}`)
+        .join("\n");
+    }
+
+    async function testConnection() {
+      const { error } = await supabaseClient
+        .from("chips")
+        .select("id")
+        .limit(1);
+
+      if (error) {
+        alert("Supabase connection failed: " + error.message);
+      } else {
+        alert("Supabase connection is working.");
+      }
+    }
+
+    async function loadAll() {
+      await loadChips();
+      await loadTaxNotes();
+      await loadActivity();
+    }
+
+    loadAll();
+  </script>
 </body>
 </html>
