@@ -1,668 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MyStoryChip Control Center</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyStoryChip Control Center</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    body {
-      margin: 0;
-      font-family: Georgia, "Times New Roman", serif;
-      color: #2b1b0f;
-      background:
-        radial-gradient(circle at top, rgba(255, 232, 170, 0.85), transparent 34%),
-        linear-gradient(180deg, #fff8e9 0%, #f7e3b8 45%, #d7a94f 100%);
-      min-height: 100vh;
-    }
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f7e3b8;
+  margin: 0;
+  padding: 20px;
+}
 
-    .page {
-      width: min(1180px, 94%);
-      margin: 0 auto;
-      padding: 28px 0 50px;
-    }
+h1 {
+  text-align: center;
+}
 
-    header {
-      text-align: center;
-      padding: 28px 20px;
-      border-radius: 28px;
-      background:
-        linear-gradient(135deg, rgba(255,255,255,0.75), rgba(255,226,150,0.55)),
-        radial-gradient(circle at center, rgba(255,202,80,0.35), transparent 60%);
-      box-shadow: 0 20px 55px rgba(97, 62, 10, 0.22);
-      border: 1px solid rgba(143, 91, 20, 0.25);
-    }
+.section {
+  background: #fff;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
 
-    .brand {
-      font-size: 14px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: #8a5a12;
-      font-weight: bold;
-    }
+input, textarea, select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
 
-    h1 {
-      margin: 10px 0 8px;
-      font-size: clamp(34px, 6vw, 62px);
-      color: #3b240f;
-      text-shadow: 0 2px 0 rgba(255,255,255,0.6);
-    }
+button {
+  padding: 10px 15px;
+  cursor: pointer;
+}
 
-    .subtitle {
-      margin: 0 auto;
-      max-width: 740px;
-      font-size: 18px;
-      line-height: 1.5;
-      color: #5d3b17;
-    }
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
 
-    .top-actions {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 22px;
-    }
-
-    button,
-    .btn {
-      border: 0;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      padding: 12px 18px;
-      border-radius: 999px;
-      font-weight: bold;
-      font-size: 15px;
-      color: #2d1b0c;
-      background: linear-gradient(180deg, #ffe39a, #d89b28);
-      box-shadow: 0 9px 18px rgba(91, 54, 8, 0.22);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    button:hover,
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 24px rgba(91, 54, 8, 0.28);
-    }
-
-    .btn.secondary {
-      background: rgba(255,255,255,0.65);
-      border: 1px solid rgba(123, 78, 12, 0.22);
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
-      margin-top: 26px;
-    }
-
-    .stat {
-      background: rgba(255,255,255,0.68);
-      border: 1px solid rgba(125, 78, 18, 0.18);
-      border-radius: 22px;
-      padding: 18px;
-      box-shadow: 0 14px 35px rgba(99, 59, 8, 0.13);
-    }
-
-    .stat small {
-      display: block;
-      color: #7b511e;
-      font-weight: bold;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-
-    .stat strong {
-      display: block;
-      font-size: 34px;
-      margin-top: 8px;
-      color: #2f1d0d;
-    }
-
-    .section {
-      margin-top: 24px;
-      padding: 22px;
-      border-radius: 26px;
-      background: rgba(255,255,255,0.7);
-      border: 1px solid rgba(113, 75, 23, 0.18);
-      box-shadow: 0 16px 40px rgba(88, 54, 9, 0.14);
-    }
-
-    .section h2 {
-      margin: 0 0 8px;
-      font-size: 28px;
-      color: #35200e;
-    }
-
-    .section p {
-      margin-top: 0;
-      line-height: 1.5;
-      color: #67451f;
-    }
-
-    .two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
-
-    label {
-      display: block;
-      margin-top: 12px;
-      font-weight: bold;
-      color: #4a2e12;
-    }
-
-    input,
-    select,
-    textarea {
-      width: 100%;
-      margin-top: 6px;
-      padding: 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(107, 69, 19, 0.25);
-      background: #fffaf0;
-      color: #2d1b0c;
-      font-size: 15px;
-      font-family: Arial, sans-serif;
-    }
-
-    textarea {
-      min-height: 90px;
-      resize: vertical;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 14px;
-      overflow: hidden;
-      border-radius: 18px;
-      background: #fffaf0;
-    }
-
-    th,
-    td {
-      padding: 12px;
-      text-align: left;
-      border-bottom: 1px solid rgba(107, 69, 19, 0.13);
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-    }
-
-    th {
-      background: #f4d58a;
-      color: #3b240f;
-      font-family: Georgia, serif;
-    }
-
-    .pill {
-      display: inline-block;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: #f3d37f;
-      font-size: 12px;
-      font-weight: bold;
-    }
-
-    .danger {
-      background: linear-gradient(180deg, #ffd1b8, #d96c35);
-      color: #2d1208;
-    }
-
-    .log {
-      background: #2f210f;
-      color: #ffe8ae;
-      border-radius: 18px;
-      padding: 14px;
-      font-family: monospace;
-      min-height: 140px;
-      white-space: pre-wrap;
-    }
-
-    .note-card {
-      background: #fff6df;
-      border-left: 6px solid #c88b20;
-      padding: 16px;
-      border-radius: 16px;
-      margin-top: 12px;
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 30px;
-      color: #6a471d;
-      font-size: 13px;
-    }
-
-    @media (max-width: 900px) {
-      .grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .two-col {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 520px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      h1 {
-        font-size: 38px;
-      }
-    }
-  </style>
+td, th {
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+</style>
 </head>
 
 <body>
-  <main class="page">
-
-    <header>
-      <div class="brand">Private Admin Area</div>
-      <h1>MyStoryChip Control Center</h1>
-      <p class="subtitle">
-        Private, simple, thorough, and KOOL. This is your owner-side command room
-        for chip records, demo chips, customers, taxes, storage notes, logs, and system tools.
-      </p>
-
-      <div class="top-actions">
-        <a class="btn" href="index.html">Home</a>
-        <a class="btn secondary" href="buy.html">Buy Page</a>
-        <a class="btn secondary" href="client-setup.html">Setup Page</a>
-        <a class="btn secondary" href="chip.html">View Chip</a>
-      </div>
-    </header>
-
-    <section class="grid">
-      <div class="stat">
-        <small>Total Chips</small>
-        <strong id="totalChips">0</strong>
-      </div>
-      <div class="stat">
-        <small>Demo Chips</small>
-        <strong id="demoChips">0</strong>
-      </div>
-      <div class="stat">
-        <small>Customer Records</small>
-        <strong id="customerCount">0</strong>
-      </div>
-      <div class="stat">
-        <small>Storage Used</small>
-        <strong id="storageUsed">0 MB</strong>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>Overview</h2>
-      <p>
-        This page is for Jack only. It is meant to help track what chips exist,
-        who they belong to, what was sold, what was given as a demo, and what needs attention.
-      </p>
-
-      <div class="note-card">
-        <strong>Current build note:</strong>
-        This dashboard stores records in this browser using localStorage for now.
-        Later, Adrian can connect this same layout to the real backend/database.
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>Create / Demo Chips</h2>
-      <p>Create a paid chip record, demo chip, replacement chip, or internal test chip.</p>
-
-      <div class="two-col">
-        <div>
-          <label>Chip Code</label>
-          <input id="chipCode" placeholder="Example: MSC-1001" />
-
-          <label>Chip Type</label>
-          <select id="chipType">
-            <option>Paid Customer Chip</option>
-            <option>Demo Chip</option>
-            <option>Family / Personal Chip</option>
-            <option>Replacement Chip</option>
-            <option>Test Chip</option>
-          </select>
-
-          <label>Status</label>
-          <select id="chipStatus">
-            <option>Available</option>
-            <option>Assigned</option>
-            <option>Setup Started</option>
-            <option>Live</option>
-            <option>Needs Review</option>
-          </select>
-        </div>
-
-        <div>
-          <label>Customer Name</label>
-          <input id="customerName" placeholder="Customer name" />
-
-          <label>Customer Email</label>
-          <input id="customerEmail" placeholder="Customer email" />
-
-          <label>Notes</label>
-          <textarea id="chipNotes" placeholder="Private notes for Jack only"></textarea>
-        </div>
-      </div>
-
-      <br />
-      <button onclick="addChip()">Add Chip Record</button>
-      <button class="secondary" onclick="generateCode()">Generate Code</button>
-    </section>
-
-    <section class="section">
-      <h2>Chip Registry</h2>
-      <p>All chip codes and their current status.</p>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Code</th>
-            <th>Type</th>
-            <th>Status</th>
-            <th>Customer</th>
-            <th>Email</th>
-            <th>Notes</th>
-          </tr>
-        </thead>
-        <tbody id="chipTable"></tbody>
-      </table>
-    </section>
-
-    <section class="section">
-      <h2>Customer Records</h2>
-      <p>Simple customer list for follow-up, support, and personal business records.</p>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Customer</th>
-            <th>Email</th>
-            <th>Chip Code</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody id="customerTable"></tbody>
-      </table>
-    </section>
-
-    <section class="section">
-      <h2>Sales / Tax Notes</h2>
-      <p>Private record area for purchase notes, demo giveaways, expenses, and IRS backup reminders.</p>
-
-      <label>Sales / Tax Note</label>
-      <textarea id="taxNote" placeholder="Example: Sold chip MSC-1001 for $49.95 on May 1, 2026."></textarea>
-      <br /><br />
-      <button onclick="addTaxNote()">Save Tax Note</button>
-
-      <div id="taxNotes"></div>
-    </section>
-
-    <section class="section">
-      <h2>Storage</h2>
-      <p>Each chip includes 250 MB. This section helps track storage planning and customer usage later.</p>
-
-      <div class="note-card">
-        <strong>Storage rule:</strong> 250 MB per chip, shared across that customer’s page.
-        Sections organize the content, but storage is one shared pool.
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>Activity Log</h2>
-      <p>Simple private history of dashboard actions.</p>
-      <div class="log" id="activityLog">No activity yet.</div>
-    </section>
-
-    <section class="section">
-      <h2>System Tools</h2>
-      <p>Owner tools for backup, cleanup, and testing.</p>
-
-      <button onclick="exportData()">Export Backup</button>
-      <button class="secondary" onclick="refreshDashboard()">Refresh Counts</button>
-      <button class="danger" onclick="clearDashboard()">Clear Dashboard Data</button>
-    </section>
-
-    <footer>
-      MyStoryChip Control Center · Founder & Creator: Jack W. Kennedy · Private Owner Records
-    </footer>
-
-  </main>
-
-  <script>
-    const STORAGE_KEY = "mscDashboardRecords";
-    const TAX_KEY = "mscDashboardTaxNotes";
-    const LOG_KEY = "mscDashboardLog";
-
-    function getRecords() {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-    }
-
-    function saveRecords(records) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
-    }
-
-    function getTaxNotes() {
-      return JSON.parse(localStorage.getItem(TAX_KEY) || "[]");
-    }
-
-    function saveTaxNotes(notes) {
-      localStorage.setItem(TAX_KEY, JSON.stringify(notes));
-    }
-
-    function getLog() {
-      return JSON.parse(localStorage.getItem(LOG_KEY) || "[]");
-    }
-
-    function saveLog(logs) {
-      localStorage.setItem(LOG_KEY, JSON.stringify(logs));
-    }
-
-    function logAction(text) {
-      const logs = getLog();
-      const stamp = new Date().toLocaleString();
-      logs.unshift(`[${stamp}] ${text}`);
-      saveLog(logs.slice(0, 60));
-      renderLog();
-    }
-
-    function generateCode() {
-      const number = Math.floor(1000 + Math.random() * 9000);
-      document.getElementById("chipCode").value = `MSC-${number}`;
-      logAction("Generated a new chip code.");
-    }
-
-    function addChip() {
-      const code = document.getElementById("chipCode").value.trim();
-      const type = document.getElementById("chipType").value;
-      const status = document.getElementById("chipStatus").value;
-      const name = document.getElementById("customerName").value.trim();
-      const email = document.getElementById("customerEmail").value.trim();
-      const notes = document.getElementById("chipNotes").value.trim();
-
-      if (!code) {
-        alert("Please enter or generate a chip code first.");
-        return;
-      }
-
-      const records = getRecords();
-
-      records.push({
-        code,
-        type,
-        status,
-        name,
-        email,
-        notes,
-        created: new Date().toISOString()
-      });
-
-      saveRecords(records);
-
-      document.getElementById("chipCode").value = "";
-      document.getElementById("customerName").value = "";
-      document.getElementById("customerEmail").value = "";
-      document.getElementById("chipNotes").value = "";
-
-      logAction(`Added chip record ${code}.`);
-      refreshDashboard();
-    }
-
-    function addTaxNote() {
-      const text = document.getElementById("taxNote").value.trim();
-
-      if (!text) {
-        alert("Please type a tax or sales note first.");
-        return;
-      }
-
-      const notes = getTaxNotes();
-
-      notes.unshift({
-        text,
-        date: new Date().toLocaleString()
-      });
-
-      saveTaxNotes(notes);
-      document.getElementById("taxNote").value = "";
-
-      logAction("Saved a sales / tax note.");
-      renderTaxNotes();
-    }
-
-    function renderTables() {
-      const records = getRecords();
-      const chipTable = document.getElementById("chipTable");
-      const customerTable = document.getElementById("customerTable");
-
-      chipTable.innerHTML = "";
-      customerTable.innerHTML = "";
-
-      if (records.length === 0) {
-        chipTable.innerHTML = `<tr><td colspan="6">No chip records yet.</td></tr>`;
-        customerTable.innerHTML = `<tr><td colspan="4">No customer records yet.</td></tr>`;
-        return;
-      }
-
-      records.forEach(record => {
-        chipTable.innerHTML += `
-          <tr>
-            <td><strong>${escapeHTML(record.code)}</strong></td>
-            <td>${escapeHTML(record.type)}</td>
-            <td><span class="pill">${escapeHTML(record.status)}</span></td>
-            <td>${escapeHTML(record.name || "—")}</td>
-            <td>${escapeHTML(record.email || "—")}</td>
-            <td>${escapeHTML(record.notes || "—")}</td>
-          </tr>
-        `;
-
-        customerTable.innerHTML += `
-          <tr>
-            <td>${escapeHTML(record.name || "—")}</td>
-            <td>${escapeHTML(record.email || "—")}</td>
-            <td>${escapeHTML(record.code)}</td>
-            <td>${escapeHTML(record.status)}</td>
-          </tr>
-        `;
-      });
-    }
-
-    function renderTaxNotes() {
-      const notes = getTaxNotes();
-      const box = document.getElementById("taxNotes");
-
-      if (notes.length === 0) {
-        box.innerHTML = `<div class="note-card">No sales or tax notes saved yet.</div>`;
-        return;
-      }
-
-      box.innerHTML = notes.map(note => `
-        <div class="note-card">
-          <strong>${escapeHTML(note.date)}</strong><br />
-          ${escapeHTML(note.text)}
-        </div>
-      `).join("");
-    }
-
-    function renderLog() {
-      const logs = getLog();
-      document.getElementById("activityLog").textContent =
-        logs.length ? logs.join("\n") : "No activity yet.";
-    }
-
-    function refreshDashboard() {
-      const records = getRecords();
-
-      document.getElementById("totalChips").textContent = records.length;
-
-      document.getElementById("demoChips").textContent =
-        records.filter(r => r.type.includes("Demo")).length;
-
-      document.getElementById("customerCount").textContent =
-        records.filter(r => r.name || r.email).length;
-
-      document.getElementById("storageUsed").textContent = "Manual";
-
-      renderTables();
-      renderTaxNotes();
-      renderLog();
-    }
-
-    function exportData() {
-      const data = {
-        chips: getRecords(),
-        taxNotes: getTaxNotes(),
-        activityLog: getLog(),
-        exportedAt: new Date().toISOString()
-      };
-
-      const blob = new Blob([JSON.stringify(data, null, 2)], {
-        type: "application/json"
-      });
-
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-
-      link.href = url;
-      link.download = "mystorychip-dashboard-backup.json";
-      link.click();
-
-      URL.revokeObjectURL(url);
-      logAction("Exported dashboard backup file.");
-    }
-
-    function clearDashboard() {
-      const ok = confirm("This clears dashboard records from this browser only. Are you sure?");
-      if (!ok) return;
-
-      localStorage.removeItem(STORAGE_KEY);
-      localStorage.removeItem(TAX_KEY);
-      localStorage.removeItem(LOG_KEY);
-
-      refreshDashboard();
-      alert("Dashboard data cleared from this browser.");
-    }
-
-    function escapeHTML(value) {
-      return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
-
-    refreshDashboard();
-  </script>
+
+<h1>MyStoryChip Control Center</h1>
+
+<div class="section">
+<h2>Add Chip</h2>
+
+<input id="code" placeholder="Chip Code">
+<select id="type">
+  <option>Paid</option>
+  <option>Demo</option>
+  <option>Test</option>
+</select>
+
+<select id="status">
+  <option>Available</option>
+  <option>Assigned</option>
+  <option>Live</option>
+</select>
+
+<input id="name" placeholder="Customer Name">
+<input id="email" placeholder="Customer Email">
+<textarea id="notes" placeholder="Notes"></textarea>
+
+<button onclick="addChip()">Add Chip</button>
+</div>
+
+<div class="section">
+<h2>Chip Registry</h2>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Type</th>
+<th>Status</th>
+<th>Name</th>
+<th>Email</th>
+</tr>
+</thead>
+<tbody id="chipsTable"></tbody>
+</table>
+</div>
+
+<div class="section">
+<h2>Tax Notes</h2>
+<textarea id="taxNote"></textarea>
+<button onclick="addNote()">Save Note</button>
+
+<ul id="notesList"></ul>
+</div>
+
+<script>
+const supabase = window.supabase.createClient(
+  "https://ulbmdqwavkphcnjgrchd.supabase.co",
+  "sb_publishable_xdy7N3s-1sQLo9vPe70OFQ_VTLS8BjQ"
+);
+
+async function addChip() {
+  const { error } = await supabase
+    .from('chips')
+    .insert([{
+      code: document.getElementById("code").value,
+      type: document.getElementById("type").value,
+      status: document.getElementById("status").value,
+      customer_name: document.getElementById("name").value,
+      customer_email: document.getElementById("email").value,
+      notes: document.getElementById("notes").value
+    }]);
+
+  if (error) {
+    alert("Error: " + error.message);
+  } else {
+    alert("Chip saved!");
+    loadChips();
+  }
+}
+
+async function loadChips() {
+  const { data, error } = await supabase
+    .from('chips')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.log(error);
+    return;
+  }
+
+  const table = document.getElementById("chipsTable");
+  table.innerHTML = "";
+
+  data.forEach(chip => {
+    table.innerHTML += `
+      <tr>
+        <td>${chip.code}</td>
+        <td>${chip.type}</td>
+        <td>${chip.status}</td>
+        <td>${chip.customer_name || ''}</td>
+        <td>${chip.customer_email || ''}</td>
+      </tr>
+    `;
+  });
+}
+
+async function addNote() {
+  const note = document.getElementById("taxNote").value;
+
+  const { error } = await supabase
+    .from('tax_notes')
+    .insert([{ note }]);
+
+  if (error) {
+    alert(error.message);
+  } else {
+    document.getElementById("taxNote").value = "";
+    loadNotes();
+  }
+}
+
+async function loadNotes() {
+  const { data } = await supabase
+    .from('tax_notes')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  const list = document.getElementById("notesList");
+  list.innerHTML = "";
+
+  data.forEach(n => {
+    list.innerHTML += `<li>${n.note}</li>`;
+  });
+}
+
+loadChips();
+loadNotes();
+</script>
+
 </body>
 </html>
