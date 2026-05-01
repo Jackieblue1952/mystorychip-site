@@ -1,230 +1,422 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MyStoryChip</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MyStoryChip</title>
 
-<style>
-* { box-sizing: border-box; }
+  <style>
+    * { box-sizing: border-box; }
 
-body {
-  margin: 0;
-  font-family: Georgia, serif;
-  color: #f5e6c8;
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      color: #f7e7c2;
+      background:
+        linear-gradient(rgba(8, 5, 2, 0.66), rgba(8, 5, 2, 0.92)),
+        url("final-storybook.png") center center / cover no-repeat fixed;
+    }
 
-  background:
-    linear-gradient(rgba(6,6,6,0.75), rgba(6,6,6,0.92)),
-    url("landing-page.png") center/cover no-repeat fixed;
-}
+    .wrap {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 24px;
+    }
 
-/* WRAP */
-.wrap {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 24px;
-}
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+      gap: 12px;
+    }
 
-/* TOP BAR */
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
+    .brand {
+      color: #f5d97a;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-size: 13px;
+      font-weight: bold;
+      text-shadow: 0 0 12px rgba(245, 217, 122, 0.45);
+    }
 
-.brand {
-  color: #d4af37;
-  letter-spacing: 2px;
-  font-size: 13px;
-}
+    .top-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
 
-.edit-link {
-  border: 1px solid rgba(255,255,255,0.2);
-  padding: 10px 16px;
-  border-radius: 999px;
-  text-decoration: none;
-  color: #f5e6c8;
-}
+    .btn {
+      color: #f7e7c2;
+      text-decoration: none;
+      border: 1px solid rgba(245, 217, 122, 0.35);
+      background: rgba(20, 12, 4, 0.62);
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-/* HERO */
-.hero {
-  text-align: center;
-  padding: 50px 25px;
-  border-radius: 26px;
-  background: rgba(12,8,4,0.75);
-  border: 1px solid rgba(212,175,55,0.2);
-  margin-bottom: 22px;
-}
+    .hero,
+    .panel,
+    .message {
+      background:
+        radial-gradient(circle at top center, rgba(255, 218, 120, 0.13), transparent 48%),
+        rgba(14, 9, 4, 0.74);
+      border: 1px solid rgba(212, 175, 55, 0.28);
+      border-radius: 30px;
+      box-shadow:
+        0 0 28px rgba(212, 175, 55, 0.12),
+        0 22px 60px rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(3px);
+    }
 
-.hero h1 {
-  font-size: clamp(2rem,5vw,3.5rem);
-  margin: 0 0 10px;
-}
+    .hero {
+      text-align: center;
+      padding: 54px 28px 46px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
 
-.headline {
-  color: #f5d97a;
-  font-size: 1.2rem;
-}
+    .hero::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -140px;
+      transform: translateX(-50%);
+      width: 620px;
+      height: 260px;
+      background: radial-gradient(circle, rgba(255, 210, 100, 0.34), transparent 70%);
+      pointer-events: none;
+    }
 
-/* PANELS */
-.panel {
-  background: rgba(12,8,4,0.72);
-  border: 1px solid rgba(212,175,55,0.22);
-  border-radius: 24px;
-  padding: 24px;
-  margin-bottom: 22px;
-}
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+    }
 
-.section-title {
-  text-align: center;
-  color: #f5d97a;
-  margin-bottom: 16px;
-}
+    .eyebrow {
+      color: #f5d97a;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
 
-/* STORY */
-.story-body {
-  white-space: pre-wrap;
-  line-height: 1.8;
-}
+    h1 {
+      margin: 0 0 14px;
+      font-size: clamp(2.4rem, 5vw, 4.6rem);
+      line-height: 1.03;
+      color: #fff1c8;
+      text-shadow:
+        0 0 16px rgba(245, 217, 122, 0.28),
+        0 0 38px rgba(0, 0, 0, 0.8);
+    }
 
-/* STRUCTURED */
-.struct-section {
-  margin-top: 20px;
-  border-top: 1px dashed rgba(212,175,55,0.2);
-  padding-top: 15px;
-}
+    .headline {
+      color: #f5d97a;
+      font-size: 1.25rem;
+      line-height: 1.6;
+      max-width: 760px;
+      margin: 0 auto;
+    }
 
-.struct-title {
-  color: #f5d97a;
-  margin-bottom: 6px;
-}
+    .chip-code {
+      margin-top: 18px;
+      color: #cdbb8f;
+      font-size: 0.9rem;
+    }
 
-.struct-type {
-  font-size: 12px;
-  opacity: 0.7;
-  margin-bottom: 6px;
-}
+    .panel {
+      padding: 30px 26px;
+      margin-bottom: 24px;
+    }
 
-/* GALLERY */
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
-  gap: 16px;
-}
+    .section-title {
+      text-align: center;
+      color: #f5d97a;
+      font-size: 1.65rem;
+      margin: 0 0 18px;
+    }
 
-.thumb img {
-  width: 100%;
-  border-radius: 12px;
-  cursor: pointer;
-}
+    .story-body,
+    .section-body {
+      white-space: pre-wrap;
+      line-height: 1.9;
+      font-size: 1.08rem;
+      color: #f7e7c2;
+    }
 
-/* LIGHTBOX */
-.lightbox {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.9);
-  display: none;
-  align-items: center;
-  justify-content: center;
-}
+    .structured-card {
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px dashed rgba(245, 217, 122, 0.22);
+    }
 
-.lightbox img {
-  max-width: 90%;
-  max-height: 90%;
-}
+    .structured-type {
+      color: #cdbb8f;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 1.3px;
+      margin-bottom: 6px;
+    }
 
-.lightbox.active { display: flex; }
+    .structured-title {
+      color: #f5d97a;
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
 
-</style>
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+      gap: 16px;
+    }
+
+    .thumb {
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(245, 217, 122, 0.25);
+      background: rgba(255, 255, 255, 0.05);
+      cursor: pointer;
+      min-height: 155px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.32);
+    }
+
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      min-height: 155px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .empty {
+      text-align: center;
+      color: #cdbb8f;
+      font-style: italic;
+      line-height: 1.6;
+    }
+
+    .credit {
+      text-align: center;
+      color: #d8c79c;
+      line-height: 1.7;
+    }
+
+    .credit strong {
+      color: #f5d97a;
+      font-weight: normal;
+    }
+
+    .message {
+      padding: 34px 24px;
+      text-align: center;
+    }
+
+    .message h2 {
+      color: #f5d97a;
+      margin-top: 0;
+    }
+
+    .disclaimer {
+      max-width: 900px;
+      margin: 28px auto 0;
+      text-align: center;
+      font-size: 0.74rem;
+      line-height: 1.55;
+      color: #cdbb8f;
+      opacity: 0.82;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 9999;
+    }
+
+    .lightbox.active { display: flex; }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 88vh;
+      border-radius: 18px;
+      border: 1px solid rgba(245, 217, 122, 0.28);
+      box-shadow: 0 0 35px rgba(245, 217, 122, 0.18);
+    }
+
+    @media (max-width: 700px) {
+      .wrap { padding: 16px; }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .hero,
+      .panel {
+        border-radius: 22px;
+        padding: 22px 18px;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <div class="wrap">
 
-<div class="wrap">
+    <div class="topbar">
+      <div class="brand">MyStoryChip</div>
 
-<div class="topbar">
-  <div class="brand">MyStoryChip</div>
-  <a id="editLink" class="edit-link">Edit</a>
-</div>
+      <div class="top-actions">
+        <a href="index.html" class="btn">Home</a>
+        <button type="button" class="btn" onclick="history.back()">Back</button>
+        <a id="editLink" class="btn" href="client-setup.html">Edit</a>
+      </div>
+    </div>
 
-<div id="content"></div>
+    <div id="content"></div>
 
-</div>
+    <div class="disclaimer">
+      MyStoryChip provides tools for storing and sharing stories, images, and information.
+      Access cannot be guaranteed at all times. Users are responsible for the content they choose to store and share.
+      Important files should also be backed up separately.
+    </div>
 
-<div class="lightbox" id="lightbox">
-  <img id="lightboxImg">
-</div>
-
-<script>
-
-const STORAGE_KEY = "mscChips";
-const params = new URLSearchParams(window.location.search);
-const code = params.get("code");
-
-const content = document.getElementById("content");
-const editLink = document.getElementById("editLink");
-
-if(code){
-  editLink.href = "client-setup.html?code=" + code;
-}
-
-let chips = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-const chip = chips.find(c => c.code === code);
-
-if(!chip){
-  content.innerHTML = "<h2>Chip not found</h2>";
-}else{
-
-const sections = (chip.structuredSections || []).map(sec => `
-  <div class="struct-section">
-    <div class="struct-type">${sec.type || ""}</div>
-    <div class="struct-title">${sec.title || ""}</div>
-    <div>${sec.content || ""}</div>
   </div>
-`).join("");
 
-const images = (chip.images || []).map((img,i)=>`
-  <div class="thumb" data-i="${i}">
-    <img src="${img}">
+  <div class="lightbox" id="lightbox">
+    <img id="lightboxImg" src="" alt="Expanded story image">
   </div>
-`).join("");
 
-content.innerHTML = `
-<div class="hero">
-  <h1>${chip.title || "My Story"}</h1>
-  <div class="headline">${chip.headline || ""}</div>
-</div>
+  <script>
+    const STORAGE_KEY = "mscChips";
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
 
-<div class="panel">
-  <h2 class="section-title">The Story</h2>
-  <div class="story-body">${chip.desc || ""}</div>
-  ${sections}
-</div>
+    const content = document.getElementById("content");
+    const editLink = document.getElementById("editLink");
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightboxImg");
 
-<div class="panel">
-  <h2 class="section-title">Photos</h2>
-  <div class="gallery">${images}</div>
-</div>
-`;
+    function safe(value) {
+      return value && String(value).trim() ? String(value).trim() : "";
+    }
 
-}
+    function renderMissing(message) {
+      content.innerHTML = `
+        <div class="message">
+          <h2>Chip Not Found</h2>
+          <p>${message}</p>
+        </div>
+      `;
+    }
 
-/* LIGHTBOX */
-const lightbox = document.getElementById("lightbox");
-const lightboxImg = document.getElementById("lightboxImg");
+    if (!code) {
+      renderMissing("No chip code was found in the page link.");
+    } else {
+      editLink.href = `client-setup.html?code=${encodeURIComponent(code)}`;
 
-document.addEventListener("click", e=>{
-  if(e.target.tagName==="IMG" && e.target.closest(".thumb")){
-    lightbox.classList.add("active");
-    lightboxImg.src = e.target.src;
-  }
-  if(e.target===lightbox){
-    lightbox.classList.remove("active");
-  }
-});
+      let chips = [];
 
-</script>
+      try {
+        chips = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      } catch (error) {
+        chips = [];
+      }
 
+      const chip = chips.find(item => item && item.code === code);
+
+      if (!chip) {
+        renderMissing(`We could not find a saved chip with code ${code}.`);
+      } else {
+        const title = safe(chip.title) || safe(chip.name) || "My Story";
+        const headline = safe(chip.headline) || "A story worth keeping.";
+        const story = safe(chip.desc) || safe(chip.description);
+        const creator = safe(chip.fullName) || safe(chip.name) || "a MyStoryChip customer";
+        const imageVisibility = safe(chip.imageVisibility) || "public";
+
+        const showImages = imageVisibility !== "private";
+        const images = showImages && Array.isArray(chip.images)
+          ? [...new Set(chip.images.filter(Boolean))]
+          : [];
+
+        const structuredSections = Array.isArray(chip.structuredSections)
+          ? chip.structuredSections
+          : [];
+
+        const sectionsHTML = structuredSections.length
+          ? structuredSections.map(section => `
+              <div class="structured-card">
+                <div class="structured-type">${safe(section.type) || "Section"}</div>
+                <div class="structured-title">${safe(section.title) || "Untitled Section"}</div>
+                <div class="section-body">${safe(section.content) || ""}</div>
+              </div>
+            `).join("")
+          : "";
+
+        const galleryHTML = images.length
+          ? `
+            <div class="gallery">
+              ${images.map((src, index) => `
+                <div class="thumb" data-index="${index}">
+                  <img src="${src}" alt="Story image ${index + 1}">
+                </div>
+              `).join("")}
+            </div>
+          `
+          : `<div class="empty">No public photos have been added yet.</div>`;
+
+        content.innerHTML = `
+          <section class="hero">
+            <div class="hero-inner">
+              <div class="eyebrow">Tap. Open. Remember.</div>
+              <h1>${title}</h1>
+              <div class="headline">${headline}</div>
+              <div class="chip-code">Chip Code: ${safe(chip.code)}</div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <h2 class="section-title">The Story</h2>
+            <div class="story-body">${story || "No story has been added yet."}</div>
+            ${sectionsHTML}
+          </section>
+
+          <section class="panel">
+            <h2 class="section-title">Photos & Keepsakes</h2>
+            ${galleryHTML}
+          </section>
+
+          <section class="panel credit">
+            Created and shared by <strong>${creator}</strong><br>
+            through MyStoryChip
+          </section>
+        `;
+
+        const galleryImages = images;
+
+        document.querySelectorAll(".thumb").forEach(thumb => {
+          thumb.addEventListener("click", () => {
+            const index = Number(thumb.getAttribute("data-index"));
+            lightboxImg.src = galleryImages[index];
+            lightbox.classList.add("active");
+          });
+        });
+      }
+    }
+
+    lightbox.addEventListener("click", () => {
+      lightbox.classList.remove("active");
+      lightboxImg.src = "";
+    });
+  </script>
 </body>
 </html>
