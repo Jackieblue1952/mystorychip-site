@@ -11,9 +11,10 @@
     body {
       margin: 0;
       font-family: Georgia, "Times New Roman", serif;
-      color: #f7e7c2;
+      color: #3a2a12;
       background:
-        linear-gradient(rgba(8, 5, 2, 0.66), rgba(8, 5, 2, 0.92)),
+        radial-gradient(circle at top center, rgba(255, 230, 150, 0.42), transparent 42%),
+        linear-gradient(rgba(255, 248, 232, 0.72), rgba(235, 205, 142, 0.86)),
         url("final-storybook.png") center center / cover no-repeat fixed;
     }
 
@@ -32,12 +33,11 @@
     }
 
     .brand {
-      color: #f5d97a;
+      color: #6b4b1f;
       letter-spacing: 2px;
       text-transform: uppercase;
       font-size: 13px;
       font-weight: bold;
-      text-shadow: 0 0 12px rgba(245, 217, 122, 0.45);
     }
 
     .top-actions {
@@ -47,27 +47,28 @@
     }
 
     .btn {
-      color: #f7e7c2;
+      color: #3a2a12;
       text-decoration: none;
-      border: 1px solid rgba(245, 217, 122, 0.35);
-      background: rgba(20, 12, 4, 0.62);
+      border: 1px solid rgba(150, 100, 28, 0.34);
+      background: rgba(255, 250, 237, 0.82);
       padding: 10px 16px;
       border-radius: 999px;
       font-weight: bold;
       cursor: pointer;
+      box-shadow: 0 8px 22px rgba(80, 48, 8, 0.12);
     }
 
     .hero,
     .panel,
     .message {
       background:
-        radial-gradient(circle at top center, rgba(255, 218, 120, 0.13), transparent 48%),
-        rgba(14, 9, 4, 0.74);
-      border: 1px solid rgba(212, 175, 55, 0.28);
+        radial-gradient(circle at top center, rgba(255, 244, 206, 0.92), transparent 56%),
+        linear-gradient(180deg, rgba(255,255,255,0.84), rgba(255,246,226,0.78));
+      border: 1px solid rgba(172, 119, 35, 0.28);
       border-radius: 30px;
       box-shadow:
-        0 0 28px rgba(212, 175, 55, 0.12),
-        0 22px 60px rgba(0, 0, 0, 0.45);
+        0 20px 55px rgba(78, 48, 9, 0.18),
+        inset 0 0 32px rgba(255, 255, 255, 0.42);
       backdrop-filter: blur(3px);
     }
 
@@ -87,7 +88,7 @@
       transform: translateX(-50%);
       width: 620px;
       height: 260px;
-      background: radial-gradient(circle, rgba(255, 210, 100, 0.34), transparent 70%);
+      background: radial-gradient(circle, rgba(255, 205, 92, 0.36), transparent 70%);
       pointer-events: none;
     }
 
@@ -97,25 +98,24 @@
     }
 
     .eyebrow {
-      color: #f5d97a;
+      color: #9a6a1d;
       text-transform: uppercase;
       letter-spacing: 2px;
       font-size: 13px;
       margin-bottom: 12px;
+      font-weight: bold;
     }
 
     h1 {
       margin: 0 0 14px;
       font-size: clamp(2.4rem, 5vw, 4.6rem);
       line-height: 1.03;
-      color: #fff1c8;
-      text-shadow:
-        0 0 16px rgba(245, 217, 122, 0.28),
-        0 0 38px rgba(0, 0, 0, 0.8);
+      color: #3a2a12;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.7);
     }
 
     .headline {
-      color: #f5d97a;
+      color: #6b4b1f;
       font-size: 1.25rem;
       line-height: 1.6;
       max-width: 760px;
@@ -124,8 +124,9 @@
 
     .chip-code {
       margin-top: 18px;
-      color: #cdbb8f;
+      color: #7a551d;
       font-size: 0.9rem;
+      font-weight: bold;
     }
 
     .panel {
@@ -135,7 +136,7 @@
 
     .section-title {
       text-align: center;
-      color: #f5d97a;
+      color: #5a3b12;
       font-size: 1.65rem;
       margin: 0 0 18px;
     }
@@ -145,17 +146,17 @@
       white-space: pre-wrap;
       line-height: 1.9;
       font-size: 1.08rem;
-      color: #f7e7c2;
+      color: #3a2a12;
     }
 
     .structured-card {
       margin-top: 20px;
       padding-top: 18px;
-      border-top: 1px dashed rgba(245, 217, 122, 0.22);
+      border-top: 1px dashed rgba(150, 100, 28, 0.3);
     }
 
     .structured-type {
-      color: #cdbb8f;
+      color: #8a642a;
       font-size: 0.78rem;
       text-transform: uppercase;
       letter-spacing: 1.3px;
@@ -163,7 +164,7 @@
     }
 
     .structured-title {
-      color: #f5d97a;
+      color: #5a3b12;
       font-size: 1.25rem;
       margin-bottom: 8px;
       font-weight: bold;
@@ -178,11 +179,11 @@
     .thumb {
       border-radius: 18px;
       overflow: hidden;
-      border: 1px solid rgba(245, 217, 122, 0.25);
-      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(150, 100, 28, 0.28);
+      background: rgba(255, 255, 255, 0.55);
       cursor: pointer;
       min-height: 155px;
-      box-shadow: 0 12px 28px rgba(0,0,0,0.32);
+      box-shadow: 0 12px 28px rgba(80, 48, 8, 0.18);
     }
 
     .thumb img {
@@ -195,20 +196,36 @@
 
     .empty {
       text-align: center;
-      color: #cdbb8f;
+      color: #7a551d;
       font-style: italic;
       line-height: 1.6;
     }
 
     .credit {
       text-align: center;
-      color: #d8c79c;
+      color: #6b4b1f;
       line-height: 1.7;
     }
 
     .credit strong {
-      color: #f5d97a;
-      font-weight: normal;
+      color: #3a2a12;
+    }
+
+    .powered {
+      text-align: center;
+      padding: 28px 24px;
+    }
+
+    .powered-title {
+      color: #5a3b12;
+      font-size: 1.35rem;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .powered-line {
+      color: #6b4b1f;
+      line-height: 1.6;
     }
 
     .message {
@@ -217,7 +234,7 @@
     }
 
     .message h2 {
-      color: #f5d97a;
+      color: #5a3b12;
       margin-top: 0;
     }
 
@@ -227,7 +244,7 @@
       text-align: center;
       font-size: 0.74rem;
       line-height: 1.55;
-      color: #cdbb8f;
+      color: #6a5530;
       opacity: 0.82;
     }
 
@@ -338,7 +355,7 @@
         renderMissing(`We could not find a saved chip with code ${code}.`);
       } else {
         const title = safe(chip.title) || safe(chip.name) || "My Story";
-        const headline = safe(chip.headline) || "A story worth keeping.";
+        const headline = safe(chip.headline) || "Every story, item, memory, or detail has a place.";
         const story = safe(chip.desc) || safe(chip.description);
         const creator = safe(chip.fullName) || safe(chip.name) || "a MyStoryChip customer";
         const imageVisibility = safe(chip.imageVisibility) || "public";
@@ -377,7 +394,7 @@
         content.innerHTML = `
           <section class="hero">
             <div class="hero-inner">
-              <div class="eyebrow">Tap. Open. Remember.</div>
+              <div class="eyebrow">Tap. Open. Discover.</div>
               <h1>${title}</h1>
               <div class="headline">${headline}</div>
               <div class="chip-code">Chip Code: ${safe(chip.code)}</div>
@@ -398,6 +415,13 @@
           <section class="panel credit">
             Created and shared by <strong>${creator}</strong><br>
             through MyStoryChip
+          </section>
+
+          <section class="panel powered">
+            <div class="powered-title">Powered by MyStoryChip</div>
+            <div class="powered-line">
+              Not just a chip — a working digital space for stories, items, memories, and information.
+            </div>
           </section>
         `;
 
