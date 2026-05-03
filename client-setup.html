@@ -757,89 +757,63 @@ let workingImages = normalizeImages(existingChip && Array.isArray(existingChip.i
       lightboxImg.src = "";
     }
 
-    function renderSavedPhotos() {
-      const wrap = document.getElementById("savedPhotosWrap");
-      const grid = document.getElementById("savedPhotosGrid");
-      const empty = document.getElementById("emptyPhotos");
+ function renderSavedPhotos() {
+  const wrap = document.getElementById("savedPhotosWrap");
+  const grid = document.getElementById("savedPhotosGrid");
+  const empty = document.getElementById("emptyPhotos");
 
-      grid.innerHTML = "";
-      wrap.style.display = "block";
+  grid.innerHTML = "";
+  wrap.style.display = "block";
 
-      if (workingImages.length === 0) {
-        empty.classList.remove("hidden");
-        return;
-      }
+  if (workingImages.length === 0) {
+    empty.classList.remove("hidden");
+    return;
+  }
 
-      empty.classList.add("hidden");
+  empty.classList.add("hidden");
 
-      workingImages.forEach((imgObj, index) => {
-        const tile = document.createElement("div");
-        tile.className = "photo-tile";
-        const img = document.createElement("img");
-img.className = "photo-thumb";
-img.src = imgObj.src;
+  workingImages.forEach((imgObj, index) => {
+    const tile = document.createElement("div");
+    tile.className = "photo-tile";
 
-tile.appendChild(img);
+    const img = document.createElement("img");
+    img.className = "photo-thumb";
+    img.src = imgObj.src;
+    img.alt = "Saved photo";
+    img.addEventListener("click", () => openLightbox(imgObj.src));
 
-const select = document.createElement("select");
+    const select = document.createElement("select");
+    select.innerHTML = `
+      <option value="public">Public</option>
+      <option value="private">Private</option>
+      <option value="both">Both</option>
+      <option value="undecided">Later</option>
+    `;
+    select.value = imgObj.visibility || "public";
+    select.addEventListener("change", () => {
+      imgObj.visibility = select.value;
+    });
 
-select.innerHTML = `
-  <option value="public">Public</option>
-  <option value="private">Private</option>
-  <option value="both">Both</option>
-  <option value="undecided">Later</option>
-`;
+    const removeBtn = document.createElement("button");
+    removeBtn.type = "button";
+    removeBtn.className = "photo-remove";
+    removeBtn.setAttribute("aria-label", "Remove photo");
+    removeBtn.textContent = "×";
 
-select.value = imgObj.visibility || "public";
+    removeBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      workingImages.splice(index, 1);
+      renderSavedPhotos();
+      updateUsage(0);
+    });
 
-select.addEventListener("change", () => {
-  imgObj.visibility = select.value;
-});
-
-tile.appendChild(select);
-
-        const img = document.createElement("img");
-        img.className = "photo-thumb";
-        img.src = imgObj.src;
-        img.alt = "Saved photo";
-        img.addEventListener("click", () => openLightbox(src));
-
-        const removeBtn = document.createElement("button");
-        removeBtn.type = "button";
-        removeBtn.className = "photo-remove";
-        removeBtn.setAttribute("aria-label", "Remove photo");
-        removeBtn.textContent = "×";
-
-        removeBtn.addEventListener("click", (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-
-          workingImages.splice(index, 1);
-          renderSavedPhotos();
-          updateUsage(0);
-        });
-        tile.appendChild(img);
-
-const select = document.createElement("select");
-
-select.innerHTML = `
-  <option value="public">Public</option>
-  <option value="private">Private</option>
-  <option value="both">Both</option>
-  <option value="undecided">Later</option>
-`;
-
-select.value = imgObj.visibility || "public";
-
-select.addEventListener("change", () => {
-  imgObj.visibility = select.value;
-});
-
-tile.appendChild(select);
-tile.appendChild(removeBtn);        
-grid.appendChild(tile);
- });
-}
+    tile.appendChild(img);
+    tile.appendChild(select);
+    tile.appendChild(removeBtn);
+    grid.appendChild(tile);
+  });
+}  
 
 function readFilesAsDataUrls(files) {
  const MAX_WIDTH = 1000;
