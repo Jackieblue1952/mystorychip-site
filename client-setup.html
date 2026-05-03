@@ -775,6 +775,28 @@ let workingImages = normalizeImages(existingChip && Array.isArray(existingChip.i
       workingImages.forEach((imgObj, index) => {
         const tile = document.createElement("div");
         tile.className = "photo-tile";
+        const img = document.createElement("img");
+img.className = "photo-thumb";
+img.src = imgObj.src;
+
+tile.appendChild(img);
+
+const select = document.createElement("select");
+
+select.innerHTML = `
+  <option value="public">Public</option>
+  <option value="private">Private</option>
+  <option value="both">Both</option>
+  <option value="undecided">Later</option>
+`;
+
+select.value = imgObj.visibility || "public";
+
+select.addEventListener("change", () => {
+  imgObj.visibility = select.value;
+});
+
+tile.appendChild(select);
 
         const img = document.createElement("img");
         img.className = "photo-thumb";
