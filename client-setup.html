@@ -707,11 +707,16 @@ Saved for owner access later.
       chips.push(existingChip);
     }
 
-    function uniqueImages(images) {
-      return [...new Set((images || []).filter(Boolean))];
+ function normalizeImages(images) {
+  return (images || []).map(img => {
+    if (typeof img === "string") {
+      return { src: img, visibility: "public" };
     }
+    return img;
+  }).filter(Boolean);
+}   
 
-    let workingImages = uniqueImages(existingChip && Array.isArray(existingChip.images) ? existingChip.images : []);
+let workingImages = normalizeImages(existingChip && Array.isArray(existingChip.images) ? existingChip.images : []);
 
     function getStorageMBFromImages(images) {
       let totalBytes = 0;
@@ -767,13 +772,13 @@ Saved for owner access later.
 
       empty.classList.add("hidden");
 
-      workingImages.forEach((src, index) => {
+      workingImages.forEach((imgObj, index) => {
         const tile = document.createElement("div");
         tile.className = "photo-tile";
 
         const img = document.createElement("img");
         img.className = "photo-thumb";
-        img.src = src;
+        img.src = imgObj.src;
         img.alt = "Saved photo";
         img.addEventListener("click", () => openLightbox(src));
 
@@ -791,22 +796,38 @@ Saved for owner access later.
           renderSavedPhotos();
           updateUsage(0);
         });
-
         tile.appendChild(img);
-        tile.appendChild(removeBtn);
-        grid.appendChild(tile);
-      });
-    }
 
-    function readFilesAsDataUrls(files) {
-      const MAX_WIDTH = 1000;
-      const QUALITY = 0.60;
+const select = document.createElement("select");
 
-      const imageFiles = Array.from(files).filter(file => file.type.startsWith("image/"));
+select.innerHTML = `
+  <option value="public">Public</option>
+  <option value="private">Private</option>
+  <option value="both">Both</option>
+  <option value="undecided">Later</option>
+`;
 
-      return Promise.all(imageFiles.map(file => {
-        return new Promise(resolve => {
-          const reader = new FileReader();
+select.value = imgObj.visibility || "public";
+
+select.addEventListener("change", () => {
+  imgObj.visibility = select.value;
+});
+
+tile.appendChild(select);
+tile.appendChild(removeBtn);        
+grid.appendChild(tile);
+ });
+}
+
+function readFilesAsDataUrls(files) {
+ const MAX_WIDTH = 1000;
+const QUALITY = 0.60;
+
+const imageFiles = Array.from(files).filter(file => file.type.startsWith("image/"));
+
+return Promise.all(imageFiles.map(file => {
+ return new Promise(resolve => {
+  const reader = new FileReader();
 
           reader.onload = (event) => {
             const img = new Image();
@@ -902,9 +923,12 @@ Saved for owner access later.
       filesInput.addEventListener("change", async () => {
         const selectedCount = filesInput.files ? filesInput.files.length : 0;
         const loadedImages = await readFilesAsDataUrls(filesInput.files);
-        const newImages = uniqueImages(loadedImages);
+     const newImages = loadedImages.map(img => ({
+  src: img,
+  visibility: "public"
+}));
 
-        workingImages = uniqueImages([...workingImages, ...newImages]);
+workingImages = [...workingImages, ...newImages];  
 
         renderSavedPhotos();
         updateUsage(selectedCount);
@@ -985,19 +1009,19 @@ Saved for owner access later.
         existingChip.visibility = visibility;
         existingChip.imageVisibility = imageVisibility;
 
-        existingChip.images = uniqueImages(workingImages);
-        existingChip.updatedAt = new Date().toISOString();
-        existingChip.status = "setup_complete";
+existingChip.images = workingImages;
+existingChip.updatedAt = new Date().toISOString();
+existingChip.status = "setup_complete";
 
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
+localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
 
-        try {
-          const { error } = await supabaseClient
-            .from("Chips")
-            .upsert({
-              chip_code: chipCode,
-              name: fullName,
-              title: title,
+try {
+const { error } = await supabaseClient
+.from("Chips")
+.upsert({
+ chip_code: chipCode,
+ name: fullName,
+title: title,
               headline: headline,
               description: desc.trim()
             }, {
