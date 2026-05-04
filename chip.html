@@ -324,6 +324,20 @@
       .nav-btn.right {
         right: 10px;
       }
+      .close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 250, 237, 0.9);
+  color: #3a2a12;
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 30;
+}
     }
   </style>
 </head>
@@ -351,10 +365,12 @@
   </div>
 
   <div class="lightbox" id="lightbox">
-    <button id="prevBtn" class="nav-btn left" type="button">&#10094;</button>
-    <img id="lightboxImg" src="" alt="Expanded story image">
-    <button id="nextBtn" class="nav-btn right" type="button">&#10095;</button>
-  </div>
+  <button id="closeBtn" class="close-btn">×</button>
+
+  <button id="prevBtn" class="nav-btn left">&#10094;</button>
+  <img id="lightboxImg" src="">
+  <button id="nextBtn" class="nav-btn right">&#10095;</button>
+</div>
 
   <script>
     const STORAGE_KEY = "mscChips";
@@ -366,6 +382,7 @@
     const lightboxImg = document.getElementById("lightboxImg");
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
+    const closeBtn = document.getElementById("closeBtn");
 
     let galleryImages = [];
     let currentImageIndex = 0;
@@ -409,6 +426,10 @@
       e.stopPropagation();
       showLightboxImage(currentImageIndex + 1);
     });
+    closeBtn.addEventListener("click", function(e) {
+  e.stopPropagation();
+  closeLightbox();
+});
 
     lightbox.addEventListener("click", closeLightbox);
 
