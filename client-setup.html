@@ -757,7 +757,7 @@ let workingImages = normalizeImages(existingChip && Array.isArray(existingChip.i
       lightboxImg.src = "";
     }
 
- function renderSavedPhotos() {
+function renderSavedPhotos() {
   const wrap = document.getElementById("savedPhotosWrap");
   const grid = document.getElementById("savedPhotosGrid");
   const empty = document.getElementById("emptyPhotos");
@@ -813,7 +813,7 @@ let workingImages = normalizeImages(existingChip && Array.isArray(existingChip.i
     tile.appendChild(removeBtn);
     grid.appendChild(tile);
   });
-}  
+}   
 
 function readFilesAsDataUrls(files) {
  const MAX_WIDTH = 1000;
