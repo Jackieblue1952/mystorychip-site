@@ -730,16 +730,16 @@ let workingImages = normalizeImages(existingChip && Array.isArray(existingChip.i
       return totalBytes / (1024 * 1024);
     }
 
-    function updateUsage(selectedCount = 0) {
-      const usage = document.getElementById("usage");
-      const fill = document.getElementById("fill");
+ function updateUsage(selectedCount = 0) {
+  const usage = document.getElementById("usage");
+  const fill = document.getElementById("fill");
 
-      const totalMB = getStorageMBFromImages(workingImages);
-      const percent = Math.min((totalMB / STORAGE_LIMIT_MB) * 100, 100);
+  const totalMB = getStorageMBFromImages(workingImages);
+  const percent = Math.min((totalMB / STORAGE_LIMIT_MB) * 100, 100);
 
-      usage.textContent = `${selectedCount} new photos selected • ${totalMB.toFixed(2)} MB of ${STORAGE_LIMIT_MB} MB used`;
-      fill.style.width = percent + "%";
-    }
+usage.textContent = `${selectedCount} new photos selected • ${totalMB.toFixed(2)} MB used of ${STORAGE_LIMIT_MB} MB`;
+  fill.style.width = percent + "%";
+}   
 
     function openLightbox(src) {
       const lightbox = document.getElementById("lightbox");
