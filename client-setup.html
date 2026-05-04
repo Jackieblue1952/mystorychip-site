@@ -825,42 +825,40 @@ return Promise.all(imageFiles.map(file => {
  return new Promise(resolve => {
   const reader = new FileReader();
 
-          reader.onload = (event) => {
-            const img = new Image();
+  reader.onload = (event) => {
+   const img = new Image();
 
-            img.onload = () => {
-              let width = img.width;
-              let height = img.height;
+   img.onload = () => {
+  let width = img.width;
+  let height = img.height;
 
-              if (width > MAX_WIDTH) {
-                height = Math.round(height * (MAX_WIDTH / width));
-                width = MAX_WIDTH;
-              }
-
-              const canvas = document.createElement("canvas");
-              const ctx = canvas.getContext("2d");
-
-              if (!ctx) {
-                resolve(null);
-                return;
-              }
-
-              canvas.width = width;
-              canvas.height = height;
-              ctx.drawImage(img, 0, 0, width, height);
-
-              resolve(canvas.toDataURL("image/jpeg", QUALITY));
-            };
-
-            img.onerror = () => resolve(null);
-            img.src = event.target.result;
-          };
-
-          reader.onerror = () => resolve(null);
-          reader.readAsDataURL(file);
-        });
-      }));
+   if (width > MAX_WIDTH) {
+    height = Math.round(height * (MAX_WIDTH / width));
+    width = MAX_WIDTH;
     }
+
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    if (!ctx) {
+    resolve(null);
+      return;
+canvas.width = width;
+canvas.height = height;
+ctx.drawImage(img, 0, 0, width, height);
+
+resolve(canvas.toDataURL("image/jpeg", QUALITY));
+ };
+
+ img.onerror = () => resolve(null);
+img.src = event.target.result;
+};
+
+reader.onerror = () => resolve(null);
+reader.readAsDataURL(file);
+});
+}));
+}
 
     function applyExistingChipData() {
       if (!existingChip) return;
@@ -957,7 +955,8 @@ workingImages = [...workingImages, ...newImages];
         const headline = document.getElementById("headline").value.trim();
         const desc = document.getElementById("desc").value;
         const visibility = document.getElementById("visibility").value;
-        const imageVisibility = document.getElementById("imageVisibility").value;
+       const imageVisibilityEl = document.getElementById("imageVisibility");
+const imageVisibility = imageVisibilityEl ? imageVisibilityEl.value : "mixed"; 
         const agree = document.getElementById("agree").checked;
 
         if (!chipPurpose) {
