@@ -338,7 +338,9 @@
     if (!code) {
       renderMissing("No chip code was found in the page link.");
     } else {
-      editLink.href = `client-setup.html?code=${encodeURIComponent(code)}`;
+ if (editLink) {
+  editLink.href = `client-setup.html?code=${encodeURIComponent(code)}`;
+}   
 
       let chips = [];
 
