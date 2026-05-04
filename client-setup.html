@@ -718,14 +718,24 @@ Saved for owner access later.
 
 let workingImages = normalizeImages(existingChip && Array.isArray(existingChip.images) ? existingChip.images : []);
 
-    function getStorageMBFromImages(images) {
-      let totalBytes = 0;
+ function getStorageMBFromImages(images) {
+  let totalBytes = 0;
 
-      images.forEach(src => {
-        if (typeof src === "string") {
-          totalBytes += src.length;
-        }
-      });
+  images.forEach(item => {
+    let src = "";
+
+    if (typeof item === "string") {
+      src = item;
+    } else if (item && typeof item === "object") {
+      src = item.src || item.url || item.data || "";
+    }
+
+    if (src.includes(",")) {
+      src = src.split(",")[1];
+    }
+
+    totalBytes += Math.floor((src.length * 3) / 4);
+  });
 
       return totalBytes / (1024 * 1024);
     }
