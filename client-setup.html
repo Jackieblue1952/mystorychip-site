@@ -878,21 +878,28 @@ return Promise.all(imageFiles.map(file => {
       }
 
       if (existingChip.title) document.getElementById("title").value = existingChip.title;
-      if (existingChip.headline) document.getElementById("headline").value = existingChip.headline;
 
-      if (existingChip.desc) document.getElementById("desc").value = existingChip.desc;
-      if (existingChip.description && !existingChip.desc) {
-        document.getElementById("desc").value = existingChip.description;
-      }
+const descEl = document.getElementById("desc");
+if (descEl) {
+  if (existingChip.desc) descEl.value = existingChip.desc;
+  else if (existingChip.description) descEl.value = existingChip.description;
+}
+if (existingChip.description && !existingChip.desc) {
+ const descEl = document.getElementById("desc");
+if (descEl) {
+  if (existingChip.desc) descEl.value = existingChip.desc;
+  else if (existingChip.description) descEl.value = existingChip.description;
+} 
+}
 
-      if (existingChip.visibility) {
-        document.getElementById("visibility").value = existingChip.visibility;
-      }
-
-      if (existingChip.imageVisibility) {
-        document.getElementById("imageVisibility").value = existingChip.imageVisibility;
-      }
-    }
+if (existingChip.visibility) {
+ document.getElementById("visibility").value = existingChip.visibility;
+}
+ if (existingChip.imageVisibility) {
+const visEl = document.getElementById("visibility");
+if (visEl) visEl.value = existingChip.visibility; 
+  }
+}
 
     document.addEventListener("DOMContentLoaded", () => {
       const filesInput = document.getElementById("files");
