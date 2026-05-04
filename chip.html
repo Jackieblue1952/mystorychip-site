@@ -308,9 +308,11 @@
 
   </div>
 
-  <div class="lightbox" id="lightbox">
-    <img id="lightboxImg" src="" alt="Expanded story image">
-  </div>
+<div class="lightbox" id="lightbox">
+  <button id="prevBtn" class="nav-btn left">&#10094;</button>
+  <img id="lightboxImg" src="" alt="Expanded story image">
+  <button id="nextBtn" class="nav-btn right">&#10095;</button>
+</div>  
 
   <script>
     const STORAGE_KEY = "mscChips";
@@ -416,42 +418,60 @@
             ${sectionsHTML}
           </section>
 
-          <section class="panel">
-            <h2 class="section-title">Photos & Keepsakes</h2>
-            ${galleryHTML}
-          </section>
+<section class="panel">
+<h2 class="section-title">Photos & Keepsakes</h2> 
+</section>
+${galleryHTML}
+<section class="panel credit">
+Created and shared by <strong>${creator}</strong><br>
+through MyStoryChip
+</section>
 
-          <section class="panel credit">
-            Created and shared by <strong>${creator}</strong><br>
-            through MyStoryChip
-          </section>
-
-          <section class="panel powered">
-            <div class="powered-title">Powered by MyStoryChip</div>
-            <div class="powered-line">
-              Not just a chip — a working digital space for stories, items, memories, and information.
-            </div>
-          </section>
+<section class="panel powered">
+<div class="powered-title">Powered by MyStoryChip</div>
+<div class="powered-line">
+Not just a chip — a working digital space for stories, items, memories, and information.
+</div>
+ </section>
         `;
 
   const galleryImages = images.map(img =>
   typeof img === "string" ? img : img.src
-);    
+);  
+let currentImageIndex = 0;
 
-        document.querySelectorAll(".thumb").forEach(thumb => {
-          thumb.addEventListener("click", () => {
-            const index = Number(thumb.getAttribute("data-index"));
-            lightboxImg.src = galleryImages[index];
-            lightbox.classList.add("active");
-          });
-        });
-      }
-    }
+function showLightboxImage(index) {
+  if (!galleryImages.length) return;
+currentImageIndex = (index + galleryImages.length) % galleryImages.length;
+lightboxImg.src = galleryImages[currentImageIndex];
+}
+        
 
-    lightbox.addEventListener("click", () => {
-      lightbox.classList.remove("active");
-      lightboxImg.src = "";
-    });
-  </script>
+document.querySelectorAll(".thumb").forEach(thumb => {
+thumb.addEventListener("click", () => {
+const index = Number(thumb.getAttribute("data-index"));
+showLightboxImage(index);
+lightbox.classList.add("active");            
+});
+});
+}
+}
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+
+prevBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  showLightboxImage(currentImageIndex - 1);
+});
+
+nextBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  showLightboxImage(currentImageIndex + 1);
+});
+lightbox.addEventListener("click", () => {
+lightbox.classList.remove("active");
+lightboxImg.src = "";
+});
+/script>
 </body>
 </html>
