@@ -358,12 +358,20 @@
         const headline = safe(chip.headline) || "Every story, item, memory, or detail has a place.";
         const story = safe(chip.desc) || safe(chip.description);
         const creator = safe(chip.fullName) || safe(chip.name) || "a MyStoryChip customer";
-        const imageVisibility = safe(chip.imageVisibility) || "public";
+  const imageVisibility = safe(chip.imageVisibility) || "public";
 
-        const showImages = imageVisibility !== "private";
-        const images = showImages && Array.isArray(chip.images)
-          ? [...new Set(chip.images.filter(Boolean))]
-          : [];
+  const images = Array.isArray(chip.images)
+  ? chip.images.filter(img => {
+      if (!img) return false;
+
+      // Handle both formats (old + new)
+      if (typeof img === "string") return true;
+
+      const visibility = img.visibility || "public";
+
+      return visibility === "public" || visibility === "both";
+    })
+  : [];
 
         const structuredSections = Array.isArray(chip.structuredSections)
           ? chip.structuredSections
@@ -382,11 +390,11 @@
         const galleryHTML = images.length
           ? `
             <div class="gallery">
-              ${images.map((src, index) => `
-                <div class="thumb" data-index="${index}">
-                  <img src="${src}" alt="Story image ${index + 1}">
-                </div>
-              `).join("")}
+ ${images.map((img, index) => `
+  <div class="thumb" data-index="${index}">
+    <img src="${typeof img === "string" ? img : img.src}" alt="Story image ${index + 1}">
+  </div>
+`).join("")}            
             </div>
           `
           : `<div class="empty">No public photos have been added yet.</div>`;
@@ -425,7 +433,9 @@
           </section>
         `;
 
-        const galleryImages = images;
+  const galleryImages = images.map(img =>
+  typeof img === "string" ? img : img.src
+);    
 
         document.querySelectorAll(".thumb").forEach(thumb => {
           thumb.addEventListener("click", () => {
