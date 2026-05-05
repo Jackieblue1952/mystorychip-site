@@ -338,6 +338,19 @@
   cursor: pointer;
   z-index: 30;
 }
+ .back-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: rgba(255, 250, 237, 0.9);
+  color: #3a2a12;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 30;
+}     
     }
   </style>
 </head>
@@ -365,6 +378,7 @@
   </div>
 
   <div class="lightbox" id="lightbox">
+ <button id="backBtn" class="back-btn">Back</button>   
   <button id="closeBtn" class="close-btn">×</button>
 
   <button id="prevBtn" class="nav-btn left">&#10094;</button>
@@ -426,6 +440,11 @@
       e.stopPropagation();
       showLightboxImage(currentImageIndex + 1);
     });
+  const backBtn = document.getElementById("backBtn");
+ backBtn.addEventListener("click", function(e) {
+  e.stopPropagation();
+  closeLightbox();
+});   
     closeBtn.addEventListener("click", function(e) {
   e.stopPropagation();
   closeLightbox();
