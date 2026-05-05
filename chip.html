@@ -266,12 +266,23 @@
 
     .lightbox img {
       max-width: 90vw;
-      max-height: 88vh;
+      max-height: 85vh;
       border-radius: 18px;
       border: 1px solid rgba(245, 217, 122, 0.28);
       box-shadow: 0 0 35px rgba(245, 217, 122, 0.18);
       z-index: 5;
     }
+    .lightbox {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox.active {
+  display: flex;
+}
 
     .nav-btn {
       position: absolute;
@@ -318,7 +329,7 @@
       }
 
       .nav-btn.left {
-        left: 10px;
+        left: 95px;
       }
 
       .nav-btn.right {
