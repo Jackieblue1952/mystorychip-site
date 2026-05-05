@@ -827,7 +827,7 @@ function readFilesAsDataUrls(files) {
   const MAX_WIDTH = 1000;
   const QUALITY = 0.60;
 
-  const imageFiles = Array.from(files).filter(file => file.type.startsWith("image/"));
+const imageFiles = Array.from(files).filter(file => file.type.startsWith("image/"));  
 
   return Promise.all(imageFiles.map(file => {
     return new Promise(resolve => {
