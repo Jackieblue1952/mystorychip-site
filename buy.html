@@ -74,6 +74,15 @@
         0 8px 22px rgba(50, 30, 8, 0.22);
       font-weight: bold;
     }
+      .top-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.back-btn {
+  text-decoration: none;
+}
       .back-btn {
   margin-right: 10px;
 }
@@ -407,8 +416,8 @@
       <div class="brand">MyStoryChip.com</div>
       <a class="home-btn" href="index.html">Home</a>
    <div class="top-actions">
- <button onclick="history.back()" class="btn back-btn">← Back</button> 
-  <a href="index.html" class="btn">Home</a>
+<a href="javascript:history.back()" class="home-btn">← Back</a> 
+  <a href="index.html" class="home-btn">Home</a>
 </div>   
     </header>
 
