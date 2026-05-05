@@ -249,29 +249,6 @@
       opacity: 0.82;
     }
 
-    .lightbox {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.92);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      z-index: 9999;
-    }
-
-    .lightbox.active {
-      display: flex;
-    }
-
-    .lightbox img {
-      max-width: 90vw;
-      max-height: 85vh;
-      border-radius: 18px;
-      border: 1px solid rgba(245, 217, 122, 0.28);
-      box-shadow: 0 0 35px rgba(245, 217, 122, 0.18);
-      z-index: 5;
-    }
 .lightbox {
   position: fixed;
   inset: 0;
@@ -404,9 +381,7 @@
 
   .nav-btn.right {
     right: 10px;
-  }
-}  
-    }
+  }  
   </style>
 </head>
 
@@ -433,7 +408,7 @@
   </div>
 
   <div class="lightbox" id="lightbox">
- <button id="backBtn" class="back-btn">Back</button>   
+ <button id="backBtn" class="back-btn">Close</button>   
   <button id="closeBtn" class="close-btn">×</button>
 
   <button id="prevBtn" class="nav-btn left">&#10094;</button>
