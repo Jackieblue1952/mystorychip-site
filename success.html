@@ -124,7 +124,7 @@ border: none;
 <div id="chipCode" class="code">TEST123</div>
 
 <a id="setupBtn" class="btn primary" href="#">Edit My Page</a>
-<a id="viewBtn" href="#">View My Page</a>  
+<a id="viewBtn" class="btn secondary" href="#">View My Page</a> 
 
   </div>
 
@@ -150,16 +150,6 @@ if (code && code !== "null") {
   chipCode.textContent = "TEST123";
   setupBtn.href = "client-setup.html?code=TEST123";
   viewBtn.href = "chip.html?code=TEST123";
-}
-</script>
-<script>
-const params = new URLSearchParams(window.location.search);
-const code = params.get("code");
-
-const viewBtn = document.getElementById("viewBtn");
-
-if (viewBtn && code) {
-  viewBtn.href = "chip.html?code=" + code;
 }
 </script>
 </body>
