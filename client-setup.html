@@ -895,13 +895,7 @@ if (descEl) {
   if (existingChip.desc) descEl.value = existingChip.desc;
   else if (existingChip.description) descEl.value = existingChip.description;
 }
-if (existingChip.description && !existingChip.desc) {
- const descEl = document.getElementById("desc");
-if (descEl) {
-  if (existingChip.desc) descEl.value = existingChip.desc;
-  else if (existingChip.description) descEl.value = existingChip.description;
-} 
-}
+
 
 if (existingChip.visibility) {
  document.getElementById("visibility").value = existingChip.visibility;
