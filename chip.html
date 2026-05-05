@@ -352,6 +352,7 @@
   .lightbox img {
     max-width: 94vw;
     max-height: 80vh;
+     transition: opacity 0.2s ease;
   }
 
   .back-btn {
@@ -444,12 +445,21 @@
       `;
     }
 
-    function showLightboxImage(index) {
-      if (!galleryImages.length) return;
+  function showLightboxImage(index) {
+  if (!galleryImages.length) return;
 
-      currentImageIndex = (index + galleryImages.length) % galleryImages.length;
-      lightboxImg.src = galleryImages[currentImageIndex];
-    }
+  currentImageIndex = (index + galleryImages.length) % galleryImages.length;
+
+  // fade out
+  lightboxImg.style.opacity = 0;
+
+  setTimeout(() => {
+    lightboxImg.src = galleryImages[currentImageIndex];
+
+    // fade back in
+    lightboxImg.style.opacity = 1;
+  }, 120);
+}  
 
     function openLightbox(index) {
       showLightboxImage(index);
