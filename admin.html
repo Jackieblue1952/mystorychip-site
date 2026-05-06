@@ -2,96 +2,241 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Access</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin Access | MyStoryChip</title>
   <style>
+    * { box-sizing: border-box; }
     body {
+      margin: 0;
       background: #120805;
       color: #f5d8a2;
       font-family: Georgia, serif;
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-    }
-
-    .box {
-      text-align: center;
-    }
-
-    input {
-      padding: 10px;
-      font-size: 16px;
-      margin-top: 10px;
-      background: #1a0b06;
-      border: 1px solid #d6b37a;
-      color: #fff;
+      min-height: 100vh;
     }
     .home-btn {
-  position: absolute;
-  top: 18px;
-  left: 18px;
-  z-index: 10000;
-
-  padding: 7px 15px;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 0.8rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-
-  color: #f5e6c8;
-  text-decoration: none;
-
-  background: rgba(212, 175, 55, 0.10);
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  border-radius: 999px;
-
-  backdrop-filter: blur(4px);
-
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.15);
-
-  transition: all 0.25s ease;
-}
-
-.home-btn:hover {
-  background: rgba(212, 175, 55, 0.18);
-  box-shadow:
-    0 0 14px rgba(245, 217, 122, 0.25),
-    0 0 28px rgba(212, 175, 55, 0.18);
-}
-
+      position: fixed;
+      top: 18px;
+      left: 18px;
+      z-index: 100;
+      padding: 7px 15px;
+      font-family: Arial, sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #f5e6c8;
+      text-decoration: none;
+      background: rgba(212,175,55,0.10);
+      border: 1px solid rgba(212,175,55,0.35);
+      border-radius: 999px;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 0 10px rgba(212,175,55,0.15);
+      transition: all 0.25s ease;
+    }
+    .home-btn:hover {
+      background: rgba(212,175,55,0.18);
+      box-shadow: 0 0 18px rgba(245,217,122,0.28);
+    }
+    .box {
+      text-align: center;
+      padding: 40px 30px;
+      background: rgba(30,15,5,0.92);
+      border: 1px solid rgba(212,175,55,0.28);
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+      width: min(400px, 92vw);
+    }
+    .logo {
+      font-size: 1.8rem;
+      color: #d4af37;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+    h2 {
+      margin: 0 0 8px;
+      font-size: 1.2rem;
+      color: #f5d8a2;
+    }
+    p {
+      margin: 0 0 22px;
+      opacity: 0.7;
+      font-size: 0.9rem;
+      font-family: Arial, sans-serif;
+    }
+    input {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 16px;
+      background: #1a0b06;
+      border: 1px solid rgba(212,175,55,0.4);
+      border-radius: 10px;
+      color: #fff;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+    input:focus {
+      border-color: #d4af37;
+    }
+    .error {
+      color: #ff6b6b;
+      font-size: 13px;
+      margin-top: 8px;
+      display: none;
+      font-family: Arial, sans-serif;
+    }
+    .lockout {
+      color: #ff9966;
+      font-size: 13px;
+      margin-top: 8px;
+      display: none;
+      font-family: Arial, sans-serif;
+    }
     button {
-      margin-top: 10px;
-      padding: 10px 20px;
-      background: #d6b37a;
+      margin-top: 16px;
+      width: 100%;
+      padding: 13px 20px;
+      background: linear-gradient(145deg, #d4af37, #f1d27a);
       border: none;
+      border-radius: 10px;
+      color: #1b1206;
+      font-weight: bold;
+      font-size: 1rem;
       cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(212,175,55,0.3);
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .attempts {
+      font-size: 12px;
+      color: rgba(245,216,162,0.45);
+      margin-top: 12px;
+      font-family: Arial, sans-serif;
     }
   </style>
 </head>
 <body>
 
+<a class="home-btn" href="index.html">🏠 Home</a>
+
 <div class="box">
- <h2>MyStoryChip Admin</h2>
-<p style="margin: 10px 0 18px; opacity: 0.8;">Enter your admin password to continue.</p>
-<input type="password" id="pass" placeholder="Enter password" />
-<div id="error" style="color: #ff6b6b; font-size: 14px; margin-top: 8px; display: none;">
-  Incorrect password. Try again.
-</div>
-<br>
-<button onclick="check()">Enter</button>  
+  <div class="logo">MSC</div>
+  <h2>MyStoryChip Admin</h2>
+  <p>Enter your admin password to continue.</p>
+
+  <input type="password" id="pass" placeholder="Enter password" maxlength="72" />
+  <div id="error" class="error">Incorrect password. Try again.</div>
+  <div id="lockout" class="lockout">Too many attempts. Please wait 5 minutes.</div>
+
+  <button id="enterBtn" onclick="check()">Enter</button>
+  <div id="attempts" class="attempts"></div>
 </div>
 
 <script>
-function check() {
-  const p = document.getElementById("pass").value;
- if (p === "MSC2026") {
-  sessionStorage.setItem("adminAccess", "granted");
-window.location.href = "dashboard.html";
-} else {
- document.getElementById("error").style.display = "block"; 
-  }
-}
-</script>
+  const MAX_ATTEMPTS = 5;
+  const LOCKOUT_MS = 5 * 60 * 1000;
+  const STORAGE_KEY = "msc_admin_attempts";
 
+  const passInput = document.getElementById("pass");
+  const errorEl = document.getElementById("error");
+  const lockoutEl = document.getElementById("lockout");
+  const enterBtn = document.getElementById("enterBtn");
+  const attemptsEl = document.getElementById("attempts");
+
+  function getAttemptData() {
+    try {
+      return JSON.parse(sessionStorage.getItem(STORAGE_KEY)) || { count: 0, lockedUntil: 0 };
+    } catch { return { count: 0, lockedUntil: 0 }; }
+  }
+
+  function saveAttemptData(data) {
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  }
+
+  function checkLockout() {
+    const data = getAttemptData();
+    if (data.lockedUntil && Date.now() < data.lockedUntil) {
+      const remaining = Math.ceil((data.lockedUntil - Date.now()) / 1000);
+      lockoutEl.style.display = "block";
+      lockoutEl.textContent = `Too many attempts. Please wait ${remaining} seconds.`;
+      enterBtn.disabled = true;
+      passInput.disabled = true;
+      return true;
+    }
+    if (data.lockedUntil && Date.now() >= data.lockedUntil) {
+      saveAttemptData({ count: 0, lockedUntil: 0 });
+    }
+    enterBtn.disabled = false;
+    passInput.disabled = false;
+    lockoutEl.style.display = "none";
+    return false;
+  }
+
+  // Enter key support
+  passInput.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") check();
+  });
+
+  async function check() {
+    if (checkLockout()) return;
+
+    const password = passInput.value.trim();
+    if (!password) return;
+
+    enterBtn.disabled = true;
+    enterBtn.textContent = "Checking...";
+
+    try {
+      const response = await fetch("/api/admin-login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password })
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        sessionStorage.setItem("adminAccess", result.token);
+        saveAttemptData({ count: 0, lockedUntil: 0 });
+        window.location.href = "dashboard.html";
+      } else {
+        const data = getAttemptData();
+        data.count = (data.count || 0) + 1;
+
+        if (data.count >= MAX_ATTEMPTS) {
+          data.lockedUntil = Date.now() + LOCKOUT_MS;
+          saveAttemptData(data);
+          checkLockout();
+          errorEl.style.display = "none";
+        } else {
+          saveAttemptData(data);
+          errorEl.style.display = "block";
+          const remaining = MAX_ATTEMPTS - data.count;
+          attemptsEl.textContent = `${remaining} attempt${remaining !== 1 ? "s" : ""} remaining`;
+          enterBtn.disabled = false;
+          enterBtn.textContent = "Enter";
+        }
+
+        passInput.value = "";
+        passInput.focus();
+      }
+    } catch (err) {
+      errorEl.textContent = "Connection error. Please try again.";
+      errorEl.style.display = "block";
+      enterBtn.disabled = false;
+      enterBtn.textContent = "Enter";
+    }
+  }
+
+  checkLockout();
+</script>
 </body>
 </html>
