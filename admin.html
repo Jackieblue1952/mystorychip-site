@@ -49,23 +49,9 @@
       box-shadow: 0 20px 50px rgba(0,0,0,0.6);
       width: min(400px, 92vw);
     }
-    .logo {
-      font-size: 1.8rem;
-      color: #d4af37;
-      margin-bottom: 6px;
-      font-weight: bold;
-    }
-    h2 {
-      margin: 0 0 8px;
-      font-size: 1.2rem;
-      color: #f5d8a2;
-    }
-    p {
-      margin: 0 0 22px;
-      opacity: 0.7;
-      font-size: 0.9rem;
-      font-family: Arial, sans-serif;
-    }
+    .logo { font-size: 1.8rem; color: #d4af37; margin-bottom: 6px; font-weight: bold; }
+    h2 { margin: 0 0 8px; font-size: 1.2rem; color: #f5d8a2; }
+    p { margin: 0 0 22px; opacity: 0.7; font-size: 0.9rem; font-family: Arial, sans-serif; }
     input {
       width: 100%;
       padding: 12px 16px;
@@ -77,23 +63,8 @@
       outline: none;
       transition: border-color 0.2s ease;
     }
-    input:focus {
-      border-color: #d4af37;
-    }
-    .error {
-      color: #ff6b6b;
-      font-size: 13px;
-      margin-top: 8px;
-      display: none;
-      font-family: Arial, sans-serif;
-    }
-    .lockout {
-      color: #ff9966;
-      font-size: 13px;
-      margin-top: 8px;
-      display: none;
-      font-family: Arial, sans-serif;
-    }
+    input:focus { border-color: #d4af37; }
+    .error { color: #ff6b6b; font-size: 13px; margin-top: 8px; display: none; font-family: Arial, sans-serif; }
     button {
       margin-top: 16px;
       width: 100%;
@@ -107,136 +78,47 @@
       cursor: pointer;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    button:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(212,175,55,0.3);
-    }
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    .attempts {
-      font-size: 12px;
-      color: rgba(245,216,162,0.45);
-      margin-top: 12px;
-      font-family: Arial, sans-serif;
-    }
+    button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(212,175,55,0.3); }
   </style>
 </head>
 <body>
-
 <a class="home-btn" href="index.html">🏠 Home</a>
-
 <div class="box">
   <div class="logo">MSC</div>
   <h2>MyStoryChip Admin</h2>
   <p>Enter your admin password to continue.</p>
-
   <input type="password" id="pass" placeholder="Enter password" maxlength="72" />
   <div id="error" class="error">Incorrect password. Try again.</div>
-  <div id="lockout" class="lockout">Too many attempts. Please wait 5 minutes.</div>
-
-  <button id="enterBtn" onclick="check()">Enter</button>
-  <div id="attempts" class="attempts"></div>
+  <button onclick="check()">Enter</button>
 </div>
-
 <script>
-  const MAX_ATTEMPTS = 5;
-  const LOCKOUT_MS = 5 * 60 * 1000;
-  const STORAGE_KEY = "msc_admin_attempts";
-
-  const passInput = document.getElementById("pass");
-  const errorEl = document.getElementById("error");
-  const lockoutEl = document.getElementById("lockout");
-  const enterBtn = document.getElementById("enterBtn");
-  const attemptsEl = document.getElementById("attempts");
-
-  function getAttemptData() {
-    try {
-      return JSON.parse(sessionStorage.getItem(STORAGE_KEY)) || { count: 0, lockedUntil: 0 };
-    } catch { return { count: 0, lockedUntil: 0 }; }
-  }
-
-  function saveAttemptData(data) {
-    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  }
-
-  function checkLockout() {
-    const data = getAttemptData();
-    if (data.lockedUntil && Date.now() < data.lockedUntil) {
-      const remaining = Math.ceil((data.lockedUntil - Date.now()) / 1000);
-      lockoutEl.style.display = "block";
-      lockoutEl.textContent = `Too many attempts. Please wait ${remaining} seconds.`;
-      enterBtn.disabled = true;
-      passInput.disabled = true;
-      return true;
-    }
-    if (data.lockedUntil && Date.now() >= data.lockedUntil) {
-      saveAttemptData({ count: 0, lockedUntil: 0 });
-    }
-    enterBtn.disabled = false;
-    passInput.disabled = false;
-    lockoutEl.style.display = "none";
-    return false;
-  }
-
-  // Enter key support
-  passInput.addEventListener("keydown", function(e) {
+  document.getElementById("pass").addEventListener("keydown", function(e) {
     if (e.key === "Enter") check();
   });
 
   async function check() {
-    if (checkLockout()) return;
-
-    const password = passInput.value.trim();
+    const password = document.getElementById("pass").value.trim();
     if (!password) return;
-
-    enterBtn.disabled = true;
-    enterBtn.textContent = "Checking...";
-
     try {
       const response = await fetch("/api/admin-login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password })
       });
-
       const result = await response.json();
-
       if (result.success) {
-        localStorage.setItem("adminAccess", result.token);
-        saveAttemptData({ count: 0, lockedUntil: 0 });
+        localStorage.setItem("msc_admin_token", result.token);
         window.location.href = "dashboard.html";
       } else {
-        const data = getAttemptData();
-        data.count = (data.count || 0) + 1;
-
-        if (data.count >= MAX_ATTEMPTS) {
-          data.lockedUntil = Date.now() + LOCKOUT_MS;
-          saveAttemptData(data);
-          checkLockout();
-          errorEl.style.display = "none";
-        } else {
-          saveAttemptData(data);
-          errorEl.style.display = "block";
-          const remaining = MAX_ATTEMPTS - data.count;
-          attemptsEl.textContent = `${remaining} attempt${remaining !== 1 ? "s" : ""} remaining`;
-          enterBtn.disabled = false;
-          enterBtn.textContent = "Enter";
-        }
-
-        passInput.value = "";
-        passInput.focus();
+        document.getElementById("error").style.display = "block";
+        document.getElementById("pass").value = "";
+        document.getElementById("pass").focus();
       }
     } catch (err) {
-      errorEl.textContent = "Connection error. Please try again.";
-      errorEl.style.display = "block";
-      enterBtn.disabled = false;
-      enterBtn.textContent = "Enter";
+      document.getElementById("error").textContent = "Connection error. Please try again.";
+      document.getElementById("error").style.display = "block";
     }
   }
-
-  checkLockout();
 </script>
 </body>
 </html>
