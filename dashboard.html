@@ -488,13 +488,14 @@
       }
 
       try {
-        const res = await fetch("/api/supabase-config");
+        const res = await fetch("/api/supabase-config", {
+          headers: { "Authorization": "Bearer " + token }
+        });
         if (res.status === 401) { redirectToLogin(); return; }
 
         const config = await res.json();
         supabaseClient = window.supabase.createClient(config.url, config.key);
 
-        // Show dashboard
         document.getElementById("auth-gate").style.display = "none";
         document.getElementById("dashboard").style.display = "block";
         loadAll();
