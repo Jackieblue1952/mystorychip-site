@@ -3,10 +3,11 @@ export default function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
+  const authHeader = req.headers.authorization || "";
   const cookie = req.headers.cookie || "";
-  const hasAdminCookie = cookie.includes("msc_admin=");
+  const hasToken = authHeader.startsWith("Bearer ") || cookie.includes("msc_admin=");
 
-  if (!hasAdminCookie) {
+  if (!hasToken) {
     return res.status(401).json({ error: "Unauthorized" });
   }
 
