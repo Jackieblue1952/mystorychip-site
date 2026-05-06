@@ -3,22 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="See how MyStoryChip works — tap your phone, instantly open your story, photos, and information. One chip, endless possibilities." />
 <title>How It Works - MyStoryChip</title>
 <style>
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
   font-family: Georgia, serif;
   background:
-  radial-gradient(circle at top center, rgba(255, 214, 126, 0.25), transparent 40%),
-  linear-gradient(180deg, #fffaf0 0%, #f2e2c4 60%, #ead7b0 100%);
+    radial-gradient(circle at top center, rgba(255, 214, 126, 0.25), transparent 40%),
+    linear-gradient(180deg, #fffaf0 0%, #f2e2c4 60%, #ead7b0 100%);
   color: #3a2a12;
 }
 
-/* HERO */
 .how-hero {
   position: relative;
   min-height: 90vh;
@@ -27,18 +25,17 @@ body {
   justify-content: center;
   overflow: hidden;
 }
-  .how-hero::after {
+
+.how-hero::after {
   content: "";
   position: absolute;
   left: 0;
   bottom: 0;
   width: 100%;
   height: 55%;
-
-  background: 
+  background:
     radial-gradient(circle at center bottom, rgba(255, 215, 120, 0.25), transparent 60%),
     linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0.2), transparent);
-
   pointer-events: none;
   z-index: 2;
 }
@@ -51,14 +48,16 @@ body {
   object-fit: cover;
   animation: slowZoom 20s ease-in-out infinite alternate;
 }
+
 .hero-content {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   max-width: 720px;
   margin: 0 auto;
   padding: 28px 34px;
   text-align: center;
 }
+
 .overlay {
   position: absolute;
   inset: 0;
@@ -70,9 +69,7 @@ body {
   font-size: clamp(2.2rem, 5vw, 4.5rem);
   line-height: 1.05;
   margin: 0 0 18px;
-
-  color: #ffd166; /* bold gold */
-
+  color: #ffd166;
   text-shadow:
     0 2px 6px rgba(0,0,0,0.9),
     0 0 12px rgba(255, 190, 70, 0.9),
@@ -83,16 +80,11 @@ body {
   font-size: clamp(1.1rem, 2vw, 1.45rem);
   line-height: 1.5;
   margin: 0;
-
   color: #ffe2a8;
-
   text-shadow:
     0 2px 5px rgba(0,0,0,0.85),
     0 0 10px rgba(255, 180, 60, 0.6);
 }
-
-/* STEPS */
-/* BOTTOM CONTENT AREA - SAFE TO EDIT ONLY BELOW HERE */
 
 .steps {
   display: grid;
@@ -102,14 +94,11 @@ body {
   margin: 0 auto;
   padding: 85px 24px 55px;
   text-align: center;
-
-  background:
-    radial-gradient(circle at top center, rgba(255, 214, 126, 0.22), transparent 45%);
+  background: radial-gradient(circle at top center, rgba(255, 214, 126, 0.22), transparent 45%);
 }
 
 .step {
-  background:
-    linear-gradient(180deg, rgba(255,255,255,0.86), rgba(255,246,226,0.78));
+  background: linear-gradient(180deg, rgba(255,255,255,0.86), rgba(255,246,226,0.78));
   border: 1px solid rgba(180, 126, 36, 0.28);
   border-radius: 22px;
   padding: 30px 24px;
@@ -169,8 +158,7 @@ body {
 }
 
 .poss-card {
-  background:
-    linear-gradient(180deg, rgba(255,255,255,0.88), rgba(255,246,226,0.8));
+  background: linear-gradient(180deg, rgba(255,255,255,0.88), rgba(255,246,226,0.8));
   border: 1px solid rgba(180, 126, 36, 0.28);
   border-radius: 22px;
   padding: 28px 22px;
@@ -199,34 +187,21 @@ body {
   color: #4a3518;
 }
 
-/* MOTION */
 @keyframes slowZoom {
   from { transform: scale(1); }
   to { transform: scale(1.05); }
 }
 
-/* MOBILE */
-@media (max-width: 850px) {
-  .steps,
-  .poss-grid {
-    grid-template-columns: 1fr;
-  }
-
-   .how-hero {
-    min-height: 75vh;
-  }
-}
 .bottom-area {
-  margin-top: -80px;  /* pulls it UP into the hero glow */
-
+  margin-top: -80px;
   padding-top: 120px;
   padding-bottom: 20px;
-
   background:
     radial-gradient(circle at top center, rgba(255, 214, 126, 0.35), transparent 45%),
     linear-gradient(180deg, #fff8ec 0%, #f2e2c4 60%, #ead7b0 100%);
-} 
-  .top-nav {
+}
+
+.top-nav {
   position: fixed;
   top: 15px;
   left: 15px;
@@ -241,18 +216,22 @@ body {
   border: 1px solid rgba(180, 126, 36, 0.5);
   color: #3a2a12;
   padding: 8px 14px;
-  border-radius: 8px;
+  border-radius: 999px;
   font-size: 0.9rem;
+  font-family: Georgia, serif;
+  font-weight: bold;
   cursor: pointer;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .home-btn:hover,
 .back-btn:hover {
   background: #ffe2a8;
+  transform: translateY(-1px);
 }
- .disclaimer {
+
+.disclaimer {
   font-size: 0.75rem;
   color: #6a5530;
   text-align: center;
@@ -260,85 +239,78 @@ body {
   max-width: 900px;
   margin: 0 auto;
   opacity: 0.8;
-} 
 }
-</style> 
+
+@media (max-width: 850px) {
+  .steps,
+  .poss-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .how-hero {
+    min-height: 75vh;
+  }
+}
+</style>
 </head>
 
 <body>
   <div class="top-nav">
-  <a href="index.html" class="home-btn">Home</a>
-  <button onclick="history.back()" class="back-btn">Back</button>
-</div>
-<!-- HERO -->
-<section class="how-hero">
-
-  <img src="uses-final.png" class="hero-img">
-
-  <div class="overlay"></div>
-
-  <div class="hero-content">
-    <h1>Tap the Chip. Instantly See the Story.</h1>
-    <p>Your phone opens a private page with photos, information, and more.</p>
+    <a href="index.html" class="home-btn">🏠 Home</a>
+    <a href="javascript:history.back()" class="back-btn">← Back</a>
   </div>
 
-</section>
-
- <!-- STEPS -->
-<section class="steps">
-
-  <div class="step">
-    <h2>1. Tap</h2>
-    <p>Hold your phone near the chip</p>
-  </div>
-
-  <div class="step">
-    <h2>2. It Opens</h2>
-    <p>Your personal page loads instantly</p>
-  </div>
-
-  <div class="step">
-    <h2>3. View, Edit, or Share</h2>
-    <p>See, update, or share your information anytime</p>
-  </div>
-
-</section>
-
-<!-- POSSIBILITIES -->
-<section class="possibilities">
-
-  <h2 class="poss-title">One Chip. Endless Possibilities.</h2>
-
-  <div class="poss-grid">
-
-    <div class="poss-card">
-      <h3>Everyday Life</h3>
-      <p>Notes, lists, reminders, and important personal info always within reach.</p>
+  <section class="how-hero">
+    <img src="uses-final.png" class="hero-img" alt="MyStoryChip in use">
+    <div class="overlay"></div>
+    <div class="hero-content">
+      <h1>Tap the Chip. Instantly See the Story.</h1>
+      <p>Your phone opens a private page with photos, information, and more.</p>
     </div>
+  </section>
 
-    <div class="poss-card">
-      <h3>Family & Memories</h3>
-      <p>Photos, stories, and moments that stay connected and easy to share.</p>
+  <section class="steps">
+    <div class="step">
+      <h2>1. Tap</h2>
+      <p>Hold your phone near the chip</p>
     </div>
-
-    <div class="poss-card">
-      <h3>Medical & Emergency</h3>
-      <p>Medications, allergies, and emergency contacts when they matter most.</p>
+    <div class="step">
+      <h2>2. It Opens</h2>
+      <p>Your personal page loads instantly</p>
     </div>
-
-    <div class="poss-card">
-      <h3>Business & Assets</h3>
-      <p>Vehicles, items for sale, ownership details, and more.</p>
+    <div class="step">
+      <h2>3. View, Edit, or Share</h2>
+      <p>See, update, or share your information anytime</p>
     </div>
+  </section>
 
+  <section class="possibilities">
+    <h2 class="poss-title">One Chip. Endless Possibilities.</h2>
+    <div class="poss-grid">
+      <div class="poss-card">
+        <h3>Everyday Life</h3>
+        <p>Notes, lists, reminders, and important personal info always within reach.</p>
+      </div>
+      <div class="poss-card">
+        <h3>Family &amp; Memories</h3>
+        <p>Photos, stories, and moments that stay connected and easy to share.</p>
+      </div>
+      <div class="poss-card">
+        <h3>Medical &amp; Emergency</h3>
+        <p>Medications, allergies, and emergency contacts when they matter most.</p>
+      </div>
+      <div class="poss-card">
+        <h3>Business &amp; Assets</h3>
+        <p>Vehicles, items for sale, ownership details, and more.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="disclaimer">
+    MyStoryChip provides tools for storing and sharing your stories, images, and information.
+    While we work to keep the platform available and secure, access to content cannot be guaranteed at all times.
+    Users are responsible for the content they choose to store and share.
+    It is recommended that important files also be backed up separately.
   </div>
-
-</section>
-<div class="disclaimer">
-  MyStoryChip provides tools for storing and sharing your stories, images, and information. 
-  While we work to keep the platform available and secure, access to content cannot be guaranteed at all times. 
-  Users are responsible for the content they choose to store and share. 
-  It is recommended that important files also be backed up separately.
-</div>
 </body>
 </html>
