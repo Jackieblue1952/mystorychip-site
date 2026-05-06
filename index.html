@@ -1,434 +1,407 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MyStoryChip | Your Chip. Your Story.</title>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="MyStoryChip gives you a working digital space that opens with a simple NFC tap. Preserve stories, photos, documents, and memories — no monthly fee." />
+<title>MyStoryChip | Your Chip. Your Story.</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; }
+:root {
+  --gold: #d4af37;
+  --text: #2b2113;
+  --line: rgba(180, 130, 35, 0.32);
+}
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Georgia, "Times New Roman", serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255,224,135,0.55), transparent 34%),
+    linear-gradient(180deg, #fffaf0 0%, #f7ecd2 52%, #ecd59f 100%);
+  overflow-x: hidden;
+}
+a { text-decoration: none; color: inherit; }
 
-  <style>
-    * { box-sizing: border-box; }
-
-    :root {
-      --gold: #d4af37;
-      --text: #2b2113;
-      --line: rgba(180, 130, 35, 0.32);
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: Georgia, "Times New Roman", serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at 50% 0%, rgba(255,224,135,0.55), transparent 34%),
-        linear-gradient(180deg, #fffaf0 0%, #f7ecd2 52%, #ecd59f 100%);
-      overflow-x: hidden;
-    }
-
-    a { text-decoration: none; color: inherit; }
-
-    .admin-btn {
-      position: fixed;
-      top: 18px;
-      right: 20px;
-      z-index: 50;
-      padding: 9px 17px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.88);
-      border: 1px solid var(--line);
-      color: #7e570e;
-      font-weight: bold;
-      box-shadow: 0 8px 22px rgba(100,70,20,0.12);
-    }
-
-    .page {
-      width: min(1220px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 34px 0 24px;
-      text-align: center;
-    }
-
-    .brand {
-      font-size: clamp(3rem, 6vw, 6.2rem);
-      line-height: 0.95;
-      margin: 8px 0 6px;
-      color: #9b6812;
-      text-shadow: 0 2px 0 rgba(255,255,255,0.8);
-    }
-
-    .tagline {
-      font-family: Arial, sans-serif;
-      font-size: 1rem;
-      letter-spacing: 4px;
-      font-weight: 800;
-      color: #5b431d;
-      margin-bottom: 22px;
-    }
-
+/* Admin button hidden by default — Ctrl+Shift+A to reveal */
+.admin-btn {
+  position: fixed;
+  top: 18px;
+  right: 20px;
+  z-index: 50;
+  padding: 9px 17px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.88);
+  border: 1px solid var(--line);
+  color: #7e570e;
+  font-weight: bold;
+  box-shadow: 0 8px 22px rgba(100,70,20,0.12);
+  display: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.admin-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(100,70,20,0.18);
+}
+.page {
+  width: min(1220px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 34px 0 24px;
+  text-align: center;
+}
+.brand {
+  font-size: clamp(3rem, 6vw, 6.2rem);
+  line-height: 0.95;
+  margin: 8px 0 6px;
+  color: #9b6812;
+  text-shadow: 0 2px 0 rgba(255,255,255,0.8);
+}
+.tagline {
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  letter-spacing: 4px;
+  font-weight: 800;
+  color: #5b431d;
+  margin-bottom: 22px;
+}
 .hero {
   width: 100%;
   border-radius: 34px;
   overflow: hidden;
+  position: relative;
   border: 1px solid rgba(180,130,35,0.36);
   box-shadow:
     0 28px 65px rgba(120,76,16,0.16),
     0 0 60px rgba(245,217,122,0.24);
 }
-
 .hero img {
   width: 100%;
   height: auto;
+  display: block;
 }
-
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(circle at 50% 43%, rgba(255,240,180,0.22), transparent 26%),
-        linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
-      pointer-events: none;
-    }
-
-    .sparkle {
-      position: absolute;
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: rgba(255,232,145,0.95);
-      box-shadow: 0 0 18px rgba(245,217,122,0.9);
-      animation: floatSpark 4.5s ease-in-out infinite;
-      pointer-events: none;
-      z-index: 2;
-    }
-
-    .s1 { left: 45%; top: 36%; animation-delay: 0s; }
-    .s2 { left: 55%; top: 38%; animation-delay: 0.8s; }
-    .s3 { left: 49%; top: 30%; animation-delay: 1.5s; }
-    .s4 { left: 60%; top: 50%; animation-delay: 2.1s; }
-    .s5 { left: 39%; top: 49%; animation-delay: 2.8s; }
-
-    @keyframes floatSpark {
-      0%, 100% { transform: translateY(0) scale(0.75); opacity: 0.25; }
-      50% { transform: translateY(-26px) scale(1.25); opacity: 1; }
-    }
-
-    .control-row {
-      margin: 22px auto 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 18px;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      min-height: 56px;
-      min-width: 210px;
-      border-radius: 999px;
-      padding: 13px 24px;
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      font-family: Arial, sans-serif;
-      font-weight: 800;
-      font-size: 1rem;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 14px 25px rgba(120,76,16,0.18);
-    }
-
-    .secondary {
-      background: rgba(255,255,255,0.88);
-      color: #7a5310;
-      border: 1px solid rgba(180,130,35,0.34);
-    }
-
-    .quick-info {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin: 28px 0 22px;
-    }
-
-    .info-card,
-    .use-section,
-    .bottom-cta {
-      background: rgba(255,252,244,0.88);
-      border: 1px solid rgba(180,130,35,0.26);
-      border-radius: 22px;
-      box-shadow: 0 12px 28px rgba(120,76,16,0.08);
-    }
-
-    .info-card {
-      padding: 20px;
-    }
-
-    .info-card h3 {
-      margin: 0 0 8px;
-      color: #8b5d13;
-      font-size: 1.35rem;
-    }
-
-    .info-card p {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      line-height: 1.5;
-      color: #4d3b1d;
-    }
-
-    .use-section {
-      margin: 28px auto 18px;
-      padding: 24px;
-      border-radius: 28px;
-    }
-
-    .use-section h2 {
-      margin: 0 0 8px;
-      font-size: clamp(1.9rem, 3vw, 3rem);
-      color: #80540f;
-    }
-
-    .use-section .lead {
-      margin: 0 auto 18px;
-      max-width: 760px;
-      font-family: Arial, sans-serif;
-      color: #5a4320;
-      line-height: 1.45;
-    }
-
-    .use-grid {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    .use-btn {
-    border: 1px solid rgba(166, 122, 35, 0.32);
-     background: rgba(255, 255, 255, 0.72);
-      color: #7a5310;
-      border-radius: 18px;
-      font-weight: 800;
-      cursor: pointer;
-      font-family: Arial, sans-serif;
-  box-shadow:
-  0 18px 42px rgba(83, 55, 10, 0.14),
-  inset 0 0 35px rgba(255, 220, 135, 0.18);
-    }
-
-    .use-btn:hover {
-      background: linear-gradient(180deg, #fff2c2, #f1cd6a);
-      color: #2a1b07;
-      transform: translateY(-2px);
-      box-shadow: 0 12px 22px rgba(120,76,16,0.18);
-    }
-
-    .use-btn.active {
-      background: linear-gradient(180deg, #ffe59a, #e2b748);
-      color: #211606;
-      border-color: #b98117;
-      box-shadow: inset 0 2px 6px rgba(0,0,0,0.15);
-    }
-
- .use-detail {
- background: rgba(255, 252, 242, 0.92); 
- border: 1px solid rgba(166, 122, 35, 0.28);
-  border-radius: 18px;
-  padding: 18px;
-box-shadow:
-  inset 0 0 18px rgba(255, 220, 135, 0.22),
-  0 8px 20px rgba(83, 55, 10, 0.08);  
-}  
-    .use-section {
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 43%, rgba(255,240,180,0.22), transparent 26%),
+    linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  pointer-events: none;
+}
+.sparkle {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(255,232,145,0.95);
+  box-shadow: 0 0 18px rgba(245,217,122,0.9);
+  animation: floatSpark 4.5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+.s1 { left: 45%; top: 36%; animation-delay: 0s; }
+.s2 { left: 55%; top: 38%; animation-delay: 0.8s; }
+.s3 { left: 49%; top: 30%; animation-delay: 1.5s; }
+.s4 { left: 60%; top: 50%; animation-delay: 2.1s; }
+.s5 { left: 39%; top: 49%; animation-delay: 2.8s; }
+@keyframes floatSpark {
+  0%, 100% { transform: translateY(0) scale(0.75); opacity: 0.25; }
+  50% { transform: translateY(-26px) scale(1.25); opacity: 1; }
+}
+.control-row {
+  margin: 22px auto 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.btn {
+  min-height: 56px;
+  min-width: 210px;
+  border-radius: 999px;
+  padding: 13px 24px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 25px rgba(120,76,16,0.18);
+}
+.secondary {
+  background: rgba(255,255,255,0.88);
+  color: #7a5310;
+  border: 1px solid rgba(180,130,35,0.34);
+}
+.quick-info {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 28px 0 22px;
+}
+.info-card,
+.bottom-cta {
+  background: rgba(255,252,244,0.88);
+  border: 1px solid rgba(180,130,35,0.26);
+  border-radius: 22px;
+  box-shadow: 0 12px 28px rgba(120,76,16,0.08);
+}
+.info-card {
+  padding: 20px;
+}
+.info-card h3 {
+  margin: 0 0 8px;
+  color: #8b5d13;
+  font-size: 1.35rem;
+}
+.info-card p {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+  color: #4d3b1d;
+}
+.use-section {
   background: rgba(255, 255, 255, 0.55);
   border: 1px solid rgba(200, 170, 90, 0.25);
   border-radius: 24px;
   padding: 28px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  margin: 28px auto 18px;
 }
-    .cta-row {
+.use-section h2 {
+  margin: 0 0 8px;
+  font-size: clamp(1.9rem, 3vw, 3rem);
+  color: #80540f;
+}
+.use-section .lead {
+  margin: 0 auto 18px;
+  max-width: 760px;
+  font-family: Arial, sans-serif;
+  color: #5a4320;
+  line-height: 1.45;
+}
+.use-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.use-btn {
+  border: 1px solid rgba(166, 122, 35, 0.32);
+  background: rgba(255, 255, 255, 0.72);
+  color: #7a5310;
+  border-radius: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  padding: 10px 6px;
+  box-shadow:
+    0 18px 42px rgba(83, 55, 10, 0.14),
+    inset 0 0 35px rgba(255, 220, 135, 0.18);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.use-btn:hover {
+  background: linear-gradient(180deg, #fff2c2, #f1cd6a);
+  color: #2a1b07;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 22px rgba(120,76,16,0.18);
+}
+.use-btn.active {
+  background: linear-gradient(180deg, #ffe59a, #e2b748);
+  color: #211606;
+  border-color: #b98117;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.15);
+}
+.use-detail {
+  background: rgba(255, 252, 242, 0.92);
+  border: 1px solid rgba(166, 122, 35, 0.28);
+  border-radius: 18px;
+  padding: 18px;
+  font-family: Arial, sans-serif;
+  color: #4d3b1d;
+  line-height: 1.55;
+  box-shadow:
+    inset 0 0 18px rgba(255, 220, 135, 0.22),
+    0 8px 20px rgba(83, 55, 10, 0.08);
+}
+.cta-row {
   display: flex;
   gap: 18px;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
 }
-
-    .bottom-cta {
-      margin: 24px 0 12px;
-      padding: 26px;
-      border-radius: 28px;
-    }
-
-    .bottom-cta h2 {
-      margin: 0 0 8px;
-      color: #7e520d;
-      font-size: clamp(2rem, 3.5vw, 3.2rem);
-    }
-
-    .bottom-cta p {
-      margin: 0 auto 18px;
-      max-width: 720px;
-      font-family: Arial, sans-serif;
-      color: #4d3b1d;
-      line-height: 1.5;
-    }
-
-    .primary {
-      background: linear-gradient(180deg, #ffe38b, #d7a530);
-      color: #211606;
-      border: 1px solid #b98117;
-    }
-
-    .footer {
-      padding: 18px 8px 6px;
-      text-align: center;
-      color: #7a5310;
-    }
-
- .founder-line {
+.bottom-cta {
+  margin: 24px 0 12px;
+  padding: 26px;
+  border-radius: 28px;
+}
+.bottom-cta h2 {
+  margin: 0 0 8px;
+  color: #7e520d;
+  font-size: clamp(2rem, 3.5vw, 3.2rem);
+}
+.bottom-cta p {
+  margin: 0 auto 18px;
+  max-width: 720px;
+  font-family: Arial, sans-serif;
+  color: #4d3b1d;
+  line-height: 1.5;
+}
+.primary {
+  background: linear-gradient(180deg, #ffe38b, #d7a530);
+  color: #211606;
+  border: 1px solid #b98117;
+}
+.footer {
+  padding: 18px 8px 6px;
+  text-align: center;
+  color: #7a5310;
+}
+.founder-line {
   font-family: 'Great Vibes', cursive;
   font-size: 1.6rem;
   color: #7a5310;
   letter-spacing: 0.5px;
-}   
-
-    .footer a {
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 1rem;
-      font-weight: bold;
-      color: #80540f;
-      text-decoration: underline;
-      text-underline-offset: 3px;
-    }
-
-    @media (max-width: 900px) {
-      .hero {
-        height: 420px;
-        background-position: center 45%;
-        border-radius: 24px;
-      }
-
-      .quick-info,
-      .use-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .brand {
-        font-size: 3.1rem;
-      }
-
-      .btn {
-        width: 100%;
-      }
-    }
-  .btn.ghost {
+}
+.footer a {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #80540f;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+@media (max-width: 900px) {
+  .hero {
+    border-radius: 24px;
+  }
+  .quick-info,
+  .use-grid {
+    grid-template-columns: 1fr;
+  }
+  .brand {
+    font-size: 3.1rem;
+  }
+  .btn {
+    width: 100%;
+  }
+}
+.btn.ghost {
   color: #bfa760;
   border-bottom: 1px solid rgba(191, 167, 96, 0.4);
   padding-bottom: 2px;
+  min-width: auto;
+  min-height: auto;
   transition: all 0.2s ease;
-} 
-    .btn.ghost:hover {
-  color: #fff4d4;
-  border-bottom: 1px solid #ffd36a;
+}
+.btn.ghost:hover {
+  color: #7a5310;
+  border-bottom: 1px solid #d4a017;
   text-shadow: 0 0 10px rgba(255, 210, 120, 0.4);
 }
-    
-  </style>
+</style>
 </head>
-
 <body>
-  <a class="admin-btn" href="admin.html">Admin</a>
 
-  <main class="page">
-    <div class="brand">MyStoryChip</div>
-    <div class="tagline">YOUR CHIP. YOUR STORY.</div>
+<a class="admin-btn" href="admin.html" id="admin-btn">Admin</a>
 
-   <div class="hero">
-  <img src="landing-page.png" alt="MyStoryChip Hero">
-</div>
+<main class="page">
+  <div class="brand">MyStoryChip</div>
+  <div class="tagline">YOUR CHIP. YOUR STORY.</div>
 
-    <div class="control-row">
-      <a class="btn secondary" href="uses.html">How It Works</a>
-      <a class="btn secondary" href="buy.html">Set Up Chip</a>
+  <div class="hero">
+    <img src="landing-page.png" alt="MyStoryChip — tap to open your story">
+  </div>
+
+  <div class="control-row">
+    <a class="btn secondary" href="uses.html">How It Works</a>
+    <a class="btn secondary" href="buy.html">Set Up Chip</a>
+  </div>
+
+  <section class="quick-info">
+    <div class="info-card">
+      <h3>One Tap Access</h3>
+      <p>Tap a phone and instantly open the story, memory, or information connected to the chip.</p>
     </div>
+    <div class="info-card">
+      <h3>250 MB Included</h3>
+      <p>Every chip includes space for photos, documents, and written stories.</p>
+    </div>
+    <div class="info-card">
+      <h3>No Monthly Fee</h3>
+      <p>Buy the chip once. Keep control of the page and the story behind it.</p>
+    </div>
+  </section>
 
-    <section class="quick-info">
-      <div class="info-card">
-        <h3>One Tap Access</h3>
-        <p>Tap a phone and instantly open the story, memory, or information connected to the chip.</p>
-      </div>
+  <section class="use-section">
+    <h2>What Can MyStoryChip Be Used For?</h2>
+    <p class="lead">Tap any button below to see how one chip can turn an object, memory, or place into a living story.</p>
+    <div class="use-grid">
+      <button class="use-btn active" data-use="memorials">Memorials</button>
+      <button class="use-btn" data-use="family">Family</button>
+      <button class="use-btn" data-use="vehicles">Vehicles</button>
+      <button class="use-btn" data-use="collections">Collections</button>
+      <button class="use-btn" data-use="business">Business</button>
+      <button class="use-btn" data-use="tributes">Tributes</button>
+    </div>
+    <div id="useDetail" class="use-detail">
+      Attach a MyStoryChip to a memorial, keepsake, or tribute item so family and friends can tap and see photos, stories, and memories.
+    </div>
+  </section>
 
-      <div class="info-card">
-        <h3>250 MB Included</h3>
-        <p>Every chip includes space for photos,documents,and written stories.</p>
-      </div>
-
-      <div class="info-card">
-        <h3>No Monthly Fee</h3>
-        <p>Buy the chip once. Keep control of the page and the story behind it.</p>
-      </div>
-    </section>
-
-    <section class="use-section">
-      <h2>What Can MyStoryChip Be Used For?</h2>
-      <p class="lead">Tap any button below to see how one chip can turn an object, memory, or place into a living story.</p>
-
-      <div class="use-grid">
-        <button class="use-btn active" data-use="memorials">Memorials</button>
-        <button class="use-btn" data-use="family">Family</button>
-        <button class="use-btn" data-use="vehicles">Vehicles</button>
-        <button class="use-btn" data-use="collections">Collections</button>
-        <button class="use-btn" data-use="business">Business</button>
-        <button class="use-btn" data-use="tributes">Tributes</button>
-      </div>
-
-      <div id="useDetail" class="use-detail">
-        Attach a MyStoryChip to a memorial, keepsake, or tribute item so family and friends can tap and see photos, stories,and memories.
-      </div>
-    </section>
-
-    <section class="bottom-cta">
-      <h2>Own the Chip. Keep the Story.</h2>
-      <p>MyStoryChip gives people a simple way to preserve meaning behind the things that matter — with one tap, one page, and one clear connection.</p>
+  <section class="bottom-cta">
+    <h2>Own the Chip. Keep the Story.</h2>
+    <p>MyStoryChip gives people a simple way to preserve meaning behind the things that matter — with one tap, one page, and one clear connection.</p>
     <div class="cta-row">
-  <a class="btn primary" href="buy.html">Get Your Chip</a>
-  <a class="btn ghost" href="story-new.html">Story</a>
-  <a class="btn ghost" href="uses.html">How It Works</a>
-</div>  
-    </section>
+      <a class="btn primary" href="buy.html">Get Your Chip</a>
+      <a class="btn ghost" href="story-new.html">Story</a>
+      <a class="btn ghost" href="uses.html">How It Works</a>
+    </div>
+  </section>
 
-    <footer class="footer">
-      <span class="founder-line">MyStoryChip.com &nbsp; | &nbsp; Founder &amp; Creator: Jack W. Kennedy</span>
-      &nbsp; | &nbsp;
-      <a href="terms.html">Terms &amp; Disclaimer</a>
-    </footer>
-  </main>
+  <footer class="footer">
+    <span class="founder-line">MyStoryChip.com &nbsp; | &nbsp; Founder &amp; Creator: Jack W. Kennedy</span>
+    &nbsp; | &nbsp;
+    <a href="terms.html">Terms &amp; Disclaimer</a>
+  </footer>
+</main>
 
-  <script>
-    const useText = {
-      memorials: "Attach a MyStoryChip to a memorial, keepsake, or tribute item so family and friends can tap and see photos, stories, videos, and memories.",
-      family: "Save family stories, recipes, letters, photos, and meaningful moments so they are not lost in a box or forgotten over time.",
-      vehicles: "Place a chip with a car, truck, motorcycle, or restoration project to show build history, upgrades, documents, photos, and the story behind it.",
-      collections: "Use a chip with coins, antiques, tools, art, or collectibles to explain where it came from, why it matters, and what makes it special.",
-      business: "Share business information, product details, service instructions, customer welcome pages, or special offers with one simple tap.",
-      tributes: "Create a heartfelt page for someone special, with words, images, and memories that can be shared by one simple chip scan."
-    };
+<script>
+const useText = {
+  memorials: "Attach a MyStoryChip to a memorial, keepsake, or tribute item so family and friends can tap and see photos, stories, and memories.",
+  family: "Save family stories, recipes, letters, photos, and meaningful moments so they are not lost in a box or forgotten over time.",
+  vehicles: "Place a chip with a car, truck, motorcycle, or restoration project to show build history, upgrades, documents, photos, and the story behind it.",
+  collections: "Use a chip with coins, antiques, tools, art, or collectibles to explain where it came from, why it matters, and what makes it special.",
+  business: "Share business information, product details, service instructions, customer welcome pages, or special offers with one simple tap.",
+  tributes: "Create a heartfelt page for someone special, with words, images, and memories that can be shared by one simple chip scan."
+};
 
-    const buttons = document.querySelectorAll(".use-btn");
-    const detail = document.getElementById("useDetail");
+const buttons = document.querySelectorAll(".use-btn");
+const detail = document.getElementById("useDetail");
 
-    buttons.forEach((button) => {
-      button.addEventListener("click", () => {
-        buttons.forEach((btn) => btn.classList.remove("active"));
-        button.classList.add("active");
-        detail.textContent = useText[button.dataset.use];
-      });
-    });
-  </script>
+buttons.forEach((button) => {
+  button.addEventListener("click", () => {
+    buttons.forEach((btn) => btn.classList.remove("active"));
+    button.classList.add("active");
+    detail.textContent = useText[button.dataset.use];
+  });
+});
+
+// Secret admin access — press Ctrl+Shift+A to toggle admin button
+document.addEventListener("keydown", function(e) {
+  if (e.ctrlKey && e.shiftKey && e.key === "A") {
+    var btn = document.getElementById("admin-btn");
+    if (btn) btn.style.display = btn.style.display === "none" ? "block" : "none";
+  }
+});
+</script>
 </body>
 </html>
