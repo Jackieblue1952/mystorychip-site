@@ -204,7 +204,7 @@
       const result = await response.json();
 
       if (result.success) {
-        sessionStorage.setItem("adminAccess", result.token);
+        localStorage.setItem("adminAccess", result.token);
         saveAttemptData({ count: 0, lockedUntil: 0 });
         window.location.href = "dashboard.html";
       } else {
