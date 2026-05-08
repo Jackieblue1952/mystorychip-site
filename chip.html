@@ -419,185 +419,114 @@
 </div>
 
   <script>
-    const STORAGE_KEY = "mscChips";
-    const params = new URLSearchParams(window.location.search);
-    const code = params.get("code");
+ const params = new URLSearchParams(window.location.search);
+const code = params.get("code");
+const content = document.getElementById("content");
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightboxImg");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const closeBtn = document.getElementById("closeBtn");
+const backBtn = document.getElementById("backBtn");
 
-    const content = document.getElementById("content");
-    const lightbox = document.getElementById("lightbox");
-    const lightboxImg = document.getElementById("lightboxImg");
-    const prevBtn = document.getElementById("prevBtn");
-    const nextBtn = document.getElementById("nextBtn");
-    const closeBtn = document.getElementById("closeBtn");
+let galleryImages = [];
+let currentImageIndex = 0;
 
-    let galleryImages = [];
-    let currentImageIndex = 0;
+function safe(value) {
+  return value && String(value).trim() ? String(value).trim() : "";
+}
 
-    function safe(value) {
-      return value && String(value).trim() ? String(value).trim() : "";
-    }
+function renderMissing(message) {
+  content.innerHTML = `
+    <div class="message">
+      <h2>Chip Not Found</h2>
+      <p>${message}</p>
+    </div>
+  `;
+}
 
-    function renderMissing(message) {
-      content.innerHTML = `
-        <div class="message">
-          <h2>Chip Not Found</h2>
-          <p>${message}</p>
-        </div>
-      `;
-    }
-
-  function showLightboxImage(index) {
+function showLightboxImage(index) {
   if (!galleryImages.length) return;
-
   currentImageIndex = (index + galleryImages.length) % galleryImages.length;
-
-  // fade out
   lightboxImg.style.opacity = 0;
-
   setTimeout(() => {
     lightboxImg.src = galleryImages[currentImageIndex];
-
-    // fade back in
     lightboxImg.style.opacity = 1;
   }, 120);
-}  
+}
 
-    function openLightbox(index) {
-      showLightboxImage(index);
-      lightbox.classList.add("active");
-    }
+function openLightbox(index) {
+  showLightboxImage(index);
+  lightbox.classList.add("active");
+}
 
-    function closeLightbox() {
-      lightbox.classList.remove("active");
-      lightboxImg.src = "";
-    }
+function closeLightbox() {
+  lightbox.classList.remove("active");
+  lightboxImg.src = "";
+}
 
-    prevBtn.addEventListener("click", function(e) {
-      e.stopPropagation();
-      showLightboxImage(currentImageIndex - 1);
+prevBtn.addEventListener("click", e => { e.stopPropagation(); showLightboxImage(currentImageIndex - 1); });
+nextBtn.addEventListener("click", e => { e.stopPropagation(); showLightboxImage(currentImageIndex + 1); });
+backBtn.addEventListener("click", e => { e.stopPropagation(); closeLightbox(); });
+closeBtn.addEventListener("click", e => { e.stopPropagation(); closeLightbox(); });
+lightbox.addEventListener("click", closeLightbox);
+lightboxImg.addEventListener("click", e => e.stopPropagation());
+
+async function loadChip() {
+  if (!code) { renderMissing("No chip code was found in the page link."); return; }
+
+  try {
+    const configRes = await fetch("/api/supabase-config", {
+      headers: { Authorization: "Bearer public" }
     });
+    const { url, key } = await configRes.json();
 
-    nextBtn.addEventListener("click", function(e) {
-      e.stopPropagation();
-      showLightboxImage(currentImageIndex + 1);
-    });
-  const backBtn = document.getElementById("backBtn");
- backBtn.addEventListener("click", function(e) {
-  e.stopPropagation();
-  closeLightbox();
-});   
-    closeBtn.addEventListener("click", function(e) {
-  e.stopPropagation();
-  closeLightbox();
-});
-
-    lightbox.addEventListener("click", closeLightbox);
-
-    lightboxImg.addEventListener("click", function(e) {
-      e.stopPropagation();
-    });
-
-    if (!code) {
-      renderMissing("No chip code was found in the page link.");
-    } else {
-      let chips = [];
-
-      try {
-        chips = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-      } catch (error) {
-        chips = [];
+    const res = await fetch(`${url}/rest/v1/chips?code=eq.${code}&limit=1`, {
+      headers: {
+        apikey: key,
+        Authorization: `Bearer ${key}`
       }
+    });
 
-      const chip = chips.find(item => item && item.code === code);
+    const data = await res.json();
+    const chip = data[0];
 
-      if (!chip) {
-        renderMissing(`We could not find a saved chip with code ${code}.`);
-      } else {
-        const title = safe(chip.title) || safe(chip.name) || "My Story";
-        const headline = safe(chip.headline) || "Every story, item, memory, or detail has a place.";
-        const story = safe(chip.desc) || safe(chip.description);
-        const creator = safe(chip.fullName) || safe(chip.name) || "a MyStoryChip customer";
+    if (!chip) { renderMissing(`No chip found with code ${code}.`); return; }
 
-        const images = Array.isArray(chip.images)
-          ? chip.images.filter(img => {
-              if (!img) return false;
-              if (typeof img === "string") return true;
+    const title = safe(chip.title) || safe(chip.customer_name) || "My Story";
+    const headline = safe(chip.headline) || "Every story, item, memory, and detail has a place.";
+    const story = safe(chip.story) || safe(chip.notes) || "";
+    const creator = safe(chip.customer_name) || "a MyStoryChip customer";
 
-              const visibility = img.visibility || "public";
-              return visibility === "public" || visibility === "both";
-            })
-          : [];
+    content.innerHTML = `
+      <section class="hero">
+        <div class="hero-inner">
+          <div class="eyebrow">Tap. Open. Discover.</div>
+          <h1>${title}</h1>
+          <div class="headline">${headline}</div>
+          <div class="chip-code">Chip Code: ${safe(chip.code)}</div>
+        </div>
+      </section>
+      <section class="panel">
+        <h2 class="section-title">The Story</h2>
+        <div class="story-body">${story || "No story has been added yet."}</div>
+      </section>
+      <section class="panel credit">
+        Created and shared by <strong>${creator}</strong><br>
+        through MyStoryChip
+      </section>
+      <section class="panel powered">
+        <div class="powered-title">Powered by MyStoryChip</div>
+        <div class="powered-line">Not just a chip — a working digital space for stories, items, memories, and information.</div>
+      </section>
+    `;
 
-        const structuredSections = Array.isArray(chip.structuredSections)
-          ? chip.structuredSections
-          : [];
+  } catch (err) {
+    renderMissing("Something went wrong loading this chip. Please try again.");
+  }
+}
 
-        const sectionsHTML = structuredSections.length
-          ? structuredSections.map(section => `
-              <div class="structured-card">
-                <div class="structured-type">${safe(section.type) || "Section"}</div>
-                <div class="structured-title">${safe(section.title) || "Untitled Section"}</div>
-                <div class="section-body">${safe(section.content) || ""}</div>
-              </div>
-            `).join("")
-          : "";
-
-        galleryImages = images
-          .map(img => typeof img === "string" ? img : img.src)
-          .filter(Boolean);
-
-        const galleryHTML = galleryImages.length
-          ? `
-            <div class="gallery">
-              ${galleryImages.map((src, index) => `
-                <div class="thumb" data-index="${index}">
-                  <img src="${src}" alt="Story image ${index + 1}">
-                </div>
-              `).join("")}
-            </div>
-          `
-          : `<div class="empty">No public photos have been added yet.</div>`;
-
-        content.innerHTML = `
-          <section class="hero">
-            <div class="hero-inner">
-              <div class="eyebrow">Tap. Open. Discover.</div>
-              <h1>${title}</h1>
-              <div class="headline">${headline}</div>
-              <div class="chip-code">Chip Code: ${safe(chip.code)}</div>
-            </div>
-          </section>
-
-          <section class="panel">
-            <h2 class="section-title">The Story</h2>
-            <div class="story-body">${story || "No story has been added yet."}</div>
-            ${sectionsHTML}
-          </section>
-
-          <section class="panel">
-            <h2 class="section-title">Photos & Keepsakes</h2>
-            ${galleryHTML}
-          </section>
-
-          <section class="panel credit">
-            Created and shared by <strong>${creator}</strong><br>
-            through MyStoryChip
-          </section>
-
-          <section class="panel powered">
-            <div class="powered-title">Powered by MyStoryChip</div>
-            <div class="powered-line">
-              Not just a chip — a working digital space for stories, items, memories, and information.
-            </div>
-          </section>
-        `;
-
-        document.querySelectorAll(".thumb").forEach(thumb => {
-          thumb.addEventListener("click", function() {
-            const index = Number(thumb.getAttribute("data-index"));
-            openLightbox(index);
-          });
-        });
+loadChip();  
       }
     }
   </script>
