@@ -557,6 +557,9 @@ loadChip();
 </div>
 
 <script>
+ document.getElementById("pinInput").addEventListener("keydown", function(e) {
+  if (e.key === "Enter") checkPin();
+}); 
 async function checkPin() {
   const enteredPin = document.getElementById("pinInput").value.trim();
   const pinError = document.getElementById("pinError");
