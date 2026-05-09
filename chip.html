@@ -527,5 +527,78 @@ async function loadChip() {
 }
 loadChip();  
   </script>
+  <!-- Edit Button -->
+<div id="editBar" style="position:fixed;bottom:24px;right:24px;z-index:999;">
+  <button onclick="document.getElementById('pinModal').style.display='flex'" 
+    style="background:linear-gradient(135deg,#fff7bf,#f0c756,#c28a1e);color:#1b1005;font-weight:bold;font-size:1rem;border-radius:999px;padding:14px 24px;border:none;cursor:pointer;box-shadow:0 8px 20px rgba(54,30,6,0.3);">
+    ✏️ Edit My Page
+  </button>
+</div>
+
+<!-- PIN Modal -->
+<div id="pinModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#fff8ec;border-radius:24px;padding:32px;max-width:340px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+    <h2 style="color:#3a2a12;margin:0 0 8px;">Enter Your PIN</h2>
+    <p style="color:#6b4b1f;margin:0 0 20px;">Enter your 4-digit PIN to edit this page.</p>
+    <input id="pinInput" type="password" maxlength="4" inputmode="numeric" 
+      style="width:100%;padding:14px;border-radius:12px;border:1px solid rgba(150,100,28,0.34);font-size:1.5rem;text-align:center;letter-spacing:8px;margin-bottom:12px;">
+    <p id="pinError" style="color:red;display:none;margin:0 0 12px;">Incorrect PIN. Try again.</p>
+    <div style="display:flex;gap:12px;justify-content:center;">
+      <button onclick="checkPin()" 
+        style="background:linear-gradient(135deg,#fff7bf,#f0c756,#c28a1e);color:#1b1005;font-weight:bold;padding:12px 24px;border-radius:999px;border:none;cursor:pointer;">
+        Enter
+      </button>
+      <button onclick="document.getElementById('pinModal').style.display='none'" 
+        style="background:rgba(255,255,255,0.8);color:#3a2a12;font-weight:bold;padding:12px 24px;border-radius:999px;border:1px solid rgba(150,100,28,0.3);cursor:pointer;">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+async function checkPin() {
+  const enteredPin = document.getElementById("pinInput").value.trim();
+  const pinError = document.getElementById("pinError");
+
+  if (!enteredPin || enteredPin.length !== 4) {
+    pinError.style.display = "block";
+    pinError.textContent = "Please enter a 4-digit PIN.";
+    return;
+  }
+
+  try {
+    const configRes = await fetch("/api/supabase-config", {
+      headers: { Authorization: "Bearer public" }
+    });
+    const { url, key } = await configRes.json();
+
+    const res = await fetch(`${url}/rest/v1/chips?code=eq.${code}&limit=1`, {
+      headers: { apikey: key, Authorization: `Bearer ${key}` }
+    });
+
+    const data = await res.json();
+    const chip = data[0];
+
+    if (!chip) {
+      pinError.textContent = "Chip not found.";
+      pinError.style.display = "block";
+      return;
+    }
+
+    if (chip.pin === enteredPin) {
+      window.location.href = `client-setup.html?code=${code}`;
+    } else {
+      pinError.textContent = "Incorrect PIN. Try again.";
+      pinError.style.display = "block";
+      document.getElementById("pinInput").value = "";
+    }
+  } catch (err) {
+    pinError.textContent = "Something went wrong. Try again.";
+    pinError.style.display = "block";
+  }
+}
+</script>
+  
 </body>
 </html>
