@@ -1131,8 +1131,7 @@ const { error } = await supabaseClient
 });
 
  if (error) {
-  alert("Supabase error: " + JSON.stringify(error));
-  return;
+  console.warn("Saved locally, but cloud failed:", error);
 }    
         } catch (err) {
           console.warn("Saved locally, but cloud failed:", err);
