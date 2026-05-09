@@ -1114,16 +1114,20 @@ localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
 
 try {
 const { error } = await supabaseClient
-.from("Chips")
+.from("chips")
 .upsert({
- chip_code: chipCode,
- name: fullName,
-title: title,
-              headline: headline,
-              description: desc.trim()
-            }, {
-              onConflict: "chip_code"
-            });
+  code: chipCode,
+  customer_name: fullName,
+  customer_email: email,
+  title: title,
+  headline: headline,
+  story: desc.trim(),
+  pin: pin,
+  visibility: visibility,
+  status: "setup_complete"
+}, {
+  onConflict: "code"
+});
 
           if (error) {
             console.warn("Saved locally, but cloud failed:", error);
