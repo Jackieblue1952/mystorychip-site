@@ -1130,9 +1130,10 @@ const { error } = await supabaseClient
   onConflict: "code"
 });
 
-          if (error) {
-            console.warn("Saved locally, but cloud failed:", error);
-          }
+ if (error) {
+  alert("Supabase error: " + JSON.stringify(error));
+  return;
+}    
         } catch (err) {
           console.warn("Saved locally, but cloud failed:", err);
         }
