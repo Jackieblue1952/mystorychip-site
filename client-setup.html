@@ -1115,6 +1115,7 @@ localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
 // Upload images to Supabase Storage
 const uploadedUrls = [];
 for (const imgObj of workingImages) {
+ if (imgObj.visibility === 'private') continue; 
   const base64 = imgObj.src.split(',')[1];
   const byteArray = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
   const fileName = `${chipCode}/${Date.now()}-${Math.random().toString(36).slice(2)}.jpg`;
