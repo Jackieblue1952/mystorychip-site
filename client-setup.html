@@ -836,7 +836,6 @@ function renderSavedPhotos() {
     img.src = imgObj.src;
     img.alt = "Saved photo";
     img.loading = "lazy";
-    img.addEventListener("click", () => openLightbox(imgObj.src));
 
     const select = document.createElement("select");
     select.innerHTML = `
