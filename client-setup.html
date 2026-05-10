@@ -1112,7 +1112,24 @@ existingChip.updatedAt = new Date().toISOString();
 existingChip.status = "setup_complete";
 
 localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
-
+// Upload images to Supabase Storage
+const uploadedUrls = [];
+for (const imgObj of workingImages) {
+  const base64 = imgObj.src.split(',')[1];
+  const byteArray = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
+  const fileName = `${chipCode}/${Date.now()}-${Math.random().toString(36).slice(2)}.jpg`;
+  const { data, error: uploadError } = await supabaseClient
+    .storage
+    .from('chip-images')
+    .upload(fileName, byteArray, { contentType: 'image/jpeg', upsert: true });
+  if (!uploadError) {
+    const { data: urlData } = supabaseClient
+      .storage
+      .from('chip-images')
+      .getPublicUrl(fileName);
+    uploadedUrls.push(urlData.publicUrl);
+  }
+}
 try {
 const { error } = await supabaseClient
 .from("chips")
@@ -1125,7 +1142,8 @@ const { error } = await supabaseClient
   story: desc.trim(),
   pin: pin,
   visibility: visibility,
-  status: "setup_complete"
+  status: "setup_complete",
+images: JSON.stringify(uploadedUrls)
 }, {
   onConflict: "code"
 });
