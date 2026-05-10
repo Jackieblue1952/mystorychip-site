@@ -496,8 +496,9 @@ async function loadChip() {
     const title = safe(chip.title) || safe(chip.customer_name) || "My Story";
     const headline = safe(chip.headline) || "Every story, item, memory, and detail has a place.";
     const story = safe(chip.story) || safe(chip.notes) || "";
+    const images = chip.images ? JSON.parse(chip.images) : [];
     const creator = safe(chip.customer_name) || "a MyStoryChip customer";
-
+galleryImages = images;
     content.innerHTML = `
       <section class="hero">
         <div class="hero-inner">
@@ -511,6 +512,18 @@ async function loadChip() {
         <h2 class="section-title">The Story</h2>
         <div class="story-body">${story || "No story has been added yet."}</div>
       </section>
+      ${images.length > 0 ? `
+<section class="panel">
+  <h2 class="section-title">Photos</h2>
+  <div class="gallery">
+    ${images.map((url, i) => `
+      <div class="thumb" onclick="openLightbox(${i})">
+        <img src="${url}" loading="lazy">
+      </div>
+    `).join('')}
+  </div>
+</section>
+` : ''}
       <section class="panel credit">
         Created and shared by <strong>${creator}</strong><br>
         through MyStoryChip
