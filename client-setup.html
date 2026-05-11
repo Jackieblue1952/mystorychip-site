@@ -1144,7 +1144,8 @@ for (const imgObj of workingImages) {
 // Upload documents to Supabase Storage
 const uploadedDocs = [];
 for (const docObj of workingDocs) {
-  const base64 = docObj.src.split(',')[1];
+if (!docObj.src || docObj.src.startsWith('http')) continue;
+const base64 = docObj.src.split(',')[1];
   const byteArray = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
   const fileName = `${chipCode}/docs/${Date.now()}-${docObj.name}`;
   const { data, error: uploadError } = await supabaseClient
