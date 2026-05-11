@@ -732,13 +732,38 @@ const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
     let chips = parseStoredChips();
     let existingChip = chips.find(c => c.code === chipCode);
 
-    if (!existingChip && chipCode) {
+if (!existingChip && chipCode) {
+  // Try to load from Supabase first
+  try {
+    const { data } = await supabaseClient
+      .from('chips')
+      .select('*')
+      .eq('code', chipCode)
+      .single();
+    if (data) {
       existingChip = {
-        code: chipCode,
-        images: []
+        code: data.code,
+        images: [],
+        customer_name: data.customer_name || '',
+        customer_email: data.customer_email || '',
+        title: data.title || '',
+        headline: data.headline || '',
+        story: data.story || '',
+        pin: data.pin || '',
+        visibility: data.visibility || 'public',
+        status: data.status || ''
       };
       chips.push(existingChip);
     }
+  } catch(e) {}
+  if (!existingChip) {
+    existingChip = {
+      code: chipCode,
+      images: []
+    };
+    chips.push(existingChip);
+  }
+}    
 
  function escape(str) {
     return String(str)
