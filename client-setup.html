@@ -739,15 +739,6 @@ if (!existingChip && chipCode) {
   };
   chips.push(existingChip);
 }
-    const { data } = await supabaseClient
-      .from('chips')
-      .select('*')
-      .eq('code', chipCode)
-      .single();
-    if (data) {
-      existingChip = {
-        code: data.code,
-        images: [],
         customer_name: data.customer_name || '',
         customer_email: data.customer_email || '',
         title: data.title || '',
