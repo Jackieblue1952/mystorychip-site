@@ -1130,6 +1130,24 @@ for (const imgObj of workingImages) {
     uploadedUrls.push(urlData.publicUrl);
   }
 }
+// Upload documents to Supabase Storage
+const uploadedDocs = [];
+for (const docObj of workingDocs) {
+  const base64 = docObj.src.split(',')[1];
+  const byteArray = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
+  const fileName = `${chipCode}/docs/${Date.now()}-${docObj.name}`;
+  const { data, error: uploadError } = await supabaseClient
+    .storage
+    .from('chip-images')
+    .upload(fileName, byteArray, { contentType: docObj.type || 'application/pdf', upsert: true });
+  if (!uploadError) {
+    const { data: urlData } = supabaseClient
+      .storage
+      .from('chip-images')
+      .getPublicUrl(fileName);
+    uploadedDocs.push({ name: docObj.name, url: urlData.publicUrl });
+  }
+}        
 try {
 const { error } = await supabaseClient
 .from("chips")
@@ -1144,6 +1162,7 @@ const { error } = await supabaseClient
   visibility: visibility,
   status: "setup_complete",
 images: JSON.stringify(uploadedUrls)
+ documents: JSON.stringify(uploadedDocs), 
 }, {
   onConflict: "code"
 });
