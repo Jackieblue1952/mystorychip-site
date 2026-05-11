@@ -996,7 +996,7 @@ function readFilesAsDataUrls(files) {
       if (existingChip.chipPurpose) document.getElementById("chipPurpose").value = existingChip.chipPurpose;
       if (existingChip.category && !existingChip.chipPurpose) document.getElementById("chipPurpose").value = existingChip.category;
 
-      if (existingChip.name) document.getElementById("name").value = existingChip.name;
+if (existingChip.name || existingChip.customer_name) document.getElementById("name").value = existingChip.name || existingChip.customer_name;      
       if (existingChip.email) document.getElementById("email").value = existingChip.email;
       if (existingChip.phone) document.getElementById("phone").value = existingChip.phone;
 
@@ -1006,7 +1006,8 @@ function readFilesAsDataUrls(files) {
       }
 
       if (existingChip.title) document.getElementById("title").value = existingChip.title;
-
+if (existingChip.headline) document.getElementById("headline").value = existingChip.headline;
+if (existingChip.story) document.getElementById("desc").value = existingChip.story;
 const descEl = document.getElementById("desc");
 if (descEl) {
   if (existingChip.desc) descEl.value = existingChip.desc;
