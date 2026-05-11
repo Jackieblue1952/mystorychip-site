@@ -497,6 +497,7 @@ async function loadChip() {
     const headline = safe(chip.headline) || "Every story, item, memory, and detail has a place.";
    const story = safe(chip.story) || ""; 
     const images = chip.images ? JSON.parse(chip.images) : [];
+const documents = chip.documents ? JSON.parse(chip.documents) : [];    
     const creator = safe(chip.customer_name) || "a MyStoryChip customer";
 galleryImages = images;
     content.innerHTML = `
@@ -522,6 +523,19 @@ galleryImages = images;
       </div>
     `).join('')}
   </div>
+</section>
+` : ''}
+${documents.length > 0 ? `
+<section class="panel">
+  <h2 class="section-title">Documents</h2>
+  ${documents.map(doc => `
+    <div style="margin-bottom:12px;">
+      <a href="${doc.url}" target="_blank"
+        style="display:inline-flex;align-items:center;gap:10px;padding:12px 20px;background:rgba(255,255,255,0.8);border:1px solid rgba(150,100,28,0.3);border-radius:999px;color:#3a2a12;text-decoration:none;font-weight:bold;">
+        📄 ${doc.name}
+      </a>
+    </div>
+  `).join('')}
 </section>
 ` : ''}
       <section class="panel credit">
