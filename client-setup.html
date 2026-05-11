@@ -994,13 +994,19 @@ function readFilesAsDataUrls(files) {
   return Promise.all([...imagePromises, ...docPromises]);
 }
 
-    function applyExistingChipData() {
-      if (!existingChip) return;
-// Load from Supabase
-const { data: sbChip } = await supabaseClient.from('chips').select('*').eq('code', chipCode).single();
-if (sbChip) {
-  existingChip = { ...existingChip, ...sbChip };
-}
+async function applyExistingChipData() {
+  if (!existingChip) return;
+  // Load from Supabase first
+  try {
+    const { data: sbChip } = await supabaseClient
+      .from('chips')
+      .select('*')
+      .eq('code', chipCode)
+      .single();
+    if (sbChip) {
+      existingChip = { ...existingChip, ...sbChip };
+    }
+  } catch(e) {}  
       if (existingChip.chipPurpose) document.getElementById("chipPurpose").value = existingChip.chipPurpose;
       if (existingChip.category && !existingChip.chipPurpose) document.getElementById("chipPurpose").value = existingChip.category;
 
