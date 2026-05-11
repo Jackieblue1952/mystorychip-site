@@ -495,7 +495,7 @@ async function loadChip() {
 
     const title = safe(chip.title) || safe(chip.customer_name) || "My Story";
     const headline = safe(chip.headline) || "Every story, item, memory, and detail has a place.";
-    const story = safe(chip.story) || safe(chip.notes) || "";
+   const story = safe(chip.story) || ""; 
     const images = chip.images ? JSON.parse(chip.images) : [];
     const creator = safe(chip.customer_name) || "a MyStoryChip customer";
 galleryImages = images;
