@@ -996,14 +996,14 @@ function readFilesAsDataUrls(files) {
 
     function applyExistingChipData() {
       if (!existingChip) return;
-
-      if (existingChip.chipPurpose) document.getElementById("chipPurpose").value = existingChip.chipPurpose;
-      if (existingChip.category && !existingChip.chipPurpose) document.getElementById("chipPurpose").value = existingChip.category;
 // Load from Supabase
 const { data: sbChip } = await supabaseClient.from('chips').select('*').eq('code', chipCode).single();
 if (sbChip) {
   existingChip = { ...existingChip, ...sbChip };
 }
+      if (existingChip.chipPurpose) document.getElementById("chipPurpose").value = existingChip.chipPurpose;
+      if (existingChip.category && !existingChip.chipPurpose) document.getElementById("chipPurpose").value = existingChip.category;
+
 if (existingChip.name || existingChip.customer_name) document.getElementById("name").value = existingChip.name || existingChip.customer_name;      
       if (existingChip.email) document.getElementById("email").value = existingChip.email;
       if (existingChip.phone) document.getElementById("phone").value = existingChip.phone;
