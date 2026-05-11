@@ -739,25 +739,7 @@ if (!existingChip && chipCode) {
   };
   chips.push(existingChip);
 }
-        customer_name: data.customer_name || '',
-        customer_email: data.customer_email || '',
-        title: data.title || '',
-        headline: data.headline || '',
-        story: data.story || '',
-        pin: data.pin || '',
-        visibility: data.visibility || 'public',
-        status: data.status || ''
-      };
-      chips.push(existingChip);
-    }
-  } catch(e) {}
-  if (!existingChip) {
-    existingChip = {
-      code: chipCode,
-      images: []
-    };
-    chips.push(existingChip);
-  }
+     
 }    
 
  function escape(str) {
