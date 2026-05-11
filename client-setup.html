@@ -1172,8 +1172,8 @@ const { error } = await supabaseClient
   pin: pin,
   visibility: visibility,
   status: "setup_complete",
-images: JSON.stringify(uploadedUrls)
- documents: JSON.stringify(uploadedDocs), 
+images: JSON.stringify(uploadedUrls),
+documents: JSON.stringify(uploadedDocs), 
 }, {
   onConflict: "code"
 });
