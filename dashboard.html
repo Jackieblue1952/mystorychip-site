@@ -316,14 +316,14 @@
           <td>${escapeHTML(chip.customer_email||"—")}</td>
           <td>${escapeHTML(chip.notes||"—")}</td>
           <td>
-            <button class="mini-btn secondary" onclick="openChip('${escapeHTML(chip.code)}')">View</button>
-            <button class="mini-btn danger" onclick="deleteChip('${escapeHTML(chip.id)}','${escapeHTML(chip.code)}')">Delete</button>
-          </td>
+<button class="mini-btn secondary" onclick="openChip('${escapeHTML(chip.code)}')">View</button>
+<button class="mini-btn secondary" onclick="setupChip('${escapeHTML(chip.code)}')">Setup</button>           
+            <button class="mini-btn danger" onclick="deleteChip('${escapeHTML(chip.id)}','${escapeHTML(chip.code)}')">Delete</button>        </td>
         </tr>`).join("");
     }
 
     function openChip(code) { window.open(`chip.html?code=${encodeURIComponent(code)}`, "_blank"); }
-
+function setupChip(code) { window.open(`client-setup.html?code=${encodeURIComponent(code)}`, "_blank"); }
     async function deleteChip(id, code) {
       if (!confirm(`Delete chip record ${code}?`)) return;
       const { error } = await supabaseClient.from("chips").delete().eq("id", id);
