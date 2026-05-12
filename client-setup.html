@@ -979,6 +979,7 @@ async function applyExistingChipData() {
     }
    workingImages = normalizeImages(existingChip && Array.isArray(existingChip.images) ? existingChip.images : []);
 workingDocs = (existingChip && Array.isArray(existingChip.documents)) ? [...existingChip.documents] : []; 
+ renderSavedPhotos();  
   } catch(e) {}  
       if (existingChip.chipPurpose) document.getElementById("chipPurpose").value = existingChip.chipPurpose;
       if (existingChip.category && !existingChip.chipPurpose) document.getElementById("chipPurpose").value = existingChip.category;
