@@ -757,8 +757,7 @@ if (!existingChip && chipCode) {
     return img;
   }).filter(Boolean);
 }   
- function getStorageMBFromImages(images) {
-  let totalBytes = 0;
+ function getStorageMBFromImages(images) 
 
   images.forEach(item => {
     let src = "";
@@ -960,6 +959,8 @@ function readFilesAsDataUrls(files) {
 
   return Promise.all([...imagePromises, ...docPromises]);
 }
+let workingImages = [];
+let workingDocs = [];    
 
 async function applyExistingChipData() {
   if (!existingChip) return;
@@ -1033,7 +1034,7 @@ await applyExistingChipData();
           if (item.type === "image") {
             workingImages.push({ src: item.data, visibility: "public" });
           } else if (item.type === "doc") {
-            workingDocs.push({ name: item.name, data: item.data, visibility: "public" });
+  workingDocs.push({ name: item.name, data: item.data, visibility: "public" });
           }
         });
 
@@ -1145,7 +1146,6 @@ if (!imgObj.src || imgObj.src.startsWith('http')) continue;
 const uploadedDocs = [];
 for (const docObj of workingDocs) {
 if (!docObj.src && !docObj.data) continue;
-if (docObj.url && docObj.url.startsWith('http')) continue;
 if (docObj.url && docObj.url.startsWith('http')) continue;
 const base64 = (docObj.src || docObj.data || '').split(',')[1];
   const byteArray = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
