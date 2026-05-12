@@ -757,10 +757,6 @@ if (!existingChip && chipCode) {
     return img;
   }).filter(Boolean);
 }   
-
-let workingImages = normalizeImages(existingChip && Array.isArray(existingChip.images) ? existingChip.images : []);
-let workingDocs = (existingChip && Array.isArray(existingChip.documents) ? existingChip.documents : []);
-
  function getStorageMBFromImages(images) {
   let totalBytes = 0;
 
