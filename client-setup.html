@@ -757,22 +757,32 @@ if (!existingChip && chipCode) {
     return img;
   }).filter(Boolean);
 }   
- function getStorageMBFromImages(images) 
+function getStorageMBFromImages(images) {
+  let totalBytes = 0;
 
   images.forEach(item => {
     let src = "";
+
     if (typeof item === "string") {
       src = item;
     } else if (item && typeof item === "object") {
       src = item.src || item.url || item.data || "";
     }
-    if (src.includes(",")) src = src.split(",")[1];
+
+    if (src.includes(",")) {
+      src = src.split(",")[1];
+    }
+
     totalBytes += Math.floor((src.length * 3) / 4);
   });
 
   workingDocs.forEach(doc => {
     let src = doc.data || "";
-    if (src.includes(",")) src = src.split(",")[1];
+
+    if (src.includes(",")) {
+      src = src.split(",")[1];
+    }
+
     totalBytes += Math.floor((src.length * 3) / 4);
   });
 
