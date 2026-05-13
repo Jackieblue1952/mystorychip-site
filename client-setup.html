@@ -988,12 +988,44 @@ workingImages = normalizeImages(existingChip && existingChip.images ? (Array.isA
 workingDocs = (existingChip && existingChip.documents ? (Array.isArray(existingChip.documents) ? existingChip.documents : JSON.parse(existingChip.documents)) : []);
  renderSavedPhotos();  
   } catch(e) {}  
-      if (existingChip.chipPurpose) document.getElementById("chipPurpose").value = existingChip.chipPurpose;
-      if (existingChip.category && !existingChip.chipPurpose) document.getElementById("chipPurpose").value = existingChip.category;
+ const chipPurposeValue =
+  existingChip.chipPurpose ||
+  existingChip.chip_purpose ||
+  existingChip.category ||
+  existingChip.type ||
+  "";
 
-if (existingChip.name || existingChip.customer_name) document.getElementById("name").value = existingChip.name || existingChip.customer_name;      
-      if (existingChip.email) document.getElementById("email").value = existingChip.email;
-      if (existingChip.phone) document.getElementById("phone").value = existingChip.phone;
+if (chipPurposeValue) {
+  document.getElementById("chipPurpose").value = chipPurposeValue;
+}
+
+const nameValue =
+  existingChip.name ||
+  existingChip.fullName ||
+  existingChip.customer_name ||
+  "";
+
+if (nameValue) {
+  document.getElementById("name").value = nameValue;
+}
+
+const emailValue =
+  existingChip.email ||
+  existingChip.customer_email ||
+  "";
+
+if (emailValue) {
+  document.getElementById("email").value = emailValue;
+}
+
+const phoneValue =
+  existingChip.phone ||
+  existingChip.customer_phone ||
+  "";
+
+if (phoneValue) {
+  document.getElementById("phone").value = phoneValue;
+}     
 
       if (existingChip.pin) {
         document.getElementById("pin").value = existingChip.pin;
