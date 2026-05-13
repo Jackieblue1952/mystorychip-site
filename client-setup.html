@@ -1032,11 +1032,13 @@ if (phoneValue) {
 
       if (existingChip.title) document.getElementById("title").value = existingChip.title;
 if (existingChip.headline) document.getElementById("headline").value = existingChip.headline;
-if (existingChip.story) document.getElementById("desc").value = existingChip.story;
 const descEl = document.getElementById("desc");
 if (descEl) {
-  if (existingChip.desc) descEl.value = existingChip.desc;
-  else if (existingChip.description) descEl.value = existingChip.description;
+  descEl.value =
+    existingChip.desc ||
+    existingChip.description ||
+    existingChip.story ||
+    "";
 }
 
 
