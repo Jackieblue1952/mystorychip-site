@@ -499,7 +499,12 @@ async function loadChip() {
     const images = chip.images ? JSON.parse(chip.images) : [];
 const documents = chip.documents ? JSON.parse(chip.documents) : [];    
     const creator = safe(chip.customer_name) || "a MyStoryChip customer";
-galleryImages = images;
+galleryImages = images
+  .map(img => {
+    if (typeof img === "string") return img;
+    return img.src || img.url || "";
+  })
+  .filter(Boolean);
     content.innerHTML = `
       <section class="hero">
         <div class="hero-inner">
@@ -513,7 +518,7 @@ galleryImages = images;
         <h2 class="section-title">The Story</h2>
         <div class="story-body">${story || "No story has been added yet."}</div>
       </section>
-      ${images.length > 0 ? `
+${galleryImages.map((url, i) => `  
 <section class="panel">
   <h2 class="section-title">Photos</h2>
   <div class="gallery">
