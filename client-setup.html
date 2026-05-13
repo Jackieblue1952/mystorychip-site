@@ -969,8 +969,7 @@ function readFilesAsDataUrls(files) {
 
   return Promise.all([...imagePromises, ...docPromises]);
 }
-let existingChip = {};
- let workingImages = [];
+    let workingImages = [];
  let workingDocs = [];  
 
 async function applyExistingChipData() {
