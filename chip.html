@@ -513,7 +513,7 @@ galleryImages = images;
         <h2 class="section-title">The Story</h2>
         <div class="story-body">${story || "No story has been added yet."}</div>
       </section>
-${images.map((url, i) => `      
+${images.length > 0 ? `
 <section class="panel">
   <h2 class="section-title">Photos</h2>
   <div class="gallery">
