@@ -496,10 +496,21 @@ async function loadChip() {
     const title = safe(chip.title) || safe(chip.customer_name) || "My Story";
     const headline = safe(chip.headline) || "Every story, item, memory, and detail has a place.";
    const story = safe(chip.story) || ""; 
-    const images = chip.images ? JSON.parse(chip.images) : [];
-const documents = chip.documents ? JSON.parse(chip.documents) : [];    
-    const creator = safe(chip.customer_name) || "a MyStoryChip customer";
-galleryImages = images;
+const rawImages = chip.images || [];
+const rawDocuments = chip.documents || [];
+
+const images = (typeof rawImages === "string" ? JSON.parse(rawImages || "[]") : rawImages)
+  .map(img => {
+    if (typeof img === "string") return img;
+    return img.url || img.src || "";
+  })
+  .filter(Boolean);
+
+const documents = (typeof rawDocuments === "string" ? JSON.parse(rawDocuments || "[]") : rawDocuments)
+  .filter(Boolean);
+
+const creator = safe(chip.customer_name) || "a MyStoryChip customer";
+galleryImages = images;   
     content.innerHTML = `
       <section class="hero">
         <div class="hero-inner">
