@@ -750,7 +750,13 @@ if (!existingChip && chipCode) {
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#39;");
   }
-
+if (typeof images === "string") {
+  try {
+    images = JSON.parse(images);
+  } catch (e) {
+    images = [];
+  }
+}
   function normalizeImages(images) {
   return (images || []).map(img => {
     if (typeof img === "string") {
