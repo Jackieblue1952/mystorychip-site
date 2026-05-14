@@ -729,8 +729,15 @@ const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
       }
     }
 
-let chips = [];
-let existingChip = chipCode ? { code: chipCode, images: [] } : null;    
+let chips = parseStoredChips();
+let existingChip = chips.find(c => c.code === chipCode);
+
+if (!existingChip && chipCode) {
+  existingChip = {
+    code: chipCode,
+    images: []
+  };
+  chips.push(existingChip);
 }  
 
  function escape(str) {
@@ -973,7 +980,7 @@ async function applyExistingChipData() {
       .eq('code', chipCode)
       .single();
     if (sbChip) {
-      existingChip = { ...existingChip, ...sbChip };
+  existingChip = sbChip;
     }
 workingImages = normalizeImages(existingChip && existingChip.images ? (Array.isArray(existingChip.images) ? existingChip.images : JSON.parse(existingChip.images)) : []);   
 workingDocs = (existingChip && existingChip.documents ? (Array.isArray(existingChip.documents) ? existingChip.documents : JSON.parse(existingChip.documents)) : []);
