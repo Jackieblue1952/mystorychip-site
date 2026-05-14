@@ -984,8 +984,9 @@ async function applyExistingChipData() {
     if (sbChip) {
   existingChip = sbChip;
     }
-workingImages = normalizeImages(existingChip && existingChip.images ? (Array.isArray(existingChip.images) ? existingChip.images : JSON.parse(existingChip.images)) : []);   
-workingDocs = (existingChip && existingChip.documents ? (Array.isArray(existingChip.documents) ? existingChip.documents : JSON.parse(existingChip.documents)) : []);
+workingImages = normalizeImages(existingChip && existingChip.images);
+ workingDocs = normalizeDocuments(existingChip && existingChip.documents);   
+    
  renderSavedPhotos();
  updateUsage();   
   } catch(e) {}  
