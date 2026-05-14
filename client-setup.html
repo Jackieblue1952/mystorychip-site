@@ -731,6 +731,8 @@ const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 let chips = parseStoredChips();
 let existingChip = chips.find(c => c.code === chipCode);
+let workingImages = [];
+let workingDocs = [];    
 
 if (!existingChip && chipCode) {
   existingChip = {
