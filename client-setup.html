@@ -793,7 +793,9 @@ function getStorageMBFromImages(images) {
   const usage = document.getElementById("usage");
   const fill = document.getElementById("fill");
 
-  const totalMB = getStorageMBFromImages(workingImages);
+const totalMB =
+  getStorageMBFromImages(workingImages) +
+  getStorageMBFromImages(workingDocs);
   const percent = Math.min((totalMB / STORAGE_LIMIT_MB) * 100, 100);
 
   usage.textContent = `${totalMB.toFixed(2)} MB used of ${STORAGE_LIMIT_MB} MB`;
