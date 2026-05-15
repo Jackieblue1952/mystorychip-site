@@ -1375,12 +1375,12 @@
 
           if (error) {
             console.warn("Saved locally, but cloud failed:", error);
-            alert("Saved on this device, but cloud save failed. Please try again.");
+  alert("Cloud save failed:\n" + JSON.stringify(error, null, 2));  
             return;
           }
         } catch (err) {
           console.warn("Saved locally, but cloud failed:", err);
-          alert("Saved on this device, but cloud save failed. Please try again.");
+    alert("Cloud save crashed:\n" + (err.message || JSON.stringify(err, null, 2)));
           return;
         }
 
