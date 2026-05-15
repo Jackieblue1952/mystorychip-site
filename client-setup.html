@@ -1250,8 +1250,7 @@ if (descEl) {
           return;
         }
 
-      const uploadedImages = await uploadImagesToSupabase();
-        const savedImages = uploadedImages;
+ const savedImages = await uploadImagesToSupabase();     
         const savedDocs = await uploadDocsToSupabase();
 
         existingChip = {
@@ -1303,7 +1302,7 @@ if (descEl) {
    visibility: visibility,
   status: "setup_complete",
   images: savedImages,           
-  documents: JSON.stringify(savedDocs),
+  documents: savedDocs,
    updated_at: new Date().toISOString()
             }, {
               onConflict: "code"
