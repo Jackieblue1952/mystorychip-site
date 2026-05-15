@@ -686,6 +686,7 @@
         if (typeof img === "string") {
           return {
             src: img,
+            sizeBytes: 0,
             visibility: "public"
           };
         }
@@ -694,6 +695,7 @@
           return {
             ...img,
             src: img.src || img.url || img.data || "",
+            sizeBytes: Number(img.sizeBytes || img.size_bytes || 0),
             visibility: img.visibility || "public"
           };
         }
@@ -716,6 +718,7 @@
           return {
             name: "Document",
             url: doc,
+            sizeBytes: 0,
             visibility: "public"
           };
         }
@@ -726,6 +729,8 @@
             name: doc.name || "Document",
             url: doc.url || "",
             data: doc.data || doc.src || "",
+            sizeBytes: Number(doc.sizeBytes || doc.size_bytes || 0),
+            mimeType: doc.mimeType || doc.mime_type || doc.type || "application/octet-stream",
             visibility: doc.visibility || "public"
           };
         }
@@ -734,25 +739,32 @@
       }).filter(Boolean);
     }
 
+    function getDataUrlSizeBytes(dataUrl) {
+      if (!dataUrl || dataUrl.startsWith("http")) return 0;
+
+      const base64 = dataUrl.includes(",")
+        ? dataUrl.split(",")[1]
+        : dataUrl;
+
+      return Math.floor((base64.length * 3) / 4);
+    }
+
     function getStorageMBFromItems(items) {
       let totalBytes = 0;
 
       (items || []).forEach(item => {
-        let src = "";
+        if (!item) return;
 
-        if (typeof item === "string") {
-          src = item;
-        } else if (item && typeof item === "object") {
-          src = item.src || item.data || "";
+        if (item.sizeBytes) {
+          totalBytes += Number(item.sizeBytes) || 0;
+          return;
         }
+
+        const src = item.src || item.data || item.url || "";
 
         if (!src || src.startsWith("http")) return;
 
-        if (src.includes(",")) {
-          src = src.split(",")[1];
-        }
-
-        totalBytes += Math.floor((src.length * 3) / 4);
+        totalBytes += getDataUrlSizeBytes(src);
       });
 
       return totalBytes / (1024 * 1024);
@@ -775,6 +787,40 @@
       if (fill) {
         fill.style.width = percent + "%";
       }
+    }
+
+    function mergeMediaItems(existingItems, currentItems, keyName) {
+      const merged = [];
+      const seen = new Set();
+
+      [...(existingItems || []), ...(currentItems || [])].forEach(item => {
+        if (!item) return;
+
+        const key = item[keyName] || item.src || item.url || item.data || "";
+        if (!key || seen.has(key)) return;
+
+        seen.add(key);
+        merged.push(item);
+      });
+
+      return merged;
+    }
+
+    async function loadLatestSupabaseChip() {
+      if (!chipCode) return null;
+
+      const { data, error } = await supabaseClient
+        .from("chips")
+        .select("*")
+        .eq("code", chipCode)
+        .maybeSingle();
+
+      if (error) {
+        console.warn("Could not reload latest chip before save:", error);
+        return null;
+      }
+
+      return data || null;
     }
 
     function openLightbox(src) {
@@ -939,9 +985,12 @@
               canvas.height = height;
               ctx.drawImage(img, 0, 0, width, height);
 
+              const compressedData = canvas.toDataURL("image/jpeg", QUALITY);
+
               resolve({
                 type: "image",
-                data: canvas.toDataURL("image/jpeg", QUALITY),
+                data: compressedData,
+                sizeBytes: getDataUrlSizeBytes(compressedData),
                 visibility: "public"
               });
             };
@@ -964,6 +1013,7 @@
               type: "doc",
               name: file.name,
               data: event.target.result,
+              sizeBytes: file.size || getDataUrlSizeBytes(event.target.result),
               mimeType: file.type || "application/octet-stream",
               visibility: "public"
             });
@@ -981,13 +1031,9 @@
       if (!chipCode) return;
 
       try {
-        const { data: sbChip, error } = await supabaseClient
-          .from("chips")
-          .select("*")
-          .eq("code", chipCode)
-          .maybeSingle();
+        const sbChip = await loadLatestSupabaseChip();
 
-        if (!error && sbChip) {
+        if (sbChip) {
           existingChip = sbChip;
         }
       } catch (e) {
@@ -1039,13 +1085,13 @@
       if (existingChip.headline) document.getElementById("headline").value = existingChip.headline;
 
       const descEl = document.getElementById("desc");
-if (descEl) {
-  descEl.value =
-    existingChip.story ||
-    existingChip.desc ||
-    existingChip.description ||
-    "";
-}
+      if (descEl) {
+        descEl.value =
+          existingChip.story ||
+          existingChip.desc ||
+          existingChip.description ||
+          "";
+      }
 
       if (existingChip.visibility) {
         document.getElementById("visibility").value = existingChip.visibility;
@@ -1064,13 +1110,17 @@ if (descEl) {
         if (imgObj.src.startsWith("http")) {
           finalImages.push({
             src: imgObj.src,
+            sizeBytes: Number(imgObj.sizeBytes || 0),
             visibility: imgObj.visibility || "public"
           });
           continue;
         }
 
         if (imgObj.visibility === "private") {
-          finalImages.push(imgObj);
+          finalImages.push({
+            ...imgObj,
+            sizeBytes: Number(imgObj.sizeBytes || getDataUrlSizeBytes(imgObj.src))
+          });
           continue;
         }
 
@@ -1096,6 +1146,7 @@ if (descEl) {
 
           finalImages.push({
             src: urlData.publicUrl,
+            sizeBytes: Number(imgObj.sizeBytes || getDataUrlSizeBytes(imgObj.src)),
             visibility: imgObj.visibility || "public"
           });
         }
@@ -1114,6 +1165,7 @@ if (descEl) {
           finalDocs.push({
             name: docObj.name || "Document",
             url: docObj.url,
+            sizeBytes: Number(docObj.sizeBytes || 0),
             visibility: docObj.visibility || "public"
           });
           continue;
@@ -1145,6 +1197,7 @@ if (descEl) {
           finalDocs.push({
             name: docObj.name || "Document",
             url: urlData.publicUrl,
+            sizeBytes: Number(docObj.sizeBytes || getDataUrlSizeBytes(source)),
             visibility: docObj.visibility || "public"
           });
         }
@@ -1178,12 +1231,14 @@ if (descEl) {
           if (item.type === "image") {
             workingImages.push({
               src: item.data,
+              sizeBytes: item.sizeBytes || getDataUrlSizeBytes(item.data),
               visibility: item.visibility || "public"
             });
           } else if (item.type === "doc") {
             workingDocs.push({
               name: item.name,
               data: item.data,
+              sizeBytes: item.sizeBytes || getDataUrlSizeBytes(item.data),
               mimeType: item.mimeType,
               visibility: item.visibility || "public"
             });
@@ -1249,9 +1304,19 @@ if (descEl) {
           alert("You must agree to the content rules and disclaimer.");
           return;
         }
-console.log("SAVE STARTED, workingImages:", JSON.stringify(workingImages));
- const savedImages = await uploadImagesToSupabase();     
+
+        const latestCloudChip = await loadLatestSupabaseChip();
+        const latestCloudImages = normalizeImages(latestCloudChip?.images || []);
+        const latestCloudDocs = normalizeDocuments(latestCloudChip?.documents || []);
+
+        workingImages = mergeMediaItems(latestCloudImages, workingImages, "src");
+        workingDocs = mergeMediaItems(latestCloudDocs, workingDocs, "url");
+
+        const savedImages = await uploadImagesToSupabase();
         const savedDocs = await uploadDocsToSupabase();
+
+        workingImages = savedImages;
+        workingDocs = savedDocs;
 
         existingChip = {
           ...(existingChip || {}),
@@ -1285,38 +1350,44 @@ console.log("SAVE STARTED, workingImages:", JSON.stringify(workingImages));
 
         localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
 
- try {
- const { error } = await supabaseClient
-.from("chips")
-.upsert({
- code: chipCode,
-  chip_purpose: chipPurpose,
-  category: chipPurpose,       
-  customer_name: fullName,
-   customer_email: email,
-   customer_phone: phone,
-   title: title,
-   headline: headline,
-   story: desc.trim(),
-  pin: pin,
-   visibility: visibility,
-  status: "setup_complete",
-  images: savedImages,           
-  documents: savedDocs,
-   updated_at: new Date().toISOString()
+        try {
+          const { error } = await supabaseClient
+            .from("chips")
+            .upsert({
+              code: chipCode,
+              chip_purpose: chipPurpose,
+              category: chipPurpose,
+              customer_name: fullName,
+              customer_email: email,
+              customer_phone: phone,
+              title: title,
+              headline: headline,
+              story: desc.trim(),
+              pin: pin,
+              visibility: visibility,
+              status: "setup_complete",
+              images: savedImages,
+              documents: savedDocs,
+              updated_at: new Date().toISOString()
             }, {
               onConflict: "code"
             });
 
           if (error) {
             console.warn("Saved locally, but cloud failed:", error);
+            alert("Saved on this device, but cloud save failed. Please try again.");
+            return;
           }
         } catch (err) {
           console.warn("Saved locally, but cloud failed:", err);
+          alert("Saved on this device, but cloud save failed. Please try again.");
+          return;
         }
-console.log("SAVING IMAGES:", JSON.stringify(savedImages));
 
-       // window.location.href = `success.html?code=${encodeURIComponent(chipCode)}`;
+        renderSavedPhotos();
+        updateUsage();
+
+        // window.location.href = `success.html?code=${encodeURIComponent(chipCode)}`;
       });
 
       lightboxClose.addEventListener("click", closeLightbox);
@@ -1330,5 +1401,6 @@ console.log("SAVING IMAGES:", JSON.stringify(savedImages));
       });
     });
   </script>
+
 </body>
 </html>
