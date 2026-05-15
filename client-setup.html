@@ -1250,7 +1250,9 @@ if (descEl) {
           return;
         }
 
-        const savedImages = await uploadImagesToSupabase();
+      const uploadedImages = await uploadImagesToSupabase();
+const existingImages = (existingChip && Array.isArray(existingChip.images)) ? existingChip.images : [];
+const savedImages = [...existingImages.filter(img => !uploadedImages.some(u => u.src === img.src)), ...uploadedImages];
         const savedDocs = await uploadDocsToSupabase();
 
         existingChip = {
