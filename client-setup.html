@@ -1039,13 +1039,13 @@
       if (existingChip.headline) document.getElementById("headline").value = existingChip.headline;
 
       const descEl = document.getElementById("desc");
-      if (descEl) {
-        descEl.value =
-          existingChip.desc ||
-          existingChip.description ||
-          existingChip.story ||
-          "";
-      }
+if (descEl) {
+  descEl.value =
+    existingChip.story ||
+    existingChip.desc ||
+    existingChip.description ||
+    "";
+}
 
       if (existingChip.visibility) {
         document.getElementById("visibility").value = existingChip.visibility;
