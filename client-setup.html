@@ -1315,8 +1315,8 @@ console.log("SAVE STARTED, workingImages:", JSON.stringify(workingImages));
           console.warn("Saved locally, but cloud failed:", err);
         }
 console.log("SAVING IMAGES:", JSON.stringify(savedImages));
-  alert("DONE - check console now");
-// window.location.href = `success.html?code=${encodeURIComponent(chipCode)}`;
+
+        window.location.href = `success.html?code=${encodeURIComponent(chipCode)}`;
       });
 
       lightboxClose.addEventListener("click", closeLightbox);
