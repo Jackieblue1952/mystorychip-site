@@ -1314,7 +1314,7 @@ if (descEl) {
         } catch (err) {
           console.warn("Saved locally, but cloud failed:", err);
         }
-
+console.log("SAVING IMAGES:", JSON.stringify(savedImages));
         window.location.href = `success.html?code=${encodeURIComponent(chipCode)}`;
       });
 
