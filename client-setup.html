@@ -1286,25 +1286,25 @@ if (descEl) {
 
         localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
 
-        try {
-          const { error } = await supabaseClient
-            .from("chips")
-            .upsert({
-              code: chipCode,
-              chip_purpose: chipPurpose,
-              category: chipPurpose,
-              customer_name: fullName,
-              customer_email: email,
-              customer_phone: phone,
-              title: title,
-              headline: headline,
-              story: desc.trim(),
-              pin: pin,
-              visibility: visibility,
-              status: "setup_complete",
-              images: JSON.stringify(savedImages),
-              documents: JSON.stringify(savedDocs),
-              updated_at: new Date().toISOString()
+ try {
+ const { error } = await supabaseClient
+.from("chips")
+.upsert({
+ code: chipCode,
+  chip_purpose: chipPurpose,
+  category: chipPurpose,       
+  customer_name: fullName,
+   customer_email: email,
+   customer_phone: phone,
+   title: title,
+   headline: headline,
+   story: desc.trim(),
+  pin: pin,
+   visibility: visibility,
+  status: "setup_complete",
+  images: savedImages,           
+  documents: JSON.stringify(savedDocs),
+   updated_at: new Date().toISOString()
             }, {
               onConflict: "code"
             });
