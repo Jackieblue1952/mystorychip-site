@@ -1249,7 +1249,7 @@ if (descEl) {
           alert("You must agree to the content rules and disclaimer.");
           return;
         }
-
+console.log("SAVE STARTED, workingImages:", JSON.stringify(workingImages));
  const savedImages = await uploadImagesToSupabase();     
         const savedDocs = await uploadDocsToSupabase();
 
