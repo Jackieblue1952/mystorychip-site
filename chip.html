@@ -18,381 +18,110 @@
         url("final-storybook.png") center center / cover no-repeat fixed;
     }
 
-    .wrap {
-      max-width: 1040px;
-      margin: 0 auto;
-      padding: 24px;
-    }
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 24px; }
 
     .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 22px;
-      gap: 12px;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 22px; gap: 12px;
     }
 
-    .brand {
-      color: #6b4b1f;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      font-size: 13px;
-      font-weight: bold;
-    }
+    .brand { color: #6b4b1f; letter-spacing: 2px; text-transform: uppercase; font-size: 13px; font-weight: bold; }
 
-    .top-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
+    .top-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
     .btn {
-      color: #3a2a12;
-      text-decoration: none;
+      color: #3a2a12; text-decoration: none;
       border: 1px solid rgba(150, 100, 28, 0.34);
       background: rgba(255, 250, 237, 0.82);
-      padding: 10px 16px;
-      border-radius: 999px;
-      font-weight: bold;
-      cursor: pointer;
+      padding: 10px 16px; border-radius: 999px; font-weight: bold; cursor: pointer;
       box-shadow: 0 8px 22px rgba(80, 48, 8, 0.12);
     }
 
-    .hero,
-    .panel,
-    .message {
+    .hero, .panel, .message {
       background:
         radial-gradient(circle at top center, rgba(255, 244, 206, 0.92), transparent 56%),
         linear-gradient(180deg, rgba(255,255,255,0.84), rgba(255,246,226,0.78));
       border: 1px solid rgba(172, 119, 35, 0.28);
       border-radius: 30px;
-      box-shadow:
-        0 20px 55px rgba(78, 48, 9, 0.18),
-        inset 0 0 32px rgba(255, 255, 255, 0.42);
+      box-shadow: 0 20px 55px rgba(78, 48, 9, 0.18), inset 0 0 32px rgba(255, 255, 255, 0.42);
       backdrop-filter: blur(3px);
     }
 
-    .hero {
-      text-align: center;
-      padding: 54px 28px 46px;
-      margin-bottom: 24px;
-      position: relative;
-      overflow: hidden;
-    }
-
+    .hero { text-align: center; padding: 54px 28px 46px; margin-bottom: 24px; position: relative; overflow: hidden; }
     .hero::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      bottom: -140px;
-      transform: translateX(-50%);
-      width: 620px;
-      height: 260px;
+      content: ""; position: absolute; left: 50%; bottom: -140px; transform: translateX(-50%);
+      width: 620px; height: 260px;
       background: radial-gradient(circle, rgba(255, 205, 92, 0.36), transparent 70%);
       pointer-events: none;
     }
+    .hero-inner { position: relative; z-index: 2; }
 
-    .hero-inner {
-      position: relative;
-      z-index: 2;
-    }
+    .eyebrow { color: #9a6a1d; text-transform: uppercase; letter-spacing: 2px; font-size: 13px; margin-bottom: 12px; font-weight: bold; }
 
-    .eyebrow {
-      color: #9a6a1d;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      font-size: 13px;
-      margin-bottom: 12px;
-      font-weight: bold;
-    }
+    h1 { margin: 0 0 14px; font-size: clamp(2.4rem, 5vw, 4.6rem); line-height: 1.03; color: #3a2a12; text-shadow: 0 1px 0 rgba(255,255,255,0.7); }
 
-    h1 {
-      margin: 0 0 14px;
-      font-size: clamp(2.4rem, 5vw, 4.6rem);
-      line-height: 1.03;
-      color: #3a2a12;
-      text-shadow: 0 1px 0 rgba(255,255,255,0.7);
-    }
+    .headline { color: #6b4b1f; font-size: 1.25rem; line-height: 1.6; max-width: 760px; margin: 0 auto; }
 
-    .headline {
-      color: #6b4b1f;
-      font-size: 1.25rem;
-      line-height: 1.6;
-      max-width: 760px;
-      margin: 0 auto;
-    }
+    .chip-code { margin-top: 18px; color: #7a551d; font-size: 0.9rem; font-weight: bold; }
 
-    .chip-code {
-      margin-top: 18px;
-      color: #7a551d;
-      font-size: 0.9rem;
-      font-weight: bold;
-    }
+    .panel { padding: 30px 26px; margin-bottom: 24px; }
 
-    .panel {
-      padding: 30px 26px;
-      margin-bottom: 24px;
-    }
+    .section-title { text-align: center; color: #5a3b12; font-size: 1.65rem; margin: 0 0 18px; }
 
-    .section-title {
-      text-align: center;
-      color: #5a3b12;
-      font-size: 1.65rem;
-      margin: 0 0 18px;
-    }
+    .story-body { white-space: pre-wrap; line-height: 1.9; font-size: 1.08rem; color: #3a2a12; }
 
-    .story-body,
-    .section-body {
-      white-space: pre-wrap;
-      line-height: 1.9;
-      font-size: 1.08rem;
-      color: #3a2a12;
-    }
-
-    .structured-card {
-      margin-top: 20px;
-      padding-top: 18px;
-      border-top: 1px dashed rgba(150, 100, 28, 0.3);
-    }
-
-    .structured-type {
-      color: #8a642a;
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 1.3px;
-      margin-bottom: 6px;
-    }
-
-    .structured-title {
-      color: #5a3b12;
-      font-size: 1.25rem;
-      margin-bottom: 8px;
-      font-weight: bold;
-    }
-
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
-      gap: 16px;
-      margin-bottom: 24px;
-    }
+    .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 16px; margin-bottom: 24px; }
 
     .thumb {
-      border-radius: 18px;
-      overflow: hidden;
+      border-radius: 18px; overflow: hidden;
       border: 1px solid rgba(150, 100, 28, 0.28);
       background: rgba(255, 255, 255, 0.55);
-      cursor: pointer;
-      min-height: 155px;
+      cursor: pointer; min-height: 155px;
       box-shadow: 0 12px 28px rgba(80, 48, 8, 0.18);
     }
+    .thumb img { width: 100%; height: 100%; min-height: 155px; object-fit: cover; display: block; }
 
-    .thumb img {
-      width: 100%;
-      height: 100%;
-      min-height: 155px;
-      object-fit: cover;
-      display: block;
+    .credit { text-align: center; color: #6b4b1f; line-height: 1.7; }
+    .credit strong { color: #3a2a12; }
+
+    .powered { text-align: center; padding: 28px 24px; }
+    .powered-title { color: #5a3b12; font-size: 1.35rem; font-weight: bold; margin-bottom: 8px; }
+    .powered-line { color: #6b4b1f; line-height: 1.6; }
+
+    .message { padding: 34px 24px; text-align: center; }
+    .message h2 { color: #5a3b12; margin-top: 0; }
+
+    .disclaimer { max-width: 900px; margin: 28px auto 0; text-align: center; font-size: 0.74rem; line-height: 1.55; color: #6a5530; opacity: 0.82; }
+
+    .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.92); display: none; align-items: center; justify-content: center; padding: 70px 24px 24px; z-index: 9999; }
+    .lightbox.active { display: flex; }
+    .lightbox img { max-width: 90vw; max-height: 82vh; border-radius: 18px; border: 1px solid rgba(245, 217, 122, 0.28); box-shadow: 0 0 35px rgba(245, 217, 122, 0.18); z-index: 5; transition: opacity 0.2s ease; }
+
+    .back-btn { position: absolute; top: 18px; left: 24px; z-index: 40; background: linear-gradient(180deg, #fff7df, #e8c873); color: #3a2a12; border: 1px solid rgba(245, 217, 122, 0.75); border-radius: 999px; padding: 10px 18px; font-family: Georgia, serif; font-size: 15px; font-weight: bold; cursor: pointer; box-shadow: 0 0 22px rgba(245, 217, 122, 0.34); }
+    .close-btn { position: absolute; top: 18px; right: 24px; z-index: 40; background: linear-gradient(180deg, #fff7df, #e8c873); color: #3a2a12; border: 1px solid rgba(245, 217, 122, 0.75); border-radius: 50%; width: 46px; height: 46px; font-size: 30px; line-height: 40px; cursor: pointer; box-shadow: 0 0 22px rgba(245, 217, 122, 0.34); }
+    .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255, 250, 237, 0.92); border: 1px solid rgba(245, 217, 122, 0.55); color: #3a2a12; font-size: 38px; width: 58px; height: 58px; cursor: pointer; border-radius: 50%; z-index: 20; box-shadow: 0 0 24px rgba(245, 217, 122, 0.28); }
+    .nav-btn.left { left: 24px; }
+    .nav-btn.right { right: 24px; }
+
+    @media (max-width: 700px) {
+      .wrap { padding: 16px; }
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .hero, .panel { border-radius: 22px; padding: 22px 18px; }
+      .lightbox { padding: 64px 14px 18px; }
+      .lightbox img { max-width: 94vw; max-height: 80vh; }
+      .back-btn { top: 14px; left: 14px; padding: 9px 15px; font-size: 14px; }
+      .close-btn { top: 14px; right: 14px; width: 42px; height: 42px; font-size: 28px; }
+      .nav-btn { width: 48px; height: 48px; font-size: 30px; }
+      .nav-btn.left { left: 10px; }
+      .nav-btn.right { right: 10px; }
     }
-
-    .empty {
-      text-align: center;
-      color: #7a551d;
-      font-style: italic;
-      line-height: 1.6;
-    }
-
-    .credit {
-      text-align: center;
-      color: #6b4b1f;
-      line-height: 1.7;
-    }
-
-    .credit strong {
-      color: #3a2a12;
-    }
-
-    .powered {
-      text-align: center;
-      padding: 28px 24px;
-    }
-
-    .powered-title {
-      color: #5a3b12;
-      font-size: 1.35rem;
-      font-weight: bold;
-      margin-bottom: 8px;
-    }
-
-    .powered-line {
-      color: #6b4b1f;
-      line-height: 1.6;
-    }
-
-    .message {
-      padding: 34px 24px;
-      text-align: center;
-    }
-
-    .message h2 {
-      color: #5a3b12;
-      margin-top: 0;
-    }
-
-    .disclaimer {
-      max-width: 900px;
-      margin: 28px auto 0;
-      text-align: center;
-      font-size: 0.74rem;
-      line-height: 1.55;
-      color: #6a5530;
-      opacity: 0.82;
-    }
-
-.lightbox {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.92);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 70px 24px 24px;
-  z-index: 9999;
-}
-
-.lightbox.active {
-  display: flex;
-}
-
-.lightbox img {
-  max-width: 90vw;
-  max-height: 82vh;
-  border-radius: 18px;
-  border: 1px solid rgba(245, 217, 122, 0.28);
-  box-shadow: 0 0 35px rgba(245, 217, 122, 0.18);
-  z-index: 5;
-  transition: opacity 0.2s ease;
-}
-
-.back-btn {
-  position: absolute;
-  top: 18px;
-  left: 24px;
-  z-index: 40;
-  background: linear-gradient(180deg, #fff7df, #e8c873);
-  color: #3a2a12;
-  border: 1px solid rgba(245, 217, 122, 0.75);
-  border-radius: 999px;
-  padding: 10px 18px;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 0 22px rgba(245, 217, 122, 0.34);
-}
-
-.close-btn {
-  position: absolute;
-  top: 18px;
-  right: 24px;
-  z-index: 40;
-  background: linear-gradient(180deg, #fff7df, #e8c873);
-  color: #3a2a12;
-  border: 1px solid rgba(245, 217, 122, 0.75);
-  border-radius: 50%;
-  width: 46px;
-  height: 46px;
-  font-size: 30px;
-  line-height: 40px;
-  cursor: pointer;
-  box-shadow: 0 0 22px rgba(245, 217, 122, 0.34);
-}
-
-.nav-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(255, 250, 237, 0.92);
-  border: 1px solid rgba(245, 217, 122, 0.55);
-  color: #3a2a12;
-  font-size: 38px;
-  width: 58px;
-  height: 58px;
-  cursor: pointer;
-  border-radius: 50%;
-  z-index: 20;
-  box-shadow: 0 0 24px rgba(245, 217, 122, 0.28);
-}
-
-.nav-btn.left {
-  left: 24px;
-}
-
-.nav-btn.right {
-  right: 24px;
-}
-
-@media (max-width: 700px) {
-  .wrap { padding: 16px; }
-
-  .topbar {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .hero,
-  .panel {
-    border-radius: 22px;
-    padding: 22px 18px;
-  }
-
-  .lightbox {
-    padding: 64px 14px 18px;
-  }
-
-  .lightbox img {
-    max-width: 94vw;
-    max-height: 80vh;
-     transition: opacity 0.2s ease;
-  }
-
-  .back-btn {
-    top: 14px;
-    left: 14px;
-    padding: 9px 15px;
-    font-size: 14px;
-  }
-
-  .close-btn {
-    top: 14px;
-    right: 14px;
-    width: 42px;
-    height: 42px;
-    font-size: 28px;
-  }
-
-  .nav-btn {
-    width: 48px;
-    height: 48px;
-    font-size: 30px;
-  }
-
-  .nav-btn.left {
-    left: 10px;
-  }
-
-  .nav-btn.right {
-    right: 10px;
-  }  
   </style>
 </head>
 
 <body>
   <div class="wrap">
-
     <div class="topbar">
       <div class="brand">MyStoryChip</div>
-
       <div class="top-actions">
         <a href="index.html" class="btn">Home</a>
         <button type="button" class="btn" onclick="history.back()">Back</button>
@@ -406,239 +135,178 @@
       Access cannot be guaranteed at all times. Users are responsible for the content they choose to store and share.
       Important files should also be backed up separately.
     </div>
-
   </div>
 
   <div class="lightbox" id="lightbox">
- <button id="backBtn" class="back-btn">Back</button>   
-  <button id="closeBtn" class="close-btn">×</button>
-
-  <button id="prevBtn" class="nav-btn left">&#10094;</button>
-  <img id="lightboxImg" src="">
-  <button id="nextBtn" class="nav-btn right">&#10095;</button>
-</div>
+    <button id="backBtn" class="back-btn">Back</button>
+    <button id="closeBtn" class="close-btn">×</button>
+    <button id="prevBtn" class="nav-btn left">&#10094;</button>
+    <img id="lightboxImg" src="" alt="Photo"/>
+    <button id="nextBtn" class="nav-btn right">&#10095;</button>
+  </div>
 
   <script>
- const params = new URLSearchParams(window.location.search);
-const code = (params.get("code") || "").trim();
-const content = document.getElementById("content");
-const lightbox = document.getElementById("lightbox");
-const lightboxImg = document.getElementById("lightboxImg");
-const prevBtn = document.getElementById("prevBtn");
-const nextBtn = document.getElementById("nextBtn");
-const closeBtn = document.getElementById("closeBtn");
-const backBtn = document.getElementById("backBtn");
+    const params = new URLSearchParams(window.location.search);
+    const code = (params.get("code") || "").trim();
+    const content = document.getElementById("content");
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightboxImg");
 
-let galleryImages = [];
-let currentImageIndex = 0;
+    let galleryImages = [];
+    let currentImageIndex = 0;
 
-function safe(value) {
-  return value && String(value).trim() ? String(value).trim() : "";
-}
+    function safe(v) { return v && String(v).trim() ? String(v).trim() : ""; }
 
-function renderMissing(message) {
-  content.innerHTML = `
-    <div class="message">
-      <h2>Chip Not Found</h2>
-      <p>${message}</p>
-    </div>
-  `;
-}
-
-function showLightboxImage(index) {
-  if (!galleryImages.length) return;
-  currentImageIndex = (index + galleryImages.length) % galleryImages.length;
-  lightboxImg.style.opacity = 0;
-  setTimeout(() => {
-    lightboxImg.src = galleryImages[currentImageIndex];
-    lightboxImg.style.opacity = 1;
-  }, 120);
-}
-
-function openLightbox(index) {
-  showLightboxImage(index);
-  lightbox.classList.add("active");
-}
-
-function closeLightbox() {
-  lightbox.classList.remove("active");
-  lightboxImg.src = "";
-}
-
-prevBtn.addEventListener("click", e => { e.stopPropagation(); showLightboxImage(currentImageIndex - 1); });
-nextBtn.addEventListener("click", e => { e.stopPropagation(); showLightboxImage(currentImageIndex + 1); });
-backBtn.addEventListener("click", e => { e.stopPropagation(); closeLightbox(); });
-closeBtn.addEventListener("click", e => { e.stopPropagation(); closeLightbox(); });
-lightbox.addEventListener("click", closeLightbox);
-lightboxImg.addEventListener("click", e => e.stopPropagation());
-
-async function loadChip() {
-  if (!code) { renderMissing("No chip code was found in the page link."); return; }
-
-  try {
-    const configRes = await fetch("/api/supabase-config", {
-      headers: { Authorization: "Bearer public" }
-    });
-    const { url, key } = await configRes.json();
-
-    const res = await fetch(`${url}/rest/v1/chips?code=eq.${code}&limit=1`, {
-      headers: {
-        apikey: key,
-        Authorization: `Bearer ${key}`
-      }
-    });
-
-const chips = JSON.parse(localStorage.getItem("mscChips") || "[]");
-const chip = chips.find(c => String(c.code || "").trim() === code);  
-
-    if (!chip) { renderMissing(`No chip found with code ${code}.`); return; }
-
-    const title = safe(chip.title) || safe(chip.customer_name) || "My Story";
-    const headline = safe(chip.headline) || "Every story, item, memory, and detail has a place.";
-   const story = safe(chip.story) || ""; 
-const rawImages = chip.images || [];
-const rawDocuments = chip.documents || [];
-
-const images = (typeof rawImages === "string" ? JSON.parse(rawImages || "[]") : rawImages)
-  .map(img => {
-    if (typeof img === "string") return img;
-    return img.url || img.src || "";
-  })
-  .filter(Boolean);
-
-const documents = (typeof rawDocuments === "string" ? JSON.parse(rawDocuments || "[]") : rawDocuments)
-  .filter(Boolean);
-
-const creator = safe(chip.customer_name) || "a MyStoryChip customer";
-galleryImages = images;   
-    content.innerHTML = `
-      <section class="hero">
-        <div class="hero-inner">
-          <div class="eyebrow">Tap. Open. Discover.</div>
-          <h1>${title}</h1>
-          <div class="headline">${headline}</div>
-          <div class="chip-code">Chip Code: ${safe(chip.code)}</div>
-        </div>
-      </section>
-      <section class="panel">
-        <h2 class="section-title">The Story</h2>
-        <div class="story-body">${story || "No story has been added yet."}</div>
-      </section>
-${images.length > 0 ? `
-<section class="panel">
-  <h2 class="section-title">Photos</h2>
-  <div class="gallery">
-    ${images.map((url, i) => `
-      <div class="thumb" onclick="openLightbox(${i})">
-        <img src="${url}" loading="lazy">
-      </div>
-    `).join('')}
-  </div>
-</section>
-` : ''}
-${documents.length > 0 ? `
-<section class="panel">
-  <h2 class="section-title">Documents</h2>
-  ${documents.map(doc => `
-    <div style="margin-bottom:12px;">
-      <a href="${doc.url}" target="_blank"
-        style="display:inline-flex;align-items:center;gap:10px;padding:12px 20px;background:rgba(255,255,255,0.8);border:1px solid rgba(150,100,28,0.3);border-radius:999px;color:#3a2a12;text-decoration:none;font-weight:bold;">
-        📄 ${doc.name}
-      </a>
-    </div>
-  `).join('')}
-</section>
-` : ''}
-      <section class="panel credit">
-        Created and shared by <strong>${creator}</strong><br>
-        through MyStoryChip
-      </section>
-      <section class="panel powered">
-        <div class="powered-title">Powered by MyStoryChip</div>
-        <div class="powered-line">Not just a chip — a working digital space for stories, items, memories, and information.</div>
-      </section>
-    `;
-
-  } catch (err) {
-    renderMissing("Something went wrong loading this chip. Please try again.");
-  }
-}
-loadChip();  
-  </script>
-  <!-- Edit Button -->
-<div id="editBar" style="position:fixed;bottom:24px;right:24px;z-index:999;">
-  <button onclick="document.getElementById('pinModal').style.display='flex'" 
-    style="background:linear-gradient(135deg,#fff7bf,#f0c756,#c28a1e);color:#1b1005;font-weight:bold;font-size:1rem;border-radius:999px;padding:14px 24px;border:none;cursor:pointer;box-shadow:0 8px 20px rgba(54,30,6,0.3);">
-    ✏️ Edit My Page
-  </button>
-</div>
-
-<!-- PIN Modal -->
-<div id="pinModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;">
-  <div style="background:#fff8ec;border-radius:24px;padding:32px;max-width:340px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
-    <h2 style="color:#3a2a12;margin:0 0 8px;">Enter Your PIN</h2>
-    <p style="color:#6b4b1f;margin:0 0 20px;">Enter your 4-digit PIN to edit this page.</p>
-    <input id="pinInput" type="password" maxlength="4" inputmode="numeric" 
-      style="width:100%;padding:14px;border-radius:12px;border:1px solid rgba(150,100,28,0.34);font-size:1.5rem;text-align:center;letter-spacing:8px;margin-bottom:12px;">
-    <p id="pinError" style="color:red;display:none;margin:0 0 12px;">Incorrect PIN. Try again.</p>
-    <div style="display:flex;gap:12px;justify-content:center;">
-      <button onclick="checkPin()" 
-        style="background:linear-gradient(135deg,#fff7bf,#f0c756,#c28a1e);color:#1b1005;font-weight:bold;padding:12px 24px;border-radius:999px;border:none;cursor:pointer;">
-        Enter
-      </button>
-      <button onclick="document.getElementById('pinModal').style.display='none'" 
-        style="background:rgba(255,255,255,0.8);color:#3a2a12;font-weight:bold;padding:12px 24px;border-radius:999px;border:1px solid rgba(150,100,28,0.3);cursor:pointer;">
-        Cancel
-      </button>
-    </div>
-  </div>
-</div>
-
-<script>
- document.getElementById("pinInput").addEventListener("keydown", function(e) {
-  if (e.key === "Enter") checkPin();
-}); 
-async function checkPin() {
-  const enteredPin = document.getElementById("pinInput").value.trim();
-  const pinError = document.getElementById("pinError");
-
-  if (!enteredPin || enteredPin.length !== 4) {
-    pinError.style.display = "block";
-    pinError.textContent = "Please enter a 4-digit PIN.";
-    return;
-  }
-
-  try {
-    const configRes = await fetch("/api/supabase-config", {
-      headers: { Authorization: "Bearer public" }
-    });
-    const { url, key } = await configRes.json();
-
-    const res = await fetch(`${url}/rest/v1/chips?code=eq.${code}&limit=1`, {
-      headers: { apikey: key, Authorization: `Bearer ${key}` }
-    });
-
-   const chips = JSON.parse(localStorage.getItem("mscChips") || "[]");
-const chip = chips.find(c => String(c.code || "").trim() === code);
-
-if (!chip) {
-  renderMissing(`No chip found with code ${code}.`);
-  return;
-}    
-
-    if (chip.pin === enteredPin) {
-      window.location.href = `client-setup.html?code=${code}`;
-    } else {
-      pinError.textContent = "Incorrect PIN. Try again.";
-      pinError.style.display = "block";
-      document.getElementById("pinInput").value = "";
+    function renderMissing(msg) {
+      content.innerHTML = `<div class="message"><h2>Chip Not Found</h2><p>${msg}</p></div>`;
     }
-  } catch (err) {
-    pinError.textContent = "Something went wrong. Try again.";
-    pinError.style.display = "block";
-  }
-}
-</script>
-  
+
+    function showLightboxImage(index) {
+      if (!galleryImages.length) return;
+      currentImageIndex = (index + galleryImages.length) % galleryImages.length;
+      lightboxImg.style.opacity = 0;
+      setTimeout(() => { lightboxImg.src = galleryImages[currentImageIndex]; lightboxImg.style.opacity = 1; }, 120);
+    }
+
+    function openLightbox(index) { showLightboxImage(index); lightbox.classList.add("active"); }
+    function closeLightbox() { lightbox.classList.remove("active"); lightboxImg.src = ""; }
+
+    document.getElementById("prevBtn").addEventListener("click", e => { e.stopPropagation(); showLightboxImage(currentImageIndex - 1); });
+    document.getElementById("nextBtn").addEventListener("click", e => { e.stopPropagation(); showLightboxImage(currentImageIndex + 1); });
+    document.getElementById("backBtn").addEventListener("click", e => { e.stopPropagation(); closeLightbox(); });
+    document.getElementById("closeBtn").addEventListener("click", e => { e.stopPropagation(); closeLightbox(); });
+    lightbox.addEventListener("click", closeLightbox);
+    lightboxImg.addEventListener("click", e => e.stopPropagation());
+    document.addEventListener("keydown", e => {
+      if (!lightbox.classList.contains("active")) return;
+      if (e.key === "Escape") closeLightbox();
+      if (e.key === "ArrowLeft") showLightboxImage(currentImageIndex - 1);
+      if (e.key === "ArrowRight") showLightboxImage(currentImageIndex + 1);
+    });
+
+    function loadChip() {
+      if (!code) { renderMissing("No chip code was found in the page link."); return; }
+
+      const chips = JSON.parse(localStorage.getItem("mystorychip_chips") || "[]");
+      const chip = chips.find(c => String(c.code || "").trim() === code);
+
+      if (!chip) { renderMissing(`No chip found with code ${code}.`); return; }
+
+      const title = safe(chip.fullName) || safe(chip.title) || safe(chip.customer_name) || "My Story";
+      const headline = safe(chip.headline) || "Every story, item, memory, and detail has a place.";
+      const story = safe(chip.desc) || safe(chip.story) || "";
+      const creator = safe(chip.fullName) || safe(chip.customer_name) || "a MyStoryChip customer";
+
+      const rawImages = chip.images || [];
+      const images = (Array.isArray(rawImages) ? rawImages : [])
+        .map(img => typeof img === "string" ? img : (img.src || img.url || ""))
+        .filter(Boolean);
+
+      galleryImages = images;
+
+      const rawDocs = chip.documents || [];
+      const documents = (Array.isArray(rawDocs) ? rawDocs : []).filter(Boolean);
+
+      content.innerHTML = `
+        <section class="hero">
+          <div class="hero-inner">
+            <div class="eyebrow">Tap. Open. Discover.</div>
+            <h1>${title}</h1>
+            <div class="headline">${headline}</div>
+            <div class="chip-code">Chip Code: ${safe(chip.code)}</div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2 class="section-title">The Story</h2>
+          <div class="story-body">${story || "No story has been added yet."}</div>
+        </section>
+
+        ${images.length > 0 ? `
+        <section class="panel">
+          <h2 class="section-title">Photos</h2>
+          <div class="gallery">
+            ${images.map((src, i) => `<div class="thumb" onclick="openLightbox(${i})"><img src="${src}" loading="lazy" alt="Photo ${i+1}"></div>`).join('')}
+          </div>
+        </section>` : ''}
+
+        ${documents.length > 0 ? `
+        <section class="panel">
+          <h2 class="section-title">Documents</h2>
+          ${documents.map(doc => `
+            <div style="margin-bottom:12px;">
+              <a href="${doc.url || doc}" target="_blank" style="display:inline-flex;align-items:center;gap:10px;padding:12px 20px;background:rgba(255,255,255,0.8);border:1px solid rgba(150,100,28,0.3);border-radius:999px;color:#3a2a12;text-decoration:none;font-weight:bold;">
+                📄 ${doc.name || "Document"}
+              </a>
+            </div>`).join('')}
+        </section>` : ''}
+
+        <section class="panel credit">
+          Created and shared by <strong>${creator}</strong><br>through MyStoryChip
+        </section>
+
+        <section class="panel powered">
+          <div class="powered-title">Powered by MyStoryChip</div>
+          <div class="powered-line">Not just a chip — a working digital space for stories, items, memories, and information.</div>
+        </section>
+      `;
+
+      document.title = title + " — MyStoryChip";
+    }
+
+    loadChip();
+  </script>
+
+  <!-- Edit Button -->
+  <div style="position:fixed;bottom:24px;right:24px;z-index:999;">
+    <button onclick="document.getElementById('pinModal').style.display='flex'"
+      style="background:linear-gradient(135deg,#fff7bf,#f0c756,#c28a1e);color:#1b1005;font-weight:bold;font-size:1rem;border-radius:999px;padding:14px 24px;border:none;cursor:pointer;box-shadow:0 8px 20px rgba(54,30,6,0.3);">
+      ✏️ Edit My Page
+    </button>
+  </div>
+
+  <!-- PIN Modal -->
+  <div id="pinModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;">
+    <div style="background:#fff8ec;border-radius:24px;padding:32px;max-width:340px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+      <h2 style="color:#3a2a12;margin:0 0 8px;">Enter Your PIN</h2>
+      <p style="color:#6b4b1f;margin:0 0 20px;">Enter your 4-digit PIN to edit this page.</p>
+      <input id="pinInput" type="password" maxlength="4" inputmode="numeric"
+        style="width:100%;padding:14px;border-radius:12px;border:1px solid rgba(150,100,28,0.34);font-size:1.5rem;text-align:center;letter-spacing:8px;margin-bottom:12px;">
+      <p id="pinError" style="color:red;display:none;margin:0 0 12px;">Incorrect PIN. Try again.</p>
+      <div style="display:flex;gap:12px;justify-content:center;">
+        <button onclick="checkPin()" style="background:linear-gradient(135deg,#fff7bf,#f0c756,#c28a1e);color:#1b1005;font-weight:bold;padding:12px 24px;border-radius:999px;border:none;cursor:pointer;">Enter</button>
+        <button onclick="document.getElementById('pinModal').style.display='none'" style="background:rgba(255,255,255,0.8);color:#3a2a12;font-weight:bold;padding:12px 24px;border-radius:999px;border:1px solid rgba(150,100,28,0.3);cursor:pointer;">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("pinInput").addEventListener("keydown", e => { if (e.key === "Enter") checkPin(); });
+
+    function checkPin() {
+      const entered = document.getElementById("pinInput").value.trim();
+      const pinError = document.getElementById("pinError");
+
+      if (!entered || entered.length !== 4) {
+        pinError.textContent = "Please enter a 4-digit PIN.";
+        pinError.style.display = "block";
+        return;
+      }
+
+      const chips = JSON.parse(localStorage.getItem("mystorychip_chips") || "[]");
+      const chip = chips.find(c => String(c.code || "").trim() === code);
+
+      if (!chip) { pinError.textContent = "Chip not found."; pinError.style.display = "block"; return; }
+
+      if (chip.pin === entered) {
+        window.location.href = `client-setup.html?code=${encodeURIComponent(code)}`;
+      } else {
+        pinError.textContent = "Incorrect PIN. Try again.";
+        pinError.style.display = "block";
+        document.getElementById("pinInput").value = "";
+      }
+    }
+  </script>
+
 </body>
 </html>
