@@ -638,760 +638,244 @@
   </div>
 
 
-  <script>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const chipCode = params.get("code") || "TEST123";
+  const STORAGE_KEY = "mscChips";
+  const STORAGE_LIMIT_MB = 250;
 
-    let chips = parseStoredChips();
-    let existingChip = chips.find(c => c.code === chipCode);
-    let workingImages = [];
-    let workingDocs = [];
+  let chips = parseStoredChips();
+  let existingChip = chips.find(c => c.code === chipCode) || null;
 
-    if (!existingChip && chipCode) {
-      existingChip = {
-        code: chipCode,
-        images: [],
-        documents: []
-      };
-      chips.push(existingChip);
+  let workingImages = normalizeImages(existingChip?.images || []);
+  let workingDocs = normalizeDocuments(existingChip?.documents || []);
+
+  function parseStoredChips() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      const parsed = raw ? JSON.parse(raw) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+      console.warn("Could not read saved chips:", e);
+      return [];
     }
+  }
 
-    function parseStoredChips() {
-      try {
-        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-      } catch (error) {
-        return [];
-      }
+  function saveStoredChips() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
+  }
+
+  function $(selectors) {
+    for (const selector of selectors) {
+      const el = document.querySelector(selector);
+      if (el) return el;
     }
+    return null;
+  }
 
-    function normalizeImages(images) {
-      if (typeof images === "string") {
-        try {
-          images = JSON.parse(images);
-        } catch (e) {
-          images = [];
-        }
-      }
+  function getValue(selectors) {
+    const el = $(selectors);
+    return el ? el.value.trim() : "";
+  }
 
-      return (images || []).map(img => {
-        if (typeof img === "string") {
-          return {
-            src: img,
-            sizeBytes: 0,
-            visibility: "public"
-          };
-        }
+  function setValue(selectors, value) {
+    const el = $(selectors);
+    if (el && value !== undefined && value !== null) el.value = value;
+  }
 
-        if (img && typeof img === "object") {
-          return {
-            ...img,
-            src: img.src || img.url || img.data || "",
-            sizeBytes: Number(img.sizeBytes || img.size_bytes || 0),
-            visibility: img.visibility || "public"
-          };
-        }
+  function normalizeImages(images) {
+    return (images || []).map(img => ({
+      src: img.src || img.url || "",
+      sizeBytes: Number(img.sizeBytes || img.size || 0),
+      visibility: img.visibility || "public"
+    })).filter(img => img.src);
+  }
 
-        return null;
-      }).filter(item => item && item.src);
-    }
+  function normalizeDocuments(docs) {
+    return (docs || []).map(doc => ({
+      name: doc.name || "Document",
+      url: doc.url || doc.src || "",
+      mimeType: doc.mimeType || doc.type || "application/octet-stream",
+      sizeBytes: Number(doc.sizeBytes || doc.size || 0),
+      visibility: doc.visibility || "public"
+    })).filter(doc => doc.url);
+  }
 
-    function normalizeDocuments(docs) {
-      if (typeof docs === "string") {
-        try {
-          docs = JSON.parse(docs);
-        } catch (e) {
-          docs = [];
-        }
-      }
+  function mergeMediaItems(oldItems, newItems, keyName) {
+    const map = new Map();
 
-      return (docs || []).map(doc => {
-        if (typeof doc === "string") {
-          return {
-            name: "Document",
-            url: doc,
-            sizeBytes: 0,
-            visibility: "public"
-          };
-        }
+    [...oldItems, ...newItems].forEach(item => {
+      const key = item[keyName] || item.src || item.url || JSON.stringify(item);
+      map.set(key, item);
+    });
 
-        if (doc && typeof doc === "object") {
-          return {
-            ...doc,
-            name: doc.name || "Document",
-            url: doc.url || "",
-            data: doc.data || doc.src || "",
-            sizeBytes: Number(doc.sizeBytes || doc.size_bytes || 0),
-            mimeType: doc.mimeType || doc.mime_type || doc.type || "application/octet-stream",
-            visibility: doc.visibility || "public"
-          };
-        }
+    return Array.from(map.values());
+  }
 
-        return null;
-      }).filter(Boolean);
-    }
+  function bytesToMB(bytes) {
+    return bytes / (1024 * 1024);
+  }
 
-    function getDataUrlSizeBytes(dataUrl) {
-      if (!dataUrl || dataUrl.startsWith("http")) return 0;
+  function getUsedBytes() {
+    const imageBytes = workingImages.reduce((sum, item) => sum + Number(item.sizeBytes || 0), 0);
+    const docBytes = workingDocs.reduce((sum, item) => sum + Number(item.sizeBytes || 0), 0);
+    return imageBytes + docBytes;
+  }
 
-      const base64 = dataUrl.includes(",")
-        ? dataUrl.split(",")[1]
-        : dataUrl;
+  function updateStorageMeter() {
+    const usedMB = bytesToMB(getUsedBytes());
+    const percent = Math.min((usedMB / STORAGE_LIMIT_MB) * 100, 100);
 
-      return Math.floor((base64.length * 3) / 4);
-    }
+    const text = `${usedMB.toFixed(2)} MB used of ${STORAGE_LIMIT_MB} MB`;
 
-    function getStorageMBFromItems(items) {
-      let totalBytes = 0;
+    const possibleText = document.querySelectorAll(".storage-used, #storageUsed, #storageText, #usageText");
+    possibleText.forEach(el => el.textContent = text);
 
-      (items || []).forEach(item => {
-        if (!item) return;
+    const possibleBars = document.querySelectorAll(".storage-bar, #storageBar, #usageBar");
+    possibleBars.forEach(el => el.style.width = percent + "%");
+  }
 
-        if (item.sizeBytes) {
-          totalBytes += Number(item.sizeBytes) || 0;
-          return;
-        }
+  function fileToDataURL(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
 
-        const src = item.src || item.data || item.url || "";
+  async function handleFileUploads(input) {
+    const files = Array.from(input.files || []);
+    if (!files.length) return;
 
-        if (!src || src.startsWith("http")) return;
+    for (const file of files) {
+      const dataUrl = await fileToDataURL(file);
 
-        totalBytes += getDataUrlSizeBytes(src);
-      });
-
-      return totalBytes / (1024 * 1024);
-    }
-
-    function updateUsage() {
-      const usage = document.getElementById("usage");
-      const fill = document.getElementById("fill");
-
-      const totalMB =
-        getStorageMBFromItems(workingImages) +
-        getStorageMBFromItems(workingDocs);
-
-      const percent = Math.min((totalMB / STORAGE_LIMIT_MB) * 100, 100);
-
-      if (usage) {
-        usage.textContent = `${totalMB.toFixed(2)} MB used of ${STORAGE_LIMIT_MB} MB`;
-      }
-
-      if (fill) {
-        fill.style.width = percent + "%";
-      }
-    }
-
-    function mergeMediaItems(existingItems, currentItems, keyName) {
-      const merged = [];
-      const seen = new Set();
-
-      [...(existingItems || []), ...(currentItems || [])].forEach(item => {
-        if (!item) return;
-
-        const key = item[keyName] || item.src || item.url || item.data || "";
-        if (!key || seen.has(key)) return;
-
-        seen.add(key);
-        merged.push(item);
-      });
-
-      return merged;
-    }
-
-   function loadLatestSupabaseChip() {
-  return existingChip || null;
-}
-      if (!chipCode) return null;
-
-      const { data, error } = await supabaseClient
-        .from("chips")
-        .select("*")
-        .eq("code", chipCode)
-        .maybeSingle();
-
-      if (error) {
-        console.warn("Could not reload latest chip before save:", error);
-        return null;
-      }
-
-      return data || null;
-    }
-
-    function openLightbox(src) {
-      const lightbox = document.getElementById("lightbox");
-      const lightboxImg = document.getElementById("lightboxImg");
-
-      lightboxImg.src = src;
-      lightbox.classList.add("active");
-    }
-
-    function closeLightbox() {
-      const lightbox = document.getElementById("lightbox");
-      const lightboxImg = document.getElementById("lightboxImg");
-
-      lightbox.classList.remove("active");
-      lightboxImg.src = "";
-    }
-
-    function renderSavedPhotos() {
-      const wrap = document.getElementById("savedPhotosWrap");
-      const grid = document.getElementById("savedPhotosGrid");
-      const empty = document.getElementById("emptyPhotos");
-
-      if (!wrap || !grid || !empty) return;
-
-      grid.innerHTML = "";
-      wrap.style.display = "block";
-
-      if (workingImages.length === 0 && workingDocs.length === 0) {
-        empty.classList.remove("hidden");
-        return;
-      }
-
-      empty.classList.add("hidden");
-
-      workingImages.forEach((imgObj, index) => {
-        const tile = document.createElement("div");
-        tile.className = "photo-tile";
-
-        const img = document.createElement("img");
-        img.className = "photo-thumb";
-        img.src = imgObj.src;
-        img.alt = "Saved photo";
-        img.loading = "lazy";
-        img.addEventListener("click", () => openLightbox(imgObj.src));
-
-        const select = document.createElement("select");
-        select.innerHTML = `
-          <option value="public">Public</option>
-          <option value="private">Private</option>
-          <option value="both">Both</option>
-          <option value="undecided">Later</option>
-        `;
-        select.value = imgObj.visibility || "public";
-        select.addEventListener("change", () => {
-          workingImages[index].visibility = select.value;
+      if (file.type.startsWith("image/")) {
+        workingImages.push({
+          src: dataUrl,
+          sizeBytes: file.size,
+          visibility: "public"
         });
-
-        const removeBtn = document.createElement("button");
-        removeBtn.type = "button";
-        removeBtn.className = "photo-remove";
-        removeBtn.setAttribute("aria-label", "Remove photo");
-        removeBtn.textContent = "×";
-        removeBtn.addEventListener("click", (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          workingImages.splice(index, 1);
-          renderSavedPhotos();
-          updateUsage();
+      } else {
+        workingDocs.push({
+          name: file.name,
+          url: dataUrl,
+          mimeType: file.type || "application/octet-stream",
+          sizeBytes: file.size,
+          visibility: "public"
         });
-
-        tile.appendChild(img);
-        tile.appendChild(select);
-        tile.appendChild(removeBtn);
-        grid.appendChild(tile);
-      });
-
-      workingDocs.forEach((doc, index) => {
-        const tile = document.createElement("div");
-        tile.className = "doc-tile";
-
-        const icon = document.createElement("span");
-        icon.className = "doc-icon";
-        icon.textContent = doc.name && doc.name.toLowerCase().endsWith(".pdf") ? "📄" : "📝";
-
-        const name = document.createElement("span");
-        name.className = "doc-name";
-        name.textContent = doc.name || "Document";
-
-        const select = document.createElement("select");
-        select.innerHTML = `
-          <option value="public">Public</option>
-          <option value="private">Private</option>
-          <option value="both">Both</option>
-          <option value="undecided">Later</option>
-        `;
-        select.value = doc.visibility || "public";
-        select.addEventListener("change", () => {
-          workingDocs[index].visibility = select.value;
-        });
-
-        const removeBtn = document.createElement("button");
-        removeBtn.type = "button";
-        removeBtn.className = "photo-remove";
-        removeBtn.setAttribute("aria-label", "Remove document");
-        removeBtn.textContent = "×";
-        removeBtn.addEventListener("click", (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          workingDocs.splice(index, 1);
-          renderSavedPhotos();
-          updateUsage();
-        });
-
-        tile.appendChild(icon);
-        tile.appendChild(name);
-        tile.appendChild(select);
-        tile.appendChild(removeBtn);
-        grid.appendChild(tile);
-      });
+      }
     }
 
-    function readFilesAsDataUrls(files) {
-      const MAX_WIDTH = 1000;
-      const QUALITY = 0.60;
-      const DOC_TYPES = [
-        "application/pdf",
-        "application/msword",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        "text/plain"
-      ];
+    updateStorageMeter();
+  }
 
-      const allFiles = Array.from(files);
-      const imageFiles = allFiles.filter(f => f.type.startsWith("image/"));
-      const docFiles = allFiles.filter(f => DOC_TYPES.includes(f.type));
+  function preloadForm() {
+    if (!existingChip) return;
 
-      const imagePromises = imageFiles.map(file => {
-        return new Promise(resolve => {
-          const reader = new FileReader();
+    setValue(["#fullName", "#name", "#customerName", "[name='fullName']", "[name='customer_name']"], existingChip.fullName || existingChip.customer_name || "");
+    setValue(["#email", "[name='email']", "[name='customer_email']"], existingChip.email || existingChip.customer_email || "");
+    setValue(["#phone", "[name='phone']", "[name='customer_phone']"], existingChip.phone || existingChip.customer_phone || "");
+    setValue(["#pin", "[name='pin']"], existingChip.pin || "");
+    setValue(["#title", "[name='title']"], existingChip.title || "");
+    setValue(["#category", "[name='category']"], existingChip.category || "");
+    setValue(["#headline", "[name='headline']"], existingChip.headline || "");
+    setValue(["#description", "#story", "[name='description']", "[name='story']"], existingChip.description || existingChip.story || "");
+    setValue(["#visibility", "[name='visibility']"], existingChip.visibility || "public");
 
-          reader.onload = (event) => {
-            const img = new Image();
+    updateStorageMeter();
+  }
 
-            img.onload = () => {
-              let width = img.width;
-              let height = img.height;
+  function collectChipData() {
+    const fullName = getValue(["#fullName", "#name", "#customerName", "[name='fullName']", "[name='customer_name']"]);
+    const email = getValue(["#email", "[name='email']", "[name='customer_email']"]);
+    const phone = getValue(["#phone", "[name='phone']", "[name='customer_phone']"]);
+    const pin = getValue(["#pin", "[name='pin']"]);
+    const title = getValue(["#title", "[name='title']"]);
+    const category = getValue(["#category", "[name='category']"]);
+    const headline = getValue(["#headline", "[name='headline']"]);
+    const description = getValue(["#description", "#story", "[name='description']", "[name='story']"]);
+    const visibility = getValue(["#visibility", "[name='visibility']"]) || "public";
 
-              if (width > MAX_WIDTH) {
-                height = Math.round(height * (MAX_WIDTH / width));
-                width = MAX_WIDTH;
-              }
+    const oldImages = normalizeImages(existingChip?.images || []);
+    const oldDocs = normalizeDocuments(existingChip?.documents || []);
 
-              const canvas = document.createElement("canvas");
-              const ctx = canvas.getContext("2d");
+    const finalImages = mergeMediaItems(oldImages, workingImages, "src");
+    const finalDocs = mergeMediaItems(oldDocs, workingDocs, "url");
 
-              if (!ctx) {
-                resolve(null);
-                return;
-              }
+    workingImages = finalImages;
+    workingDocs = finalDocs;
 
-              canvas.width = width;
-              canvas.height = height;
-              ctx.drawImage(img, 0, 0, width, height);
+    return {
+      ...(existingChip || {}),
+      code: chipCode,
+      fullName,
+      customer_name: fullName,
+      email,
+      customer_email: email,
+      phone,
+      customer_phone: phone,
+      pin,
+      title,
+      category,
+      headline,
+      description,
+      story: description,
+      visibility,
+      status: "setup_complete",
+      images: finalImages,
+      documents: finalDocs,
+      storageUsedBytes: getUsedBytes(),
+      storageLimitMB: STORAGE_LIMIT_MB,
+      updated_at: new Date().toISOString()
+    };
+  }
 
-              const compressedData = canvas.toDataURL("image/jpeg", QUALITY);
+  function saveChip() {
+    const chipData = collectChipData();
 
-              resolve({
-                type: "image",
-                data: compressedData,
-                sizeBytes: getDataUrlSizeBytes(compressedData),
-                visibility: "public"
-              });
-            };
-
-            img.onerror = () => resolve(null);
-            img.src = event.target.result;
-          };
-
-          reader.onerror = () => resolve(null);
-          reader.readAsDataURL(file);
-        });
-      });
-
-      const docPromises = docFiles.map(file => {
-        return new Promise(resolve => {
-          const reader = new FileReader();
-
-          reader.onload = (event) => {
-            resolve({
-              type: "doc",
-              name: file.name,
-              data: event.target.result,
-              sizeBytes: file.size || getDataUrlSizeBytes(event.target.result),
-              mimeType: file.type || "application/octet-stream",
-              visibility: "public"
-            });
-          };
-
-          reader.onerror = () => resolve(null);
-          reader.readAsDataURL(file);
-        });
-      });
-
-      return Promise.all([...imagePromises, ...docPromises]);
+    const index = chips.findIndex(c => c.code === chipCode);
+    if (index >= 0) {
+      chips[index] = chipData;
+    } else {
+      chips.push(chipData);
     }
 
-    async function applyExistingChipData() {
-      if (!chipCode) return;
+    existingChip = chipData;
+    saveStoredChips();
+    updateStorageMeter();
 
-      try {
-        const sbChip = await loadLatestSupabaseChip();
+    window.location.href = `success.html?code=${encodeURIComponent(chipCode)}`;
+  }
 
-        if (sbChip) {
-          existingChip = sbChip;
-        }
-      } catch (e) {
-        console.warn("Could not load cloud chip:", e);
-      }
+  document.addEventListener("DOMContentLoaded", () => {
+    preloadForm();
 
-      if (!existingChip) return;
+    document.querySelectorAll("input[type='file']").forEach(input => {
+      input.addEventListener("change", () => handleFileUploads(input));
+    });
 
-      workingImages = normalizeImages(existingChip.images);
-      workingDocs = normalizeDocuments(existingChip.documents);
-
-      const chipPurposeValue =
-        existingChip.chipPurpose ||
-        existingChip.chip_purpose ||
-        existingChip.category ||
-        existingChip.type ||
-        "";
-
-      if (chipPurposeValue) document.getElementById("chipPurpose").value = chipPurposeValue;
-
-      const nameValue =
-        existingChip.name ||
-        existingChip.fullName ||
-        existingChip.customer_name ||
-        "";
-
-      if (nameValue) document.getElementById("name").value = nameValue;
-
-      const emailValue =
-        existingChip.email ||
-        existingChip.customer_email ||
-        "";
-
-      if (emailValue) document.getElementById("email").value = emailValue;
-
-      const phoneValue =
-        existingChip.phone ||
-        existingChip.customer_phone ||
-        "";
-
-      if (phoneValue) document.getElementById("phone").value = phoneValue;
-
-      if (existingChip.pin) {
-        document.getElementById("pin").value = existingChip.pin;
-        document.getElementById("pinConfirm").value = existingChip.pin;
-      }
-
-      if (existingChip.title) document.getElementById("title").value = existingChip.title;
-      if (existingChip.headline) document.getElementById("headline").value = existingChip.headline;
-
-      const descEl = document.getElementById("desc");
-      if (descEl) {
-        descEl.value =
-          existingChip.story ||
-          existingChip.desc ||
-          existingChip.description ||
-          "";
-      }
-
-      if (existingChip.visibility) {
-        document.getElementById("visibility").value = existingChip.visibility;
-      }
-
-      renderSavedPhotos();
-      updateUsage();
-    }
-
-    async function uploadImagesToSupabase() {
-      const finalImages = [];
-
-      for (const imgObj of workingImages) {
-        if (!imgObj || !imgObj.src) continue;
-
-        if (imgObj.src.startsWith("http")) {
-          finalImages.push({
-            src: imgObj.src,
-            sizeBytes: Number(imgObj.sizeBytes || 0),
-            visibility: imgObj.visibility || "public"
-          });
-          continue;
-        }
-
-        if (imgObj.visibility === "private") {
-          finalImages.push({
-            ...imgObj,
-            sizeBytes: Number(imgObj.sizeBytes || getDataUrlSizeBytes(imgObj.src))
-          });
-          continue;
-        }
-
-        const base64 = imgObj.src.split(",")[1];
-        if (!base64) continue;
-
-        const byteArray = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
-        const fileName = `${chipCode}/${Date.now()}-${Math.random().toString(36).slice(2)}.jpg`;
-
-        const { error: uploadError } = await supabaseClient
-          .storage
-          .from("chip-images")
-          .upload(fileName, byteArray, {
-            contentType: "image/jpeg",
-            upsert: true
-          });
-
-        if (!uploadError) {
-          const { data: urlData } = supabaseClient
-            .storage
-            .from("chip-images")
-            .getPublicUrl(fileName);
-
-          finalImages.push({
-            src: urlData.publicUrl,
-            sizeBytes: Number(imgObj.sizeBytes || getDataUrlSizeBytes(imgObj.src)),
-            visibility: imgObj.visibility || "public"
-          });
-        }
-      }
-
-      return finalImages;
-    }
-
-    async function uploadDocsToSupabase() {
-      const finalDocs = [];
-
-      for (const docObj of workingDocs) {
-        if (!docObj) continue;
-
-        if (docObj.url && docObj.url.startsWith("http")) {
-          finalDocs.push({
-            name: docObj.name || "Document",
-            url: docObj.url,
-            sizeBytes: Number(docObj.sizeBytes || 0),
-            visibility: docObj.visibility || "public"
-          });
-          continue;
-        }
-
-        const source = docObj.data || docObj.src || "";
-        const base64 = source.includes(",") ? source.split(",")[1] : "";
-
-        if (!base64) continue;
-
-        const byteArray = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
-        const safeName = (docObj.name || "document").replace(/[^a-zA-Z0-9._-]/g, "_");
-        const fileName = `${chipCode}/docs/${Date.now()}-${safeName}`;
-
-        const { error: uploadError } = await supabaseClient
-          .storage
-          .from("chip-images")
-          .upload(fileName, byteArray, {
-            contentType: docObj.mimeType || docObj.type || "application/octet-stream",
-            upsert: true
-          });
-
-        if (!uploadError) {
-          const { data: urlData } = supabaseClient
-            .storage
-            .from("chip-images")
-            .getPublicUrl(fileName);
-
-          finalDocs.push({
-            name: docObj.name || "Document",
-            url: urlData.publicUrl,
-            sizeBytes: Number(docObj.sizeBytes || getDataUrlSizeBytes(source)),
-            visibility: docObj.visibility || "public"
-          });
-        }
-      }
-
-      return finalDocs;
-    }
-
-    document.addEventListener("DOMContentLoaded", async () => {
-      const filesInput = document.getElementById("files");
-      const form = document.getElementById("form");
-      const debugChip = document.getElementById("debugChip");
-      const viewerLink = document.getElementById("viewerLink");
-      const lightbox = document.getElementById("lightbox");
-      const lightboxClose = document.getElementById("lightboxClose");
-
-      if (viewerLink && chipCode) {
-        viewerLink.href = `chip.html?code=${encodeURIComponent(chipCode)}`;
-      }
-
-      if (debugChip) {
-        debugChip.textContent = chipCode ? `Chip Code: ${chipCode}` : "Preview Mode";
-      }
-
-      await applyExistingChipData();
-
-      filesInput.addEventListener("change", async () => {
-        const loadedFiles = await readFilesAsDataUrls(filesInput.files);
-
-        loadedFiles.filter(Boolean).forEach(item => {
-          if (item.type === "image") {
-            workingImages.push({
-              src: item.data,
-              sizeBytes: item.sizeBytes || getDataUrlSizeBytes(item.data),
-              visibility: item.visibility || "public"
-            });
-          } else if (item.type === "doc") {
-            workingDocs.push({
-              name: item.name,
-              data: item.data,
-              sizeBytes: item.sizeBytes || getDataUrlSizeBytes(item.data),
-              mimeType: item.mimeType,
-              visibility: item.visibility || "public"
-            });
-          }
-        });
-
-        renderSavedPhotos();
-        updateUsage();
-        filesInput.value = "";
-      });
-
-      form.addEventListener("submit", async (e) => {
+    document.querySelectorAll("form").forEach(form => {
+      form.addEventListener("submit", e => {
         e.preventDefault();
-
-        if (!chipCode) {
-          alert("Missing chip code in URL. Use client-setup.html?code=TEST123 for testing.");
-          return;
-        }
-
-        const chipPurpose = document.getElementById("chipPurpose").value.trim();
-        const title = document.getElementById("title").value.trim();
-        const fullName = document.getElementById("name").value.trim();
-        const email = document.getElementById("email").value.trim();
-        const phone = document.getElementById("phone").value.trim();
-        const pin = document.getElementById("pin").value.trim();
-        const pinConfirm = document.getElementById("pinConfirm").value.trim();
-        const headline = document.getElementById("headline").value.trim();
-        const desc = document.getElementById("desc").value;
-        const visibility = document.getElementById("visibility").value;
-        const agree = document.getElementById("agree").checked;
-
-        if (!chipPurpose) {
-          alert("Please enter what this chip is attached to.");
-          return;
-        }
-
-        if (!title) {
-          alert("Page Title is required.");
-          return;
-        }
-
-        if (!fullName) {
-          alert("Your Name is required.");
-          return;
-        }
-
-        if (!phone) {
-          alert("Phone number is required.");
-          return;
-        }
-
-        if (!/^[0-9]{4}$/.test(pin)) {
-          alert("PIN must be exactly 4 numbers.");
-          return;
-        }
-
-        if (pin !== pinConfirm) {
-          alert("PIN numbers do not match.");
-          return;
-        }
-
-        if (!agree) {
-          alert("You must agree to the content rules and disclaimer.");
-          return;
-        }
-
-        const latestCloudChip = await loadLatestSupabaseChip();
-        const latestCloudImages = normalizeImages(latestCloudChip?.images || []);
-        const latestCloudDocs = normalizeDocuments(latestCloudChip?.documents || []);
-
-        workingImages = mergeMediaItems(latestCloudImages, workingImages, "src");
-        workingDocs = mergeMediaItems(latestCloudDocs, workingDocs, "url");
-
-        const savedImages = await uploadImagesToSupabase();
-        const savedDocs = await uploadDocsToSupabase();
-
-        workingImages = savedImages;
-        workingDocs = savedDocs;
-
-        existingChip = {
-          ...(existingChip || {}),
-          code: chipCode,
-          chipPurpose: chipPurpose,
-          category: chipPurpose,
-          name: fullName,
-          fullName: fullName,
-          email: email,
-          phone: phone,
-          pin: pin,
-          title: title,
-          headline: headline,
-          desc: desc,
-          description: desc.trim(),
-          story: desc.trim(),
-          visibility: visibility,
-          imageVisibility: "mixed",
-          images: savedImages,
-          documents: savedDocs,
-          updatedAt: new Date().toISOString(),
-          status: "setup_complete"
-        };
-
-        const index = chips.findIndex(c => c.code === chipCode);
-        if (index >= 0) {
-          chips[index] = existingChip;
-        } else {
-          chips.push(existingChip);
-        }
-
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
-
-        try {
-          const { error } = await supabaseClient
-            .from("chips")
-            .upsert({
-              code: chipCode,
-              chip_purpose: chipPurpose,
-              category: chipPurpose,
-              customer_name: fullName,
-              customer_email: email,
-              customer_phone: phone,
-              title: title,
-              headline: headline,
-              story: desc.trim(),
-              pin: pin,
-              visibility: visibility,
-              status: "setup_complete",
-              images: savedImages,
-              documents: savedDocs,
-              updated_at: new Date().toISOString()
-            }, {
-              onConflict: "code"
-            });
-
-          if (error) {
-            console.warn("Saved locally, but cloud failed:", error);
-  alert("Cloud save failed:\n" + JSON.stringify(error, null, 2));  
-            return;
-          }
-        } catch (err) {
-          console.warn("Saved locally, but cloud failed:", err);
-    alert("Cloud save crashed:\n" + (err.message || JSON.stringify(err, null, 2)));
-          return;
-        }
-
-        renderSavedPhotos();
-        updateUsage();
-
-        // window.location.href = `success.html?code=${encodeURIComponent(chipCode)}`;
-      });
-
-      lightboxClose.addEventListener("click", closeLightbox);
-
-      lightbox.addEventListener("click", (e) => {
-        if (e.target === lightbox) closeLightbox();
-      });
-
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeLightbox();
+        saveChip();
       });
     });
-  </script>
+
+    document.querySelectorAll("button, a").forEach(el => {
+      const text = (el.textContent || "").toLowerCase();
+      if (text.includes("save") || text.includes("complete")) {
+        el.addEventListener("click", e => {
+          e.preventDefault();
+          saveChip();
+        });
+      }
+    });
+
+    updateStorageMeter();
+  });
+</script>  
 
 </body>
 </html>
