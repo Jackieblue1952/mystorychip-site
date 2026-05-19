@@ -488,8 +488,8 @@ async function loadChip() {
       }
     });
 
-    const data = await res.json();
-    const chip = data[0];
+const chips = JSON.parse(localStorage.getItem("mscChips") || "[]");
+const chip = chips.find(c => String(c.code || "").trim() === code);  
 
     if (!chip) { renderMissing(`No chip found with code ${code}.`); return; }
 
