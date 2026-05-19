@@ -420,7 +420,7 @@
 
   <script>
  const params = new URLSearchParams(window.location.search);
-const code = params.get("code");
+const code = (params.get("code") || "").trim();
 const content = document.getElementById("content");
 const lightbox = document.getElementById("lightbox");
 const lightboxImg = document.getElementById("lightboxImg");
@@ -619,7 +619,7 @@ async function checkPin() {
     });
 
    const chips = JSON.parse(localStorage.getItem("mscChips") || "[]");
-const chip = chips.find(c => c.code === code);
+const chip = chips.find(c => String(c.code || "").trim() === code);
 
     if (!chip) {
       pinError.textContent = "Chip not found.";
