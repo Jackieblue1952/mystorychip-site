@@ -795,7 +795,9 @@
       return merged;
     }
 
-    async function loadLatestSupabaseChip() {
+   function loadLatestSupabaseChip() {
+  return existingChip || null;
+}
       if (!chipCode) return null;
 
       const { data, error } = await supabaseClient
