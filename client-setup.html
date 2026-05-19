@@ -773,29 +773,36 @@
   });
 }
 
-  async function handleFileUploads(input) {
-    const files = Array.from(input.files || []);
-    if (!files.length) return;
+ async function handleFileUploads(input) {
+  const files = Array.from(input.files || []);
+  if (!files.length) return;
 
-    for (const file of files) {
-      const dataUrl = await fileToDataURL(file);
+  // Clear only the temporary unsaved uploads so testing does not keep stacking files.
+  workingImages = normalizeImages(existingChip?.images || []);
+  workingDocs = normalizeDocuments(existingChip?.documents || []);
 
-      if (file.type.startsWith("image/")) {
-        workingImages.push({
-          src: dataUrl,
-          sizeBytes: file.size,
-          visibility: "public"
-        });
-      } else {
-        workingDocs.push({
-          name: file.name,
-          url: dataUrl,
-          mimeType: file.type || "application/octet-stream",
-          sizeBytes: file.size,
-          visibility: "public"
-        });
-      }
+  for (const file of files) {
+    const dataUrl = await fileToDataURL(file);
+
+    if (file.type.startsWith("image/")) {
+      workingImages.push({
+        src: dataUrl,
+        sizeBytes: Math.round(dataUrl.length * 0.75),
+        visibility: "public"
+      });
+    } else {
+      workingDocs.push({
+        name: file.name,
+        url: dataUrl,
+        mimeType: file.type || "application/octet-stream",
+        sizeBytes: file.size,
+        visibility: "public"
+      });
     }
+  }
+
+  updateStorageMeter();
+}
 
     updateStorageMeter();
   }
