@@ -618,8 +618,8 @@ async function checkPin() {
       headers: { apikey: key, Authorization: `Bearer ${key}` }
     });
 
-    const data = await res.json();
-    const chip = data[0];
+   const chips = JSON.parse(localStorage.getItem("mscChips") || "[]");
+const chip = chips.find(c => c.code === code);
 
     if (!chip) {
       pinError.textContent = "Chip not found.";
