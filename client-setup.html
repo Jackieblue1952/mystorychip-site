@@ -640,7 +640,10 @@
 
 <script>
   const params = new URLSearchParams(window.location.search);
-  const chipCode = params.get("code") || "TEST123";
+  const chipCode = (params.get("code") || "").trim();
+  if (!chipCode) {
+  alert("Missing chip code.");
+}
   const STORAGE_KEY = "mscChips";
   const STORAGE_LIMIT_MB = 250;
 
