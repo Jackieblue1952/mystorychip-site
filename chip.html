@@ -621,11 +621,10 @@ async function checkPin() {
    const chips = JSON.parse(localStorage.getItem("mscChips") || "[]");
 const chip = chips.find(c => String(c.code || "").trim() === code);
 
-    if (!chip) {
-      pinError.textContent = "Chip not found.";
-      pinError.style.display = "block";
-      return;
-    }
+if (!chip) {
+  renderMissing(`No chip found with code ${code}.`);
+  return;
+}    
 
     if (chip.pin === enteredPin) {
       window.location.href = `client-setup.html?code=${code}`;
