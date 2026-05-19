@@ -804,9 +804,6 @@
   updateStorageMeter();
 }
 
-  function preloadForm() {
-    if (!existingChip) return;
-
     setValue(["#fullName", "#name", "#customerName", "[name='fullName']", "[name='customer_name']"], existingChip.fullName || existingChip.customer_name || "");
     setValue(["#email", "[name='email']", "[name='customer_email']"], existingChip.email || existingChip.customer_email || "");
     setValue(["#phone", "[name='phone']", "[name='customer_phone']"], existingChip.phone || existingChip.customer_phone || "");
