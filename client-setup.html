@@ -801,8 +801,8 @@
     }
   }
 
-  updateStorageMeter();
-}
+  updateStorageMeter();}
+
 function preloadForm() {
     setValue(["#fullName", "#name", "#customerName", "[name='fullName']", "[name='customer_name']"], existingChip.fullName || existingChip.customer_name || "");
     setValue(["#email", "[name='email']", "[name='customer_email']"], existingChip.email || existingChip.customer_email || "");
@@ -815,7 +815,7 @@ function preloadForm() {
     setValue(["#visibility", "[name='visibility']"], existingChip.visibility || "public");
 
     updateStorageMeter();
-
+}
   function collectChipData() {
     const fullName = getValue(["#fullName", "#name", "#customerName", "[name='fullName']", "[name='customer_name']"]);
     const email = getValue(["#email", "[name='email']", "[name='customer_email']"]);
