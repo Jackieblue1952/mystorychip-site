@@ -751,7 +751,7 @@
 
     reader.onload = e => {
       img.onload = () => {
-        const maxWidth = 1200;
+        const maxWidth = 800;
         const scale = Math.min(1, maxWidth / img.width);
 
         const canvas = document.createElement("canvas");
@@ -761,7 +761,7 @@
         const ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-        resolve(canvas.toDataURL("image/jpeg", 0.72));
+        resolve(canvas.toDataURL("image/jpeg", 0.45));
       };
 
       img.onerror = reject;
