@@ -728,10 +728,10 @@
 
     const text = `${usedMB.toFixed(2)} MB used of ${STORAGE_LIMIT_MB} MB`;
 
-    const possibleText = document.querySelectorAll(".storage-used, #storageUsed, #storageText, #usageText");
+  const possibleText = document.querySelectorAll(".storage-used, #storageUsed, #storageText, #usageText, #usage");
     possibleText.forEach(el => el.textContent = text);
 
-    const possibleBars = document.querySelectorAll(".storage-bar, #storageBar, #usageBar");
+  const possibleBars = document.querySelectorAll(".storage-bar, #storageBar, #usageBar, .meter > div");
     possibleBars.forEach(el => el.style.width = percent + "%");
   }
 
