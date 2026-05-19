@@ -1,530 +1,811 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Set Up Your MyStoryChip</title>
-<style>
-  :root {
-    --gold: #c9a84c;
-    --gold-light: #e8c97a;
-    --cream: #fdf6e3;
-    --brown: #3a2a12;
-    --brown-light: #6b4c2a;
-    --bg: #f5ead0;
-    --card: #fffdf5;
-    --border: #ddd0b0;
-    --red: #c0392b;
-    --green: #27ae60;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: Georgia, "Times New Roman", serif;
-    background: radial-gradient(circle at top center, #fff8e7 0%, var(--bg) 60%);
-    color: var(--brown);
-    min-height: 100vh;
-    padding: 0 0 60px;
-  }
-  .top-nav {
-    position: sticky; top: 0; z-index: 100;
-    background: var(--brown);
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 20px;
-  }
-  .top-nav a { color: var(--gold-light); text-decoration: none; font-size: 14px; }
-  .top-nav .site-name { color: var(--gold-light); font-size: 16px; font-weight: bold; letter-spacing: 1px; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Set Up Your MyStoryChip</title>
 
-  .hero {
-    text-align: center;
-    padding: 32px 20px 20px;
-  }
-  .hero .badge {
-    display: inline-block;
-    background: var(--brown);
-    color: var(--gold-light);
-    font-size: 11px;
-    letter-spacing: 2px;
-    padding: 4px 14px;
-    border-radius: 20px;
-    margin-bottom: 12px;
-    text-transform: uppercase;
-  }
-  .hero h1 { font-size: clamp(22px, 5vw, 32px); color: var(--brown); margin-bottom: 8px; }
-  .hero p { font-size: 15px; color: var(--brown-light); max-width: 500px; margin: 0 auto; }
-  .chip-code-display {
-    display: inline-block;
-    background: var(--brown);
-    color: var(--gold-light);
-    padding: 6px 20px;
-    border-radius: 20px;
-    font-size: 14px;
-    margin-top: 10px;
-    letter-spacing: 1px;
-  }
+  <style>
+    * { box-sizing: border-box; }
 
-  .section {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 24px;
-    margin: 16px auto;
-    max-width: 600px;
-  }
-  .section h2 {
-    font-size: 18px;
-    color: var(--brown);
-    margin-bottom: 16px;
-    padding-bottom: 8px;
-    border-bottom: 2px solid var(--gold);
-  }
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family: Georgia, "Times New Roman", serif;
+      color: #3a2a12;
+      background:
+        radial-gradient(circle at top center, rgba(255, 219, 132, 0.42), transparent 38%),
+        linear-gradient(180deg, #fff8ec 0%, #f2e2c4 58%, #e7c98e 100%);
+    }
 
-  label { display: block; font-size: 13px; color: var(--brown-light); margin-bottom: 4px; margin-top: 12px; }
-  input[type=text], input[type=email], input[type=tel], input[type=password], textarea, select {
-    width: 100%; padding: 10px 12px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    font-family: inherit; font-size: 14px;
-    background: #fffef9; color: var(--brown);
-    outline: none; transition: border 0.2s;
-  }
-  input:focus, textarea:focus, select:focus { border-color: var(--gold); }
-  textarea { resize: vertical; min-height: 80px; }
+    body { padding: 24px 16px 50px; }
 
-  .pin-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    a { color: inherit; text-decoration: none; }
 
-  /* Image upload area */
-  .upload-zone {
-    border: 2px dashed var(--border);
-    border-radius: 10px;
-    padding: 20px;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
-    margin-top: 12px;
-  }
-  .upload-zone:hover { border-color: var(--gold); background: #fffbf0; }
-  .upload-zone input[type=file] { display: none; }
-  .upload-zone .upload-label { font-size: 13px; color: var(--brown-light); cursor: pointer; }
-  .upload-zone .upload-icon { font-size: 28px; margin-bottom: 6px; }
+    .top-nav {
+      position: sticky;
+      top: 12px;
+      z-index: 100;
+      max-width: 1180px;
+      margin: 0 auto 18px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
 
-  .photo-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-    gap: 10px;
-    margin-top: 14px;
-  }
-  .photo-tile {
-    position: relative;
-    aspect-ratio: 1;
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    background: #f5f0e0;
-  }
-  .photo-tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .photo-tile .remove-btn {
-    position: absolute; top: 4px; right: 4px;
-    background: rgba(0,0,0,0.6); color: white;
-    border: none; border-radius: 50%;
-    width: 22px; height: 22px;
-    font-size: 13px; cursor: pointer; line-height: 22px; text-align: center;
-    padding: 0;
-  }
-  .photo-tile .vis-badge {
-    position: absolute; bottom: 4px; left: 4px;
-    background: rgba(0,0,0,0.55); color: #fff;
-    font-size: 10px; padding: 2px 6px; border-radius: 8px;
-    cursor: pointer;
-  }
+    .nav-btn {
+      border: 1px solid rgba(140, 92, 18, 0.35);
+      background: rgba(255, 250, 237, 0.88);
+      color: #3a2a12;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 8px 22px rgba(80, 48, 8, 0.12);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1rem;
+    }
 
-  .storage-bar-wrap { margin-top: 10px; }
-  .storage-bar-bg {
-    height: 8px; background: var(--border); border-radius: 4px; overflow: hidden;
-  }
-  .storage-bar-fill {
-    height: 100%; background: var(--gold); border-radius: 4px;
-    transition: width 0.4s;
-  }
-  .storage-label { font-size: 12px; color: var(--brown-light); margin-top: 4px; }
+    .wrap {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
 
-  .empty-msg { font-size: 13px; color: #aaa; font-style: italic; margin-top: 8px; }
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 34px;
+      padding: 42px 28px;
+      text-align: center;
+      background:
+        radial-gradient(circle at top center, rgba(255, 245, 205, 0.95), transparent 58%),
+        linear-gradient(135deg, rgba(255, 251, 238, 0.96), rgba(238, 205, 142, 0.86));
+      border: 1px solid rgba(172, 119, 35, 0.28);
+      box-shadow:
+        0 22px 60px rgba(78, 48, 9, 0.18),
+        inset 0 0 38px rgba(255, 255, 255, 0.45);
+      margin-bottom: 24px;
+    }
 
-  /* Visibility toggle */
-  .vis-row { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
-  .vis-row label { margin: 0; }
-  select.vis-select { width: auto; padding: 6px 10px; font-size: 13px; }
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -20% -55% -20%;
+      height: 70%;
+      background: radial-gradient(circle at center, rgba(255, 205, 92, 0.35), transparent 70%);
+      pointer-events: none;
+    }
 
-  /* Agreement */
-  .agree-row { display: flex; align-items: flex-start; gap: 10px; margin-top: 12px; }
-  .agree-row input[type=checkbox] { margin-top: 3px; width: 16px; height: 16px; cursor: pointer; }
-  .agree-row label { font-size: 13px; color: var(--brown); margin: 0; cursor: pointer; }
+    .hero-inner { position: relative; z-index: 2; }
 
-  /* Buttons */
-  .btn-primary {
-    width: 100%; padding: 14px;
-    background: var(--brown);
-    color: var(--gold-light);
-    border: none; border-radius: 10px;
-    font-family: inherit; font-size: 16px; font-weight: bold;
-    cursor: pointer; margin-top: 20px;
-    transition: background 0.2s, transform 0.1s;
-    letter-spacing: 0.5px;
-  }
-  .btn-primary:hover { background: #2a1c08; }
-  .btn-primary:active { transform: scale(0.98); }
-  .btn-secondary {
-    width: 100%; padding: 12px;
-    background: transparent;
-    color: var(--brown);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    font-family: inherit; font-size: 14px;
-    cursor: pointer; margin-top: 10px;
-    transition: background 0.2s;
-    text-align: center; text-decoration: none; display: block;
-  }
-  .btn-secondary:hover { background: var(--bg); }
+    .brand {
+      display: inline-block;
+      padding: 8px 17px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.58);
+      border: 1px solid rgba(172, 119, 35, 0.28);
+      font-size: 0.82rem;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+      font-weight: bold;
+      color: #7a551d;
+      margin-bottom: 14px;
+    }
 
-  .error-msg { color: var(--red); font-size: 13px; margin-top: 6px; display: none; }
-  .success-flash {
-    display: none;
-    background: var(--green); color: white;
-    padding: 12px; border-radius: 8px;
-    text-align: center; font-size: 14px; margin-top: 12px;
-  }
-</style>
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2.1rem, 5vw, 4.3rem);
+      line-height: 1.04;
+      color: #3a2a12;
+    }
+
+    .lead {
+      max-width: 780px;
+      margin: 0 auto;
+      color: #6b4b1f;
+      font-size: 1.12rem;
+      line-height: 1.6;
+    }
+
+    .chip-code {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid rgba(172, 119, 35, 0.22);
+      color: #7a551d;
+      font-size: 0.9rem;
+      font-weight: bold;
+      word-break: break-word;
+    }
+
+    .progress {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .progress-pill {
+      background: rgba(255, 255, 255, 0.62);
+      border: 1px solid rgba(172, 119, 35, 0.22);
+      border-radius: 18px;
+      padding: 14px;
+      color: #5a3b12;
+      font-weight: bold;
+      box-shadow: 0 10px 24px rgba(80, 48, 8, 0.08);
+    }
+
+    form { margin-top: 24px; }
+
+    .setup-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.86), rgba(255,246,226,0.82));
+      border: 1px solid rgba(172, 119, 35, 0.25);
+      border-radius: 28px;
+      padding: 26px;
+      margin-bottom: 24px;
+      box-shadow:
+        0 18px 45px rgba(80, 48, 8, 0.13),
+        inset 0 0 0 1px rgba(255,255,255,0.48);
+    }
+
+    .card h2 {
+      margin: 0 0 10px;
+      color: #4a3210;
+      font-size: 1.55rem;
+    }
+
+    .card-intro {
+      color: #6a5530;
+      line-height: 1.55;
+      margin: 0 0 18px;
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 7px;
+      color: #4a3210;
+      font-weight: bold;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(150, 100, 28, 0.34);
+      background: rgba(255, 255, 255, 0.82);
+      color: #3a2a12;
+      font-size: 1rem;
+      outline: none;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: rgba(212, 160, 60, 0.75);
+      box-shadow: 0 0 0 2px rgba(212, 160, 60, 0.14);
+    }
+
+    textarea { min-height: 165px; resize: vertical; }
+
+    .pin-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .visibility-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .choice {
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.55);
+      border: 1px solid rgba(150, 100, 28, 0.18);
+    }
+
+    .choice strong { display: block; margin-bottom: 4px; color: #3a2a12; }
+
+    .meter {
+      width: 100%;
+      height: 16px;
+      border-radius: 999px;
+      background: rgba(90, 58, 16, 0.12);
+      overflow: hidden;
+      margin: 12px 0;
+      border: 1px solid rgba(150, 100, 28, 0.22);
+    }
+
+    .fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #b88425, #f1cc66);
+      transition: width 0.2s ease;
+    }
+
+    .small-note, .helper {
+      color: #6a5530;
+      line-height: 1.55;
+      margin: 10px 0 0;
+    }
+
+    .saved-photos-wrap { margin: 16px 0; }
+    .saved-photos-grid { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 12px; }
+
+    .photo-tile {
+      position: relative;
+      width: 118px;
+      border-radius: 16px;
+      overflow: visible;
+      border: 1px solid rgba(150, 100, 28, 0.24);
+      background: rgba(255,255,255,0.55);
+      box-shadow: 0 10px 22px rgba(80, 48, 8, 0.13);
+    }
+
+    .photo-thumb {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      cursor: pointer;
+      display: block;
+      border-radius: 16px 16px 0 0;
+    }
+
+    .photo-remove {
+      position: absolute;
+      top: 6px;
+      right: 7px;
+      border: none;
+      background: rgba(58, 42, 18, 0.78);
+      color: #fff2c0;
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 17px;
+      line-height: 1;
+      padding: 0;
+    }
+
+    .vis-toggle {
+      width: 100%;
+      font-size: 0.72rem;
+      padding: 4px 6px;
+      border-radius: 8px;
+      margin-top: 4px;
+      cursor: pointer;
+      background: rgba(255,255,255,0.8);
+      border: 1px solid rgba(150,100,28,0.2);
+      color: #4a3210;
+      text-align: center;
+    }
+
+    .empty-photos {
+      color: #6a5530;
+      font-style: italic;
+      margin-top: 10px;
+    }
+
+    .hidden { display: none; }
+
+    .agree-row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      color: #5a3b12;
+      line-height: 1.5;
+      margin-top: 12px;
+    }
+
+    .agree-row input {
+      width: auto;
+      margin-top: 4px;
+      transform: scale(1.15);
+    }
+
+    .actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 22px;
+    }
+
+    .save-btn {
+      display: inline-block;
+      border-radius: 999px;
+      border: 1px solid rgba(150, 100, 28, 0.34);
+      padding: 14px 22px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1rem;
+      font-family: Georgia, "Times New Roman", serif;
+      background: linear-gradient(180deg, #ffe39a, #d4a447);
+      color: #2a1a06;
+      box-shadow: 0 12px 28px rgba(120, 78, 16, 0.18);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .save-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(120, 78, 16, 0.22); }
+
+    .link-btn {
+      display: inline-block;
+      border-radius: 999px;
+      border: 1px solid rgba(150, 100, 28, 0.34);
+      padding: 14px 22px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1rem;
+      font-family: Georgia, "Times New Roman", serif;
+      background: rgba(255, 255, 255, 0.68);
+      color: #4a3210;
+      transition: transform 0.2s ease;
+      text-decoration: none;
+    }
+
+    .link-btn:hover { transform: translateY(-2px); }
+
+    .error-msg { color: #c0392b; font-size: 0.88rem; margin-top: 6px; display: none; }
+
+    .disclaimer {
+      max-width: 980px;
+      margin: 28px auto 0;
+      padding: 22px 20px;
+      text-align: center;
+      font-size: 0.76rem;
+      line-height: 1.55;
+      color: #6a5530;
+      opacity: 0.9;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.86);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 9999;
+    }
+
+    .lightbox.active { display: flex; }
+
+    .lightbox-panel { position: relative; max-width: min(92vw, 1100px); max-height: 88vh; }
+
+    .lightbox-img {
+      display: block;
+      max-width: 92vw;
+      max-height: 88vh;
+      object-fit: contain;
+      border-radius: 16px;
+      border: 1px solid rgba(212,175,55,0.25);
+      background: #111;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -12px;
+      right: -4px;
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      border: 1px solid rgba(212,175,55,0.32);
+      background: rgba(20,12,4,0.86);
+      color: #f5d97a;
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 1;
+      padding: 0;
+    }
+
+    @media (max-width: 900px) {
+      .setup-grid, .progress, .visibility-box { grid-template-columns: 1fr; }
+      body { padding: 16px 10px 36px; }
+      .hero-card, .card { border-radius: 22px; padding: 20px; }
+      .pin-row { grid-template-columns: 1fr; }
+      .actions { flex-direction: column; }
+      .save-btn, .link-btn { width: 100%; text-align: center; }
+    }
+  </style>
 </head>
+
 <body>
-
-<nav class="top-nav">
-  <a href="dashboard.html">← Home</a>
-  <span class="site-name">MyStoryChip</span>
-  <a href="#" id="viewerLink">View Chip</a>
-</nav>
-
-<div class="hero">
-  <div class="badge">Chip Setup</div>
-  <h1>Build the Page Your Chip Opens</h1>
-  <p>Add your story, photos, and details. Save anytime — you can always come back.</p>
-  <div class="chip-code-display" id="chipCodeDisplay">Loading...</div>
-</div>
-
-<!-- STEP 1: Info -->
-<div class="section">
-  <h2>Step 1 — Your Info</h2>
-
-  <label>Full Name *</label>
-  <input type="text" id="fullName" placeholder="Jack Kennedy" required/>
-
-  <label>Phone *</label>
-  <input type="tel" id="phone" placeholder="(555) 555-5555" required/>
-
-  <label>Email</label>
-  <input type="email" id="email" placeholder="you@email.com"/>
-
-  <label>Title / Role</label>
-  <input type="text" id="title" placeholder="Founder, Veteran, Dad..."/>
-
-  <label>Headline</label>
-  <input type="text" id="headline" placeholder="One line that says it all"/>
-
-  <label>Chip Purpose</label>
-  <select id="chipPurpose">
-    <option value="personal">Personal</option>
-    <option value="business">Business</option>
-    <option value="memorial">Memorial</option>
-    <option value="pet">Pet</option>
-    <option value="other">Other</option>
-  </select>
-
-  <label>Visibility</label>
-  <select id="visibility">
-    <option value="public">Public</option>
-    <option value="private">Private (PIN required)</option>
-  </select>
-</div>
-
-<!-- STEP 2: Story -->
-<div class="section">
-  <h2>Step 2 — Your Story</h2>
-  <label>Description / Story</label>
-  <textarea id="desc" rows="5" placeholder="Tell your story here..."></textarea>
-</div>
-
-<!-- STEP 3: Photos -->
-<div class="section">
-  <h2>Step 3 — Photos</h2>
-
-  <div class="upload-zone" id="uploadZone">
-    <input type="file" id="fileInput" accept="image/*" multiple/>
-    <div class="upload-icon">📷</div>
-    <label class="upload-label" for="fileInput">Tap to choose photos<br/><small>JPEG, PNG, WebP — compressed for storage</small></label>
+  <div class="top-nav">
+    <a href="dashboard.html" class="nav-btn">← Home</a>
+    <a href="#" id="viewerLink" class="nav-btn">View Chip</a>
   </div>
 
-  <div class="storage-bar-wrap">
-    <div class="storage-bar-bg"><div class="storage-bar-fill" id="storageFill" style="width:0%"></div></div>
-    <div class="storage-label" id="storageLabel">0.00 MB used of 4 MB</div>
-  </div>
+  <div class="wrap">
+    <section class="hero-card">
+      <div class="hero-inner">
+        <div class="brand">MyStoryChip Setup</div>
+        <h1>Build the Page Your Chip Opens</h1>
+        <p class="lead">
+          Add the story, details, photos, documents, and visibility choices connected to this chip.
+          Keep it simple today — you can come back and update it later.
+        </p>
+        <div class="chip-code" id="debugChip">Loading...</div>
+        <div class="progress">
+          <div class="progress-pill">1. Owner & Chip Details</div>
+          <div class="progress-pill">2. Story, Notes & Visibility</div>
+          <div class="progress-pill">3. Upload & Save</div>
+        </div>
+      </div>
+    </section>
 
-  <div id="photoGrid" class="photo-grid"></div>
-  <div class="empty-msg" id="emptyMsg">No photos added yet.</div>
-</div>
+    <form id="form" novalidate>
+      <div class="setup-grid">
+        <div>
+          <!-- STEP 1 -->
+          <section class="card">
+            <h2>Step 1: Owner & Chip Details</h2>
+            <p class="card-intro">Tell us what this chip belongs to — a family story, memorial, vehicle, pet, business asset, or anything important.</p>
 
-<!-- STEP 4: PIN -->
-<div class="section">
-  <h2>Step 4 — Security PIN</h2>
-  <p style="font-size:13px;color:var(--brown-light);margin-bottom:8px;">Set a 4-digit PIN to protect edits. Required.</p>
-  <div class="pin-row">
-    <div>
-      <label>PIN *</label>
-      <input type="password" id="pin" maxlength="4" placeholder="4 digits" inputmode="numeric"/>
+            <label for="chipPurpose">What is this chip attached to?</label>
+            <input type="text" id="chipPurpose" placeholder="Example: Dad's guitar, 1968 Mustang, pet tag, family keepsake" required>
+
+            <label for="title">Page Title</label>
+            <input type="text" id="title" placeholder="Example: Dad's Story, Bella's Info, 1968 Mustang" required>
+
+            <label for="fullName">Your Name *</label>
+            <input type="text" id="fullName" placeholder="Your name" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Optional — recommended for backup">
+
+            <label for="phone">Phone Number *</label>
+            <input type="tel" id="phone" placeholder="Required for owner access" required>
+          </section>
+
+          <!-- STEP 2 -->
+          <section class="card">
+            <h2>Step 2: Story, Notes & Details</h2>
+            <p class="card-intro">History, family details, care notes, ownership info, instructions — anything connected to this chip.</p>
+
+            <label for="headline">Short Headline</label>
+            <input type="text" id="headline" placeholder="Example: Tap to see the story behind this item">
+
+            <label for="desc">Section Content</label>
+            <textarea id="desc" placeholder="Write the story, history, family tree details, instructions, care notes, or anything else this chip should hold."></textarea>
+          </section>
+        </div>
+
+        <div>
+          <!-- SECURITY -->
+          <section class="card">
+            <h2>Security & Visibility</h2>
+            <p class="card-intro">Your PIN protects future editing. Visibility controls who sees the chip when tapped.</p>
+
+            <div class="pin-row">
+              <div>
+                <label for="pin">Create 4-Digit PIN *</label>
+                <input type="password" id="pin" placeholder="4 digits" maxlength="4" inputmode="numeric" required>
+              </div>
+              <div>
+                <label for="pinConfirm">Confirm PIN *</label>
+                <input type="password" id="pinConfirm" placeholder="Re-enter PIN" maxlength="4" inputmode="numeric" required>
+              </div>
+            </div>
+            <div class="error-msg" id="pinError">PINs do not match.</div>
+            <p class="small-note">If you forget your PIN, recovery may require your email if provided.</p>
+
+            <label for="visibility">Default Page Visibility</label>
+            <select id="visibility">
+              <option value="public">Public when tapped</option>
+              <option value="private">Private / owner only</option>
+            </select>
+
+            <div class="visibility-box">
+              <div class="choice"><strong>Public</strong>Shows when someone taps the chip.</div>
+              <div class="choice"><strong>Private</strong><p class="small-note">Saved for owner access later.</p></div>
+            </div>
+          </section>
+
+          <!-- PHOTOS -->
+          <section class="card">
+            <h2>Step 3: Upload Photos</h2>
+
+            <div class="saved-photos-wrap">
+              <p class="helper">Current Saved Photos</p>
+              <div id="savedPhotosGrid" class="saved-photos-grid"></div>
+              <div id="emptyPhotos" class="empty-photos">No saved files yet.</div>
+            </div>
+
+            <div style="margin-top:14px;">
+              <input type="file" id="files" multiple accept="image/*">
+            </div>
+
+            <p id="usage" class="small-note">0.00 MB of 4 MB used</p>
+            <div class="meter"><div class="fill" id="fill"></div></div>
+            <p class="small-note">Photos are compressed and stored locally on this device.</p>
+          </section>
+
+          <!-- AGREEMENT & SAVE -->
+          <section class="card">
+            <h2>Agreement & Save</h2>
+            <p class="card-intro">Keep uploaded content clean, safe, and appropriate. Important files should also be backed up separately.</p>
+
+            <label class="agree-row">
+              <input type="checkbox" id="agree" required>
+              <span>I agree to the content rules and disclaimer.</span>
+            </label>
+
+            <div class="error-msg" id="agreeError">Please check the agreement box.</div>
+            <div class="error-msg" id="nameError">Full name is required.</div>
+            <div class="error-msg" id="phoneError">Phone number is required.</div>
+
+            <div class="actions">
+              <button type="submit" class="save-btn" id="saveBtn">💾 Save My Chip</button>
+              <a href="#" id="viewerBtn" class="link-btn">👁 Back to Viewer</a>
+            </div>
+          </section>
+        </div>
+      </div>
+    </form>
+
+    <div class="disclaimer">
+      MyStoryChip provides tools for storing and sharing your stories, images, and information.
+      While we work to keep the platform available and secure, access to content cannot be guaranteed at all times.
+      Users are responsible for the content they choose to store and share.
+      It is recommended that important files also be backed up separately.
     </div>
-    <div>
-      <label>Confirm PIN *</label>
-      <input type="password" id="pinConfirm" maxlength="4" placeholder="4 digits" inputmode="numeric"/>
+  </div>
+
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-panel">
+      <button type="button" class="lightbox-close" id="lightboxClose">×</button>
+      <img id="lightboxImg" class="lightbox-img" src="" alt="Photo preview">
     </div>
   </div>
-  <div class="error-msg" id="pinError">PINs do not match.</div>
-</div>
-
-<!-- STEP 5: Save -->
-<div class="section">
-  <h2>Step 5 — Save</h2>
-
-  <div class="agree-row">
-    <input type="checkbox" id="agreeCheck"/>
-    <label for="agreeCheck">I agree to keep content clean, safe, and appropriate. I understand files should be backed up separately.</label>
-  </div>
-  <div class="error-msg" id="agreeError">Please check the agreement box.</div>
-  <div class="error-msg" id="nameError">Full name is required.</div>
-  <div class="error-msg" id="phoneError">Phone number is required.</div>
-
-  <button class="btn-primary" id="saveBtn">💾 Save My Chip</button>
-  <div class="success-flash" id="successFlash">✅ Saved! Redirecting...</div>
-  <a href="#" class="btn-secondary" id="viewerBtn">👁 Back to Viewer</a>
-</div>
 
 <script>
-const STORAGE_KEY = 'mystorychip_chips';
-const MAX_STORAGE_BYTES = 4 * 1024 * 1024; // 4MB per chip
-const MAX_IMG_DIMENSION = 1200;
-const JPEG_QUALITY = 0.78;
+  // ── Config ──────────────────────────────────────────────
+  const STORAGE_KEY = 'mystorychip_chips'; // matches chip.html
+  const MAX_MB = 4;
+  const MAX_BYTES = MAX_MB * 1024 * 1024;
+  const MAX_DIM = 1200;
+  const JPEG_Q = 0.78;
 
-let chipCode = '';
-let workingImages = []; // [{src, visibility}]
-let existingChip = null;
+  // ── State ───────────────────────────────────────────────
+  const params = new URLSearchParams(window.location.search);
+  const chipCode = (params.get('code') || '').trim();
+  let workingImages = [];
+  let existingChip = null;
 
-// --- Init ---
-function getParams() {
-  const p = new URLSearchParams(window.location.search);
-  return p.get('code') || '';
-}
-
-function loadChips() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
-  catch(e) { return []; }
-}
-
-function saveChips(chips) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
-}
-
-function init() {
-  chipCode = getParams();
-  if (!chipCode) {
-    document.querySelector('.hero h1').textContent = 'No chip code found in URL.';
-    return;
+  // ── Storage helpers ──────────────────────────────────────
+  function loadChips() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch(e) { return []; }
   }
-  document.getElementById('chipCodeDisplay').textContent = 'Chip Code: ' + chipCode;
-  document.getElementById('viewerLink').href = 'chip.html?code=' + encodeURIComponent(chipCode);
-  document.getElementById('viewerBtn').href = 'chip.html?code=' + encodeURIComponent(chipCode);
 
-  // Load existing data
-  const chips = loadChips();
-  existingChip = chips.find(c => c.code === chipCode) || null;
+  function saveChips(chips) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
+  }
 
-  if (existingChip) {
-    document.getElementById('fullName').value = existingChip.fullName || '';
-    document.getElementById('phone').value = existingChip.phone || '';
-    document.getElementById('email').value = existingChip.email || '';
-    document.getElementById('title').value = existingChip.title || '';
-    document.getElementById('headline').value = existingChip.headline || '';
-    document.getElementById('desc').value = existingChip.desc || '';
-    document.getElementById('chipPurpose').value = existingChip.chipPurpose || 'personal';
-    document.getElementById('visibility').value = existingChip.visibility || 'public';
-
-    // Load images
-    if (Array.isArray(existingChip.images)) {
-      workingImages = existingChip.images.map(img => {
-        if (typeof img === 'string') return { src: img, visibility: 'public' };
-        return img;
-      });
+  // ── Init ─────────────────────────────────────────────────
+  function init() {
+    if (!chipCode) {
+      document.getElementById('debugChip').textContent = 'No chip code in URL.';
+      return;
     }
-    renderPhotos();
-    updateStorage();
-  }
-}
 
-// --- Image Upload ---
-document.getElementById('fileInput').addEventListener('change', async (e) => {
-  const files = Array.from(e.target.files);
-  for (const file of files) {
-    const compressed = await compressImage(file);
-    if (compressed) {
-      workingImages.push({ src: compressed, visibility: 'public' });
+    document.getElementById('debugChip').textContent = 'Chip Code: ' + chipCode;
+    document.getElementById('viewerLink').href = 'chip.html?code=' + encodeURIComponent(chipCode);
+    document.getElementById('viewerBtn').href = 'chip.html?code=' + encodeURIComponent(chipCode);
+
+    const chips = loadChips();
+    existingChip = chips.find(c => c.code === chipCode) || null;
+
+    if (existingChip) {
+      document.getElementById('fullName').value = existingChip.fullName || '';
+      document.getElementById('phone').value = existingChip.phone || '';
+      document.getElementById('email').value = existingChip.email || '';
+      document.getElementById('title').value = existingChip.title || '';
+      document.getElementById('headline').value = existingChip.headline || '';
+      document.getElementById('desc').value = existingChip.desc || existingChip.story || existingChip.description || '';
+      document.getElementById('chipPurpose').value = existingChip.chipPurpose || existingChip.category || '';
+      document.getElementById('visibility').value = existingChip.visibility || 'public';
+      document.getElementById('pin').value = existingChip.pin || '';
+      document.getElementById('pinConfirm').value = existingChip.pin || '';
+
+      workingImages = (existingChip.images || []).map(img =>
+        typeof img === 'string' ? { src: img, visibility: 'public' } : img
+      ).filter(img => img.src);
+
+      renderPhotos();
+      updateMeter();
     }
   }
-  e.target.value = '';
-  renderPhotos();
-  updateStorage();
-});
 
-document.getElementById('uploadZone').addEventListener('click', () => {
-  document.getElementById('fileInput').click();
-});
-
-async function compressImage(file) {
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const img = new Image();
-      img.onload = () => {
-        let w = img.width, h = img.height;
-        if (w > MAX_IMG_DIMENSION || h > MAX_IMG_DIMENSION) {
-          const ratio = Math.min(MAX_IMG_DIMENSION / w, MAX_IMG_DIMENSION / h);
+  // ── Image compression ────────────────────────────────────
+  function compressImage(file) {
+    return new Promise(resolve => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const img = new Image();
+        img.onload = () => {
+          let w = img.width, h = img.height;
+          const ratio = Math.min(1, MAX_DIM / Math.max(w, h));
           w = Math.round(w * ratio);
           h = Math.round(h * ratio);
-        }
-        const canvas = document.createElement('canvas');
-        canvas.width = w; canvas.height = h;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, w, h);
-        resolve(canvas.toDataURL('image/jpeg', JPEG_QUALITY));
+          const canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          resolve(canvas.toDataURL('image/jpeg', JPEG_Q));
+        };
+        img.src = e.target.result;
       };
-      img.src = e.target.result;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // ── File input ───────────────────────────────────────────
+  document.getElementById('files').addEventListener('change', async e => {
+    for (const file of Array.from(e.target.files)) {
+      if (!file.type.startsWith('image/')) continue;
+      const src = await compressImage(file);
+      workingImages.push({ src, visibility: 'public' });
+    }
+    e.target.value = '';
+    renderPhotos();
+    updateMeter();
+  });
+
+  // ── Render photos ────────────────────────────────────────
+  function renderPhotos() {
+    const grid = document.getElementById('savedPhotosGrid');
+    const empty = document.getElementById('emptyPhotos');
+    grid.innerHTML = '';
+
+    if (!workingImages.length) {
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+
+    workingImages.forEach((imgObj, i) => {
+      const tile = document.createElement('div');
+      tile.className = 'photo-tile';
+
+      const img = document.createElement('img');
+      img.src = imgObj.src;
+      img.className = 'photo-thumb';
+      img.alt = 'Photo ' + (i + 1);
+      img.addEventListener('click', () => openLightbox(imgObj.src));
+      tile.appendChild(img);
+
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'photo-remove';
+      removeBtn.type = 'button';
+      removeBtn.textContent = '×';
+      removeBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        workingImages.splice(i, 1);
+        renderPhotos();
+        updateMeter();
+      });
+      tile.appendChild(removeBtn);
+
+      const visBtn = document.createElement('div');
+      visBtn.className = 'vis-toggle';
+      visBtn.textContent = imgObj.visibility === 'private' ? '🔒 Private' : '🌐 Public';
+      visBtn.addEventListener('click', () => {
+        workingImages[i].visibility = imgObj.visibility === 'private' ? 'public' : 'private';
+        renderPhotos();
+      });
+      tile.appendChild(visBtn);
+
+      grid.appendChild(tile);
+    });
+  }
+
+  // ── Storage meter ────────────────────────────────────────
+  function updateMeter() {
+    let bytes = 0;
+    workingImages.forEach(img => { if (img.src) bytes += img.src.length * 0.75; });
+    const mb = bytes / (1024 * 1024);
+    const pct = Math.min((mb / MAX_MB) * 100, 100);
+    document.getElementById('fill').style.width = pct + '%';
+    document.getElementById('usage').textContent = mb.toFixed(2) + ' MB of ' + MAX_MB + ' MB used';
+  }
+
+  // ── Lightbox ─────────────────────────────────────────────
+  function openLightbox(src) {
+    document.getElementById('lightboxImg').src = src;
+    document.getElementById('lightbox').classList.add('active');
+  }
+
+  document.getElementById('lightboxClose').addEventListener('click', () => {
+    document.getElementById('lightbox').classList.remove('active');
+  });
+  document.getElementById('lightbox').addEventListener('click', e => {
+    if (e.target === document.getElementById('lightbox'))
+      document.getElementById('lightbox').classList.remove('active');
+  });
+
+  // ── Save ─────────────────────────────────────────────────
+  document.getElementById('form').addEventListener('submit', e => {
+    e.preventDefault();
+    saveChip();
+  });
+
+  document.getElementById('saveBtn').addEventListener('click', e => {
+    e.preventDefault();
+    saveChip();
+  });
+
+  function saveChip() {
+    // Clear errors
+    ['pinError','agreeError','nameError','phoneError'].forEach(id =>
+      document.getElementById(id).style.display = 'none'
+    );
+
+    const fullName = document.getElementById('fullName').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const title = document.getElementById('title').value.trim();
+    const headline = document.getElementById('headline').value.trim();
+    const desc = document.getElementById('desc').value.trim();
+    const chipPurpose = document.getElementById('chipPurpose').value.trim();
+    const visibility = document.getElementById('visibility').value;
+    const pin = document.getElementById('pin').value.trim();
+    const pinConfirm = document.getElementById('pinConfirm').value.trim();
+    const agree = document.getElementById('agree').checked;
+
+    let valid = true;
+    if (!fullName) { document.getElementById('nameError').style.display = 'block'; valid = false; }
+    if (!phone) { document.getElementById('phoneError').style.display = 'block'; valid = false; }
+    if (pin !== pinConfirm) { document.getElementById('pinError').style.display = 'block'; valid = false; }
+    if (!agree) { document.getElementById('agreeError').style.display = 'block'; valid = false; }
+    if (!valid) return;
+
+    const finalPin = pin || (existingChip ? existingChip.pin : '');
+
+    const chipData = {
+      code: chipCode,
+      fullName,
+      customer_name: fullName,
+      phone,
+      email,
+      title,
+      headline,
+      desc,           // chip.html reads chip.desc
+      story: desc,    // fallback
+      description: desc,
+      chipPurpose,
+      category: chipPurpose,
+      visibility,
+      pin: finalPin,
+      images: workingImages,
+      documents: existingChip ? (existingChip.documents || []) : [],
+      updatedAt: new Date().toISOString(),
+      status: 'setup_complete'
     };
-    reader.readAsDataURL(file);
-  });
-}
 
-function renderPhotos() {
-  const grid = document.getElementById('photoGrid');
-  const empty = document.getElementById('emptyMsg');
-  grid.innerHTML = '';
+    const chips = loadChips();
+    const idx = chips.findIndex(c => c.code === chipCode);
+    if (idx >= 0) { chips[idx] = chipData; } else { chips.push(chipData); }
+    saveChips(chips);
+    existingChip = chipData;
 
-  if (workingImages.length === 0) {
-    empty.style.display = 'block';
-    return;
-  }
-  empty.style.display = 'none';
-
-  workingImages.forEach((imgObj, index) => {
-    const tile = document.createElement('div');
-    tile.className = 'photo-tile';
-
-    const img = document.createElement('img');
-    img.src = imgObj.src;
-    img.alt = 'Photo ' + (index + 1);
-    tile.appendChild(img);
-
-    const removeBtn = document.createElement('button');
-    removeBtn.className = 'remove-btn';
-    removeBtn.textContent = '×';
-    removeBtn.title = 'Remove photo';
-    removeBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      workingImages.splice(index, 1);
-      renderPhotos();
-      updateStorage();
-    });
-    tile.appendChild(removeBtn);
-
-    const visBadge = document.createElement('span');
-    visBadge.className = 'vis-badge';
-    visBadge.textContent = imgObj.visibility === 'private' ? '🔒' : '🌐';
-    visBadge.title = 'Toggle visibility';
-    visBadge.addEventListener('click', (e) => {
-      e.stopPropagation();
-      workingImages[index].visibility = imgObj.visibility === 'private' ? 'public' : 'private';
-      renderPhotos();
-    });
-    tile.appendChild(visBadge);
-
-    grid.appendChild(tile);
-  });
-}
-
-function updateStorage() {
-  let totalBytes = 0;
-  workingImages.forEach(img => {
-    if (img.src) totalBytes += img.src.length * 0.75;
-  });
-  const mb = totalBytes / (1024 * 1024);
-  const maxMb = MAX_STORAGE_BYTES / (1024 * 1024);
-  const pct = Math.min((mb / maxMb) * 100, 100);
-  document.getElementById('storageFill').style.width = pct + '%';
-  document.getElementById('storageLabel').textContent = mb.toFixed(2) + ' MB used of ' + maxMb + ' MB';
-}
-
-// --- Save ---
-document.getElementById('saveBtn').addEventListener('click', () => {
-  // Hide all errors
-  ['pinError','agreeError','nameError','phoneError'].forEach(id => {
-    document.getElementById(id).style.display = 'none';
-  });
-
-  const fullName = document.getElementById('fullName').value.trim();
-  const phone = document.getElementById('phone').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const title = document.getElementById('title').value.trim();
-  const headline = document.getElementById('headline').value.trim();
-  const desc = document.getElementById('desc').value.trim();
-  const chipPurpose = document.getElementById('chipPurpose').value;
-  const visibility = document.getElementById('visibility').value;
-  const pin = document.getElementById('pin').value.trim();
-  const pinConfirm = document.getElementById('pinConfirm').value.trim();
-  const agree = document.getElementById('agreeCheck').checked;
-
-  let valid = true;
-
-  if (!fullName) { document.getElementById('nameError').style.display = 'block'; valid = false; }
-  if (!phone) { document.getElementById('phoneError').style.display = 'block'; valid = false; }
-  if (pin !== pinConfirm) { document.getElementById('pinError').style.display = 'block'; valid = false; }
-  if (!agree) { document.getElementById('agreeError').style.display = 'block'; valid = false; }
-  if (!valid) return;
-
-  // Use existing PIN if not changed
-  const finalPin = pin || (existingChip ? existingChip.pin : '');
-
-  const chipData = {
-    code: chipCode,
-    fullName, phone, email, title, headline, desc,
-    chipPurpose, visibility,
-    pin: finalPin,
-    images: workingImages,
-    updatedAt: new Date().toISOString(),
-    status: 'setup_complete'
-  };
-
-  const chips = loadChips();
-  const idx = chips.findIndex(c => c.code === chipCode);
-  if (idx >= 0) {
-    chips[idx] = chipData;
-  } else {
-    chips.push(chipData);
-  }
-  saveChips(chips);
-  existingChip = chipData;
-
-  // Flash success then redirect
-  const flash = document.getElementById('successFlash');
-  flash.style.display = 'block';
-  setTimeout(() => {
     window.location.href = 'success.html?code=' + encodeURIComponent(chipCode);
-  }, 1200);
-});
+  }
 
-init();
+  init();
 </script>
 </body>
 </html>
