@@ -4,6 +4,6 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "stripe": "^14.0.0",
-    "@supabase/supabase-js": "^2.0.0"
+    "pg": "^8.11.0"
   }
 }
