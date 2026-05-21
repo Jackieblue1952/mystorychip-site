@@ -1,8 +1,7 @@
 {
   "version": 2,
   "functions": {
-    "api/*.js": {
-      "memory": 1024,
+    "api/stripe-webhook.js": {
       "maxDuration": 30
     }
   }
