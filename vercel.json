@@ -6,6 +6,10 @@
       "use": "@vercel/node"
     },
     {
+      "src": "api/admin-login.js",
+      "use": "@vercel/node"
+    },
+    {
       "src": "*.html",
       "use": "@vercel/static"
     }
@@ -14,6 +18,10 @@
     {
       "src": "/api/stripe-webhook",
       "dest": "/api/stripe-webhook.js"
+    },
+    {
+      "src": "/api/admin-login",
+      "dest": "/api/admin-login.js"
     },
     {
       "src": "/(.*\\.html)",
