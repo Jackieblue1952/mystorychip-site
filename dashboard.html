@@ -234,22 +234,16 @@
     let chips = [];
 
     async function checkAuth() {
-      const token = localStorage.getItem("msc_admin_token");
-      if (!token) { redirectToLogin(); return; }
-      try {
-        const res = await fetch("/api/supabase-config", {
-          headers: { "Authorization": "Bearer " + token }
-        });
-        if (res.status === 401) { redirectToLogin(); return; }
-        const config = await res.json();
-        supabaseClient = window.supabase.createClient(config.url, config.key);
-        document.getElementById("auth-gate").style.display = "none";
-        document.getElementById("dashboard").style.display = "block";
-        loadAll();
-      } catch (err) {
-        redirectToLogin();
-      }
-    }
+  const token = localStorage.getItem("msc_admin_token");
+
+  if (!token) {
+    redirectToLogin();
+    return;
+  }
+
+  document.getElementById("auth-gate").style.display = "none";
+  document.getElementById("dashboard").style.display = "block";
+}
 
     function redirectToLogin() {
       localStorage.removeItem("msc_admin_token");
