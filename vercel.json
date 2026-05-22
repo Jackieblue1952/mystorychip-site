@@ -4,6 +4,10 @@
     {
       "src": "api/stripe-webhook.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "*.html",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -12,8 +16,12 @@
       "dest": "/api/stripe-webhook.js"
     },
     {
-      "src": "/(.*)",
+      "src": "/(.*\\.html)",
       "dest": "/$1"
+    },
+    {
+      "src": "/",
+      "dest": "/index.html"
     }
   ]
 }
