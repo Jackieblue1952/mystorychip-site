@@ -2,12 +2,6 @@ import Stripe from "stripe";
 import pkg from "pg";
 const { Pool } = pkg;
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false }
@@ -25,24 +19,6 @@ async function getRawBody(req) {
 function generateChipCode() {
   const number = Math.floor(1000 + Math.random() * 9000);
   return `MSC-${number}`;
-}
-
-async function sendWelcomeEmail(customerEmail, customerName, chipCode) {
-  const setupLink = `https://mystorychip.com/success.html?code=${chipCode}`;
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${process.env.RESEND_API_KEY}`,
-    },
-    body: JSON.stringify({
-      from: "Storyteller <Storyteller@mystorychip.com>",
-      to: customerEmail,
-      subject: "Your MyStoryChip Is Ready — Let's Build Your Story!",
-      html: `<p>Hi ${customerName}, your chip code is <strong>${chipCode}</strong>. <a href="${setupLink}">Set up your page here</a>.</p>`,
-    }),
-  });
-  return response;
 }
 
 export default async function handler(req, res) {
@@ -73,11 +49,24 @@ export default async function handler(req, res) {
 
     try {
       await pool.query(
-        `INSERT INTO chips (chip_code, customer_email, customer_name, created_at)
-         VALUES ($1, $2, $3, NOW())`,
+        `INSERT INTO chips (chip_code, customer_email, customer_name, created_at) VALUES ($1, $2, $3, NOW())`,
         [chipCode, customerEmail, customerName]
       );
-      await sendWelcomeEmail(customerEmail, customerName, chipCode);
+
+      await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${process.env.RESEND_API_KEY}`
+        },
+        body: JSON.stringify({
+          from: "Storyteller <Storyteller@mystorychip.com>",
+          to: customerEmail,
+          subject: "Your MyStoryChip Is Ready!",
+          html: `<p>Hi ${customerName}, your chip code is <strong>${chipCode}</strong>.</p>`
+        })
+      });
+
       return res.status(200).json({ received: true, chipCode });
     } catch (err) {
       return res.status(500).json({ error: err.message });
@@ -85,5 +74,4 @@ export default async function handler(req, res) {
   }
 
   return res.status(200).json({ received: true });
-  }
 }
