@@ -1,6 +1,7 @@
 {
   "name": "mystorychip-site",
   "version": "1.0.0",
+  "type": "module",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "stripe": "^14.0.0",
