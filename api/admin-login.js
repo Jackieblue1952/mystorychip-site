@@ -12,7 +12,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ success: false, error: "Invalid request" });
   }
 
-  const hash = process.env.ADMIN_PASSWORD_HASH;
+const hash = process.env.ADMIN_LOGIN_HASH;
 
   if (!hash) {
     return res.status(500).json({ success: false, error: "Server configuration error" });
