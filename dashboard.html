@@ -133,7 +133,7 @@
       <div class="brand">Private Owner Area</div>
       <h1>MyStoryChip Control Center</h1>
       <p class="subtitle">Private, simple, thorough, and KOOL. Your owner-side command room for chip records, demo chips, customer notes, sales/tax notes, storage planning, and activity history.</p>
-      <div class="status-line"><span class="dot"></span>Supabase Database Connected</div>
+      <div class="status-line"><span class="dot"></span>Neon Database Connected</div>
       <div class="actions">
         <a class="btn" href="index.html">Home</a>
         <a class="btn secondary" href="buy.html">Buy Page</a>
@@ -150,8 +150,8 @@
     </section>
     <section class="section">
       <h2>Overview</h2>
-      <p>This dashboard is connected to Supabase. Records saved here are permanent database records, not browser-only notes.</p>
-      <div class="note-card"><strong>Build status:</strong> Supabase-powered Control Center. Verified live with real chip records.</div>
+      <p>This dashboard is connected to Neon. Records saved here are permanent database records, not browser-only notes.</p>
+      <div class="note-card"><strong>Build status:</strong> Neon-powered Control Center. Verified live with real chip records.</div>
     </section>
     <section class="section">
       <h2>Create / Demo Chips</h2>
@@ -193,7 +193,7 @@
     </section>
     <section class="section">
       <h2>Chip Registry</h2>
-      <p>All chip records saved in Supabase.</p>
+      <p>All chip records saved in Neon.</p>
       <div class="table-wrap">
         <table>
           <thead><tr><th>Code</th><th>Type</th><th>Status</th><th>Customer</th><th>Email</th><th>Notes</th><th>Tools</th></tr></thead>
@@ -217,20 +217,18 @@
     </section>
     <section class="section">
       <h2>Activity Log</h2>
-      <p>Live owner history from Supabase.</p>
+      <p>Live owner history from Neon.</p>
       <div class="log" id="activityLog">Loading activity...</div>
     </section>
     <section class="section">
       <h2>System Tools</h2>
       <p>Owner tools for checking and refreshing the dashboard.</p>
       <button onclick="loadAll()">Refresh Dashboard</button>
-      <button class="secondary" onclick="testConnection()">Test Supabase</button>
+      <button class="secondary" onclick="testConnection()">Test Neon</button>
     </section>
     <footer>© 2026 MyStoryChip Control Center · Founder &amp; Creator: Jack W. Kennedy · Private Owner Records</footer>
   </main>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    let supabaseClient = null;
     let chips = [];
 
     async function checkAuth() {
@@ -268,7 +266,7 @@
     }
 
     async function logActivity(message) {
-      await supabaseClient.from("activity_log").insert([{ message }]);
+      await NeonClient.from("activity_log").insert([{ message }]);
       loadActivity();
     }
 
@@ -283,16 +281,16 @@
         customer_email: document.getElementById("customerEmail").value.trim(),
         notes: document.getElementById("chipNotes").value.trim()
       };
-      const { error } = await supabaseClient.from("chips").insert([record]);
+      const { error } = await NeonClient.from("chips").insert([record]);
       if (error) { alert("Chip save failed: " + error.message); return; }
       await logActivity(`Added chip record ${code}.`);
       clearForm();
       loadAll();
-      alert("Chip saved to Supabase.");
+      alert("Chip saved to Neon.");
     }
 
     async function loadChips() {
-      const { data, error } = await supabaseClient.from("chips").select("*").order("created_at", { ascending: false });
+      const { data, error } = await NeonClient.from("chips").select("*").order("created_at", { ascending: false });
       const table = document.getElementById("chipTable");
       if (error) { table.innerHTML = `<tr><td colspan="7">Error: ${escapeHTML(error.message)}</td></tr>`; document.getElementById("dbStatus").textContent = "Error"; return; }
       chips = data || [];
@@ -320,7 +318,7 @@
 function setupChip(code) { window.open(`client-setup.html?code=${encodeURIComponent(code)}`, "_blank"); }
     async function deleteChip(id, code) {
       if (!confirm(`Delete chip record ${code}?`)) return;
-      const { error } = await supabaseClient.from("chips").delete().eq("id", id);
+      const { error } = await NeonClient.from("chips").delete().eq("id", id);
       if (error) { alert("Delete failed: " + error.message); return; }
       await logActivity(`Deleted chip record ${code}.`);
       loadAll();
@@ -329,7 +327,7 @@ function setupChip(code) { window.open(`client-setup.html?code=${encodeURICompon
     async function addTaxNote() {
       const note = document.getElementById("taxNote").value.trim();
       if (!note) { alert("Please type a note first."); return; }
-      const { error } = await supabaseClient.from("tax_notes").insert([{ note }]);
+      const { error } = await NeonClient.from("tax_notes").insert([{ note }]);
       if (error) { alert("Save failed: " + error.message); return; }
       document.getElementById("taxNote").value = "";
       await logActivity("Saved a sales / tax note.");
@@ -337,7 +335,7 @@ function setupChip(code) { window.open(`client-setup.html?code=${encodeURICompon
     }
 
     async function loadTaxNotes() {
-      const { data, error } = await supabaseClient.from("tax_notes").select("*").order("created_at", { ascending: false });
+      const { data, error } = await NeonClient.from("tax_notes").select("*").order("created_at", { ascending: false });
       const box = document.getElementById("taxNotes");
       if (error) { box.innerHTML = `<div class="note-card">Error: ${escapeHTML(error.message)}</div>`; return; }
       if (!data||!data.length) { box.innerHTML = `<div class="note-card">No tax notes yet.</div>`; return; }
@@ -345,7 +343,7 @@ function setupChip(code) { window.open(`client-setup.html?code=${encodeURICompon
     }
 
     async function loadActivity() {
-      const { data, error } = await supabaseClient.from("activity_log").select("*").order("created_at", { ascending: false }).limit(20);
+      const { data, error } = await NeonClient.from("activity_log").select("*").order("created_at", { ascending: false }).limit(20);
       const log = document.getElementById("activityLog");
       if (error) { log.textContent = "Error: " + error.message; return; }
       if (!data||!data.length) { log.textContent = "No activity yet."; return; }
@@ -353,8 +351,8 @@ function setupChip(code) { window.open(`client-setup.html?code=${encodeURICompon
     }
 
     async function testConnection() {
-      const { error } = await supabaseClient.from("chips").select("id").limit(1);
-      alert(error ? "Failed: " + error.message : "Supabase connection is working!");
+      const { error } = await NeonClient.from("chips").select("id").limit(1);
+      alert(error ? "Failed: " + error.message : "Neon connection is working!");
     }
 
     async function loadAll() { await loadChips(); await loadTaxNotes(); await loadActivity(); }
