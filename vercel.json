@@ -12,12 +12,11 @@
     {
       "src": "*.html",
       "use": "@vercel/static"
-},    
-   
-{
-  "src": "*.png",
-  "use": "@vercel/static"
-}
+    },
+    {
+      "src": "*.png",
+      "use": "@vercel/static"
+    }
   ],
   "routes": [
     {
@@ -38,7 +37,3 @@
     }
   ]
 }
-git add vercel.json
-git commit -m "Fix Vercel static PNG serving"
-git push origin main
-
