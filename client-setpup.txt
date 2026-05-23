@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Set Up Your MyStoryChip</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family: Georgia, "Times New Roman", serif;
+      color: #3a2a12;
+      background:
+        radial-gradient(circle at top center, rgba(255, 219, 132, 0.42), transparent 38%),
+        linear-gradient(180deg, #fff8ec 0%, #f2e2c4 58%, #e7c98e 100%);
+    }
+
+    body {
+      padding: 24px 16px 50px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .top-nav {
+      position: sticky;
+      top: 12px;
+      z-index: 100;
+      max-width: 1180px;
+      margin: 0 auto 18px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .nav-btn {
+      border: 1px solid rgba(140, 92, 18, 0.35);
+      background: rgba(255, 250, 237, 0.88);
+      color: #3a2a12;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 8px 22px rgba(80, 48, 8, 0.12);
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 34px;
+      padding: 42px 28px;
+      text-align: center;
+      background:
+        radial-gradient(circle at top center, rgba(255, 245, 205, 0.95), transparent 58%),
+        linear-gradient(135deg, rgba(255, 251, 238, 0.96), rgba(238, 205, 142, 0.86));
+      border: 1px solid rgba(172, 119, 35, 0.28);
+      box-shadow:
+        0 22px 60px rgba(78, 48, 9, 0.18),
+        inset 0 0 38px rgba(255, 255, 255, 0.45);
+      margin-bottom: 24px;
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -20% -55% -20%;
+      height: 70%;
+      background: radial-gradient(circle at center, rgba(255, 205, 92, 0.35), transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    .brand {
+      display: inline-block;
+      padding: 8px 17px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.58);
+      border: 1px solid rgba(172, 119, 35, 0.28);
+      font-size: 0.82rem;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+      font-weight: bold;
+      color: #7a551d;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2.1rem, 5vw, 4.3rem);
+      line-height: 1.04;
+      color: #3a2a12;
+    }
+
+    .lead {
+      max-width: 780px;
+      margin: 0 auto;
+      color: #6b4b1f;
+      font-size: 1.12rem;
+      line-height: 1.6;
+    }
+
+    .chip-code {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid rgba(172, 119, 35, 0.22);
+      color: #7a551d;
+      font-size: 0.9rem;
+      font-weight: bold;
+      word-break: break-word;
+    }
+
+    .progress {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .progress-pill {
+      background: rgba(255, 255, 255, 0.62);
+      border: 1px solid rgba(172, 119, 35, 0.22);
+      border-radius: 18px;
+      padding: 14px;
+      color: #5a3b12;
+      font-weight: bold;
+      box-shadow: 0 10px 24px rgba(80, 48, 8, 0.08);
+    }
+
+    form {
+      margin-top: 24px;
+    }
+
+    .setup-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .card {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.86), rgba(255,246,226,0.82));
+      border: 1px solid rgba(172, 119, 35, 0.25);
+      border-radius: 28px;
+      padding: 26px;
+      margin-bottom: 24px;
+      box-shadow:
+        0 18px 45px rgba(80, 48, 8, 0.13),
+        inset 0 0 0 1px rgba(255,255,255,0.48);
+    }
+
+    .card h2 {
+      margin: 0 0 10px;
+      color: #4a3210;
+      font-size: 1.55rem;
+    }
+
+    .card-intro {
+      color: #6a5530;
+      line-height: 1.55;
+      margin: 0 0 18px;
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 7px;
+      color: #4a3210;
+      font-weight: bold;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(150, 100, 28, 0.34);
+      background: rgba(255, 255, 255, 0.82);
+      color: #3a2a12;
+      font-size: 1rem;
+      outline: none;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+ input:focus,
+textarea:focus,
+select:focus {
+  border-color: rgba(212, 160, 60, 0.75);
+  box-shadow: 0 0 0 2px rgba(212, 160, 60, 0.14);
+}
+ textarea {
+      min-height: 165px;
+      resize: vertical;
+    }
+
+    .pin-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .visibility-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+  .choice {
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.55);
+  border: 1px solid rgba(150, 100, 28, 0.18);
+} 
+   .choice select {
+  box-shadow: none;
+  background: rgba(255,255,255,0.9);
+} 
+
+    .choice strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #3a2a12;
+    }
+
+    .notes-button {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 13px 18px;
+      border-radius: 999px;
+      background: rgba(74, 50, 16, 0.08);
+      border: 1px solid rgba(150, 100, 28, 0.28);
+      color: #4a3210;
+      font-weight: bold;
+      box-shadow: none;
+    }
+
+    .upload input[type="file"] {
+      border: 1px dashed rgba(150, 100, 28, 0.45);
+      background: rgba(255, 255, 255, 0.68);
+    }
+
+    .meter {
+      width: 100%;
+      height: 16px;
+      border-radius: 999px;
+      background: rgba(90, 58, 16, 0.12);
+      overflow: hidden;
+      margin: 12px 0;
+      border: 1px solid rgba(150, 100, 28, 0.22);
+    }
+
+    .fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #b88425, #f1cc66);
+      transition: width 0.2s ease;
+    }
+
+    .small-note,
+    .helper {
+      color: #6a5530;
+      line-height: 1.55;
+      margin: 10px 0 0;
+    }
+
+    .saved-photos-wrap {
+      margin: 16px 0;
+      display: none;
+    }
+
+    .saved-photos-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .photo-tile {
+      position: relative;
+      width: 118px;
+      height: auto;
+      border-radius: 16px;
+      overflow: visible;
+      border: 1px solid rgba(150, 100, 28, 0.24);
+      background: rgba(255,255,255,0.55);
+      box-shadow: 0 10px 22px rgba(80, 48, 8, 0.13);
+    }
+
+    .photo-thumb {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      cursor: pointer;
+      display: block;
+    }
+
+    .photo-remove {
+      position: absolute;
+      top: 6px;
+      right: 7px;
+      border: none;
+      background: rgba(58, 42, 18, 0.78);
+      color: #fff2c0;
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 17px;
+      line-height: 1;
+      padding: 0;
+    }
+
+    .empty-photos {
+      color: #6a5530;
+      font-style: italic;
+      margin-top: 10px;
+    }
+
+    .doc-tile {
+      position: relative;
+      width: 118px;
+      border-radius: 16px;
+      overflow: visible;
+      border: 1px solid rgba(150, 100, 28, 0.24);
+      background: rgba(255,255,255,0.55);
+      box-shadow: 0 10px 22px rgba(80, 48, 8, 0.13);
+      padding: 12px 10px 10px;
+      text-align: center;
+    }
+
+    .doc-icon {
+      font-size: 2.2rem;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .doc-name {
+      font-size: 0.72rem;
+      color: #4a3210;
+      word-break: break-word;
+      line-height: 1.3;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .doc-tile select {
+      width: 100%;
+      font-size: 0.72rem;
+      padding: 4px 6px;
+      border-radius: 8px;
+      margin-top: 4px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .agree-row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      color: #5a3b12;
+      line-height: 1.5;
+      margin-top: 12px;
+    }
+
+    .agree-row input {
+      width: auto;
+      margin-top: 4px;
+      transform: scale(1.15);
+    }
+
+    .actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 22px;
+    }
+
+    button,
+    .link-btn {
+      display: inline-block;
+      border-radius: 999px;
+      border: 1px solid rgba(150, 100, 28, 0.34);
+      padding: 14px 22px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1rem;
+      font-family: Georgia, "Times New Roman", serif;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button {
+      background: linear-gradient(180deg, #ffe39a, #d4a447);
+      color: #2a1a06;
+      box-shadow: 0 12px 28px rgba(120, 78, 16, 0.18);
+    }
+
+    .link-btn.secondary {
+      background: rgba(255, 255, 255, 0.68);
+      color: #4a3210;
+    }
+
+    button:hover,
+    .link-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(120, 78, 16, 0.22);
+    }
+
+    .disclaimer {
+      max-width: 980px;
+      margin: 28px auto 0;
+      padding: 22px 20px;
+      text-align: center;
+      font-size: 0.76rem;
+      line-height: 1.55;
+      color: #6a5530;
+      opacity: 0.9;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.86);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 9999;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox-panel {
+      position: relative;
+      max-width: min(92vw, 1100px);
+      max-height: 88vh;
+    }
+
+    .lightbox-img {
+      display: block;
+      max-width: 92vw;
+      max-height: 88vh;
+      object-fit: contain;
+      border-radius: 16px;
+      border: 1px solid rgba(212,175,55,0.25);
+      background: #111;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -12px;
+      right: -4px;
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      border: 1px solid rgba(212,175,55,0.32);
+      background: rgba(20,12,4,0.86);
+      color: #f5d97a;
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 1;
+      padding: 0;
+    }
+
+    @media (max-width: 900px) {
+      .setup-grid,
+      .progress,
+      .visibility-box {
+        grid-template-columns: 1fr;
+      }
+
+      body {
+        padding: 16px 10px 36px;
+      }
+
+      .hero-card,
+      .card {
+        border-radius: 22px;
+        padding: 20px;
+      }
+
+      .pin-row {
+        grid-template-columns: 1fr;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
+
+      button,
+      .link-btn {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="top-nav">
+    <a href="index.html" class="nav-btn">Home</a>
+    <button type="button" class="nav-btn" onclick="history.back()">Back</button>
+  </div>
+
+  <div class="wrap">
+
+    <section class="hero-card">
+      <div class="hero-inner">
+        <div class="brand">MyStoryChip Setup</div>
+        <h1>Build the Page Your Chip Opens</h1>
+        <p class="lead">
+          Add the story, details, photos, documents, and visibility choices connected to this chip.
+          Keep it simple today — you can come back and update it later.
+        </p>
+
+        <div class="chip-code" id="debugChip"></div>
+
+        <div class="progress">
+          <div class="progress-pill">1. Owner & Chip Details</div>
+          <div class="progress-pill">2. Story, Notes & Visibility</div>
+          <div class="progress-pill">3. Upload & Save</div>
+        </div>
+      </div>
+    </section>
+
+    <form id="form" novalidate>
+
+      <div class="setup-grid">
+
+        <div>
+
+          <section class="card">
+            <h2>Step 1: Owner & Chip Details</h2>
+            <p class="card-intro">
+              Tell us what this chip belongs to. This can be a family story, memorial, vehicle,
+              collection item, pet, business asset, property, or anything important.
+            </p>
+
+            <label for="chipPurpose">What is this chip attached to?</label>
+            <input type="text" id="chipPurpose" placeholder="Example: Dad's guitar, 1968 Mustang, pet tag, family keepsake" required>
+
+            <label for="title">Page Title</label>
+            <input type="text" id="title" placeholder="Example: Dad's Story, Bella's Info, 1968 Mustang" required>
+
+            <label for="name">Your Name</label>
+          <input type="text" id="name" placeholder="Your name" required>
+
+          <label for="email">Email</label>
+    <input type="email" id="email" placeholder="Optional">
+     <p class="small-note">
+Recommended for backup & recovery access.
+</p>     
+
+<label for="phone">Phone Number</label>
+<input type="tel" id="phone" placeholder="Required for owner access" required>
+</section>
+
+<section class="card"> 
+<h2>Step 2: Story, Notes & Details</h2>   
+<p class="card-intro">
+ This area is for written information that may not need a photo. Use it for history,
+family details, care notes, ownership notes, instructions, or anything connected to the Page.
+</p>
+
+ <label for="headline">Short Headline</label>
+          <input type="text" id="headline" placeholder="Example: Tap to see the story behind this item">
+
+          <label for="desc">Section Content</label>
+          <textarea id="desc" placeholder="Write the story, history, family tree details, instructions, care notes, ownership information, or anything else this chip should hold."></textarea>
+  
+          </section>
+
+        </div>
+
+        <div>
+
+          <section class="card">
+            <h2>Security & Visibility</h2>
+            <p class="card-intro">
+  Your PIN protects future editing. Visibility helps decide what people see when they tap the chip.
+  </p>
+
+   <div class="pin-row">
+   <div>
+   <label for="pin">Create 4-Digit PIN</label>
+  <input type="text" id="pin" placeholder="4 digits" maxlength="4" inputmode="numeric" required>
+  </div>
+
+   <div>
+   <label for="pinConfirm">Confirm PIN</label>
+  <input type="text" id="pinConfirm" placeholder="Re-enter PIN" maxlength="4" inputmode="numeric" required>
+   </div>
+     <p class="small-note">
+  If you forget your PIN, recovery may require your email if provided.
+</p>
+    </div>
+
+    <label for="visibility">Default Page Visibility</label>
+  <select id="visibility">
+  <option value="public">Public when tapped</option>
+  <option value="private">Private / owner only</option>
+
+  </select>
+
+    <div class="visibility-box">
+   <div class="choice">
+   <strong>Public</strong>
+   Shows when someone taps the chip.
+  </div>
+ <div class="choice">
+  <strong>Private</strong>
+  <p class="small-note">Saved for owner access later.</p>
+</div>  
+</div>
+<p class="small-note">
+ Full section-by-section visibility controls will be expanded as the dashboard grows.
+</p>
+</section>
+
+<section class="card">
+ <h2>Step 3: Upload Photos or Documents</h2>
+
+            <div id="savedPhotosWrap" class="saved-photos-wrap">
+              <p class="helper">Current Saved Files</p>
+              <div id="savedPhotosGrid" class="saved-photos-grid"></div>
+              <div id="emptyPhotos" class="empty-photos hidden">No saved files yet.</div>
+            </div>
+
+            <div class="upload">
+              <input type="file" id="files" multiple accept="image/*,.pdf,.doc,.docx,.txt">
+            </div>
+
+            <p id="usage" class="small-note">0.00 MB of 250 MB used</p>
+
+            <div class="meter">
+              <div class="fill" id="fill"></div>
+            </div>
+
+            <div class="small-note">
+              Your chip includes 250 MB of shared storage.
+            </div>
+          </section>
+
+          <section class="card">
+            <h2>Agreement</h2>
+            <p class="card-intro">
+              Keep uploaded content clean, safe, and appropriate. Important files should also be backed up separately.
+            </p>
+
+            <label class="agree-row">
+              <input type="checkbox" id="agree" required>
+              <span>I agree to the content rules and disclaimer.</span>
+            </label>
+
+            <div class="actions">
+              <button type="submit" id="saveBtn">Save My Chip</button>
+              <a href="chip.html" id="viewerLink" class="link-btn secondary">Back to Viewer</a>
+            </div>
+          </section>
+
+        </div>
+
+      </div>
+
+    </form>
+
+    <div class="disclaimer">
+      MyStoryChip provides tools for storing and sharing your stories, images, and information.
+      While we work to keep the platform available and secure, access to content cannot be guaranteed at all times.
+      Users are responsible for the content they choose to store and share.
+      It is recommended that important files also be backed up separately.
+    </div>
+
+  </div>
+
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-panel">
+      <button type="button" class="lightbox-close" id="lightboxClose">×</button>
+      <img id="lightboxImg" class="lightbox-img" src="" alt="Photo preview">
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const chipCode = params.get("code");
+    const STORAGE_KEY = "mscChips";
+    const STORAGE_LIMIT_MB = 250;
+
+    const supabaseUrl = "https://ulbmdqwavkphcnjgrchd.supabase.co";
+    const supabaseKey = "sb_publishable_xdy7N3s-1sQLo9vPe70OFQ_VTLS8BjQ";
+    
+const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+    window.supabaseClient = supabaseClient;
+    function parseStoredChips() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+let chips = parseStoredChips();
+let existingChip = chips.find(c => c.code === chipCode);
+let workingImages = [];
+let workingDocs = [];    
+
+if (!existingChip && chipCode) {
+  existingChip = {
+    code: chipCode,
+    images: []
+  };
+  chips.push(existingChip);
+}  
+
+ function escape(str) {
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+if (typeof images === "string") {
+  try {
+    images = JSON.parse(images);
+  } catch (e) {
+    images = [];
+  }
+}
+function normalizeImages(images) {
+  if (typeof images === "string") {
+    try {
+      images = JSON.parse(images);
+    } catch (e) {
+      images = [];
+    }
+  }
+
+  return (images || []).map(img => {
+    if (typeof img === "string") {
+      return { src: img, visibility: "public" };
+    }
+    return img;
+  }).filter(Boolean);
+}
+
+function normalizeDocuments(docs) {
+  if (typeof docs === "string") {
+    try {
+      docs = JSON.parse(docs);
+    } catch (e) {
+      docs = [];
+    }
+  }
+
+  return (docs || []).map(doc => {
+    if (typeof doc === "string") {
+      return { url: doc, name: "Document", visibility: "public" };
+    }
+    return doc;
+  }).filter(Boolean);
+}   
+function getStorageMBFromImages(images) {
+  let totalBytes = 0;
+
+  images.forEach(item => {
+    let src = "";
+
+    if (typeof item === "string") {
+      src = item;
+    } else if (item && typeof item === "object") {
+      src = item.src || item.url || item.data || "";
+    }
+
+    if (src.includes(",")) {
+      src = src.split(",")[1];
+    }
+
+    totalBytes += Math.floor((src.length * 3) / 4);
+  });
+
+  workingDocs.forEach(doc => {
+    let src = doc.data || "";
+
+    if (src.includes(",")) {
+      src = src.split(",")[1];
+    }
+
+    totalBytes += Math.floor((src.length * 3) / 4);
+  });
+
+  return totalBytes / (1024 * 1024);
+}
+
+  function updateUsage(selectedCount = 0) {
+  const usage = document.getElementById("usage");
+  const fill = document.getElementById("fill");
+
+const totalMB =
+  getStorageMBFromImages(workingImages) +
+  getStorageMBFromImages(workingDocs);
+  const percent = Math.min((totalMB / STORAGE_LIMIT_MB) * 100, 100);
+
+  usage.textContent = `${totalMB.toFixed(2)} MB used of ${STORAGE_LIMIT_MB} MB`;
+  fill.style.width = percent + "%";
+} 
+
+    function openLightbox(src) {
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImg = document.getElementById("lightboxImg");
+
+      lightboxImg.src = src;
+      lightbox.classList.add("active");
+    }
+
+    function closeLightbox() {
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImg = document.getElementById("lightboxImg");
+
+      lightbox.classList.remove("active");
+      lightboxImg.src = "";
+    }
+
+function renderSavedPhotos() {
+ console.log("workingImages", workingImages);
+console.log("workingDocs", workingDocs); 
+  const wrap = document.getElementById("savedPhotosWrap");
+  const grid = document.getElementById("savedPhotosGrid");
+  const empty = document.getElementById("emptyPhotos");
+
+  grid.innerHTML = "";
+  wrap.style.display = "block";
+
+  if (workingImages.length === 0 && workingDocs.length === 0) {
+    empty.classList.remove("hidden");
+    return;
+  }
+
+  empty.classList.add("hidden");
+
+  // Render image tiles
+  workingImages.forEach((imgObj, index) => {
+    const tile = document.createElement("div");
+    tile.className = "photo-tile";
+
+    const img = document.createElement("img");
+    img.className = "photo-thumb";
+    img.src = imgObj.src;
+    img.alt = "Saved photo";
+    img.loading = "lazy";
+
+    const select = document.createElement("select");
+    select.innerHTML = `
+      <option value="public">Public</option>
+      <option value="private">Private</option>
+      <option value="both">Both</option>
+      <option value="undecided">Later</option>
+    `;
+    select.value = imgObj.visibility || "public";
+    select.addEventListener("change", () => { imgObj.visibility = select.value; });
+
+    const removeBtn = document.createElement("button");
+    removeBtn.type = "button";
+    removeBtn.className = "photo-remove";
+    removeBtn.setAttribute("aria-label", "Remove photo");
+    removeBtn.textContent = "×";
+    removeBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      workingImages.splice(index, 1);
+      renderSavedPhotos();
+      updateUsage(0);
+    });
+
+    tile.appendChild(img);
+    tile.appendChild(select);
+    tile.appendChild(removeBtn);
+    grid.appendChild(tile);
+  });
+
+  // Render document tiles
+  workingDocs.forEach((doc, index) => {
+    const tile = document.createElement("div");
+    tile.className = "doc-tile";
+
+    const icon = document.createElement("span");
+    icon.className = "doc-icon";
+    icon.textContent = doc.name && doc.name.endsWith(".pdf") ? "📄" : "📝";
+
+    const name = document.createElement("span");
+    name.className = "doc-name";
+    name.textContent = doc.name || "Document";
+
+    const select = document.createElement("select");
+    select.innerHTML = `
+      <option value="public">Public</option>
+      <option value="private">Private</option>
+      <option value="both">Both</option>
+      <option value="undecided">Later</option>
+    `;
+    select.value = doc.visibility || "public";
+    select.addEventListener("change", () => { doc.visibility = select.value; });
+
+    const removeBtn = document.createElement("button");
+    removeBtn.type = "button";
+    removeBtn.className = "photo-remove";
+    removeBtn.setAttribute("aria-label", "Remove document");
+    removeBtn.textContent = "×";
+    removeBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      workingDocs.splice(index, 1);
+      renderSavedPhotos();
+      updateUsage(0);
+    });
+
+    tile.appendChild(icon);
+    tile.appendChild(name);
+    tile.appendChild(select);
+    tile.appendChild(removeBtn);
+    grid.appendChild(tile);
+  });
+}   
+
+function readFilesAsDataUrls(files) {
+  const MAX_WIDTH = 1000;
+  const QUALITY = 0.60;
+  const DOC_TYPES = ["application/pdf", "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "text/plain"];
+
+  const allFiles = Array.from(files);
+  const imageFiles = allFiles.filter(f => f.type.startsWith("image/"));
+  const docFiles = allFiles.filter(f => DOC_TYPES.includes(f.type));
+
+  // Process images with compression
+  const imagePromises = imageFiles.map(file => {
+    return new Promise(resolve => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          let width = img.width;
+          let height = img.height;
+          if (width > MAX_WIDTH) {
+            height = Math.round(height * (MAX_WIDTH / width));
+            width = MAX_WIDTH;
+          }
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+          if (!ctx) { resolve(null); return; }
+          canvas.width = width;
+          canvas.height = height;
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve({ type: "image", data: canvas.toDataURL("image/jpeg", QUALITY) });
+        };
+        img.onerror = () => resolve(null);
+        img.src = event.target.result;
+      };
+      reader.onerror = () => resolve(null);
+      reader.readAsDataURL(file);
+    });
+  });
+
+  // Process documents as raw base64
+  const docPromises = docFiles.map(file => {
+    return new Promise(resolve => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        resolve({ type: "doc", name: file.name, data: event.target.result });
+      };
+      reader.onerror = () => resolve(null);
+      reader.readAsDataURL(file);
+    });
+  });
+
+  return Promise.all([...imagePromises, ...docPromises]);
+} 
+
+async function applyExistingChipData() {
+  if (!existingChip) return;
+  // Load from Supabase first
+  try {
+    const { data: sbChip } = await supabaseClient
+      .from('chips')
+      .select('*')
+      .eq('code', chipCode)
+      .single();
+    if (sbChip) {
+  existingChip = sbChip;
+    }
+workingImages = normalizeImages(existingChip && existingChip.images);
+ workingDocs = normalizeDocuments(existingChip && existingChip.documents);   
+    
+ renderSavedPhotos();
+ updateUsage();   
+  } catch(e) {}  
+ const chipPurposeValue =
+  existingChip.chipPurpose ||
+  existingChip.chip_purpose ||
+  existingChip.category ||
+  existingChip.type ||
+  "";
+
+if (chipPurposeValue) {
+  document.getElementById("chipPurpose").value = chipPurposeValue;
+}
+
+const nameValue =
+  existingChip.name ||
+  existingChip.fullName ||
+  existingChip.customer_name ||
+  "";
+
+if (nameValue) {
+  document.getElementById("name").value = nameValue;
+}
+
+const emailValue =
+  existingChip.email ||
+  existingChip.customer_email ||
+  "";
+
+if (emailValue) {
+  document.getElementById("email").value = emailValue;
+}
+
+const phoneValue =
+  existingChip.phone ||
+  existingChip.customer_phone ||
+  "";
+
+if (phoneValue) {
+  document.getElementById("phone").value = phoneValue;
+}     
+
+      if (existingChip.pin) {
+        document.getElementById("pin").value = existingChip.pin;
+        document.getElementById("pinConfirm").value = existingChip.pin;
+      }
+
+      if (existingChip.title) document.getElementById("title").value = existingChip.title;
+if (existingChip.headline) document.getElementById("headline").value = existingChip.headline;
+const descEl = document.getElementById("desc");
+if (descEl) {
+  descEl.value =
+    existingChip.desc ||
+    existingChip.description ||
+    existingChip.story ||
+    "";
+}
+
+
+if (existingChip.visibility) {
+  document.getElementById("visibility").value = existingChip.visibility;
+}
+}
+
+document.addEventListener("DOMContentLoaded", async () => {    
+      const filesInput = document.getElementById("files");
+      const form = document.getElementById("form");
+      const debugChip = document.getElementById("debugChip");
+      const viewerLink = document.getElementById("viewerLink");
+      const lightbox = document.getElementById("lightbox");
+      const lightboxClose = document.getElementById("lightboxClose");
+
+      if (viewerLink && chipCode) {
+        viewerLink.href = `chip.html?code=${encodeURIComponent(chipCode)}`;
+      }
+
+      if (debugChip) {
+        debugChip.textContent = chipCode
+          ? `Chip Code: ${chipCode}`
+          : "Preview Mode";
+      }
+
+await applyExistingChipData();    
+      renderSavedPhotos();
+      updateUsage(0);
+
+      filesInput.addEventListener("change", async () => {
+        const loadedFiles = await readFilesAsDataUrls(filesInput.files);
+
+        loadedFiles.filter(Boolean).forEach(item => {
+          if (item.type === "image") {
+            workingImages.push({ src: item.data, visibility: "public" });
+          } else if (item.type === "doc") {
+  workingDocs.push({ name: item.name, data: item.data, visibility: "public" });
+          }
+        });
+
+        renderSavedPhotos();
+        updateUsage(0);
+        filesInput.value = "";
+      });
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        if (!chipCode) {
+          alert("Missing chip code in URL. Use client-setup.html?code=TEST123 for testing.");
+          return;
+        }
+
+        const chipPurpose = document.getElementById("chipPurpose").value.trim();
+        const title = document.getElementById("title").value.trim();
+        const fullName = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        const pin = document.getElementById("pin").value.trim();
+        const pinConfirm = document.getElementById("pinConfirm").value.trim();
+        const headline = document.getElementById("headline").value.trim();
+        const desc = document.getElementById("desc").value;
+        const visibility = document.getElementById("visibility").value;
+const imageVisibility = "mixed";
+        const agree = document.getElementById("agree").checked;
+
+        if (!chipPurpose) {
+          alert("Please enter what this chip is attached to.");
+          return;
+        }
+
+        if (!title) {
+          alert("Page Title is required.");
+          return;
+        }
+
+        if (!fullName) {
+          alert("Your Name is required.");
+          return;
+        }
+
+        if (!phone) {
+          alert("Phone number is required.");
+          return;
+        }
+
+        if (!/^[0-9]{4}$/.test(pin)) {
+          alert("PIN must be exactly 4 numbers.");
+          return;
+        }
+
+        if (pin !== pinConfirm) {
+          alert("PIN numbers do not match.");
+          return;
+        }
+
+        if (!agree) {
+          alert("You must agree to the content rules and disclaimer.");
+          return;
+        }
+
+        existingChip.code = chipCode;
+        existingChip.chipPurpose = chipPurpose;
+        existingChip.category = chipPurpose;
+
+        existingChip.name = fullName;
+        existingChip.fullName = fullName;
+        existingChip.email = email;
+        existingChip.phone = phone;
+        existingChip.pin = pin;
+
+        existingChip.title = title;
+        existingChip.headline = headline;
+        existingChip.desc = desc;
+        existingChip.description = desc.trim();
+        existingChip.visibility = visibility;
+        existingChip.imageVisibility = imageVisibility;
+
+existingChip.images = workingImages;
+existingChip.documents = workingDocs;
+existingChip.updatedAt = new Date().toISOString();
+existingChip.status = "setup_complete";
+
+localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
+// Upload images to Supabase Storage
+const uploadedUrls = [];
+for (const imgObj of workingImages) {
+ if (imgObj.visibility === 'private') continue; 
+if (!imgObj.src || imgObj.src.startsWith('http')) continue;  
+  const base64 = imgObj.src.split(',')[1];
+  const byteArray = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
+  const fileName = `${chipCode}/${Date.now()}-${Math.random().toString(36).slice(2)}.jpg`;
+  const { data, error: uploadError } = await supabaseClient
+    .storage
+    .from('chip-images')
+    .upload(fileName, byteArray, { contentType: 'image/jpeg', upsert: true });
+  if (!uploadError) {
+    const { data: urlData } = supabaseClient
+      .storage
+      .from('chip-images')
+      .getPublicUrl(fileName);
+    uploadedUrls.push(urlData.publicUrl);
+  }
+}
+// Upload documents to Supabase Storage
+const uploadedDocs = [];
+for (const docObj of workingDocs) {
+if (!docObj.src && !docObj.data) continue;
+if (docObj.url && docObj.url.startsWith('http')) continue;
+const base64 = (docObj.src || docObj.data || '').split(',')[1];
+  const byteArray = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
+  const fileName = `${chipCode}/docs/${Date.now()}-${docObj.name}`;
+  const { data, error: uploadError } = await supabaseClient
+    .storage
+    .from('chip-images')
+    .upload(fileName, byteArray, { contentType: docObj.type || 'application/pdf', upsert: true });
+  if (!uploadError) {
+    const { data: urlData } = supabaseClient
+      .storage
+      .from('chip-images')
+      .getPublicUrl(fileName);
+    uploadedDocs.push({ name: docObj.name, url: urlData.publicUrl });
+  }
+}        
+try {
+const { error } = await supabaseClient
+.from("chips")
+.upsert({
+  code: chipCode,
+  customer_name: fullName,
+  customer_email: email,
+  title: title,
+  headline: headline,
+  story: desc.trim(),
+  pin: pin,
+  visibility: visibility,
+  status: "setup_complete",
+images: JSON.stringify([...workingImages.filter(img => img.src && img.src.startsWith('http')).map(img => img.src), ...uploadedUrls]),
+documents: JSON.stringify([...workingDocs.filter(doc => doc.url && doc.url.startsWith('http')), ...uploadedDocs]), 
+}, {
+  onConflict: "code"
+});
+
+ if (error) {
+  console.warn("Saved locally, but cloud failed:", error);
+}    
+        } catch (err) {
+          console.warn("Saved locally, but cloud failed:", err);
+        }
+
+        window.location.href = `success.html?code=${encodeURIComponent(chipCode)}`;
+      });
+
+      lightboxClose.addEventListener("click", closeLightbox);
+
+      lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) closeLightbox();
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeLightbox();
+      });
+    });
+  </script>
+</body>
+</html>
