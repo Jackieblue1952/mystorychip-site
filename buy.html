@@ -3,465 +3,571 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MyStoryChip | Buy Now</title>
+  <title>Buy MyStoryChip</title>
 
   <style>
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html, body {
-      width: 100%;
-      min-height: 100%;
-      background: #120805;
-      font-family: Georgia, "Times New Roman", serif;
-      color: #f3d7a3;
     }
 
     body {
-      background:
-        radial-gradient(circle at center, rgba(255, 170, 70, 0.10), transparent 45%),
-        linear-gradient(to bottom, #1a0b06 0%, #120805 100%);
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      color: #fff3d7;
+   background:
+  radial-gradient(circle at top center, rgba(255, 236, 172, 0.50), transparent 42%),
+  radial-gradient(circle at 18% 14%, rgba(255, 250, 225, 0.30), transparent 34%),
+  radial-gradient(circle at 82% 8%, rgba(255, 210, 110, 0.20), transparent 30%),
+  linear-gradient(180deg,
+    #fff6d8 0%,
+    #f3d98f 18%,
+    #c79a3a 36%,
+    #1a1208 70%,
+    #050403 100%
+  ); 
+ body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(255, 230, 150, 0.08), transparent 70%);
+  z-index: 0;
+}     
+
+    a {
+      color: inherit;
+      text-decoration: none;
     }
 
-    .page {
-      min-height: 100vh;
-      width: 100%;
-      overflow-x: hidden;
+   .page {
+  width: min(1180px, 92%);
+  margin: 0 auto;
+  padding: 28px 0 60px;
+
+  /* ADD THIS */
+  position: relative;
+  z-index: 2;
+} 
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 42px;
     }
+
+    .brand {
+      font-size: 1.2rem;
+      letter-spacing: 0.08em;
+      color: #7a5416;
+      font-weight: bold;
+      text-shadow: 0 0 18px rgba(255, 226, 145, 0.55);
+    }
+
+.home-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  border: 1px solid rgba(150, 105, 28, 0.35);
+  padding: 10px 18px;
+  border-radius: 999px;
+  color: #5c3a0c;
+  background: linear-gradient(135deg, #fff8df, #e7c86f);
+  box-shadow:
+    0 0 20px rgba(255, 220, 128, 0.36),
+    0 8px 22px rgba(50, 30, 8, 0.22);
+  font-weight: bold;
+  text-decoration: none;
+}     
+      .top-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.back-btn {
+  text-decoration: none;
+}
+      .back-btn {
+  margin-right: 10px;
+}
 
     .hero {
-      position: relative;
-      min-height: 78vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 52px 24px 36px;
-      background:
-        linear-gradient(to bottom, rgba(10, 4, 2, 0.32), rgba(10, 4, 2, 0.74)),
-        url("landing-page.png") center center / cover no-repeat;
-    }
-
-    .hero::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(circle at center, rgba(255, 190, 90, 0.10), transparent 36%),
-        linear-gradient(to bottom, rgba(18, 8, 5, 0.16), rgba(18, 8, 5, 0.82));
-      z-index: 1;
-    }
-
-    .hero-inner {
-      position: relative;
-      z-index: 2;
-      width: min(1120px, 100%);
       display: grid;
       grid-template-columns: 1.05fr 0.95fr;
-      gap: 34px;
+      gap: 38px;
       align-items: center;
-    }
-
-    .panel {
-      background: rgba(20, 8, 4, 0.60);
-      border: 1px solid rgba(255, 210, 130, 0.28);
-      border-radius: 28px;
-      padding: 34px 30px;
+      max-width: 980px;
+      margin: 0 auto 42px auto;
+      padding: 34px;
+      border-radius: 34px;
+      background:
+        radial-gradient(circle at top left, rgba(255, 247, 210, 0.95), transparent 56%),
+        linear-gradient(135deg, rgba(255, 251, 235, 0.94), rgba(232, 214, 162, 0.84));
+      border: 1px solid rgba(150, 105, 28, 0.28);
       box-shadow:
-        0 0 24px rgba(255, 170, 60, 0.12),
-        inset 0 0 18px rgba(255, 220, 150, 0.04);
-      backdrop-filter: blur(2px);
+        0 28px 70px rgba(42, 25, 7, 0.34),
+        0 0 46px rgba(255, 220, 125, 0.22),
+        inset 0 0 42px rgba(255, 255, 255, 0.38);
     }
 
     .eyebrow {
-      font-size: 0.95rem;
-      letter-spacing: 0.18em;
+      color: #9b6a18;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: #f0c97f;
+      font-size: 0.82rem;
       margin-bottom: 14px;
+      font-weight: bold;
     }
 
     h1 {
-      font-size: clamp(2.3rem, 4.8vw, 4.6rem);
-      line-height: 1.04;
-      color: #f8e1b4;
-      margin-bottom: 18px;
-      text-shadow: 0 0 16px rgba(255, 170, 60, 0.15);
+      font-size: clamp(2.55rem, 5vw, 5rem);
+      line-height: 0.94;
+      margin: 0 0 18px;
+      color: #7a5416;
+      text-shadow: 0 0 24px rgba(255, 210, 110, 0.5);
     }
 
-    .lead {
-      color: #f9e5c3;
-      font-size: clamp(1.08rem, 1.65vw, 1.32rem);
-      line-height: 1.65;
-      margin-bottom: 16px;
-    }
-
-    .panel p {
-      font-size: 1.05rem;
-      line-height: 1.65;
-      color: #f2d7ad;
-      margin-bottom: 14px;
-    }
-
-    .price-card {
-      text-align: center;
+    .hero p {
+      font-size: 1.13rem;
+      line-height: 1.62;
+      color: #3e2a12;
+      max-width: 620px;
+      margin-bottom: 22px;
     }
 
     .price {
-      font-size: clamp(2.8rem, 5vw, 4.8rem);
-      color: #f8dfb1;
-      text-shadow: 0 0 16px rgba(255, 180, 70, 0.18);
-      margin-bottom: 8px;
+      font-size: 1.8rem;
+      color: #5b3b10;
+      margin: 20px 0 8px;
     }
 
-    .price-note {
-      font-size: 1rem;
-      color: #edd0a1;
-      margin-bottom: 18px;
-      line-height: 1.55;
+    .price span {
+      color: #a46f16;
+      font-weight: bold;
     }
 
-    .includes {
-      list-style: none;
-      display: grid;
-      gap: 12px;
-      text-align: left;
-      margin: 18px 0 24px;
+    .small-note {
+      color: #5a3d18;
+      font-size: 0.94rem;
+      margin-bottom: 22px;
     }
 
-    .includes li {
-      padding: 12px 14px 12px 18px;
-      border-radius: 18px;
-      background: rgba(255, 190, 90, 0.05);
-      border: 1px solid rgba(255, 210, 130, 0.12);
-      color: #f2d5a8;
-      line-height: 1.45;
+    .reassurance {
+      color: #7a5416;
+      font-weight: bold;
+      margin-bottom: 26px;
     }
 
-    .actions {
+    .cta-row {
       display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin-top: 18px;
-      justify-content: center;
-    }
-
-    .btn {
-      display: inline-block;
-      text-decoration: none;
-      color: #f7ddb0;
-      background: rgba(45, 16, 8, 0.72);
-      border: 1px solid rgba(255, 210, 130, 0.35);
-      border-radius: 999px;
-      padding: 12px 22px;
-      font-size: 1rem;
-      letter-spacing: 0.04em;
-      box-shadow: 0 0 14px rgba(255, 170, 60, 0.16);
-      transition: 0.25s ease;
-    }
-
-    .btn:hover {
-      color: #fff2d2;
-      border-color: rgba(255, 225, 170, 0.72);
-      box-shadow:
-        0 0 18px rgba(255, 180, 70, 0.24),
-        0 0 30px rgba(255, 140, 40, 0.12);
-      transform: translateY(-1px);
-    }
-
-    .btn-secondary {
-      background: rgba(20, 8, 4, 0.55);
-    }
-
-    .section {
-      width: min(1180px, calc(100% - 40px));
-      margin: 0 auto;
-      padding: 70px 0 26px;
-    }
-
-    .section-title {
-      text-align: center;
-      font-size: clamp(2rem, 3.2vw, 3.2rem);
-      color: #f8dfb1;
-      margin-bottom: 14px;
-      text-shadow: 0 0 14px rgba(255, 170, 60, 0.12);
-    }
-
-    .section-subtitle {
-      text-align: center;
-      max-width: 900px;
-      margin: 0 auto 34px;
-      line-height: 1.65;
-      color: #eed2a2;
-      font-size: 1.08rem;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 22px;
-    }
-
-    .card {
-      background: linear-gradient(to bottom, rgba(40, 15, 8, 0.88), rgba(20, 8, 4, 0.92));
-      border: 1px solid rgba(255, 210, 130, 0.16);
-      border-radius: 24px;
-      padding: 24px 22px;
-      box-shadow:
-        0 0 20px rgba(255, 170, 60, 0.10),
-        inset 0 0 12px rgba(255, 220, 150, 0.03);
-    }
-
-    .card h3 {
-      font-size: 1.45rem;
-      color: #f7ddb0;
-      margin-bottom: 12px;
-    }
-
-    .card p {
-      color: #eed1a2;
-      line-height: 1.6;
-      font-size: 1rem;
-    }
-
-    .faq {
-      display: grid;
       gap: 18px;
-      width: min(980px, 100%);
-      margin: 0 auto;
-    }
-
-    .faq-item {
-      background: rgba(24, 9, 4, 0.78);
-      border: 1px solid rgba(255, 210, 130, 0.14);
-      border-radius: 22px;
-      padding: 20px 22px;
-      box-shadow:
-        0 0 18px rgba(255, 170, 60, 0.08),
-        inset 0 0 12px rgba(255, 220, 150, 0.03);
-    }
-
-    .faq-item h3 {
-      font-size: 1.2rem;
-      margin-bottom: 8px;
-      color: #f7ddb0;
-    }
-
-    .faq-item p {
-      line-height: 1.6;
-      color: #eed1a2;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     .cta {
-      width: min(1000px, calc(100% - 40px));
-      margin: 40px auto 70px;
-      padding: 34px 28px;
-      text-align: center;
-      border-radius: 30px;
-      background:
-        linear-gradient(to bottom, rgba(55, 20, 10, 0.86), rgba(20, 8, 4, 0.94));
-      border: 1px solid rgba(255, 210, 130, 0.20);
+      display: inline-block;
+      padding: 16px 32px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #fff7bf 0%, #f0c756 42%, #c28a1e 100%);
+      color: #1b1005;
+      font-weight: bold;
+      font-size: 1.05rem;
+      border: 1px solid rgba(255, 242, 180, 0.75);
       box-shadow:
-        0 0 24px rgba(255, 170, 60, 0.12),
-        inset 0 0 18px rgba(255, 220, 150, 0.04);
+        0 0 32px rgba(255, 213, 86, 0.7),
+        0 0 8px rgba(255, 245, 190, 0.85) inset,
+        0 14px 32px rgba(54, 30, 6, 0.38);
     }
 
-    .cta h2 {
-      font-size: clamp(1.9rem, 3vw, 3rem);
-      margin-bottom: 14px;
-      color: #f8dfb1;
+    .cta:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 0 42px rgba(255, 219, 105, 0.9),
+        0 0 10px rgba(255, 250, 210, 0.9) inset,
+        0 16px 36px rgba(54, 30, 6, 0.42);
     }
 
-    .cta p {
-      max-width: 780px;
-      margin: 0 auto 24px;
-      color: #eed2a2;
+    .ghost {
+      color: #7a5416;
+      border-bottom: 1px solid rgba(122, 84, 22, 0.45);
+      padding-bottom: 4px;
+      font-weight: bold;
+      transition: all 0.2s ease;
+    }
+
+    .ghost:hover {
+      color: #4a3215;
+      border-bottom: 1px solid #9b6a18;
+      text-shadow: 0 0 10px rgba(255, 210, 120, 0.45);
+    }
+
+    .hero-card {
+      border-radius: 24px;
+      padding: 26px;
+      background: linear-gradient(145deg, rgba(255, 252, 239, 0.94), rgba(238, 222, 178, 0.88));
+      border: 1px solid rgba(150, 105, 28, 0.24);
+      box-shadow:
+        inset 0 0 30px rgba(255, 236, 185, 0.26),
+        0 16px 32px rgba(59, 35, 8, 0.16);
+    }
+
+    .hero-card h2 {
+      margin: 0 0 18px;
+      color: #7a5416;
+      font-size: 1.55rem;
+    }
+
+    .hero-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .hero-card li {
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(150, 105, 28, 0.14);
+      color: #3e2a12;
+      line-height: 1.45;
+    }
+
+    .hero-card li:last-child {
+      border-bottom: none;
+    }
+
+    .hero-card strong {
+      color: #9b6a18;
+    }
+
+    .excitement {
+      margin: 40px auto 52px;
+      max-width: 980px;
+      border-radius: 32px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 222, 140, 0.26);
+      box-shadow:
+        0 22px 56px rgba(22, 12, 3, 0.46),
+        0 0 34px rgba(255, 201, 83, 0.18);
+      background: rgba(255, 250, 235, 0.58);
+    }
+
+    .excitement img {
+      width: 100%;
+      max-height: 380px;
+      object-fit: contain;
+      display: block;
+      background: rgba(255, 246, 216, 0.66);
+    }
+
+    .section {
+  margin: 58px 0;
+  text-align: center;
+  padding: 22px 18px;
+
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 28px;
+  backdrop-filter: blur(6px);
+
+  box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+}
+
+    .section h2 {
+      font-size: clamp(2rem, 4vw, 3.25rem);
+      margin: 0 0 16px;
+      color: #ffd98a;
+      text-shadow:
+        0 0 20px rgba(255, 210, 110, 0.5),
+        0 3px 12px rgba(0, 0, 0, 0.65);
+    }
+
+    .section p {
+      max-width: 820px;
+      margin: 0 auto 28px;
+      color: #fff0c4;
+      font-size: 1.1rem;
+      line-height: 1.68;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.62);
+    }
+
+    .soft-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+      margin-top: 32px;
+    }
+
+    .soft-card {
+      padding: 26px;
+      border-radius: 24px;
+      text-align: left;
+      background: linear-gradient(145deg, rgba(255, 252, 239, 0.94), rgba(232, 217, 178, 0.9));
+      border: 1px solid rgba(255, 230, 160, 0.32);
+      box-shadow:
+        0 18px 38px rgba(18, 9, 2, 0.34),
+        inset 0 0 24px rgba(255, 244, 208, 0.22);
+    }
+
+    .soft-card h3 {
+      margin: 0 0 10px;
+      color: #a46f16;
+      font-size: 1.22rem;
+      text-shadow: none;
+    }
+
+    .soft-card p {
+      margin: 0;
+      font-size: 1rem;
+      color: #33220f;
+      line-height: 1.55;
+      text-shadow: none;
+    }
+
+    .uses {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .use-pill {
+      padding: 11px 18px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(255, 252, 238, 0.95), rgba(232, 207, 139, 0.86));
+      border: 1px solid rgba(255, 232, 160, 0.38);
+      color: #5f3d0d;
+      font-weight: bold;
+      box-shadow:
+        0 10px 22px rgba(16, 8, 2, 0.24),
+        inset 0 0 14px rgba(255, 249, 220, 0.32);
+    }
+
+    .final-cta {
+      margin-top: 64px;
+      padding: 46px 28px;
+      text-align: center;
+      border-radius: 34px;
+      background:
+        radial-gradient(circle at top, rgba(255, 232, 153, 0.55), transparent 56%),
+        linear-gradient(145deg, rgba(255, 252, 238, 0.92), rgba(225, 201, 135, 0.86));
+      border: 1px solid rgba(255, 230, 160, 0.38);
+      box-shadow:
+        0 24px 58px rgba(18, 9, 2, 0.42),
+        0 0 40px rgba(255, 202, 74, 0.18),
+        inset 0 0 36px rgba(255, 255, 255, 0.28);
+    }
+
+    .final-cta h2 {
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      margin: 0 0 14px;
+      color: #7b5419;
+      text-shadow: 0 0 18px rgba(255, 224, 142, 0.45);
+    }
+
+    .final-cta p {
+      max-width: 740px;
+      margin: 0 auto 28px;
+      color: #3e2a12;
+      font-size: 1.12rem;
       line-height: 1.65;
-      font-size: 1.08rem;
     }
 
-    .footer-space {
-      height: 30px;
+    .contact {
+      margin-top: 36px;
+      text-align: center;
+      color: #3e2a12;
+      font-size: 0.98rem;
     }
 
-    @media (max-width: 980px) {
-      .hero-inner {
-        grid-template-columns: 1fr;
-      }
+    .contact strong {
+      color: #7a5416;
+    }
 
-      .grid {
-        grid-template-columns: 1fr;
-      }
+    .footer {
+      text-align: center;
+      margin-top: 42px;
+      color: #fff0c4;
+      font-size: 0.86rem;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+    }
 
+    @media (max-width: 850px) {
       .hero {
-        min-height: auto;
-        padding-top: 90px;
-        padding-bottom: 50px;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .section {
-        width: min(1180px, calc(100% - 24px));
-        padding-top: 54px;
+        grid-template-columns: 1fr;
+        padding: 26px;
       }
 
-      .cta {
-        width: calc(100% - 24px);
-        padding: 28px 18px;
+      .soft-grid {
+        grid-template-columns: 1fr;
       }
 
-      .panel,
-      .card,
-      .faq-item {
-        border-radius: 20px;
+      .topbar {
+        gap: 16px;
+        align-items: flex-start;
       }
 
-      .actions {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .btn {
-        text-align: center;
+      .excitement img {
+        max-height: none;
       }
     }
   </style>
 </head>
+
 <body>
   <main class="page">
-    <section class="hero">
-      <div class="hero-inner">
-        <div class="panel">
-          <div class="eyebrow">Buy MyStoryChip</div>
-          <h1>One chip. One link. A lifetime of meaning you control.</h1>
-          <p class="lead">
-            MyStoryChip gives you a physical chip connected to a permanent online page where stories, photos, documents, and meaningful information can live in one secure place.
-          </p>
-          <p>
-            Whether you want it for family legacy, memorials, pets, personal records, products, vehicles, or business storytelling, this is the page where interest turns into action.
-          </p>
-          <p>
-            Clean, premium, and built to matter longer than a social post or a forgotten folder. No fluff. Just something people can actually use.
-          </p>
 
-          <div class="actions">
-            <a class="btn" href="#">Reserve Your Chip</a>
-            <a class="btn btn-secondary" href="index.html">Back Home</a>
-          </div>
+    <header class="topbar">
+      <div class="brand">MyStoryChip.com</div>
+      <a class="home-btn" href="index.html">Home</a>
+   <div class="top-actions">
+<a href="javascript:history.back()" class="home-btn">← Back</a> 
+</div>   
+    </header>
+
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Tap. Open. Share. Control.</div>
+
+        <h1>Not just a chip.</h1>
+
+        <p>
+          MyStoryChip gives you a working digital space that opens with a simple NFC tap.
+          Add images, documents, important details, and organized sections — then choose what
+          others can see and what stays private.
+        </p>
+
+        <div class="price">One-time price: <span>$49.95</span></div>
+        <div class="small-note">
+          Includes one MyStoryChip, a customer page, and 250MB of usable shared storage. No monthly fee.
         </div>
 
-        <aside class="panel price-card">
-          <div class="eyebrow">Current Offer</div>
-          <div class="price">$49.95</div>
-<div style="margin-bottom:10px; color:#f0c97f; font-size:0.95rem;">
-  No subscription. One-time purchase.
-</div>
-          <div class="price-note">
-            One-time chip purchase with your connected digital story page.
-          </div>
+        <div class="reassurance">
+          Set up your page in minutes — no technical skills needed.
+        </div>
 
-          <ul class="includes">
-            <li>One MyStoryChip with permanent linked destination</li>
-            <li>250 MB of included storage</li>
-            <li>Personal or Business use path</li>
-            <li>Content can be updated over time</li>
-            <li>Simple access through one chip and one link</li>
-          </ul>
-
-          <div class="actions">
-            <a class="btn" href="#">Secure Your Spot</a>
-          </div>
-        </aside>
+        <div class="cta-row">
+          <a class="cta" href="https://buy.stripe.com/00w5kCgXe1Fwcu05dkdby02">Get Your Chip</a>
+          <a class="ghost" href="story-new.html">Story of Origin</a>
+        </div>
       </div>
+
+      <aside class="hero-card">
+        <h2>What's Included</h2>
+        <ul>
+          <li><strong>One NFC MyStoryChip</strong> ready to connect to your digital space.</li>
+          <li><strong>One customer page</strong> for stories, records, photos, and useful information.</li>
+          <li><strong>250MB shared storage</strong> for images and documents.</li>
+          <li><strong>Flexible sections</strong> to organize what matters.</li>
+          <li><strong>Visibility control</strong> so you decide what opens when the chip is tapped.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="excitement">
+      <img src="buy-excitement.png" alt="MyStoryChip digital space preview">
     </section>
 
     <section class="section">
-      <h2 class="section-title">What you’re buying</h2>
-      <p class="section-subtitle">
-        MyStoryChip is a connected product experience: a physical chip paired with a permanent digital destination that can hold meaningful content and be updated over time.
-      </p>
-
-      <div class="grid">
-        <article class="card">
-          <h3>Physical + Digital</h3>
-          <p>
-            You get more than a chip and more than a webpage. You get a real-world object tied directly to a digital place with purpose.
-          </p>
-        </article>
-
-        <article class="card">
-          <h3>Personal or Business</h3>
-          <p>
-            Use it to preserve family stories, honor a life, support pet or medical info, or connect customers to listings, products, services, and business details.
-          </p>
-        </article>
-
-        <article class="card">
-          <h3>Updatable Over Time</h3>
-          <p>
-            The chip’s destination stays consistent while the underlying content can be improved, changed, expanded, or reassigned later.
-          </p>
-        </article>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2 class="section-title">Questions people will ask</h2>
-      <p class="section-subtitle">
-        This is the clean, plain-English part where hesitation gets handled before it walks away.
-      </p>
-
-      <div class="faq">
-        <article class="faq-item">
-          <h3>Do I need to know tech stuff to use it?</h3>
-          <p>
-            No. The goal is simple use. One chip connects to one page where your content can be placed and updated without turning life into a computer science project.
-          </p>
-        </article>
-
-        <article class="faq-item">
-          <h3>Is this only for memorials?</h3>
-          <p>
-            Not at all. Memorial use is one strong use case, but MyStoryChip also works for family legacy, pets, medical info, vehicles, products, business storytelling, and more.
-          </p>
-        </article>
-
-        <article class="faq-item">
-          <h3>Can the page be updated later?</h3>
-          <p>
-            Yes. That is part of the value. The public connection can stay the same while the content behind it changes over time.
-          </p>
-        </article>
-
-        <article class="faq-item">
-          <h3>Is checkout live yet?</h3>
-          <p>
-            Not on this draft version. This page is the clean product and pricing page, and checkout can be connected next when you are ready.
-          </p>
-        </article>
-      </div>
-    </section>
-
-    <section class="cta">
-      <h2>Ready to turn meaning into something people can actually access?</h2>
+      <h2>Why the website matters</h2>
       <p>
-        MyStoryChip is built to connect the real world to a lasting story. Personal or business, the mission is the same: preserve what matters and make it reachable.
+        A blank chip can only point somewhere. MyStoryChip gives that tap a real home.
+        Your chip opens a clean, organized digital page that can hold meaningful content,
+        useful records, and shareable information in one place.
       </p>
-      <div class="actions" style="justify-content:center;">
-        <a class="btn" href="#">Get Started Soon</a>
-        <a class="btn btn-secondary" href="story.html">Back to Story</a>
+
+      <div class="soft-grid">
+        <div class="soft-card">
+          <h3>More than a link</h3>
+          <p>
+            The chip connects to a page built for storing and presenting the information behind the item, person, pet, collection, or business.
+          </p>
+        </div>
+
+        <div class="soft-card">
+          <h3>Storage included</h3>
+          <p>
+            Your 250MB storage is shared across your page. It is not locked into sections. Use it where you need it most.
+          </p>
+        </div>
+
+        <div class="soft-card">
+          <h3>You stay in control</h3>
+          <p>
+            Keep private details hidden and choose what appears when someone taps the chip.
+          </p>
+        </div>
       </div>
     </section>
 
-    <div class="footer-space"></div>
+    <section class="section">
+      <h2>Real-life uses</h2>
+      <p>
+        MyStoryChip is flexible. One customer page can be organized into simple sections
+        for memories, records, collections, business details, care notes, ownership information,
+        or anything else worth keeping close.
+      </p>
+
+      <div class="uses">
+        <div class="use-pill">Memorials</div>
+        <div class="use-pill">Family stories</div>
+        <div class="use-pill">Collections</div>
+        <div class="use-pill">Business info</div>
+        <div class="use-pill">Pets</div>
+        <div class="use-pill">Livestock</div>
+        <div class="use-pill">Vehicles</div>
+        <div class="use-pill">Restorations</div>
+        <div class="use-pill">Keepsakes</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Simple sections. One shared space.</h2>
+      <p>
+        Sections are only for organization. Your storage stays flexible.
+        That means you can build your page around what matters — photos, documents,
+        notes, records, or shareable details — without splitting your space into hard limits.
+      </p>
+
+      <div class="soft-grid">
+        <div class="soft-card">
+          <h3>Images</h3>
+          <p>Add meaningful photos, keepsake images, product pictures, pet photos, collection photos, or ownership images.</p>
+        </div>
+
+        <div class="soft-card">
+          <h3>Documents</h3>
+          <p>Store helpful documents, records, instructions, history notes, certificates, or written details.</p>
+        </div>
+
+        <div class="soft-card">
+          <h3>Private or public</h3>
+          <p>Choose what shows when the chip is tapped and what stays hidden for your own use.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta">
+      <h2>Own the chip. Keep the story.</h2>
+      <p>
+        Start with one MyStoryChip and create a working digital space that can grow with your needs.
+        Tap the chip and open the page — simple, useful, and yours.
+      </p>
+
+      <a class="cta" href="https://buy.stripe.com/00w5kCgXe1Fwcu05dkdby02">Get Your Chip</a>
+
+      <div class="contact">
+        <p><strong>Questions or need help?</strong></p>
+        <p>Text us anytime: <strong><a href="sms:931-387-6060">931-387-6060</a></strong></p>
+        <p>Email: <strong><a href="mailto:MyStoryChip@gmail.com">MyStoryChip@gmail.com</a></strong></p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      MyStoryChip.com · NFC tap access · Image and document focused · No videos
+    </footer>
+
   </main>
-<div style="text-align:center; padding:22px 0 30px; font-size:13px; opacity:0.8;">
-  <a href="terms.html" style="color:#f7ddb0; text-decoration:none;">
-    Terms & Disclaimer
-  </a>
-</div>
 </body>
 </html>
