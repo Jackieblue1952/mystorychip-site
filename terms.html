@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="MyStoryChip Terms and Disclaimer — user responsibility, content liability, and platform availability." />
   <title>MyStoryChip | Terms & Disclaimer</title>
-
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background: radial-gradient(circle at top, #2a1a0f, #0f0a06);
       color: #f3e6c7;
-      line-height: 1.6;
+      line-height: 1.75;
       padding: 40px 20px;
     }
 
@@ -19,83 +19,109 @@
       max-width: 900px;
       margin: auto;
       background: rgba(20, 12, 6, 0.85);
-      padding: 30px;
+      padding: 36px 30px;
       border-radius: 12px;
       border: 1px solid rgba(255, 200, 120, 0.2);
     }
 
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #ffd27a;
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
-    h2 {
-      margin-top: 25px;
-      color: #ffcc80;
-    }
-
-    p {
-      margin: 10px 0;
-      font-size: 15px;
-    }
-
-    .back {
+    .nav-btn {
       display: inline-block;
-      margin-top: 30px;
       text-decoration: none;
       color: #ffd27a;
       border: 1px solid rgba(255, 200, 120, 0.4);
-      padding: 8px 14px;
-      border-radius: 8px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      transition: background 0.2s ease, transform 0.2s ease;
     }
 
-    .back:hover {
-      background: rgba(255, 200, 120, 0.1);
+    .nav-btn:hover {
+      background: rgba(255, 200, 120, 0.12);
+      transform: translateY(-1px);
+    }
+
+    h1 {
+      text-align: center;
+      margin: 0 0 20px;
+      color: #ffd27a;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+    }
+
+    h2 {
+      margin-top: 28px;
+      color: #ffcc80;
+      font-size: 1.1rem;
+    }
+
+    p {
+      margin: 8px 0 14px;
+      font-size: 15px;
+      color: #e8d9b8;
+    }
+
+    .footer {
+      margin-top: 40px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 200, 120, 0.15);
+      text-align: center;
+      font-size: 0.8rem;
+      color: rgba(243, 230, 199, 0.5);
     }
   </style>
 </head>
-
 <body>
-
   <div class="container">
-    <h1>Terms & Disclaimer</h1>
 
-    <p>
-      By purchasing or using a MyStoryChip, you agree to the following terms and conditions.
-    </p>
+    <div class="topbar">
+      <a class="nav-btn" href="index.html">🏠 Home</a>
+      <a class="nav-btn" href="javascript:history.back()">← Back</a>
+    </div>
+
+    <h1>Terms &amp; Disclaimer</h1>
+
+    <p>By purchasing or using a MyStoryChip, you agree to the following terms and conditions.</p>
 
     <h2>User Responsibility</h2>
     <p>
-      All content uploaded, stored, or linked through a MyStoryChip is the sole responsibility of the user. 
+      All content uploaded, stored, or linked through a MyStoryChip is the sole responsibility of the user.
       MyStoryChip does not monitor, control, or verify user-submitted content.
     </p>
 
     <h2>No Liability for Content</h2>
     <p>
-      MyStoryChip and its creator are not responsible for any content that may be offensive, harmful, inaccurate, 
+      MyStoryChip and its creator are not responsible for any content that may be offensive, harmful, inaccurate,
       misleading, or illegal. Users assume full responsibility for how their chip and its associated content is used.
     </p>
 
     <h2>Use at Your Own Risk</h2>
     <p>
-      The MyStoryChip platform is provided as-is, without warranties of any kind. 
+      The MyStoryChip platform is provided as-is, without warranties of any kind.
       Use of the chip and any associated content is at your own risk.
     </p>
 
     <h2>No Guarantee of Availability</h2>
     <p>
-      While every effort is made to maintain access, MyStoryChip does not guarantee uninterrupted or permanent availability 
-      of hosted content.
+      While every effort is made to maintain access, MyStoryChip does not guarantee uninterrupted or permanent
+      availability of hosted content. Important files should also be backed up separately.
     </p>
 
     <h2>Agreement</h2>
-    <p>
-      By using a MyStoryChip, you acknowledge and agree to these terms.
-    </p>
+    <p>By using a MyStoryChip, you acknowledge and agree to these terms.</p>
 
-    <a class="back" href="buy.html">Back</a>
+    <div class="footer">
+      © 2026 MyStoryChip.com · All rights reserved
+    </div>
+
   </div>
-
 </body>
 </html>

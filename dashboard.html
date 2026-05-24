@@ -90,38 +90,34 @@
       box-shadow: 0 10px 20px rgba(91, 54, 8, 0.23);
       transition: transform .18s ease, box-shadow .18s ease;
     }
-       .hero {
-      text-align: center;
-      padding: 38px 24px;
-      border-radius: 34px;
-      background:
-        radial-gradient(circle at center, rgba(255, 208, 88, 0.42), transparent 58%),
-        linear-gradient(135deg, rgba(255,255,255,0.88), rgba(255,225,145,0.72));
-      border: 1px solid rgba(122, 75, 17, 0.24);
-      box-shadow: 0 26px 70px rgba(82, 47, 8, 0.25);
-      overflow: hidden;
-      position: relative;
-    }
-
-    .hero-image {
-      width: 100%;
-      max-width: 850px;
-      display: block;
-      margin: 0 auto 24px;
-      border-radius: 24px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
-    }
-
-    .hero::after {
-      content: "MSC";
-      position: absolute;
-      right: 28px;
-      bottom: -18px;
-      font-size: 92px;
-      font-weight: bold;
-      color: rgba(128, 78, 16, 0.08);
-      letter-spacing: 8px;
-    } 
+    button:hover, .btn:hover { transform: translateY(-2px); box-shadow: 0 14px 26px rgba(91, 54, 8, 0.28); }
+    .secondary { background: rgba(255,255,255,0.72); border: 1px solid rgba(123, 78, 12, 0.22); }
+    .danger { background: linear-gradient(180deg, #ffd1b8, #d96c35); }
+    .logout-btn { background: rgba(255,255,255,0.72); border: 1px solid rgba(200,80,40,0.3); color: #8b2a0a; font-size: 13px; padding: 8px 14px; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 26px; }
+    .stat { background: rgba(255,255,255,0.78); border: 1px solid rgba(125, 78, 18, 0.18); border-radius: 24px; padding: 20px; box-shadow: 0 14px 35px rgba(99, 59, 8, 0.14); }
+    .stat small { color: #7b511e; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
+    .stat strong { display: block; font-size: 34px; margin-top: 8px; color: #2f1d0d; }
+    .section { margin-top: 24px; padding: 24px; border-radius: 28px; background: rgba(255,255,255,0.78); border: 1px solid rgba(113, 75, 23, 0.18); box-shadow: 0 16px 42px rgba(88, 54, 9, 0.15); backdrop-filter: blur(4px); }
+    h2 { margin: 0 0 8px; font-size: 28px; color: #35200e; }
+    p { color: #67451f; line-height: 1.5; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    label { display: block; margin-top: 12px; font-weight: bold; color: #4a2e12; }
+    input, select, textarea { width: 100%; margin-top: 6px; padding: 13px; border-radius: 15px; border: 1px solid rgba(107, 69, 19, 0.24); background: #fffaf0; color: #2d1b0c; font-size: 15px; font-family: Arial, sans-serif; outline: none; }
+    input:focus, select:focus, textarea:focus { border-color: #c88b20; box-shadow: 0 0 0 3px rgba(200,139,32,.16); }
+    textarea { min-height: 88px; resize: vertical; }
+    .table-wrap { width: 100%; overflow-x: auto; border-radius: 20px; border: 1px solid rgba(107,69,19,.12); }
+    table { width: 100%; border-collapse: collapse; background: #fffaf0; min-width: 850px; }
+    th, td { padding: 13px; text-align: left; border-bottom: 1px solid rgba(107, 69, 19, 0.13); font-family: Arial, sans-serif; font-size: 14px; vertical-align: top; }
+    th { background: linear-gradient(180deg, #f7dc98, #efd080); color: #3b240f; font-family: Georgia, serif; }
+    tr:hover td { background: rgba(255, 232, 170, 0.28); }
+    .pill { display: inline-block; padding: 6px 10px; border-radius: 999px; background: #f3d37f; font-size: 12px; font-weight: bold; white-space: nowrap; }
+    .note-card { background: #fff6df; border-left: 6px solid #c88b20; padding: 16px; border-radius: 16px; margin-top: 12px; font-family: Arial, sans-serif; box-shadow: inset 0 0 0 1px rgba(120,75,20,.08); }
+    .log { background: radial-gradient(circle at top left, rgba(255,214,113,.18), transparent 38%), #2f210f; color: #ffe8ae; border-radius: 20px; padding: 16px; font-family: monospace; min-height: 130px; white-space: pre-wrap; box-shadow: inset 0 0 25px rgba(0,0,0,.35); }
+    .mini-btn { padding: 7px 10px; font-size: 12px; margin: 2px; box-shadow: none; }
+    .status-line { display: inline-flex; align-items: center; gap: 8px; padding: 9px 13px; border-radius: 999px; background: rgba(255,255,255,.55); color: #4d3112; font-weight: bold; margin-top: 14px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: #2fbf62; box-shadow: 0 0 12px rgba(47,191,98,.75); }
+    footer { text-align: center; margin-top: 30px; color: #6a471d; font-size: 13px; }
     @media (max-width: 900px) { .stats, .two-col { grid-template-columns: 1fr; } .section { padding: 18px; } }
   </style>
 </head>
@@ -137,7 +133,7 @@
       <div class="brand">Private Owner Area</div>
       <h1>MyStoryChip Control Center</h1>
       <p class="subtitle">Private, simple, thorough, and KOOL. Your owner-side command room for chip records, demo chips, customer notes, sales/tax notes, storage planning, and activity history.</p>
-      <div class="status-line"><span class="dot"></span>Neon Database Connected</div>
+      <div class="status-line"><span class="dot"></span>Supabase Database Connected</div>
       <div class="actions">
         <a class="btn" href="index.html">Home</a>
         <a class="btn secondary" href="buy.html">Buy Page</a>
@@ -154,8 +150,8 @@
     </section>
     <section class="section">
       <h2>Overview</h2>
-      <p>This dashboard is connected to Neon. Records saved here are permanent database records, not browser-only notes.</p>
-      <div class="note-card"><strong>Build status:</strong> Neon-powered Control Center. Verified live with real chip records.</div>
+      <p>This dashboard is connected to Supabase. Records saved here are permanent database records, not browser-only notes.</p>
+      <div class="note-card"><strong>Build status:</strong> Supabase-powered Control Center. Verified live with real chip records.</div>
     </section>
     <section class="section">
       <h2>Create / Demo Chips</h2>
@@ -197,7 +193,7 @@
     </section>
     <section class="section">
       <h2>Chip Registry</h2>
-      <p>All chip records saved in Neon.</p>
+      <p>All chip records saved in Supabase.</p>
       <div class="table-wrap">
         <table>
           <thead><tr><th>Code</th><th>Type</th><th>Status</th><th>Customer</th><th>Email</th><th>Notes</th><th>Tools</th></tr></thead>
@@ -221,31 +217,39 @@
     </section>
     <section class="section">
       <h2>Activity Log</h2>
-      <p>Live owner history from Neon.</p>
+      <p>Live owner history from Supabase.</p>
       <div class="log" id="activityLog">Loading activity...</div>
     </section>
     <section class="section">
       <h2>System Tools</h2>
       <p>Owner tools for checking and refreshing the dashboard.</p>
       <button onclick="loadAll()">Refresh Dashboard</button>
-      <button class="secondary" onclick="testConnection()">Test Neon</button>
+      <button class="secondary" onclick="testConnection()">Test Supabase</button>
     </section>
     <footer>© 2026 MyStoryChip Control Center · Founder &amp; Creator: Jack W. Kennedy · Private Owner Records</footer>
   </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
+    let supabaseClient = null;
     let chips = [];
 
     async function checkAuth() {
-  const token = localStorage.getItem("msc_admin_token");
-
-  if (!token) {
-    redirectToLogin();
-    return;
-  }
-
-  document.getElementById("auth-gate").style.display = "none";
-  document.getElementById("dashboard").style.display = "block";
-}
+      const token = localStorage.getItem("msc_admin_token");
+      if (!token) { redirectToLogin(); return; }
+      try {
+        const res = await fetch("/api/supabase-config", {
+          headers: { "Authorization": "Bearer " + token }
+        });
+        if (res.status === 401) { redirectToLogin(); return; }
+        const config = await res.json();
+        supabaseClient = window.supabase.createClient(config.url, config.key);
+        document.getElementById("auth-gate").style.display = "none";
+        document.getElementById("dashboard").style.display = "block";
+        loadAll();
+      } catch (err) {
+        redirectToLogin();
+      }
+    }
 
     function redirectToLogin() {
       localStorage.removeItem("msc_admin_token");
@@ -270,7 +274,7 @@
     }
 
     async function logActivity(message) {
-      await NeonClient.from("activity_log").insert([{ message }]);
+      await supabaseClient.from("activity_log").insert([{ message }]);
       loadActivity();
     }
 
@@ -285,16 +289,16 @@
         customer_email: document.getElementById("customerEmail").value.trim(),
         notes: document.getElementById("chipNotes").value.trim()
       };
-      const { error } = await NeonClient.from("chips").insert([record]);
+      const { error } = await supabaseClient.from("chips").insert([record]);
       if (error) { alert("Chip save failed: " + error.message); return; }
       await logActivity(`Added chip record ${code}.`);
       clearForm();
       loadAll();
-      alert("Chip saved to Neon.");
+      alert("Chip saved to Supabase.");
     }
 
     async function loadChips() {
-      const { data, error } = await NeonClient.from("chips").select("*").order("created_at", { ascending: false });
+      const { data, error } = await supabaseClient.from("chips").select("*").order("created_at", { ascending: false });
       const table = document.getElementById("chipTable");
       if (error) { table.innerHTML = `<tr><td colspan="7">Error: ${escapeHTML(error.message)}</td></tr>`; document.getElementById("dbStatus").textContent = "Error"; return; }
       chips = data || [];
@@ -322,7 +326,7 @@
 function setupChip(code) { window.open(`client-setup.html?code=${encodeURIComponent(code)}`, "_blank"); }
     async function deleteChip(id, code) {
       if (!confirm(`Delete chip record ${code}?`)) return;
-      const { error } = await NeonClient.from("chips").delete().eq("id", id);
+      const { error } = await supabaseClient.from("chips").delete().eq("id", id);
       if (error) { alert("Delete failed: " + error.message); return; }
       await logActivity(`Deleted chip record ${code}.`);
       loadAll();
@@ -331,7 +335,7 @@ function setupChip(code) { window.open(`client-setup.html?code=${encodeURICompon
     async function addTaxNote() {
       const note = document.getElementById("taxNote").value.trim();
       if (!note) { alert("Please type a note first."); return; }
-      const { error } = await NeonClient.from("tax_notes").insert([{ note }]);
+      const { error } = await supabaseClient.from("tax_notes").insert([{ note }]);
       if (error) { alert("Save failed: " + error.message); return; }
       document.getElementById("taxNote").value = "";
       await logActivity("Saved a sales / tax note.");
@@ -339,7 +343,7 @@ function setupChip(code) { window.open(`client-setup.html?code=${encodeURICompon
     }
 
     async function loadTaxNotes() {
-      const { data, error } = await NeonClient.from("tax_notes").select("*").order("created_at", { ascending: false });
+      const { data, error } = await supabaseClient.from("tax_notes").select("*").order("created_at", { ascending: false });
       const box = document.getElementById("taxNotes");
       if (error) { box.innerHTML = `<div class="note-card">Error: ${escapeHTML(error.message)}</div>`; return; }
       if (!data||!data.length) { box.innerHTML = `<div class="note-card">No tax notes yet.</div>`; return; }
@@ -347,7 +351,7 @@ function setupChip(code) { window.open(`client-setup.html?code=${encodeURICompon
     }
 
     async function loadActivity() {
-      const { data, error } = await NeonClient.from("activity_log").select("*").order("created_at", { ascending: false }).limit(20);
+      const { data, error } = await supabaseClient.from("activity_log").select("*").order("created_at", { ascending: false }).limit(20);
       const log = document.getElementById("activityLog");
       if (error) { log.textContent = "Error: " + error.message; return; }
       if (!data||!data.length) { log.textContent = "No activity yet."; return; }
@@ -355,8 +359,8 @@ function setupChip(code) { window.open(`client-setup.html?code=${encodeURICompon
     }
 
     async function testConnection() {
-      const { error } = await NeonClient.from("chips").select("id").limit(1);
-      alert(error ? "Failed: " + error.message : "Neon connection is working!");
+      const { error } = await supabaseClient.from("chips").select("id").limit(1);
+      alert(error ? "Failed: " + error.message : "Supabase connection is working!");
     }
 
     async function loadAll() { await loadChips(); await loadTaxNotes(); await loadActivity(); }

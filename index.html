@@ -38,7 +38,7 @@ a { text-decoration: none; color: inherit; }
   color: #7e570e;
   font-weight: bold;
   box-shadow: 0 8px 22px rgba(100,70,20,0.12);
-  display: block;
+  display: none;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .admin-btn:hover {
@@ -324,7 +324,55 @@ a { text-decoration: none; color: inherit; }
   <div class="control-row">
     <a class="btn secondary" href="uses.html">How It Works</a>
     <a class="btn secondary" href="buy.html">Set Up Chip</a>
+  <button onclick="document.getElementById('storytellerModal').style.display='flex'"
+      style="background:transparent;border:1px solid rgba(150,100,28,0.4);color:#6b4b1f;padding:10px 22px;border-radius:999px;cursor:pointer;font-size:0.95rem;font-family:Georgia,serif;margin-top:8px;">
+      ✨ Already a Storyteller? Click here
+    </button>
   </div>
+
+<!-- Storyteller Modal -->
+<div id="storytellerModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#fff8ec;border-radius:24px;padding:32px;max-width:340px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+    <h2 style="color:#3a2a12;margin:0 0 8px;">Welcome Back!</h2>
+    <p style="color:#6b4b1f;margin:0 0 20px;">Enter your Chip Code to access your page.</p>
+    <input id="storytellerCode" type="text" placeholder="Example: MSC-8760" maxlength="12"
+      style="width:100%;padding:14px;border-radius:12px;border:1px solid rgba(150,100,28,0.34);font-size:1.1rem;text-align:center;letter-spacing:2px;margin-bottom:12px;text-transform:uppercase;">
+    <p id="storytellerError" style="color:red;display:none;margin:0 0 12px;">Chip code not found. Try again.</p>
+    <div style="display:flex;gap:12px;justify-content:center;">
+      <button onclick="goToChip()"
+        style="background:linear-gradient(135deg,#fff7bf,#f0c756,#c28a1e);color:#1b1005;font-weight:bold;padding:12px 24px;border-radius:999px;border:none;cursor:pointer;">
+        Go To My Page
+      </button>
+      <button onclick="document.getElementById('storytellerModal').style.display='none'"
+        style="background:rgba(255,255,255,0.8);color:#3a2a12;font-weight:bold;padding:12px 24px;border-radius:999px;border:1px solid rgba(150,100,28,0.3);cursor:pointer;">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+async function goToChip() {
+  const code = document.getElementById('storytellerCode').value.trim().toUpperCase();
+  if (!code) return;
+  const err = document.getElementById('storytellerError');
+  err.style.display = 'none';
+  const configRes = await fetch('/api/supabase-config', { headers: { Authorization: 'Bearer public' } });
+  const { url, key } = await configRes.json();
+  const res = await fetch(`${url}/rest/v1/chips?code=eq.${code}&limit=1`, {
+    headers: { apikey: key, Authorization: `Bearer ${key}` }
+  });
+  const data = await res.json();
+  if (data[0]) {
+    window.location.href = `chip.html?code=${encodeURIComponent(code)}`;
+  } else {
+    err.style.display = 'block';
+  }
+}
+document.getElementById('storytellerCode').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') goToChip();
+});
+</script>
 
   <section class="quick-info">
     <div class="info-card">
@@ -371,6 +419,7 @@ a { text-decoration: none; color: inherit; }
     <span class="founder-line">MyStoryChip.com &nbsp; | &nbsp; Founder &amp; Creator: Jack W. Kennedy</span>
     &nbsp; | &nbsp;
     <a href="terms.html">Terms &amp; Disclaimer</a>
+    &nbsp; | &nbsp;<a href="admin.html" style="color:rgba(100,70,20,0.12);font-size:11px;text-decoration:none;">©</a>
   </footer>
 </main>
 
