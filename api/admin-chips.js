@@ -3,18 +3,51 @@ const { Pool } = pkg;
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }
+  ssl: { rejectUnauthorized: false },
 });
 
 export default async function handler(req, res) {
-
-  if (req.method !== "GET") {
+  if (!["GET", "POST"].includes(req.method)) {
     return res.status(405).json({
-      error: "Method not allowed"
+      success: false,
+      error: "Method not allowed",
     });
   }
 
   try {
+    if (req.method === "POST") {
+      const { chip_code, customer_name, customer_email } = req.body || {};
+
+      if (!chip_code || String(chip_code).trim() === "") {
+        return res.status(400).json({
+          success: false,
+          error: "chip_code is required",
+        });
+      }
+
+      const result = await pool.query(
+        `
+        INSERT INTO chips (chip_code, customer_email, customer_name, created_at)
+        VALUES ($1, $2, $3, NOW())
+        RETURNING
+          id,
+          chip_code,
+          customer_name,
+          customer_email,
+          created_at
+        `,
+        [
+          String(chip_code).trim(),
+          customer_email ? String(customer_email).trim() : null,
+          customer_name ? String(customer_name).trim() : null,
+        ]
+      );
+
+      return res.status(201).json({
+        success: true,
+        chip: result.rows[0],
+      });
+    }
 
     const result = await pool.query(`
       SELECT
@@ -30,16 +63,19 @@ export default async function handler(req, res) {
     return res.status(200).json({
       success: true,
       count: result.rows.length,
-      chips: result.rows
+      chips: result.rows,
     });
-
   } catch (err) {
+    if (err.code === "23505") {
+      return res.status(409).json({
+        success: false,
+        error: "Chip code already exists",
+      });
+    }
 
     return res.status(500).json({
       success: false,
-      error: err.message
+      error: err.message,
     });
-
   }
-
 }
