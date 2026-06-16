@@ -357,13 +357,10 @@ async function goToChip() {
   if (!code) return;
   const err = document.getElementById('storytellerError');
   err.style.display = 'none';
-  const configRes = await fetch('/api/supabase-config', { headers: { Authorization: 'Bearer public' } });
-  const { url, key } = await configRes.json();
-  const res = await fetch(`${url}/rest/v1/chips?code=eq.${code}&limit=1`, {
-    headers: { apikey: key, Authorization: `Bearer ${key}` }
-  });
+  const res = await fetch('/api/admin-chips');
   const data = await res.json();
-  if (data[0]) {
+  const foundChip = data.chips && data.chips.find(chip => chip.chip_code === code);
+  if (foundChip) {
     window.location.href = `chip.html?code=${encodeURIComponent(code)}`;
   } else {
     err.style.display = 'block';
