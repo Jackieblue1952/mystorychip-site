@@ -411,7 +411,7 @@
       <br />
       <button onclick="generateCode()">Generate Code</button>
       <button class="secondary" onclick="clearForm()">Clear Form</button>
-      <button class="secondary" onclick="comingSoon()">Add Chip Record</button>
+      <button class="secondary" onclick="addChipRecord()">Add Chip Record</button>
     </section>
 
     <section class="section">
@@ -524,6 +524,45 @@
       ["chipCode", "customerName", "customerEmail", "chipNotes"].forEach(id => {
         document.getElementById(id).value = "";
       });
+    }
+
+    async function addChipRecord() {
+      const chipCode = document.getElementById("chipCode").value.trim();
+      const customerName = document.getElementById("customerName").value.trim();
+      const customerEmail = document.getElementById("customerEmail").value.trim();
+
+      if (!chipCode) {
+        alert("Please enter or generate a chip code first.");
+        return;
+      }
+
+      try {
+        const token = localStorage.getItem("msc_admin_token");
+        const response = await fetch("/api/admin-chips", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+          },
+          body: JSON.stringify({
+            chip_code: chipCode,
+            customer_name: customerName,
+            customer_email: customerEmail
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+          throw new Error(data.error || "Unable to add chip record.");
+        }
+
+        clearForm();
+        await loadChips();
+        alert("Chip record added.");
+      } catch (err) {
+        alert("Add chip failed: " + err.message);
+      }
     }
 
     function comingSoon() {
