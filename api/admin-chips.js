@@ -25,6 +25,20 @@ export default async function handler(req, res) {
         });
       }
 
+      const cleanChipCode = String(chip_code).trim();
+
+      const existing = await pool.query(
+        "SELECT id FROM chips WHERE chip_code = $1 LIMIT 1",
+        [cleanChipCode]
+      );
+
+      if (existing.rows.length > 0) {
+        return res.status(409).json({
+          success: false,
+          error: "Chip code already exists",
+        });
+      }
+
       const result = await pool.query(
         `
         INSERT INTO chips (chip_code, customer_email, customer_name, created_at)
@@ -37,7 +51,7 @@ export default async function handler(req, res) {
           created_at
         `,
         [
-          String(chip_code).trim(),
+          cleanChipCode,
           customer_email ? String(customer_email).trim() : null,
           customer_name ? String(customer_name).trim() : null,
         ]
