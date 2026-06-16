@@ -16,6 +16,10 @@
     {
       "src": "*.png",
       "use": "@vercel/static"
+    },
+    {
+      "src": "api/admin-chips.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
@@ -26,6 +30,10 @@
     {
       "src": "/api/admin-login",
       "dest": "/api/admin-login.js"
+    },
+    {
+      "src": "/api/admin-chips",
+      "dest": "/api/admin-chips.js"
     },
     {
       "src": "/(.*\\.html)",
