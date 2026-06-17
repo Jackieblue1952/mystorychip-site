@@ -438,7 +438,7 @@
           Add the story, details, photos, documents, and visibility choices connected to this chip.
           Keep it simple today — you can come back and update it later.
         </p>
-        <div class="chip-code" id="debugChip">Loading...</div>
+        <div class="chip-code" id="chipCodeDisplay">Loading...</div>
         <div class="progress">
           <div class="progress-pill">1. Owner & Chip Details</div>
           <div class="progress-pill">2. Story, Notes & Visibility</div>
@@ -599,11 +599,11 @@
   // ── Init ─────────────────────────────────────────────────
   function init() {
     if (!chipCode) {
-      document.getElementById('debugChip').textContent = 'No chip code in URL.';
+      document.getElementById('chipCodeDisplay').textContent = 'No chip code in URL.';
       return;
     }
 
-    document.getElementById('debugChip').textContent = 'Chip Code: ' + chipCode;
+    document.getElementById('chipCodeDisplay').textContent = 'Chip Code: ' + chipCode;
     document.getElementById('viewerLink').href = 'chip.html?code=' + encodeURIComponent(chipCode);
     document.getElementById('viewerBtn').href = 'chip.html?code=' + encodeURIComponent(chipCode);
 
