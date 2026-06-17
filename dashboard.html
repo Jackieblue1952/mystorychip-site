@@ -370,7 +370,7 @@
 
     <section class="section">
       <h2>Create / Demo Chips</h2>
-      <p>This section will be wired next after the chip list route is confirmed working.</p>
+      <p>Use this section to create chip records after generating or entering a chip code.</p>
 
       <div class="two-col">
         <div>
@@ -566,7 +566,7 @@
     }
 
     function comingSoon() {
-      alert("This button will be connected after the Neon chip registry route is fully confirmed.");
+      alert("Sales / tax notes are not connected yet. Use this area for future bookkeeping notes.");
     }
 
     async function loadChips() {
@@ -615,7 +615,7 @@
           </tr>
         `;
         document.getElementById("activityLog").textContent =
-          "Neon API not connected yet: " + err.message;
+          "Neon API error: " + err.message;
       }
     }
 
