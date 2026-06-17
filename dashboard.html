@@ -462,7 +462,7 @@
     <section class="section">
       <h2>System Tools</h2>
       <button onclick="loadChips()">Refresh Dashboard</button>
-      <button class="secondary" onclick="testConnection()">Test Neon API</button>
+      <button class="secondary" onclick="checkConnection()">Check Neon API</button>
     </section>
 
     <footer>
@@ -654,9 +654,9 @@
       window.open(`client-setup.html?code=${encodeURIComponent(code)}`, "_blank");
     }
 
-    async function testConnection() {
+    async function checkConnection() {
       await loadChips();
-      alert("Neon API test complete. Check the Database box and Activity Log.");
+      alert("Neon API check complete. Check the Database box and Activity Log.");
     }
 
     checkAuth();
