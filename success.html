@@ -151,7 +151,7 @@
     <h1>Your Chip Is Live</h1>
     <div class="story-line">Your story starts here.</div>
     <div class="next-step">Next Step: Build Your Page</div>
-    <div id="chipCode" class="code">TEST123</div>
+    <div id="chipCode" class="code">Loading chip code...</div>
     <a id="setupBtn" class="btn primary" href="#">Edit My Page</a>
     <a id="viewBtn" class="btn secondary" href="#">View My Page</a>
   </div>
@@ -173,9 +173,11 @@ if (code && code !== "null") {
   setupBtn.href = `client-setup.html?code=${code}`;
   viewBtn.href = `chip.html?code=${code}`;
 } else {
-  chipCode.textContent = "TEST123";
-  setupBtn.href = "client-setup.html?code=TEST123";
-  viewBtn.href = "chip.html?code=TEST123";
+  chipCode.textContent = "Missing chip code. Please return to your purchase link or contact MyStoryChip support.";
+  setupBtn.removeAttribute("href");
+  viewBtn.removeAttribute("href");
+  setupBtn.style.opacity = "0.5";
+  viewBtn.style.opacity = "0.5";
 }
 </script>
 </body>
