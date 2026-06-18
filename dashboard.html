@@ -437,15 +437,6 @@
     </section>
 
     <section class="section">
-      <h2>Sales / Tax Notes</h2>
-      <p>Coming next after Neon chip list is verified.</p>
-      <textarea id="taxNote" placeholder="Example: Sold chip MSC-1001 for $49.95."></textarea>
-      <br /><br />
-      <button onclick="comingSoon()">Save Tax Note</button>
-      <div id="taxNotes"></div>
-    </section>
-
-    <section class="section">
       <h2>Storage</h2>
       <p>Each chip includes 250 MB shared storage. Sections organize content, but storage is one shared pool.</p>
       <div class="note-card">
@@ -563,10 +554,6 @@
       } catch (err) {
         alert("Add chip failed: " + err.message);
       }
-    }
-
-    function comingSoon() {
-      alert("Sales / tax notes are not connected yet. Use this area for future bookkeeping notes.");
     }
 
     async function loadChips() {
