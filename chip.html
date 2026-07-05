@@ -184,13 +184,25 @@
       if (e.key === "ArrowRight") showLightboxImage(currentImageIndex + 1);
     });
 
-    function loadChip() {
+    async function loadChip() {
       if (!code) { renderMissing("No chip code was found in the page link."); return; }
 
-      const chips = JSON.parse(localStorage.getItem("mystorychip_chips") || "[]");
-      const chip = chips.find(c => String(c.code || "").trim() === code);
+      let chip = null;
 
-      if (!chip) { renderMissing(`No chip found with code ${code}.`); return; }
+      try {
+        const response = await fetch("/api/chip-data?code=" + encodeURIComponent(code));
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+          throw new Error(data.error || "Chip could not be loaded.");
+        }
+
+        chip = data.chip;
+        window.currentChip = chip;
+      } catch (err) {
+        renderMissing("Could not load chip from database: " + err.message);
+        return;
+      }
 
       const title = safe(chip.fullName) || safe(chip.title) || safe(chip.customer_name) || "My Story";
       const headline = safe(chip.headline) || "Every story, item, memory, and detail has a place.";
@@ -283,7 +295,7 @@
   <script>
     document.getElementById("pinInput").addEventListener("keydown", e => { if (e.key === "Enter") checkPin(); });
 
-    function checkPin() {
+    async function checkPin() {
       const entered = document.getElementById("pinInput").value.trim();
       const pinError = document.getElementById("pinError");
 
@@ -293,10 +305,25 @@
         return;
       }
 
-      const chips = JSON.parse(localStorage.getItem("mystorychip_chips") || "[]");
-      const chip = chips.find(c => String(c.code || "").trim() === code);
+      let chip = window.currentChip || null;
 
-      if (!chip) { pinError.textContent = "Chip not found."; pinError.style.display = "block"; return; }
+      if (!chip) {
+        try {
+          const response = await fetch("/api/chip-data?code=" + encodeURIComponent(code));
+          const data = await response.json();
+
+          if (!response.ok || !data.success) {
+            throw new Error(data.error || "Chip not found.");
+          }
+
+          chip = data.chip;
+          window.currentChip = chip;
+        } catch (err) {
+          pinError.textContent = err.message;
+          pinError.style.display = "block";
+          return;
+        }
+      }
 
       if (chip.pin === entered) {
         window.location.href = `client-setup.html?code=${encodeURIComponent(code)}`;

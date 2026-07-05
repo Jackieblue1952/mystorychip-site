@@ -348,7 +348,7 @@
         <a class="btn" href="index.html">Home</a>
         <a class="btn secondary" href="buy.html">Buy Page</a>
         <a class="btn secondary" href="client-setup.html">Setup Page</a>
-        <a class="btn secondary" href="chip.html">View Chip</a>
+        <button class="btn secondary" onclick="openLatestChip()">View Chip</button>
         <button class="logout-btn" onclick="logout()">🚪 Logout</button>
       </div>
     </section>
@@ -634,6 +634,15 @@
     function openChip(code) {
       if (!code) return;
       window.open(`chip.html?code=${encodeURIComponent(code)}`, "_blank");
+    }
+
+    function openLatestChip() {
+      if (!chips.length) {
+        alert("No chip records found yet.");
+        return;
+      }
+      const code = chips[0].chip_code || chips[0].code || "";
+      openChip(code);
     }
 
     function setupChip(code) {

@@ -574,7 +574,6 @@
 
 <script>
   // ── Config ──────────────────────────────────────────────
-  const STORAGE_KEY = 'mystorychip_chips'; // matches chip.html
   const MAX_MB = 250;
   const MAX_BYTES = MAX_MB * 1024 * 1024;
   const MAX_DIM = 1200;
@@ -586,18 +585,9 @@
   let workingImages = [];
   let existingChip = null;
 
-  // ── Storage helpers ──────────────────────────────────────
-  function loadChips() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
-    catch(e) { return []; }
-  }
-
-  function saveChips(chips) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(chips));
-  }
 
   // ── Init ─────────────────────────────────────────────────
-  function init() {
+  async function init() {
     if (!chipCode) {
       document.getElementById('chipCodeDisplay').textContent = 'No chip code in URL.';
       return;
@@ -607,8 +597,19 @@
     document.getElementById('viewerLink').href = 'chip.html?code=' + encodeURIComponent(chipCode);
     document.getElementById('viewerBtn').href = 'chip.html?code=' + encodeURIComponent(chipCode);
 
-    const chips = loadChips();
-    existingChip = chips.find(c => c.code === chipCode) || null;
+    try {
+      const response = await fetch('/api/chip-data?code=' + encodeURIComponent(chipCode));
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || 'Chip could not be loaded.');
+      }
+
+      existingChip = data.chip || null;
+    } catch (err) {
+      alert('Could not load chip from database: ' + err.message);
+      existingChip = null;
+    }
 
     if (existingChip) {
       document.getElementById('fullName').value = existingChip.fullName || '';
@@ -624,14 +625,12 @@
 
       workingImages = (existingChip.images || []).map(img =>
         typeof img === 'string' ? { src: img, visibility: 'public' } : img
-      ).filter(img => img.src);
-
+      );
       renderPhotos();
       updateMeter();
     }
   }
 
-  // ── Image compression ────────────────────────────────────
   function compressImage(file) {
     return new Promise(resolve => {
       const reader = new FileReader();
@@ -748,7 +747,7 @@
     saveChip();
   });
 
-  function saveChip() {
+  async function saveChip() {
     // Clear errors
     ['pinError','agreeError','nameError','phoneError'].forEach(id =>
       document.getElementById(id).style.display = 'none'
@@ -796,13 +795,24 @@
       status: 'setup_complete'
     };
 
-    const chips = loadChips();
-    const idx = chips.findIndex(c => c.code === chipCode);
-    if (idx >= 0) { chips[idx] = chipData; } else { chips.push(chipData); }
-    saveChips(chips);
-    existingChip = chipData;
+    try {
+      const response = await fetch('/api/chip-data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(chipData)
+      });
 
-    window.location.href = 'success.html?code=' + encodeURIComponent(chipCode);
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || 'Chip could not be saved.');
+      }
+
+      existingChip = chipData;
+      window.location.href = 'success.html?code=' + encodeURIComponent(chipCode);
+    } catch (err) {
+      alert('Could not save chip to database: ' + err.message);
+    }
   }
 
   init();

@@ -20,6 +20,10 @@
     {
       "src": "api/admin-chips.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "api/chip-data.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
@@ -34,6 +38,10 @@
     {
       "src": "/api/admin-chips",
       "dest": "/api/admin-chips.js"
+    },
+    {
+      "src": "/api/chip-data",
+      "dest": "/api/chip-data.js"
     },
     {
       "src": "/(.*\\.html)",
