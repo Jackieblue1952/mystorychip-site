@@ -1,55 +1,25 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "api/stripe-webhook.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/admin-login.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "*.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "*.png",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "api/admin-chips.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/chip-data.js",
-      "use": "@vercel/node"
+  "functions": {
+    "api/*.js": {
+      "runtime": "@vercel/node"
     }
-  ],
-  "routes": [
+  },
+  "rewrites": [
     {
-      "src": "/api/stripe-webhook",
-      "dest": "/api/stripe-webhook.js"
+      "source": "/api/stripe-webhook",
+      "destination": "/api/stripe-webhook.js"
     },
     {
-      "src": "/api/admin-login",
-      "dest": "/api/admin-login.js"
+      "source": "/api/admin-login",
+      "destination": "/api/admin-login.js"
     },
     {
-      "src": "/api/admin-chips",
-      "dest": "/api/admin-chips.js"
+      "source": "/api/admin-chips",
+      "destination": "/api/admin-chips.js"
     },
     {
-      "src": "/api/chip-data",
-      "dest": "/api/chip-data.js"
-    },
-    {
-      "src": "/(.*\\.html)",
-      "dest": "/$1"
-    },
-    {
-      "src": "/",
-      "dest": "/index.html"
+      "source": "/api/chip-data",
+      "destination": "/api/chip-data.js"
     }
   ]
 }
