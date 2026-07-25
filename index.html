@@ -392,14 +392,40 @@ document.getElementById('storytellerCode').addEventListener('keydown', function(
     <div class="use-grid">
       <button class="use-btn active" data-use="memorials">Memorials</button>
       <button class="use-btn" data-use="family">Family</button>
-      <button class="use-btn" data-use="vehicles">Vehicles</button>
+      <button class="use-btn" data-use="vehicles">Restorations</button>
       <button class="use-btn" data-use="collections">Collections</button>
       <button class="use-btn" data-use="business">Business</button>
-      <button class="use-btn" data-use="tributes">Tributes</button>
+      <button class="use-btn" data-use="pets">Pets</button>
+      <button class="use-btn" data-use="medications">Medications</button>
     </div>
+    <img id="useImage" src="images/wayne-cards/New Memorial_1.png" alt="MyStoryChip Example" style="display:block;width:100%;max-width:700px;height:420px;background:#f8f5ee;object-fit:contain;object-position:center;border-radius:18px;margin:0 auto 20px;box-shadow:0 8px 24px rgba(0,0,0,.15);">
     <div id="useDetail" class="use-detail">
       Attach a MyStoryChip to a memorial, keepsake, or tribute item so family and friends can tap and see photos, stories, and memories.
     </div>
+  </section>
+
+
+  <section class="privacy-guarantee">
+    <h2>The MyStoryChip Privacy Promise</h2>
+
+    <p>
+      Every StoryChip belongs to its storyteller.
+      Whether you choose to share your story with the world or keep it private for family alone,
+      that decision is always yours.
+    </p>
+
+    <p>
+      Your StoryChip PIN is private. It is never visible to MyStoryChip administrators.
+      If you ever forget it, it can be securely reset—but it can never be viewed.
+    </p>
+
+    <blockquote>
+      <strong>Your Story.</strong><br>
+      <strong>Your Privacy.</strong><br>
+      <strong>Your Choice.</strong>
+    </blockquote>
+
+    <p><em>MyStoryChip exists to preserve your memories—not to own them.</em></p>
   </section>
 
   <section class="bottom-cta">
@@ -427,7 +453,19 @@ const useText = {
   vehicles: "Place a chip with a car, truck, motorcycle, or restoration project to show build history, upgrades, documents, photos, and the story behind it.",
   collections: "Use a chip with coins, antiques, tools, art, or collectibles to explain where it came from, why it matters, and what makes it special.",
   business: "Share business information, product details, service instructions, customer welcome pages, or special offers with one simple tap.",
-  tributes: "Create a heartfelt page for someone special, with words, images, and memories that can be shared by one simple chip scan."
+  pets: "Attach a MyStoryChip to a pet collar or keepsake so loved ones can tap and see their story, photos, identification, and important information.",
+  medications: "Keep medication lists, dosage instructions, allergies, doctor information, and other important health details available with one simple tap."
+};
+
+
+const useImages = {
+  memorials: "images/wayne-cards/New Memorial_1.png",
+  family: "images/wayne-cards/Family_Wayne.jpeg",
+  vehicles: "images/wayne-cards/restoration_FINAL2.png",
+  collections: "images/wayne-cards/Coin Collection_Wayne.jpeg",
+  business: "images/wayne-cards/Business_Wayne.jpeg",
+  pets: "images/wayne-cards/Pet_Image.png",
+  medications: "images/wayne-cards/Meds_Wayne.jpeg"
 };
 
 const buttons = document.querySelectorAll(".use-btn");
@@ -438,6 +476,7 @@ buttons.forEach((button) => {
     buttons.forEach((btn) => btn.classList.remove("active"));
     button.classList.add("active");
     detail.textContent = useText[button.dataset.use];
+    document.getElementById("useImage").src = useImages[button.dataset.use];
   });
 });
 

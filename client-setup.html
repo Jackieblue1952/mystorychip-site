@@ -70,7 +70,7 @@
     }
 
     .hero-card::after {
-      content: "";
+    
       position: absolute;
       inset: auto -20% -55% -20%;
       height: 70%;
@@ -139,7 +139,107 @@
       box-shadow: 0 10px 24px rgba(80, 48, 8, 0.08);
     }
 
+
+    .story-type-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .story-type-card {
+      padding: 20px 14px;
+      border-radius: 18px;
+      border: 2px solid rgba(172,119,35,0.20);
+      background: rgba(255,255,255,0.85);
+      text-align: center;
+      cursor: pointer;
+      transition: all .2s ease;
+      box-shadow: 0 8px 18px rgba(80,48,8,.08);
+    }
+
+    .story-type-card:hover {
+      transform: translateY(-3px);
+      border-color: #d4a447;
+      box-shadow: 0 12px 24px rgba(80,48,8,.15);
+    }
+
+    .story-type-card.active {
+      border-color: #d4a447;
+      background: linear-gradient(180deg,#fff7dd,#ffe9a7);
+    }
+
+    .story-icon {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .story-title {
+      font-weight: bold;
+      color: #4a3210;
+      font-size: 1rem;
+    }
+
     form { margin-top: 24px; }
+
+    .guide-card {
+      margin: 0 0 24px;
+      padding: 24px 28px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,248,232,0.88));
+      border: 1px solid rgba(172,119,35,0.22);
+      box-shadow: 0 14px 34px rgba(80,48,8,0.10);
+      text-align: center;
+    }
+
+    .guide-card h2 {
+      margin: 0 0 12px;
+      color: #4a3210;
+      font-size: 1.6rem;
+    }
+
+    .guide-card p {
+      max-width: 760px;
+      margin: 0 auto 22px;
+      color: #6a5530;
+      line-height: 1.65;
+      font-size: 1.05rem;
+    }
+
+    .guide-steps {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 18px;
+      margin-top: 10px;
+    }
+
+    .guide-steps div {
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(172,119,35,0.18);
+    }
+
+    .guide-steps strong {
+      display: inline-flex;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+      background: linear-gradient(180deg,#f8d97d,#d7a33b);
+      color: #3a2a12;
+      font-size: 1.1rem;
+    }
+
+    .guide-steps span {
+      display: block;
+      font-weight: bold;
+      color: #4a3210;
+    }
+
 
     .setup-grid {
       display: grid;
@@ -432,11 +532,9 @@
   <div class="wrap">
     <section class="hero-card">
       <div class="hero-inner">
-        <div class="brand">MyStoryChip Setup</div>
-        <h1>Build the Page Your Chip Opens</h1>
-        <p class="lead">
-          Add the story, details, photos, documents, and visibility choices connected to this chip.
-          Keep it simple today — you can come back and update it later.
+        <div class="brand">MyStoryChip Control Center</div>
+       <h1>Your Chip. Your Story. Your Way.</h1>
+        <p class="lead"> Welcome to your Story Portfolio. Create your Story Page, upload memories, organize photos, and choose what you want to share. Start with one story today, then come back anytime to add more chapters.
         </p>
         <div class="chip-code" id="chipCodeDisplay">Loading...</div>
         <div class="progress">
@@ -447,13 +545,46 @@
       </div>
     </section>
 
+
+    <section class="card">
+      <h2>🏷️Choose Your Chip's Purpose</h2>
+      <p class="card-intro">
+       Choose the purpose that best fits your MyStoryChip.
+       We'll guide you through creating a page that's right for your purpose.
+      </p>
+
+      <div class="story-type-grid">
+
+        <div class="story-type-card active" data-type="person"><span class="story-icon">👤</span><div class="story-title">Person</div><div class="story-subtitle">Share a Story</div></div>
+
+        <div class="story-type-card" data-type="family"><span class="story-icon">👨‍👩‍👧</span><div class="story-title">Family</div><div class="story-subtitle">Share your Memories</div></div>
+
+        <div class="story-type-card" data-type="vehicle"><span class="story-icon">🚗</span><div class="story-title">Vehicle</div><div class="story-subtitle">Document its journey</div></div>
+
+        <div class="story-type-card" data-type="pet"><span class="story-icon">🐾</span><div class="story-title">Pet</div><div class="story-subtitle">More than a Pet</div></div>
+
+        <div class="story-type-card" data-type="collection"><span class="story-icon">🪙</span><div class="story-title">Collection</div><div class="story-subtitle">Document Your Collection</div></div>
+
+        <div class="story-type-card" data-type="business"><span class="story-icon">🏢</span><div class="story-title">Business</div><div class="story-subtitle">Connect with Customers</div></div>
+
+        <div class="story-type-card" data-type="property"><span class="story-icon">🏡</span><div class="story-title">Property</div><div class="story-subtitle">Document Its History</div></div>
+
+        <div class="story-type-card" data-type="military"><span class="story-icon">🪖</span><div class="story-title">Military</div><div class="story-subtitle">Honor Service</div></div>
+
+        <div class="story-type-card" data-type="memorial"><span class="story-icon">🕊</span><div class="story-title">Memorial</div><div class="story-subtitle">Honor a Life</div></div>
+
+        <div class="story-type-card" data-type="other"><span class="story-icon">📦</span><div class="story-title">Other</div><div class="story-subtitle">Create it your way</div></div>
+
+      </div>
+    </section>
+
     <form id="form" novalidate>
       <div class="setup-grid">
         <div>
           <!-- STEP 1 -->
           <section class="card">
-            <h2>Step 1: Owner & Chip Details</h2>
-            <p class="card-intro">Tell us what this chip belongs to — a family story, memorial, vehicle, pet, business asset, or anything important.</p>
+            <h2 id="aboutHeading">👤 About This Person</h2>
+            <p class="card-intro" id="aboutIntro">Introduce the person before telling their story. A few details help visitors understand who this Story is about.</p>
 
             <label for="chipPurpose">What is this chip attached to?</label>
             <input type="text" id="chipPurpose" placeholder="Example: Dad's guitar, 1968 Mustang, pet tag, family keepsake" required>
@@ -473,8 +604,8 @@
 
           <!-- STEP 2 -->
           <section class="card">
-            <h2>Step 2: Story, Notes & Details</h2>
-            <p class="card-intro">History, family details, care notes, ownership info, instructions — anything connected to this chip.</p>
+            <h2>📖 Tell the Story</h2>
+            <p class="card-intro">Every chapter has a story. Share the memories, history, or journey that makes this meaningful. This is where your Story comes to life.</p>
 
             <label for="headline">Short Headline</label>
             <input type="text" id="headline" placeholder="Example: Tap to see the story behind this item">
@@ -487,8 +618,10 @@
         <div>
           <!-- SECURITY -->
           <section class="card">
-            <h2>Security & Visibility</h2>
-            <p class="card-intro">Your PIN protects future editing. Visibility controls who sees the chip when tapped.</p>
+            <h2>Security & Sharing Options</h2>
+            <p class="card-intro">
+           Your MyStoryChip always opens your page. You're in control of what visitors can see.
+           </p>
 
             <div class="pin-row">
               <div>
@@ -501,17 +634,16 @@
               </div>
             </div>
             <div class="error-msg" id="pinError">Please enter and confirm a 4-digit PIN.</div>
-            <p class="small-note">If you forget your PIN, recovery may require your email if provided.</p>
-
-            <label for="visibility">Default Page Visibility</label>
+            <p class="small-note">An email address is required for major changes, including PIN recovery or reset.</p>
             <select id="visibility">
-              <option value="public">Public when tapped</option>
-              <option value="private">Private / owner only</option>
+              <option value="public">Shared</option>
+             <option value="private">Private</option>
+         
             </select>
 
             <div class="visibility-box">
-              <div class="choice"><strong>Public</strong>Shows when someone taps the chip.</div>
-              <div class="choice"><strong>Private</strong><p class="small-note">Saved for owner access later.</p></div>
+              <div class="choice"><strong>Shared</strong>Visitors can see what you choose to share.</div>
+              <div class="choice"><strong>Private</strong><p class="small-note">Only visible inside your Control Center.</p></div>
             </div>
           </section>
 
@@ -550,7 +682,7 @@
 
             <div class="actions">
               <button type="submit" class="save-btn" id="saveBtn">💾 Save My Chip</button>
-              <a href="#" id="viewerBtn" class="link-btn">👁 Back to Viewer</a>
+              <a href="#" id="viewerBtn" class="link-btn">👁 Back to Story Page</a>
             </div>
           </section>
         </div>
@@ -571,6 +703,70 @@
       <img id="lightboxImg" class="lightbox-img" src="" alt="Photo preview">
     </div>
   </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const cards = document.querySelectorAll('.story-type-card');
+  const aboutHeading = document.getElementById('aboutHeading');
+  const aboutIntro = document.getElementById('aboutIntro');
+
+  const copy = {
+    person: {
+      heading: '👤 About This Person',
+      intro: 'Introduce the person before telling their story. A few details help visitors understand who this Story is about.'
+    },
+    family: {
+      heading: '👨‍👩‍👧 About This Family',
+      intro: 'Introduce the family, tradition, or generations behind this Story before sharing the memories.'
+    },
+    vehicle: {
+      heading: '🚗 About This Vehicle',
+      intro: 'Tell visitors what makes this vehicle special before sharing its journey, restoration, or history.'
+    },
+    pet: {
+      heading: '🐾 About This Pet',
+      intro: 'Introduce the companion being remembered or celebrated before telling their story.'
+    },
+    collection: {
+      heading: '🪙 About This Collection',
+      intro: 'Introduce the collection and what makes it meaningful before sharing the story behind it.'
+    },
+    business: {
+      heading: '🏢 About This Business',
+      intro: 'Introduce the business, craft, service, or legacy before sharing how the story began.'
+    },
+    property: {
+      heading: '🏡 About This Property',
+      intro: 'Introduce the home, land, building, or place before sharing its history.'
+    },
+    military: {
+      heading: '🪖 About This Service',
+      intro: 'Introduce the service, unit, branch, or period being honored before sharing the story.'
+    },
+    memorial: {
+      heading: '🕊 About This Memorial',
+      intro: 'Introduce the person, place, or memory being honored with peace, respect, and care.'
+    },
+    other: {
+      heading: '📦 About This Story',
+      intro: 'Introduce what this MyStoryChip represents, then tell the story your way.'
+    }
+  };
+
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      cards.forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+
+      const type = card.dataset.type || 'person';
+      if (copy[type]) {
+        aboutHeading.textContent = copy[type].heading;
+        aboutIntro.textContent = copy[type].intro;
+      }
+    });
+  });
+});
+</script>
 
 <script>
   // ── Config ──────────────────────────────────────────────
