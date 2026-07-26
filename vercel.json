@@ -18,11 +18,27 @@
       "use": "@vercel/static"
     },
     {
+      "src": "images/*.png",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "images/*.jpeg",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "images/*.jpg",
+      "use": "@vercel/static"
+    },
+    {
       "src": "images/**/*.png",
       "use": "@vercel/static"
     },
     {
       "src": "images/**/*.jpeg",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "images/**/*.jpg",
       "use": "@vercel/static"
     },
     {
