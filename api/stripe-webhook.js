@@ -70,7 +70,7 @@ export default async function handler(req, res) {
         [chipCode, customerEmail, customerName, sessionId]
       );
 
-      const setupUrl = `https://www.mystorychip.com/setup?code=${chipCode}`;
+      const setupUrl = `https://www.mystorychip.com/client-setup.html?code=${chipCode}`;
 
       await fetch("https://api.resend.com/emails", {
         method: "POST",
