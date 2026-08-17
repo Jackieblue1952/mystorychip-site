@@ -48,6 +48,14 @@
     {
       "src": "api/chip-data.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "media/*.png",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "media/*.mp4",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
