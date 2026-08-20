@@ -7,317 +7,439 @@
   <title>MyStoryChip Control Center</title>
 
   <style>
-    * {box-sizing: border-box; }
+* { box-sizing: border-box; }
 
-    body {
-      margin: 0;
-      font-family: Georgia, "Times New Roman", serif;
-      color: #2f1f10;
-      min-height: 100vh;
-      background:
-        radial-gradient(circle at 50% 0%, rgba(255, 225, 135, 0.95), transparent 34%),
-        radial-gradient(circle at 15% 20%, rgba(255, 248, 220, 0.7), transparent 30%),
-        linear-gradient(180deg, #fff8e8 0%, #f3dfae 42%, #c98c2f 100%);
-    }
+:root {
+  --black: #01040a;
+  --navy: #06101d;
+  --navy2: #0a1a2e;
+  --navy3: #10243d;
+  --blue: #087cff;
+  --blue2: #075bd8;
+  --silver: #dbe3ec;
+  --silver2: #9caaba;
+  --white: #f5f8fc;
+  --muted: #aeb9c7;
+  --line: rgba(190,205,220,.22);
+  --panel: rgba(9,24,42,.92);
+}
 
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.25) 45%, transparent 70%);
-      opacity: .45;
-    }
+html, body {
+  margin: 0;
+  min-height: 100%;
+}
 
-    #auth-gate {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-    }
+body {
+  font-family: Georgia, "Times New Roman", serif;
+  color: var(--white);
+  background:
+    radial-gradient(circle at 50% -10%, rgba(8,124,255,.18), transparent 34%),
+    linear-gradient(180deg, #020711 0%, #06101d 48%, #02060d 100%);
+}
 
-    .auth-box {
-      text-align: center;
-      padding: 40px 30px;
-      background: rgba(255,252,244,0.95);
-      border: 1px solid rgba(122,75,17,0.24);
-      border-radius: 20px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-      width: min(380px, 92vw);
-    }
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(115deg, transparent 0%, rgba(255,255,255,.025) 48%, transparent 72%);
+}
 
-    .page {
-      width: min(1220px, 94%);
-      margin: 0 auto;
-      padding: 28px 0 60px;
-      position: relative;
-      z-index: 2;
-      display: none;
-    }
+#auth-gate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
 
-    .hero {
-      text-align: center;
-      padding: 38px 24px;
-      border-radius: 34px;
-      background:
-        radial-gradient(circle at center, rgba(255, 208, 88, 0.42), transparent 58%),
-        linear-gradient(135deg, rgba(255,255,255,0.88), rgba(255,225,145,0.72));
-      border: 1px solid rgba(122, 75, 17, 0.24);
-      box-shadow: 0 26px 70px rgba(82, 47, 8, 0.25);
-      overflow: hidden;
-      position: relative;
-    }
-
-    .hero::after {
-      content: "MSC";
-      position: absolute;
-      right: 28px;
-      bottom: -18px;
-      font-size: 92px;
-      font-weight: bold;
-      color: rgba(128, 78, 16, 0.08);
-      letter-spacing: 8px;
-    }
-
-    .brand {
-      font-size: 14px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: #8a5a12;
-      font-weight: bold;
-    }
-
-    h1 {
-      margin: 10px 0 8px;
-      font-size: clamp(36px, 6vw, 66px);
-      color: #35200d;
-      text-shadow: 0 2px 0 rgba(255,255,255,.6);
-    }
-
-    .subtitle {
-      max-width: 790px;
-      margin: 0 auto;
-      color: #654118;
-      font-size: 18px;
-      line-height: 1.55;
-    }
-
-    .status-line {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 9px 13px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.55);
-      color: #4d3112;
-      font-weight: bold;
-      margin-top: 14px;
-    }
-
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #2fbf62;
-      box-shadow: 0 0 12px rgba(47,191,98,.75);
-    }
-
-    .actions {
-      margin-top: 24px;
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    button, .btn {
-      border: 0;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      padding: 12px 18px;
-      border-radius: 999px;
-      font-weight: bold;
-      font-size: 15px;
-      color: #2d1b0c;
-      background: linear-gradient(180deg, #ffe8aa, #d89b28);
-      box-shadow: 0 10px 20px rgba(91, 54, 8, 0.23);
-    }
-
-    .secondary {
-      background: rgba(255,255,255,0.72);
-      border: 1px solid rgba(123, 78, 12, 0.22);
-    }
-
-    .danger {
-      background: linear-gradient(180deg, #ffd1b8, #d96c35);
-    }
-
-    .logout-btn {
-      background: rgba(255,255,255,0.72);
-      border: 1px solid rgba(200,80,40,0.3);
-      color: #8b2a0a;
-      font-size: 13px;
-      padding: 8px 14px;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
-      margin-top: 26px;
-    }
-
-    .stat {
-      background: rgba(255,255,255,0.78);
-      border: 1px solid rgba(125, 78, 18, 0.18);
-      border-radius: 24px;
-      padding: 20px;
-      box-shadow: 0 14px 35px rgba(99, 59, 8, 0.14);
-    }
-
-    .stat small {
-      color: #7b511e;
-      font-weight: bold;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-
-    .stat strong {
-      display: block;
-      font-size: 34px;
-      margin-top: 8px;
-      color: #2f1d0d;
-    }
-
-    .section {
-      margin-top: 24px;
-      padding: 24px;
-      border-radius: 28px;
-      background: rgba(255,255,255,0.78);
-      border: 1px solid rgba(113, 75, 23, 0.18);
-      box-shadow: 0 16px 42px rgba(88, 54, 9, 0.15);
-    }
-
-    h2 {
-      margin: 0 0 8px;
-      font-size: 28px;
-      color: #35200e;
-    }
-
-    p {
-      color: #67451f;
-      line-height: 1.5;
-    }
-
-    .two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
-
-    label {
-      display: block;
-      margin-top: 12px;
-      font-weight: bold;
-      color: #4a2e12;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      margin-top: 6px;
-      padding: 13px;
-      border-radius: 15px;
-      border: 1px solid rgba(107, 69, 19, 0.24);
-      background: #fffaf0;
-      color: #2d1b0c;
-      font-size: 15px;
-      font-family: Arial, sans-serif;
-    }
-
-    textarea {
-      min-height: 88px;
-      resize: vertical;
-    }
-
-    .table-wrap {
-      width: 100%;
-      overflow-x: auto;
-      border-radius: 20px;
-      border: 1px solid rgba(107,69,19,.12);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: #fffaf0;
-      min-width: 850px;
-    }
-
-    th, td {
-      padding: 13px;
-      text-align: left;
-      border-bottom: 1px solid rgba(107, 69, 19, 0.13);
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-      vertical-align: top;
-    }
-
-    th {
-      background: linear-gradient(180deg, #f7dc98, #efd080);
-      color: #3b240f;
-      font-family: Georgia, serif;
-    }
-
-    .note-card {
-      background: #fff6df;
-      border-left: 6px solid #c88b20;
-      padding: 16px;
-      border-radius: 16px;
-      margin-top: 12px;
-      font-family: Arial, sans-serif;
-    }
-
-  .log {
-  background: linear-gradient(
-    135deg,
-    rgba(255,255,255,0.78),
-    rgba(255,240,200,0.72)
-  );
-  color: #4a2e12;
+.auth-box {
+  width: min(390px, 92vw);
+  padding: 38px 28px;
+  text-align: center;
+  background: linear-gradient(145deg, rgba(14,34,57,.97), rgba(4,13,25,.98));
+  border: 1px solid var(--line);
   border-radius: 20px;
-  padding: 16px;
-  font-family: monospace;
-  min-height: 130px;
+  box-shadow: 0 22px 60px rgba(0,0,0,.5);
+}
+
+.page {
+  width: min(1180px, 94%);
+  margin: 0 auto;
+  padding: 26px 0 48px;
+  position: relative;
+  z-index: 2;
+  display: none;
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  padding: 32px 24px 28px;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(8,124,255,.18), transparent 48%),
+    linear-gradient(145deg, rgba(14,34,57,.98), rgba(4,12,23,.98));
+  border: 1px solid rgba(180,200,220,.25);
+  box-shadow: 0 20px 55px rgba(0,0,0,.42);
+}
+
+.hero::after {
+  content: "MSC";
+  position: absolute;
+  right: 22px;
+  bottom: -20px;
+  font-size: 82px;
+  font-weight: bold;
+  letter-spacing: 8px;
+  color: rgba(210,225,240,.045);
+  pointer-events: none;
+}
+
+.brand {
+  color: var(--silver2);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+h1 {
+  margin: 8px 0 6px;
+  font-size: clamp(34px, 5vw, 58px);
+  color: var(--silver);
+  text-shadow: 0 0 24px rgba(8,124,255,.16);
+}
+
+.subtitle {
+  max-width: 720px;
+  margin: 0 auto;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.status-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 8px 13px;
+  border: 1px solid rgba(190,205,220,.20);
+  border-radius: 999px;
+  background: rgba(255,255,255,.045);
+  color: var(--silver);
+  font: bold 13px Arial, sans-serif;
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #37c878;
+  box-shadow: 0 0 10px rgba(55,200,120,.65);
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+button, .btn {
+  border: 1px solid rgba(130,185,255,.28);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  padding: 11px 17px;
+  border-radius: 999px;
+  font-weight: bold;
+  font-size: 14px;
+  color: white;
+  background: linear-gradient(180deg, #0b82ff, #0758c8);
+  box-shadow: 0 8px 20px rgba(0,70,170,.22);
+  transition: transform .18s ease, border-color .18s ease;
+}
+
+button:hover, .btn:hover {
+  transform: translateY(-1px);
+  border-color: rgba(180,215,255,.55);
+}
+
+.secondary {
+  background: rgba(255,255,255,.055);
+  color: var(--silver);
+  border: 1px solid rgba(190,205,220,.22);
+  box-shadow: none;
+}
+
+.logout-btn {
+  background: rgba(255,255,255,.04);
+  color: #d2dae4;
+  border: 1px solid rgba(190,205,220,.18);
+  box-shadow: none;
+  font-size: 13px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.stat {
+  padding: 17px 18px;
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(15,35,59,.96), rgba(6,17,31,.96));
+  border: 1px solid var(--line);
+  box-shadow: 0 12px 30px rgba(0,0,0,.28);
+}
+
+.stat small {
+  display: block;
+  color: var(--silver2);
+  font: bold 11px Arial, sans-serif;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+}
+
+.stat strong {
+  display: block;
+  margin-top: 6px;
+  color: var(--silver);
+  font-size: 29px;
+}
+
+.section {
+  margin-top: 18px;
+  padding: 22px;
+  border-radius: 20px;
+  background: linear-gradient(145deg, rgba(12,30,51,.95), rgba(5,16,29,.96));
+  border: 1px solid var(--line);
+  box-shadow: 0 14px 36px rgba(0,0,0,.30);
+}
+
+h2 {
+  margin: 0 0 7px;
+  color: var(--silver);
+  font-size: 25px;
+}
+
+p {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.section-intro {
+  margin-top: 4px;
+  margin-bottom: 16px;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+label {
+  display: block;
+  margin-top: 11px;
+  color: #d2dbe5;
+  font: bold 13px Arial, sans-serif;
+}
+
+input, select, textarea {
+  width: 100%;
+  margin-top: 6px;
+  padding: 12px;
+  border-radius: 11px;
+  border: 1px solid rgba(175,195,215,.24);
+  background: rgba(1,8,17,.78);
+  color: var(--white);
+  font: 14px Arial, sans-serif;
+  outline: none;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: rgba(8,124,255,.72);
+  box-shadow: 0 0 0 3px rgba(8,124,255,.10);
+}
+
+textarea {
+  min-height: 82px;
+  resize: vertical;
+}
+
+.future-field {
+  opacity: .68;
+}
+
+.future-note {
+  margin-top: 10px;
+  padding: 11px 13px;
+  border-radius: 11px;
+  background: rgba(8,124,255,.07);
+  border: 1px solid rgba(8,124,255,.18);
+  color: var(--muted);
+  font: 12px/1.45 Arial, sans-serif;
+}
+
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 14px;
+  border: 1px solid rgba(175,195,215,.16);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 820px;
+  background: rgba(1,8,17,.56);
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(175,195,215,.12);
+  font: 13px Arial, sans-serif;
+  vertical-align: top;
+}
+
+th {
+  color: var(--silver);
+  background: linear-gradient(180deg, rgba(25,52,82,.95), rgba(13,32,54,.95));
+  font-family: Georgia, serif;
+}
+
+td {
+  color: #d1d9e3;
+}
+
+.mini-btn {
+  padding: 6px 10px;
+  margin: 2px;
+  font-size: 11px;
+  box-shadow: none;
+}
+
+.demo-reserve {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  align-items: center;
+}
+
+.demo-mark {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #cbd7e4;
+  font: bold 18px Arial, sans-serif;
+  background: rgba(8,124,255,.10);
+  border: 1px solid rgba(8,124,255,.28);
+}
+
+.demo-reserve p {
+  margin: 4px 0 0;
+}
+
+.support-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.support-card {
+  padding: 18px;
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(12,30,51,.93), rgba(5,16,29,.95));
+  border: 1px solid var(--line);
+}
+
+.support-card h2 {
+  font-size: 20px;
+}
+
+.support-card p {
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.log {
+  min-height: 95px;
+  padding: 13px;
+  border-radius: 12px;
+  background: rgba(0,5,12,.72);
+  border: 1px solid rgba(175,195,215,.15);
+  color: #bcc9d7;
+  font: 12px/1.5 monospace;
   white-space: pre-wrap;
-  border: 1px solid rgba(122,75,17,0.18);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
-}  
+}
 
-    .mini-btn {
-      padding: 7px 10px;
-      font-size: 12px;
-      margin: 2px;
-      box-shadow: none;
-    }
+footer {
+  margin-top: 28px;
+  padding: 18px 10px 4px;
+  text-align: center;
+  color: #8997a8;
+  font-size: 12px;
+  line-height: 1.7;
+}
 
-    footer {
-      text-align: center;
-      margin-top: 30px;
-      color: #6a471d;
-      font-size: 13px;
-    }
+footer a {
+  color: #aebdcd;
+  text-decoration: none;
+}
 
-    @media (max-width: 900px) {
-      .stats, .two-col {
-        grid-template-columns: 1fr;
-      }
+footer a:hover {
+  color: white;
+}
 
-      .section {
-        padding: 18px;
-      }
-    }
-  </style>
+@media (max-width: 900px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .two-col,
+  .support-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .page {
+    width: 94%;
+  }
+
+  .hero {
+    padding: 28px 16px 24px;
+  }
+
+  .stats {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .stat {
+    padding: 14px;
+  }
+
+  .section {
+    padding: 17px;
+  }
+
+  .demo-reserve {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
 </head>
 
 <body>
@@ -329,137 +451,179 @@
   </div>
 
   <main class="page" id="dashboard">
-    <section class="hero">
 
-      <div class="brand">Private Owner Area</div>
-      <h1>MyStoryChip Control Center</h1>
+  <section class="hero">
+    <div class="brand">Private Owner Area</div>
+    <h1>MyStoryChip Control Center</h1>
+    <p class="subtitle">
+      Your MSC command center for chip records, customer management,
+      storage oversight, Demo / Promo planning, and system activity.
+    </p>
 
-      <p class="subtitle">
-        Private, simple, thorough, and KOOL. Your owner-side command room for chip records,
-        demo chips, customer notes, sales/tax notes, storage planning, and activity history.
-      </p>
+    <div class="status-line">
+      <span class="dot"></span>
+      Database Connected
+    </div>
 
-      <div class="status-line">
-        <span class="dot"></span>
-        Neon Database Connected
-      </div>
+    <div class="actions">
+      <a class="btn" href="index.html">Home</a>
+      <a class="btn secondary" href="buy.html">Buy Page</a>
+      <a class="btn secondary" href="client-setup.html">Setup Page</a>
+      <button class="btn secondary" onclick="openLatestChip()">View Latest Chip</button>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+  </section>
 
-      <div class="actions">
-        <a class="btn" href="index.html">Home</a>
-        <a class="btn secondary" href="buy.html">Buy Page</a>
-        <a class="btn secondary" href="client-setup.html">Setup Page</a>
-        <button class="btn secondary" onclick="openLatestChip()">View Chip</button>
-        <button class="logout-btn" onclick="logout()">🚪 Logout</button>
-      </div>
-    </section>
+  <section class="stats">
+    <div class="stat">
+      <small>Total Chips</small>
+      <strong id="totalChips">0</strong>
+    </div>
 
-    <section class="stats">
-      <div class="stat"><small>Total Chips</small><strong id="totalChips">0</strong></div>
-      <div class="stat"><small>Demo Chips</small><strong id="demoChips">0</strong></div>
-      <div class="stat"><small>Customer Records</small><strong id="customerCount">0</strong></div>
-      <div class="stat"><small>Database</small><strong id="dbStatus">Checking</strong></div>
-    </section>
+    <div class="stat">
+      <small>Customer Chips</small>
+      <strong id="customerCount">0</strong>
+    </div>
 
-    <section class="section">
-      <h2>Overview</h2>
-      <p>This dashboard reads chip records from Neon through protected Vercel API routes.</p>
-      <div class="note-card">
-        <strong>Build status:</strong> Dashboard is connected to Neon through protected Vercel API routes.
-      </div>
-    </section>
+    <div class="stat">
+      <small>Demo / Promo Chips</small>
+      <strong id="demoChips">—</strong>
+    </div>
 
-    <section class="section">
-      <h2>Create / Demo Chips</h2>
-      <p>Use this section to create chip records after generating or entering a chip code.</p>
+    <div class="stat">
+      <small>Database</small>
+      <strong id="dbStatus">Checking</strong>
+    </div>
+  </section>
 
-      <div class="two-col">
-        <div>
-          <label>Chip Code</label>
-          <input id="chipCode" placeholder="Example: MSC-1001" />
+  <section class="section">
+    <h2>Create Demo / Promo Chip</h2>
+    <p class="section-intro">
+      Create an MSC-authorized demonstration or promotional chip without entering the customer purchase lane.
+    </p>
 
-          <label>Chip Type</label>
-          <select id="chipType">
-            <option>Paid Customer Chip</option>
-            <option>Demo Chip</option>
-            <option>Family / Personal Chip</option>
-            <option>Replacement Chip</option>
-            <option>Internal Demo Chip</option>
-          </select>
+    <div class="two-col">
+      <div>
+        <label for="chipCode">Chip Code</label>
+        <input id="chipCode" placeholder="Example: MSC-1001" />
 
-          <label>Status</label>
-          <select id="chipStatus">
-            <option>Available</option>
-            <option>Assigned</option>
-            <option>Setup Started</option>
-            <option>Live</option>
-            <option>Needs Review</option>
+        <div class="future-field">
+          <label for="chipType">Chip Classification</label>
+          <select id="chipType" disabled>
+            <option selected>Demo / Promo Chip</option>
           </select>
         </div>
 
-        <div>
-          <label>Customer Name</label>
-          <input id="customerName" placeholder="Customer name" />
-
-          <label>Customer Email</label>
-          <input id="customerEmail" placeholder="Customer email" />
-
-          <label>Private Notes</label>
-          <textarea id="chipNotes" placeholder="Private notes for Jack only"></textarea>
+        <div class="future-note">
+          Manual Dashboard creation is for MSC Demo / Promo chips.
+          Paid customer chips enter automatically through the purchase system.
         </div>
       </div>
 
-      <br />
+      <div>
+        <label for="customerName">Customer Name</label>
+        <input id="customerName" placeholder="Customer name" />
+
+        <label for="customerEmail">Customer Email</label>
+        <input id="customerEmail" placeholder="Customer email" />
+      </div>
+    </div>
+
+    <div class="actions">
       <button onclick="generateCode()">Generate Code</button>
       <button class="secondary" onclick="clearForm()">Clear Form</button>
       <button class="secondary" onclick="addChipRecord()">Add Chip Record</button>
-    </section>
+    </div>
+  </section>
 
-    <section class="section">
-      <h2>Chip Registry</h2>
-      <p>Live chip records from Neon.</p>
+  <section class="section">
+    <h2>Customer Chip Registry</h2>
+    <p class="section-intro">
+      Current chip records available through the MSC database.
+    </p>
 
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Code</th>
-              <th>Customer</th>
-              <th>Email</th>
-              <th>Created</th>
-              <th>Tools</th>
-            </tr>
-          </thead>
-          <tbody id="chipTable">
-            <tr><td colspan="5">Loading chips...</td></tr>
-          </tbody>
-        </table>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Customer</th>
+            <th>Email</th>
+            <th>Created</th>
+            <th>Tools</th>
+          </tr>
+        </thead>
+        <tbody id="chipTable">
+          <tr><td colspan="5">Loading chips...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="demo-reserve">
+      <div class="demo-mark">MSC</div>
+      <div>
+        <h2>Demo / Promo Library</h2>
+        <p>
+          MSC demonstration and promotional chips.
+          Kept separate from paid customer inventory.
+        </p>
       </div>
-    </section>
+    </div>
 
-    <section class="section">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Name / Use</th>
+            <th>Email</th>
+            <th>Created</th>
+            <th>Tools</th>
+          </tr>
+        </thead>
+        <tbody id="demoTable">
+          <tr><td colspan="5">No active Demo / Promo chips.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="support-grid">
+
+    <div class="support-card">
       <h2>Storage</h2>
-      <p>Each chip includes 250 MB shared storage. Sections organize content, but storage is one shared pool.</p>
-      <div class="note-card">
-        <strong>Storage rule:</strong> 250 MB per chip. Expand later when more chips or storage upgrades are purchased.
-      </div>
-    </section>
+      <p>
+        Each chip includes 250 MB of shared Story storage.
+        Photos and documents use the same allowance.
+      </p>
+    </div>
 
-    <section class="section">
-      <h2>Activity Log</h2>
-      <p>This panel shows the latest dashboard activity for this session.</p>
-      <div class="log" id="activityLog">Waiting for Neon API connection...</div>
-    </section>
+    <div class="support-card">
+      <h2>Activity</h2>
+      <p>Latest Dashboard activity for this session.</p>
+      <div class="log" id="activityLog">Checking database connection...</div>
+    </div>
 
-    <section class="section">
+    <div class="support-card">
       <h2>System Tools</h2>
+      <p>Quick operational checks.</p>
       <button onclick="loadChips()">Refresh Dashboard</button>
-      <button class="secondary" onclick="checkConnection()">Check Neon API</button>
-    </section>
+      <button class="secondary" onclick="checkConnection()">Check Database</button>
+    </div>
 
-    <footer>
-      © 2026 MyStoryChip · Founder &amp; Creator: Jack W. Kennedy
-    </footer>
-  </main>
+  </section>
+
+  <footer>
+    <div>
+      MyStoryChip.com ·
+      <a href="terms.html">Terms &amp; Disclaimer</a>
+    </div>
+    <div>Founder &amp; Creator: Jack W. Kennedy</div>
+  </footer>
+
+</main>
 
   <script>
     let chips = [];
@@ -550,7 +714,7 @@
 
         clearForm();
         await loadChips();
-        alert("Chip record added.");
+        alert("Demo / Promo chip created.");
       } catch (err) {
         alert("Add chip failed: " + err.message);
       }
@@ -581,14 +745,19 @@
 
         chips = data.chips || [];
 
+        const demoPromoChips =
+          chips.filter(c => c.type === "Demo / Promo Chip");
+
+        const customerChips =
+          chips.filter(c => c.type !== "Demo / Promo Chip");
+
         document.getElementById("totalChips").textContent = chips.length;
-        document.getElementById("demoChips").textContent = "0";
-        document.getElementById("customerCount").textContent =
-          chips.filter(c => c.customer_name || c.customer_email).length;
+        document.getElementById("demoChips").textContent = demoPromoChips.length;
+        document.getElementById("customerCount").textContent = customerChips.length;
 
         dbStatus.textContent = "Live";
         document.getElementById("activityLog").textContent =
-          `Loaded ${chips.length} chip record(s) from Neon.`;
+          `Loaded ${chips.length} chip record(s).`;
 
         renderChipTable();
 
@@ -602,19 +771,21 @@
           </tr>
         `;
         document.getElementById("activityLog").textContent =
-          "Neon API error: " + err.message;
+          "Database connection error: " + err.message;
       }
     }
 
     function renderChipTable() {
-      const table = document.getElementById("chipTable");
+      const customerTable = document.getElementById("chipTable");
+      const demoTable = document.getElementById("demoTable");
 
-      if (!chips.length) {
-        table.innerHTML = `<tr><td colspan="5">No chip records found yet.</td></tr>`;
-        return;
-      }
+      const customerChips =
+        chips.filter(chip => chip.type !== "Demo / Promo Chip");
 
-      table.innerHTML = chips.map(chip => {
+      const demoPromoChips =
+        chips.filter(chip => chip.type === "Demo / Promo Chip");
+
+      function rowFor(chip) {
         const code = chip.chip_code || chip.code || "";
         return `
           <tr>
@@ -628,7 +799,21 @@
             </td>
           </tr>
         `;
-      }).join("");
+      }
+
+      if (!customerChips.length) {
+        customerTable.innerHTML =
+          `<tr><td colspan="5">No customer chips found.</td></tr>`;
+      } else {
+        customerTable.innerHTML = customerChips.map(rowFor).join("");
+      }
+
+      if (!demoPromoChips.length) {
+        demoTable.innerHTML =
+          `<tr><td colspan="5">No active Demo / Promo chips.</td></tr>`;
+      } else {
+        demoTable.innerHTML = demoPromoChips.map(rowFor).join("");
+      }
     }
 
     function openChip(code) {
@@ -652,7 +837,7 @@
 
     async function checkConnection() {
       await loadChips();
-      alert("Neon API check complete. Check the Database box and Activity Log.");
+      alert("Database check complete. Check Database status and Activity Log.");
     }
 
     checkAuth();

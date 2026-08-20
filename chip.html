@@ -8,112 +8,738 @@
   <style>
     * { box-sizing: border-box; }
 
+    :root {
+      --black: #010307;
+      --navy: #030914;
+      --navy2: #071426;
+      --blue: #087cff;
+      --blue2: #0b5fe8;
+      --electric: #32a4ff;
+      --silver0: #ffffff;
+      --silver1: #e6ebf1;
+      --silver2: #a9b3bf;
+      --silver3: #687583;
+      --text: #dce3eb;
+      --muted: #929eac;
+    }
+
+    html {
+      background: var(--black);
+    }
+
     body {
       margin: 0;
+      min-height: 100vh;
       font-family: Georgia, "Times New Roman", serif;
-      color: #3a2a12;
+      color: var(--text);
       background:
-        radial-gradient(circle at top center, rgba(255, 230, 150, 0.42), transparent 42%),
-        linear-gradient(rgba(255, 248, 232, 0.72), rgba(235, 205, 142, 0.86)),
-        url("final-storybook.png") center center / cover no-repeat fixed;
+        linear-gradient(90deg,
+          rgba(0,0,0,.94) 0%,
+          rgba(3,10,20,.80) 18%,
+          rgba(5,17,34,.62) 50%,
+          rgba(3,10,20,.80) 82%,
+          rgba(0,0,0,.94) 100%),
+        linear-gradient(180deg,#010307 0%,#061426 48%,#01050b 100%);
+      overflow-x: hidden;
     }
 
-    .wrap { max-width: 1040px; margin: 0 auto; padding: 24px; }
+    body::before {
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:0;
+      background:
+        linear-gradient(90deg,
+          transparent 0%,
+          rgba(0,105,255,.04) 24%,
+          rgba(37,147,255,.10) 50%,
+          rgba(0,105,255,.04) 76%,
+          transparent 100%);
+    }
+
+    body::after {
+      content:"";
+      position:fixed;
+      left:0;
+      right:0;
+      top:0;
+      height:3px;
+      pointer-events:none;
+      z-index:100;
+      background:
+        linear-gradient(90deg,
+          transparent,
+          #0754bb 18%,
+          #3aa8ff 50%,
+          #0754bb 82%,
+          transparent);
+      box-shadow:0 0 14px rgba(0,119,255,.55);
+    }
+
+    .wrap {
+      position:relative;
+      z-index:1;
+      width:min(1180px, calc(100% - 36px));
+      margin:0 auto;
+      padding:24px 0 70px;
+    }
+
+    /* ---------- TOP ARCHITECTURE ---------- */
 
     .topbar {
-      display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 22px; gap: 12px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:18px;
+      padding:12px 2px 18px;
+      margin-bottom:0;
+      border-bottom:1px solid rgba(167,184,202,.24);
+      position:relative;
     }
 
-    .brand { color: #6b4b1f; letter-spacing: 2px; text-transform: uppercase; font-size: 13px; font-weight: bold; }
+    .topbar::after {
+      content:"";
+      position:absolute;
+      bottom:-1px;
+      left:0;
+      width:34%;
+      height:1px;
+      background:linear-gradient(90deg,#1796ff,transparent);
+      box-shadow:0 0 8px rgba(0,119,255,.45);
+    }
 
-    .top-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .brand {
+      color:#edf2f7;
+      letter-spacing:4px;
+      text-transform:uppercase;
+      font-size:13px;
+      font-weight:bold;
+      text-shadow:
+        0 1px 0 #fff,
+        0 3px 5px #000,
+        0 0 12px rgba(0,119,255,.28);
+    }
+
+    .top-actions {
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
 
     .btn {
-      color: #3a2a12; text-decoration: none;
-      border: 1px solid rgba(150, 100, 28, 0.34);
-      background: rgba(255, 250, 237, 0.82);
-      padding: 10px 16px; border-radius: 999px; font-weight: bold; cursor: pointer;
-      box-shadow: 0 8px 22px rgba(80, 48, 8, 0.12);
-    }
-
-    .hero, .panel, .message {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:82px;
+      padding:9px 17px;
+      border-radius:6px;
+      border:1px solid #9ba7b5;
+      color:#f4f7fb;
+      text-decoration:none;
+      font-family:Georgia, "Times New Roman", serif;
+      font-weight:bold;
+      cursor:pointer;
       background:
-        radial-gradient(circle at top center, rgba(255, 244, 206, 0.92), transparent 56%),
-        linear-gradient(180deg, rgba(255,255,255,0.84), rgba(255,246,226,0.78));
-      border: 1px solid rgba(172, 119, 35, 0.28);
-      border-radius: 30px;
-      box-shadow: 0 20px 55px rgba(78, 48, 9, 0.18), inset 0 0 32px rgba(255, 255, 255, 0.42);
-      backdrop-filter: blur(3px);
+        linear-gradient(180deg,#148cff 0%,#075dce 40%,#03317c 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.52),
+        inset 0 -2px 4px rgba(0,0,0,.58),
+        0 0 0 2px #142a45,
+        0 0 12px rgba(0,119,255,.28);
     }
 
-    .hero { text-align: center; padding: 54px 28px 46px; margin-bottom: 24px; position: relative; overflow: hidden; }
+    /* ---------- ONE CONTINUOUS STORY ENVIRONMENT ---------- */
+
+    #content {
+      position:relative;
+      margin-top:0;
+      padding:0 52px 18px;
+      border-left:1px solid rgba(153,170,188,.25);
+      border-right:1px solid rgba(153,170,188,.25);
+      background:
+        linear-gradient(90deg,
+          rgba(6,18,34,.52),
+          rgba(3,9,18,.14) 12%,
+          rgba(3,9,18,.05) 50%,
+          rgba(3,9,18,.14) 88%,
+          rgba(6,18,34,.52));
+      box-shadow:
+        inset 20px 0 35px rgba(0,0,0,.20),
+        inset -20px 0 35px rgba(0,0,0,.20);
+    }
+
+    #content::before,
+    #content::after {
+      content:"";
+      position:absolute;
+      top:0;
+      bottom:0;
+      width:1px;
+      pointer-events:none;
+      background:linear-gradient(
+        180deg,
+        rgba(45,158,255,.75),
+        rgba(147,164,183,.20) 18%,
+        rgba(147,164,183,.12) 82%,
+        rgba(45,158,255,.55)
+      );
+      box-shadow:0 0 9px rgba(0,112,255,.22);
+    }
+
+    #content::before { left:14px; }
+    #content::after { right:14px; }
+
+    /* ---------- THE THRESHOLD / NAME ---------- */
+
+    .hero {
+      position:relative;
+      text-align:center;
+      padding:82px 28px 72px;
+      margin:0 -52px 20px;
+      overflow:hidden;
+      background:
+        linear-gradient(180deg,
+          rgba(4,13,26,.92) 0%,
+          rgba(5,21,42,.56) 48%,
+          rgba(2,7,14,.10) 100%);
+      border:none;
+      border-radius:0;
+      box-shadow:none;
+    }
+
+    .hero::before {
+      content:"";
+      position:absolute;
+      top:25px;
+      left:50%;
+      width:min(780px,80%);
+      height:1px;
+      transform:translateX(-50%);
+      background:
+        linear-gradient(90deg,
+          transparent,
+          #667584 16%,
+          #dce4ec 50%,
+          #667584 84%,
+          transparent);
+      box-shadow:
+        0 1px 0 rgba(255,255,255,.22),
+        0 0 12px rgba(0,119,255,.22);
+    }
+
     .hero::after {
-      content: ""; position: absolute; left: 50%; bottom: -140px; transform: translateX(-50%);
-      width: 620px; height: 260px;
-      background: radial-gradient(circle, rgba(255, 205, 92, 0.36), transparent 70%);
-      pointer-events: none;
+      content:"";
+      position:absolute;
+      bottom:22px;
+      left:50%;
+      width:min(620px,70%);
+      height:2px;
+      transform:translateX(-50%);
+      background:
+        linear-gradient(90deg,
+          transparent,
+          #086fdc 20%,
+          #46afff 50%,
+          #086fdc 80%,
+          transparent);
+      box-shadow:0 0 12px rgba(0,119,255,.48);
     }
-    .hero-inner { position: relative; z-index: 2; }
 
-    .eyebrow { color: #9a6a1d; text-transform: uppercase; letter-spacing: 2px; font-size: 13px; margin-bottom: 12px; font-weight: bold; }
+    .hero-inner {
+      position:relative;
+      z-index:2;
+    }
 
-    h1 { margin: 0 0 14px; font-size: clamp(2.4rem, 5vw, 4.6rem); line-height: 1.03; color: #3a2a12; text-shadow: 0 1px 0 rgba(255,255,255,0.7); }
+    .eyebrow {
+      margin-bottom:17px;
+      color:#48aaff;
+      text-transform:uppercase;
+      letter-spacing:5px;
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:11px;
+      font-weight:700;
+      text-shadow:0 0 9px rgba(0,119,255,.42);
+    }
 
-    .headline { color: #6b4b1f; font-size: 1.25rem; line-height: 1.6; max-width: 760px; margin: 0 auto; }
+    h1 {
+      margin:0 0 18px;
+      font-size:clamp(2.8rem,6vw,5.7rem);
+      line-height:.98;
+      font-weight:700;
+      letter-spacing:-1px;
+      color:#eef2f6;
+      text-shadow:
+        0 1px 0 #fff,
+        0 2px 0 #aeb7c1,
+        0 5px 8px rgba(0,0,0,.85),
+        0 0 24px rgba(0,106,255,.16);
+    }
 
-    .chip-code { margin-top: 18px; color: #7a551d; font-size: 0.9rem; font-weight: bold; }
+    .headline {
+      max-width:760px;
+      margin:0 auto;
+      color:#bac4cf;
+      font-size:1.18rem;
+      line-height:1.7;
+    }
 
-    .panel { padding: 30px 26px; margin-bottom: 24px; }
+    .chip-code {
+      display:inline-block;
+      margin-top:22px;
+      padding-top:10px;
+      color:#6faee9;
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:.72rem;
+      font-weight:700;
+      letter-spacing:2px;
+      text-transform:uppercase;
+    }
 
-    .section-title { text-align: center; color: #5a3b12; font-size: 1.65rem; margin: 0 0 18px; }
+    /* ---------- CONTENT: NO STACK OF CARDS ---------- */
 
-    .story-body { white-space: pre-wrap; line-height: 1.9; font-size: 1.08rem; color: #3a2a12; }
+    .panel {
+      position:relative;
+      margin:0;
+      padding:54px 5% 58px;
+      background:transparent;
+      border:none;
+      border-radius:0;
+      box-shadow:none;
+    }
 
-    .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .panel + .panel {
+      border-top:1px solid rgba(154,171,189,.16);
+    }
+
+    .panel + .panel::before {
+      content:"";
+      position:absolute;
+      top:-1px;
+      left:50%;
+      width:160px;
+      height:1px;
+      transform:translateX(-50%);
+      background:linear-gradient(90deg,transparent,#1d8fff,transparent);
+      box-shadow:0 0 7px rgba(0,119,255,.28);
+    }
+
+    .section-title {
+      margin:0 0 30px;
+      text-align:center;
+      color:#e8edf2;
+      font-size:1.65rem;
+      letter-spacing:.5px;
+      text-shadow:
+        0 1px 0 rgba(255,255,255,.25),
+        0 3px 5px rgba(0,0,0,.75);
+    }
+
+    .section-title::after {
+      content:"";
+      display:block;
+      width:76px;
+      height:1px;
+      margin:12px auto 0;
+      background:linear-gradient(90deg,transparent,#309fff,transparent);
+      box-shadow:0 0 7px rgba(0,119,255,.32);
+    }
+
+    .story-body {
+      max-width:850px;
+      margin:0 auto;
+      white-space:pre-wrap;
+      color:#d2d9e1;
+      font-size:1.09rem;
+      line-height:2;
+      text-shadow:0 2px 3px rgba(0,0,0,.45);
+    }
+
+    /* ---------- PHOTO DISPLAY ---------- */
+
+    .gallery {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+      gap:24px;
+      margin:10px auto 0;
+      max-width:960px;
+    }
 
     .thumb {
-      border-radius: 18px; overflow: hidden;
-      border: 1px solid rgba(150, 100, 28, 0.28);
-      background: rgba(255, 255, 255, 0.55);
-      cursor: pointer; min-height: 155px;
-      box-shadow: 0 12px 28px rgba(80, 48, 8, 0.18);
+      position:relative;
+      min-height:190px;
+      padding:5px;
+      cursor:pointer;
+      overflow:hidden;
+      border-radius:5px;
+      border:1px solid #778695;
+      background:
+        linear-gradient(145deg,#d8dee5,#6f7c89 15%,#202b37 28%,#07111d 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.52),
+        0 12px 28px rgba(0,0,0,.55),
+        0 0 0 2px rgba(3,25,49,.9),
+        0 0 15px rgba(0,108,255,.13);
     }
-    .thumb img { width: 100%; height: 100%; min-height: 155px; object-fit: cover; display: block; }
 
-    .credit { text-align: center; color: #6b4b1f; line-height: 1.7; }
-    .credit strong { color: #3a2a12; }
+    .thumb::after {
+      content:"";
+      position:absolute;
+      inset:5px;
+      pointer-events:none;
+      border:1px solid rgba(71,165,255,.25);
+      box-shadow:inset 0 0 14px rgba(0,73,160,.12);
+    }
 
-    .powered { text-align: center; padding: 28px 24px; }
-    .powered-title { color: #5a3b12; font-size: 1.35rem; font-weight: bold; margin-bottom: 8px; }
-    .powered-line { color: #6b4b1f; line-height: 1.6; }
+    .thumb img {
+      width:100%;
+      height:100%;
+      min-height:190px;
+      object-fit:cover;
+      display:block;
+      border-radius:2px;
+    }
 
-    .message { padding: 34px 24px; text-align: center; }
-    .message h2 { color: #5a3b12; margin-top: 0; }
+    /* ---------- CREDIT / MSC SIGNATURE ---------- */
 
-    .disclaimer { max-width: 900px; margin: 28px auto 0; text-align: center; font-size: 0.74rem; line-height: 1.55; color: #6a5530; opacity: 0.82; }
+    .credit {
+      text-align:center;
+      color:#8f9aa7;
+      line-height:1.8;
+      font-size:.92rem;
+    }
 
-    .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.92); display: none; align-items: center; justify-content: center; padding: 70px 24px 24px; z-index: 9999; }
-    .lightbox.active { display: flex; }
-    .lightbox img { max-width: 90vw; max-height: 82vh; border-radius: 18px; border: 1px solid rgba(245, 217, 122, 0.28); box-shadow: 0 0 35px rgba(245, 217, 122, 0.18); z-index: 5; transition: opacity 0.2s ease; }
+    .credit strong {
+      color:#dce3ea;
+      letter-spacing:.3px;
+    }
 
-    .back-btn { position: absolute; top: 18px; left: 24px; z-index: 40; background: linear-gradient(180deg, #fff7df, #e8c873); color: #3a2a12; border: 1px solid rgba(245, 217, 122, 0.75); border-radius: 999px; padding: 10px 18px; font-family: Georgia, serif; font-size: 15px; font-weight: bold; cursor: pointer; box-shadow: 0 0 22px rgba(245, 217, 122, 0.34); }
-    .close-btn { position: absolute; top: 18px; right: 24px; z-index: 40; background: linear-gradient(180deg, #fff7df, #e8c873); color: #3a2a12; border: 1px solid rgba(245, 217, 122, 0.75); border-radius: 50%; width: 46px; height: 46px; font-size: 30px; line-height: 40px; cursor: pointer; box-shadow: 0 0 22px rgba(245, 217, 122, 0.34); }
-    .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255, 250, 237, 0.92); border: 1px solid rgba(245, 217, 122, 0.55); color: #3a2a12; font-size: 38px; width: 58px; height: 58px; cursor: pointer; border-radius: 50%; z-index: 20; box-shadow: 0 0 24px rgba(245, 217, 122, 0.28); }
-    .nav-btn.left { left: 24px; }
-    .nav-btn.right { right: 24px; }
+    .powered {
+      text-align:center;
+      padding-top:42px;
+      padding-bottom:48px;
+    }
 
-    @media (max-width: 700px) {
-      .wrap { padding: 16px; }
-      .topbar { align-items: flex-start; flex-direction: column; }
-      .hero, .panel { border-radius: 22px; padding: 22px 18px; }
-      .lightbox { padding: 64px 14px 18px; }
-      .lightbox img { max-width: 94vw; max-height: 80vh; }
-      .back-btn { top: 14px; left: 14px; padding: 9px 15px; font-size: 14px; }
-      .close-btn { top: 14px; right: 14px; width: 42px; height: 42px; font-size: 28px; }
-      .nav-btn { width: 48px; height: 48px; font-size: 30px; }
-      .nav-btn.left { left: 10px; }
-      .nav-btn.right { right: 10px; }
+    .powered-title {
+      margin-bottom:9px;
+      color:#e7ecf1;
+      font-size:1.32rem;
+      font-weight:bold;
+      text-shadow:0 2px 4px #000;
+    }
+
+    .powered-line {
+      max-width:680px;
+      margin:0 auto;
+      color:#84909d;
+      line-height:1.7;
+    }
+
+    /* ---------- ERROR STATE STILL BELONGS TO MSC ---------- */
+
+    .message {
+      position:relative;
+      min-height:430px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:60px 24px;
+      background:transparent;
+      border:none;
+      border-radius:0;
+      box-shadow:none;
+    }
+
+    .message::before {
+      content:"";
+      position:absolute;
+      width:min(540px,72%);
+      height:1px;
+      top:28%;
+      background:linear-gradient(90deg,transparent,#a9b4c0,transparent);
+      box-shadow:0 0 10px rgba(0,119,255,.22);
+    }
+
+    .message h2 {
+      margin:0 0 14px;
+      color:#edf2f7;
+      font-size:2.25rem;
+      text-shadow:
+        0 1px 0 #fff,
+        0 4px 7px #000;
+    }
+
+    .message p {
+      max-width:650px;
+      color:#8f9ba8;
+      line-height:1.7;
+    }
+
+    /* ---------- DOCUMENTS ---------- */
+
+    .doc-link {
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 20px;
+      color:#eef4fa;
+      text-decoration:none;
+      font-weight:bold;
+      border:1px solid #8c99a7;
+      border-radius:6px;
+      background:linear-gradient(180deg,#0c78e8,#074da9 55%,#03265e);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.35),
+        0 0 0 2px #102842,
+        0 0 12px rgba(0,112,255,.22);
+    }
+
+    /* ---------- DISCLAIMER ---------- */
+
+    .disclaimer {
+      max-width:900px;
+      margin:24px auto 0;
+      padding-top:22px;
+      text-align:center;
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:.69rem;
+      line-height:1.6;
+      color:#647180;
+      border-top:1px solid rgba(130,148,167,.16);
+    }
+
+    /* ---------- LIGHTBOX ---------- */
+
+    .lightbox {
+      position:fixed;
+      inset:0;
+      z-index:9999;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:70px 24px 24px;
+      background:rgba(0,3,8,.97);
+    }
+
+    .lightbox.active { display:flex; }
+
+    .lightbox img {
+      max-width:90vw;
+      max-height:82vh;
+      z-index:5;
+      border:1px solid #8593a2;
+      border-radius:5px;
+      box-shadow:
+        0 0 0 3px #08172a,
+        0 0 28px rgba(0,111,255,.28);
+      transition:opacity .2s ease;
+    }
+
+    .back-btn,
+    .close-btn,
+    .nav-btn {
+      color:#f4f8fc;
+      cursor:pointer;
+      border:1px solid #9ba8b6;
+      background:linear-gradient(180deg,#138cff,#075ac5 48%,#032b6e);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.45),
+        inset 0 -2px 4px rgba(0,0,0,.5),
+        0 0 12px rgba(0,119,255,.28);
+    }
+
+    .back-btn {
+      position:absolute;
+      top:18px;
+      left:24px;
+      z-index:40;
+      padding:10px 18px;
+      border-radius:6px;
+      font-family:Georgia, serif;
+      font-size:15px;
+      font-weight:bold;
+    }
+
+    .close-btn {
+      position:absolute;
+      top:18px;
+      right:24px;
+      z-index:40;
+      width:46px;
+      height:46px;
+      border-radius:50%;
+      font-size:30px;
+      line-height:40px;
+    }
+
+    .nav-btn {
+      position:absolute;
+      top:50%;
+      z-index:20;
+      width:58px;
+      height:58px;
+      transform:translateY(-50%);
+      border-radius:50%;
+      font-size:38px;
+    }
+
+    .nav-btn.left { left:24px; }
+    .nav-btn.right { right:24px; }
+
+    /* ---------- EDIT CONTROL ---------- */
+
+    .msc-edit-button {
+      background:
+        linear-gradient(180deg,#1590ff 0%,#075dc9 42%,#032c70 100%) !important;
+      color:#f5f8fb !important;
+      font-weight:bold !important;
+      font-size:.95rem !important;
+      border-radius:7px !important;
+      padding:13px 22px !important;
+      border:1px solid #a8b4c0 !important;
+      cursor:pointer !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.48),
+        inset 0 -2px 4px rgba(0,0,0,.58),
+        0 0 0 2px #112a47,
+        0 0 15px rgba(0,119,255,.30) !important;
+    }
+
+    /* ---------- PIN CHAMBER ---------- */
+
+    .msc-pin-card {
+      max-width:360px !important;
+      width:90% !important;
+      padding:34px !important;
+      text-align:center !important;
+      border-radius:9px !important;
+      border:1px solid #8795a4 !important;
+      background:
+        linear-gradient(145deg,#0a1b31,#030912 72%) !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.12),
+        0 20px 60px rgba(0,0,0,.70),
+        0 0 0 3px #07182d,
+        0 0 22px rgba(0,112,255,.20) !important;
+    }
+
+    .msc-pin-title {
+      color:#eef3f8 !important;
+      margin:0 0 8px !important;
+    }
+
+    .msc-pin-copy {
+      color:#9ba7b4 !important;
+      margin:0 0 20px !important;
+    }
+
+    .msc-pin-input {
+      width:100% !important;
+      padding:14px !important;
+      margin-bottom:12px !important;
+      border-radius:6px !important;
+      border:1px solid #65778b !important;
+      background:#010713 !important;
+      color:#eef4fa !important;
+      font-size:1.5rem !important;
+      text-align:center !important;
+      letter-spacing:8px !important;
+      outline:none !important;
+      box-shadow:inset 0 0 15px rgba(0,76,170,.16) !important;
+    }
+
+    .msc-pin-enter,
+    .msc-pin-cancel {
+      font-weight:bold !important;
+      padding:12px 24px !important;
+      border-radius:6px !important;
+      cursor:pointer !important;
+    }
+
+    .msc-pin-enter {
+      color:#f5f8fb !important;
+      border:1px solid #a3afbb !important;
+      background:linear-gradient(180deg,#148cff,#0759c2 50%,#032b6b) !important;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 0 12px rgba(0,119,255,.25) !important;
+    }
+
+    .msc-pin-cancel {
+      color:#c9d1da !important;
+      border:1px solid #586879 !important;
+      background:#101a27 !important;
+    }
+
+    @media (max-width:700px) {
+      .wrap {
+        width:min(100% - 22px,1180px);
+        padding-top:15px;
+      }
+
+      .topbar {
+        align-items:flex-start;
+        flex-direction:column;
+      }
+
+      #content {
+        padding:0 22px 12px;
+      }
+
+      #content::before { left:5px; }
+      #content::after { right:5px; }
+
+      .hero {
+        margin:0 -22px 10px;
+        padding:64px 20px 58px;
+      }
+
+      .panel {
+        padding:42px 3% 46px;
+      }
+
+      .gallery {
+        grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
+        gap:14px;
+      }
+
+      .thumb,
+      .thumb img {
+        min-height:145px;
+      }
+
+      .lightbox {
+        padding:64px 14px 18px;
+      }
+
+      .lightbox img {
+        max-width:94vw;
+        max-height:80vh;
+      }
+
+      .back-btn {
+        top:14px;
+        left:14px;
+        padding:9px 15px;
+        font-size:14px;
+      }
+
+      .close-btn {
+        top:14px;
+        right:14px;
+        width:42px;
+        height:42px;
+        font-size:28px;
+      }
+
+      .nav-btn {
+        width:48px;
+        height:48px;
+        font-size:30px;
+      }
+
+      .nav-btn.left { left:10px; }
+      .nav-btn.right { right:10px; }
     }
   </style>
 </head>
@@ -247,7 +873,7 @@
           <h2 class="section-title">Documents</h2>
           ${documents.map(doc => `
             <div style="margin-bottom:12px;">
-              <a href="${doc.url || doc}" target="_blank" style="display:inline-flex;align-items:center;gap:10px;padding:12px 20px;background:rgba(255,255,255,0.8);border:1px solid rgba(150,100,28,0.3);border-radius:999px;color:#3a2a12;text-decoration:none;font-weight:bold;">
+              <a href="${doc.url || doc}" target="_blank" class="doc-link">
                 📄 ${doc.name || "Document"}
               </a>
             </div>`).join('')}
@@ -272,22 +898,21 @@
   <!-- Edit Button -->
   <div style="position:fixed;bottom:24px;right:24px;z-index:999;">
     <button onclick="document.getElementById('pinModal').style.display='flex'"
-      style="background:linear-gradient(135deg,#fff7bf,#f0c756,#c28a1e);color:#1b1005;font-weight:bold;font-size:1rem;border-radius:999px;padding:14px 24px;border:none;cursor:pointer;box-shadow:0 8px 20px rgba(54,30,6,0.3);">
+      class="msc-edit-button">
       ✏️ Edit My Page
     </button>
   </div>
 
   <!-- PIN Modal -->
   <div id="pinModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;">
-    <div style="background:#fff8ec;border-radius:24px;padding:32px;max-width:340px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
-      <h2 style="color:#3a2a12;margin:0 0 8px;">Enter Your PIN</h2>
-      <p style="color:#6b4b1f;margin:0 0 20px;">Enter your 4-digit PIN to edit this page.</p>
-      <input id="pinInput" type="password" maxlength="4" inputmode="numeric"
-        style="width:100%;padding:14px;border-radius:12px;border:1px solid rgba(150,100,28,0.34);font-size:1.5rem;text-align:center;letter-spacing:8px;margin-bottom:12px;">
+    <div class="msc-pin-card">
+      <h2 class="msc-pin-title">Enter Your PIN</h2>
+      <p class="msc-pin-copy">Enter your 4-digit PIN to edit this page.</p>
+      <input id="pinInput" class="msc-pin-input" type="password" maxlength="4" inputmode="numeric">
       <p id="pinError" style="color:red;display:none;margin:0 0 12px;">Incorrect PIN. Try again.</p>
       <div style="display:flex;gap:12px;justify-content:center;">
-        <button onclick="checkPin()" style="background:linear-gradient(135deg,#fff7bf,#f0c756,#c28a1e);color:#1b1005;font-weight:bold;padding:12px 24px;border-radius:999px;border:none;cursor:pointer;">Enter</button>
-        <button onclick="document.getElementById('pinModal').style.display='none'" style="background:rgba(255,255,255,0.8);color:#3a2a12;font-weight:bold;padding:12px 24px;border-radius:999px;border:1px solid rgba(150,100,28,0.3);cursor:pointer;">Cancel</button>
+        <button onclick="checkPin()" class="msc-pin-enter">Enter</button>
+        <button onclick="document.getElementById('pinModal').style.display='none'" class="msc-pin-cancel">Cancel</button>
       </div>
     </div>
   </div>

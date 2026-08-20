@@ -41,13 +41,14 @@ export default async function handler(req, res) {
 
       const result = await pool.query(
         `
-        INSERT INTO chips (chip_code, customer_email, customer_name, created_at)
-        VALUES ($1, $2, $3, NOW())
+        INSERT INTO chips (chip_code, customer_email, customer_name, type, created_at)
+        VALUES ($1, $2, $3, 'Demo / Promo Chip', NOW())
         RETURNING
           id,
           chip_code,
           customer_name,
           customer_email,
+          type,
           created_at
         `,
         [
@@ -69,6 +70,7 @@ export default async function handler(req, res) {
         chip_code,
         customer_name,
         customer_email,
+        type,
         created_at
       FROM chips
       ORDER BY created_at DESC
