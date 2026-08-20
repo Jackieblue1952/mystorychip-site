@@ -264,9 +264,16 @@ form { margin-top:26px; }
 
 .setup-grid {
   display:grid;
-  grid-template-columns:1.08fr .92fr;
+  grid-template-columns:1fr;
   gap:24px;
   align-items:start;
+}
+
+.setup-grid > *,
+.asset-options > *,
+.pin-row > *,
+.visibility-box > * {
+  min-width:0;
 }
 
 label {
@@ -474,6 +481,38 @@ input::placeholder { color:#69798c; }
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:10px;
+}
+
+.photo-tile {
+  position:relative;
+  min-width:0;
+  overflow:hidden;
+  border-radius:9px;
+  background:#020812;
+}
+
+.photo-thumb {
+  display:block;
+  width:100%;
+  max-width:100%;
+  height:auto;
+  object-fit:cover;
+  cursor:pointer;
+}
+
+.photo-remove {
+  position:absolute;
+  top:6px;
+  right:6px;
+  z-index:2;
+}
+
+.vis-toggle {
+  padding:8px 6px;
+  text-align:center;
+  color:#aebdcd;
+  font-size:.78rem;
+  cursor:pointer;
 }
 
 .empty-photos {
@@ -694,8 +733,8 @@ input[type="file"] {
             <label for="fullName">Your Name *</label>
             <input type="text" id="fullName" placeholder="Your name" required>
 
-            <label for="email">Email</label>
-            <input type="email" id="email" placeholder="Optional — recommended for backup">
+            <label for="email">Email *</label>
+            <input type="email" id="email" placeholder="Required for chip access and recovery" required>
 
             <label for="phone">Phone Number *</label>
             <input type="tel" id="phone" placeholder="Required for owner access" required>
@@ -814,6 +853,7 @@ input[type="file"] {
             <div class="error-msg" id="agreeError">Please check the agreement box.</div>
             <div class="error-msg" id="nameError">Full name is required.</div>
             <div class="error-msg" id="phoneError">Phone number is required.</div>
+            <div class="error-msg" id="emailError">Email address is required.</div>
 
             <div class="actions">
               <button type="submit" class="save-btn" id="saveBtn">💾 Save My Chip</button>
@@ -1080,7 +1120,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function saveChip() {
     // Clear errors
-    ['pinError','agreeError','nameError','phoneError'].forEach(id =>
+    ['pinError','agreeError','nameError','phoneError','emailError'].forEach(id =>
       document.getElementById(id).style.display = 'none'
     );
 
@@ -1099,6 +1139,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let valid = true;
     if (!fullName) { document.getElementById('nameError').style.display = 'block'; valid = false; }
     if (!phone) { document.getElementById('phoneError').style.display = 'block'; valid = false; }
+    if (!email) { document.getElementById('emailError').style.display = 'block'; valid = false; }
     if (!/^\d{4}$/.test(pin) || pin !== pinConfirm) {
       document.getElementById('pinError').textContent = 'Please enter and confirm a matching 4-digit PIN.';
       document.getElementById('pinError').style.display = 'block';
