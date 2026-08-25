@@ -1146,7 +1146,7 @@ document.addEventListener('DOMContentLoaded', () => {
       valid = false;
     }
     if (!agree) { document.getElementById('agreeError').style.display = 'block'; valid = false; }
-    if (!valid) return;
+    if (!valid) { document.getElementById('saveError').style.display = 'block'; return; }
 
     const finalPin = pin;
 
