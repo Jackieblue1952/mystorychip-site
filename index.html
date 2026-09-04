@@ -38,6 +38,67 @@ a{text-decoration:none;color:inherit}
   gap:28px;
   font-size:.92rem;
 }
+.nav-storyteller{
+  --button-shape:polygon(
+    6% 0,94% 0,100% 30%,100% 70%,
+    94% 100%,6% 100%,0 70%,0 30%
+  );
+  position:relative;
+  isolation:isolate;
+  border:0;
+  border-radius:0;
+  padding:16px 30px;
+  background:linear-gradient(
+    180deg,#f0f5ff,#718198 35%,#d5e5fa 55%,#62738c
+  );
+  clip-path:var(--button-shape);
+  color:#e7efff;
+  cursor:pointer;
+  font:inherit;
+  font-weight:800;
+  letter-spacing:.06em;
+  text-shadow:0 2px 3px #00102f;
+  box-shadow:none;
+  transition:filter .2s ease;
+}
+.nav-storyteller::before{
+  content:"";
+  position:absolute;
+  inset:2px;
+  z-index:-1;
+  clip-path:var(--button-shape);
+  background:linear-gradient(
+    180deg,#299cff 0%,#0758bd 24%,#092b78 65%,#020c36 100%
+  );
+  box-shadow:
+    inset 0 2px 3px #b8e8ff,
+    inset 0 -2px 4px #219fff;
+}
+.nav-storyteller:hover{
+  transform:none;
+  box-shadow:none;
+  filter:brightness(1.2);
+}
+.nav-storyteller:focus-visible{
+  outline:0;
+  background:#fff;
+  filter:brightness(1.3);
+}
+.cinema-storyteller{
+  position:absolute;
+  z-index:60;
+  right:auto;
+  left:calc(50% + max(100vw,150vh) * .3008);
+  top:calc(50% + max(100vh,66.6667vw) * .2295);
+  width:calc(max(100vw,150vh) * .3385);
+  min-height:calc(max(100vh,66.6667vw) * .078);
+  transform:translate(-50%,-50%);
+  font-size:clamp(14px,1.55vw,26px);
+}
+.cinema-storyteller:hover{
+  transform:translate(-50%,-50%);
+}
+}
 .nav-buy{
   border:1px solid rgba(255,255,255,.55);
   padding:11px 19px;
@@ -1351,8 +1412,13 @@ footer{
 
   <div class="storybook-transition" id="storybookTransition"></div>
 
-  <div class="cinema-gate" id="cinemaGate" onclick="startCinema()" role="button" aria-label="Enter MyStoryChip">
-  </div>
+  <div class="cinema-gate" id="cinemaGate" onclick="startCinema()">
+  <button type="button"
+    class="nav-storyteller cinema-storyteller"
+    onclick="event.stopPropagation(); closeCinema(); setTimeout(() => { document.getElementById('storytellerModal').style.display='flex'; }, 900)">
+ Open My Story Page
+  </button>
+</div>
 
   <button class="pause-intro" id="pauseIntro" onclick="toggleIntroPause()">❚❚ Pause</button>
   <button class="skip-intro" onclick="closeCinema()">Skip Intro</button>
@@ -1362,11 +1428,12 @@ footer{
 <nav class="nav">
   <div class="logo">MyStoryChip</div>
   <div class="navlinks">
-    <button type="button"
-      onclick="document.getElementById('storytellerModal').style.display='flex'"
-      style="background:transparent;border:0;color:inherit;cursor:pointer;font:inherit;">
-      Already a Storyteller?
-    </button>
+<a class="nav-storyteller" href="index.html">Home</a>
+  <button type="button"
+  class="nav-storyteller"
+  onclick="document.getElementById('storytellerModal').style.display='flex'">
+Open My Story Page
+</button>
     <a class="nav-buy" href="https://buy.stripe.com/00w5kCgXe1Fwcu05dkdby02">Get Your Chip</a>
   </div>
 </nav>
@@ -1387,7 +1454,7 @@ footer{
     </p>
 
     <div class="hero-actions">
-      <a class="btn btn-clear" href="https://buy.stripe.com/00w5kCgXe1Fwcu05dkdby02">Get Your Chip — $49.95</a>
+      <a class="nav-storyteller" style="display:inline-block;" href="https://buy.stripe.com/00w5kCgXe1Fwcu05dkdby02">Get Your Chip — $49.95</a>
     </div>
 
     <div class="tap-line">
@@ -1538,6 +1605,11 @@ footer{
       <a class="msc-primary-btn" href="https://buy.stripe.com/00w5kCgXe1Fwcu05dkdby02">
         Get Your MyStoryChip — $49.95
       </a>
+      <div style="margin-top:28px;">
+        <a class="nav-storyteller"
+           href="index.html"
+           style="display:inline-block;">Home</a>
+      </div>
     </div>
   </section>
 

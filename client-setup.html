@@ -773,10 +773,10 @@ input[type="file"] {
               </div>
             </div>
             <div class="error-msg" id="pinError">Please enter and confirm a 4-digit PIN.</div>
-            <p class="small-note">An email address is required for major changes, including PIN recovery or reset.</p>
+            <p class="small-note">Keep your PIN in a safe place. It is required to edit your Story Page and to view a Private page.</p>
             <select id="visibility">
               <option value="public">Shared</option>
-             <option value="private">Private</option>
+             <option value="private" selected>Private</option>
          
             </select>
 
@@ -826,6 +826,19 @@ input[type="file"] {
                   <strong>Supporting Documents</strong>
                   <span>Document upload will use this space alongside your photos.</span>
                 </div>
+                <div class="asset-upload">
+                  <input
+                    type="file"
+                    id="documents"
+                    multiple
+                    accept=".pdf,.txt,.rtf,.doc,.docx"
+                  >
+                </div>
+
+                <div
+                  id="savedDocumentsList"
+                  class="document-preview"
+                ></div>
               </div>
 
             </div>
@@ -854,6 +867,7 @@ input[type="file"] {
             <div class="error-msg" id="nameError">Full name is required.</div>
             <div class="error-msg" id="phoneError">Phone number is required.</div>
             <div class="error-msg" id="emailError">Email address is required.</div>
+            <div class="error-msg" id="saveError">Please check all fields marked with an asterisk (*) — some required info is missing.</div>
 
             <div class="actions">
               <button type="submit" class="save-btn" id="saveBtn">💾 Save My Chip</button>
@@ -943,6 +957,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
+<script src="media-upload-client.js"></script>
+
 <script>
   // ── Config ──────────────────────────────────────────────
   const MAX_MB = 250;
@@ -953,7 +969,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // ── State ───────────────────────────────────────────────
   const params = new URLSearchParams(window.location.search);
   const chipCode = (params.get('code') || '').trim();
+  const setupToken = (params.get('token') || '').trim();
   let workingImages = [];
+  let workingDocuments = [];
   let existingChip = null;
 
 
@@ -962,6 +980,31 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!chipCode) {
       document.getElementById('chipCodeDisplay').textContent = 'No chip code in URL.';
       return;
+    }
+    if (setupToken) {
+      try {
+        const authResponse = await fetch('/api/setup-auth', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            code: chipCode,
+            token: setupToken
+          })
+        });
+
+        const authData = await authResponse.json();
+
+        if (!authResponse.ok || !authData.success) {
+          throw new Error(authData.error || 'Setup authorization failed.');
+        }
+
+        const cleanUrl = new URL(window.location.href);
+        cleanUrl.searchParams.delete('token');
+        window.history.replaceState({}, '', cleanUrl);
+      } catch (err) {
+        alert('Could not authorize setup: ' + err.message);
+        return;
+      }
     }
 
     document.getElementById('chipCodeDisplay').textContent = 'Chip Code: ' + chipCode;
@@ -990,50 +1033,412 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('headline').value = existingChip.headline || '';
       document.getElementById('desc').value = existingChip.desc || existingChip.story || existingChip.description || '';
       document.getElementById('chipPurpose').value = existingChip.chipPurpose || existingChip.category || '';
-      document.getElementById('visibility').value = existingChip.visibility || 'public';
+      document.getElementById('visibility').value = existingChip.visibility || 'private';
       document.getElementById('pin').value = existingChip.pin || '';
       document.getElementById('pinConfirm').value = existingChip.pin || '';
 
-      workingImages = (existingChip.images || []).map(img =>
-        typeof img === 'string' ? { src: img, visibility: 'public' } : img
-      );
+        workingImages = (existingChip.images || []).map(img => {
+        if (typeof img === 'string') {
+          return {
+            src: img,
+            visibility: 'public'
+          };
+        }
+
+        return {
+          ...img,
+          storage: img.pathname ? 'blob' : img.storage,
+          isNew: false
+        };
+      });
+      workingDocuments =
+        (existingChip.documents || []).map(doc => {
+          if (typeof doc === 'string') {
+            return {
+              src: doc,
+              filename: 'Document',
+              visibility: 'public'
+            };
+          }
+
+          return {
+            ...doc,
+            storage:
+              doc.pathname ? 'blob' : doc.storage,
+            isNew: false
+          };
+        });
       renderPhotos();
+      renderDocuments();
       updateMeter();
     }
   }
+  async function registerUploadedMedia({
+    pathname,
+    mediaType,
+    filename,
+    visibility
+  }) {
+    const response = await fetch(
+      '/api/media-register',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          code: chipCode,
+          pathname,
+          mediaType,
+          filename,
+          visibility
+        })
+      }
+    );
 
-  function compressImage(file) {
-    return new Promise(resolve => {
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      throw new Error(
+        data.error || 'Upload could not be registered.'
+      );
+    }
+
+    return data;
+  }
+
+   function compressImage(file) {
+    return new Promise((resolve, reject) => {
       const reader = new FileReader();
+
       reader.onload = e => {
         const img = new Image();
+
         img.onload = () => {
-          let w = img.width, h = img.height;
+          let w = img.width;
+          let h = img.height;
           const ratio = Math.min(1, MAX_DIM / Math.max(w, h));
+
           w = Math.round(w * ratio);
           h = Math.round(h * ratio);
+
           const canvas = document.createElement('canvas');
-          canvas.width = w; canvas.height = h;
+          canvas.width = w;
+          canvas.height = h;
           canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-          resolve(canvas.toDataURL('image/jpeg', JPEG_Q));
+
+          canvas.toBlob(
+            blob => {
+              if (blob) {
+                resolve(blob);
+              } else {
+                reject(new Error('Photo could not be compressed.'));
+              }
+            },
+            'image/jpeg',
+            JPEG_Q
+          );
         };
+
+        img.onerror = () =>
+          reject(new Error('Photo could not be opened.'));
+
         img.src = e.target.result;
       };
+
+      reader.onerror = () =>
+        reject(new Error('Photo could not be read.'));
+
       reader.readAsDataURL(file);
     });
   }
 
   // ── File input ───────────────────────────────────────────
-  document.getElementById('files').addEventListener('change', async e => {
-    for (const file of Array.from(e.target.files)) {
-      if (!file.type.startsWith('image/')) continue;
-      const src = await compressImage(file);
-      workingImages.push({ src, visibility: 'public' });
-    }
+    document.getElementById('files').addEventListener('change', async e => {
+    const selectedFiles = Array.from(e.target.files);
     e.target.value = '';
+
+    for (const file of selectedFiles) {
+      if (!file.type.startsWith('image/')) {
+        continue;
+      }
+
+      try {
+        const compressed = await compressImage(file);
+        const baseName =
+          file.name
+            .replace(/\.[^.]+$/, '')
+            .replace(/[^a-zA-Z0-9_-]+/g, '-')
+            .replace(/^-+|-+$/g, '')
+            .slice(0, 80) || 'photo';
+
+        const filename = `${baseName}.jpg`;
+        const pathname =
+          `Storytellers/${chipCode}/images/` +
+          `${crypto.randomUUID()}-${filename}`;
+
+        const blob = await window.mscUploadPresigned(
+          pathname,
+          compressed,
+          {
+            access: 'private',
+            handleUploadUrl: '/api/media-upload',
+            clientPayload: JSON.stringify({
+              code: chipCode,
+              mediaType: 'image',
+              filename,
+              visibility: 'private'
+            }),
+            contentType: 'image/jpeg'
+          }
+        );
+        await registerUploadedMedia({
+          pathname: blob.pathname,
+          mediaType: 'image',
+          filename,
+          visibility: 'private'
+        });
+        workingImages.push({
+          src:
+            '/api/media-file?pathname=' +
+            encodeURIComponent(blob.pathname),
+          previewSrc: URL.createObjectURL(compressed),
+          pathname: blob.pathname,
+          filename,
+          sizeBytes: compressed.size,
+          storage: 'blob',
+          isNew: true,
+          visibility: 'private'
+        });
+      } catch (err) {
+        alert(
+          `Could not upload ${file.name}: ${err.message}`
+        );
+      }
+    }
+
     renderPhotos();
     updateMeter();
   });
+  function documentContentType(file) {
+    if (file.type) {
+      return file.type;
+    }
+
+    const extension =
+      file.name.split('.').pop().toLowerCase();
+
+    const types = {
+      pdf: 'application/pdf',
+      txt: 'text/plain',
+      rtf: 'application/rtf',
+      doc: 'application/msword',
+      docx:
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    };
+
+    return types[extension] || 'application/octet-stream';
+  }
+
+  document
+    .getElementById('documents')
+    .addEventListener('change', async e => {
+      const selectedFiles = Array.from(e.target.files);
+      e.target.value = '';
+
+      for (const file of selectedFiles) {
+        try {
+          const filename =
+            file.name
+              .replace(/[^a-zA-Z0-9._-]+/g, '-')
+              .replace(/^-+|-+$/g, '')
+              .slice(0, 120) || 'document';
+
+          const pathname =
+            `Storytellers/${chipCode}/documents/` +
+            `${crypto.randomUUID()}-${filename}`;
+
+          const contentType =
+            documentContentType(file);
+
+          const blob = await window.mscUploadPresigned(
+            pathname,
+            file,
+            {
+              access: 'private',
+              handleUploadUrl: '/api/media-upload',
+              clientPayload: JSON.stringify({
+                code: chipCode,
+                mediaType: 'document',
+                filename,
+                visibility: 'private'
+              }),
+              contentType
+            }
+          );
+          await registerUploadedMedia({
+            pathname: blob.pathname,
+            mediaType: 'document',
+            filename,
+            visibility: 'private'
+          });
+          workingDocuments.push({
+            src:
+              '/api/media-file?pathname=' +
+              encodeURIComponent(blob.pathname),
+            pathname: blob.pathname,
+            filename,
+            contentType,
+            sizeBytes: file.size,
+            storage: 'blob',
+            isNew: true,
+            visibility: 'private'
+          });
+        } catch (err) {
+          alert(
+            `Could not upload ${file.name}: ${err.message}`
+          );
+        }
+      }
+
+      renderDocuments();
+      updateMeter();
+    });
+  function renderDocuments() {
+    const list =
+      document.getElementById('savedDocumentsList');
+
+    list.innerHTML = '';
+
+    if (!workingDocuments.length) {
+      list.textContent = 'No saved documents yet.';
+      return;
+    }
+
+    workingDocuments.forEach((docObj, i) => {
+      const row = document.createElement('div');
+      row.className = 'document-preview';
+
+      const link = document.createElement('a');
+      link.href = docObj.src;
+      link.target = '_blank';
+      link.rel = 'noopener';
+      link.textContent =
+        docObj.filename || `Document ${i + 1}`;
+
+      const visBtn = document.createElement('button');
+      visBtn.type = 'button';
+      visBtn.textContent =
+        docObj.visibility === 'private'
+          ? '🔒 Private'
+          : '🌐 Public';
+
+      visBtn.addEventListener('click', async () => {
+        const nextVisibility =
+          docObj.visibility === 'private'
+            ? 'public'
+            : 'private';
+
+        try {
+          if (
+            docObj.storage === 'blob' &&
+            docObj.pathname
+          ) {
+            const response = await fetch(
+              '/api/media-manage',
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  action: 'visibility',
+                  pathname: docObj.pathname,
+                  visibility: nextVisibility
+                })
+              }
+            );
+
+            const data = await response.json();
+
+            if (!response.ok || !data.success) {
+              throw new Error(
+                data.error ||
+                'Document visibility could not be changed.'
+              );
+            }
+          }
+
+          workingDocuments[i].visibility =
+            nextVisibility;
+
+          renderDocuments();
+        } catch (err) {
+          alert(
+            'Could not change document visibility: ' +
+            err.message
+          );
+        }
+      });
+
+      const removeBtn =
+        document.createElement('button');
+
+      removeBtn.type = 'button';
+      removeBtn.textContent = 'Remove';
+
+      removeBtn.addEventListener(
+        'click',
+        async () => {
+          try {
+            if (
+              docObj.storage === 'blob' &&
+              docObj.pathname
+            ) {
+              const response = await fetch(
+                '/api/media-manage',
+                {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type':
+                      'application/json'
+                  },
+                  body: JSON.stringify({
+                    action: 'delete',
+                    pathname: docObj.pathname
+                  })
+                }
+              );
+
+              const data = await response.json();
+
+              if (!response.ok || !data.success) {
+                throw new Error(
+                  data.error ||
+                  'Document could not be removed.'
+                );
+              }
+            }
+
+            workingDocuments.splice(i, 1);
+            renderDocuments();
+            updateMeter();
+          } catch (err) {
+            alert(
+              'Could not remove document: ' +
+              err.message
+            );
+          }
+        }
+      );
+
+      row.appendChild(link);
+      row.appendChild(visBtn);
+      row.appendChild(removeBtn);
+      list.appendChild(row);
+    });
+  }
+
 
   // ── Render photos ────────────────────────────────────────
   function renderPhotos() {
@@ -1052,30 +1457,114 @@ document.addEventListener('DOMContentLoaded', () => {
       tile.className = 'photo-tile';
 
       const img = document.createElement('img');
-      img.src = imgObj.src;
+            img.src = imgObj.previewSrc || imgObj.src;
       img.className = 'photo-thumb';
       img.alt = 'Photo ' + (i + 1);
-      img.addEventListener('click', () => openLightbox(imgObj.src));
+            img.addEventListener(
+        'click',
+        () => openLightbox(
+          imgObj.previewSrc || imgObj.src
+        )
+      );
       tile.appendChild(img);
 
       const removeBtn = document.createElement('button');
       removeBtn.className = 'photo-remove';
       removeBtn.type = 'button';
       removeBtn.textContent = '×';
-      removeBtn.addEventListener('click', e => {
+            removeBtn.addEventListener('click', async e => {
         e.stopPropagation();
-        workingImages.splice(i, 1);
-        renderPhotos();
-        updateMeter();
+
+        try {
+          if (
+            imgObj.storage === 'blob' &&
+            imgObj.pathname
+          ) {
+            const response = await fetch(
+              '/api/media-manage',
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  action: 'delete',
+                  pathname: imgObj.pathname
+                })
+              }
+            );
+
+            const data = await response.json();
+
+            if (!response.ok || !data.success) {
+              throw new Error(
+                data.error || 'Photo could not be removed.'
+              );
+            }
+          }
+
+          if (imgObj.previewSrc) {
+            URL.revokeObjectURL(imgObj.previewSrc);
+          }
+
+          workingImages.splice(i, 1);
+          renderPhotos();
+          updateMeter();
+        } catch (err) {
+          alert('Could not remove photo: ' + err.message);
+        }
       });
       tile.appendChild(removeBtn);
 
       const visBtn = document.createElement('div');
       visBtn.className = 'vis-toggle';
       visBtn.textContent = imgObj.visibility === 'private' ? '🔒 Private' : '🌐 Public';
-      visBtn.addEventListener('click', () => {
-        workingImages[i].visibility = imgObj.visibility === 'private' ? 'public' : 'private';
-        renderPhotos();
+           visBtn.addEventListener('click', async () => {
+        const nextVisibility =
+          imgObj.visibility === 'private'
+            ? 'public'
+            : 'private';
+
+        try {
+          if (
+            imgObj.storage === 'blob' &&
+            imgObj.pathname
+          ) {
+            const response = await fetch(
+              '/api/media-manage',
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  action: 'visibility',
+                  pathname: imgObj.pathname,
+                  visibility: nextVisibility
+                })
+              }
+            );
+
+            const data = await response.json();
+
+            if (!response.ok || !data.success) {
+              throw new Error(
+                data.error ||
+                'Photo visibility could not be changed.'
+              );
+            }
+          }
+
+          workingImages[i].visibility =
+            nextVisibility;
+
+          renderPhotos();
+        } catch (err) {
+          alert(
+            'Could not change photo visibility: ' +
+            err.message
+          );
+        }
       });
       tile.appendChild(visBtn);
 
@@ -1084,13 +1573,49 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ── Storage meter ────────────────────────────────────────
-  function updateMeter() {
-    let bytes = 0;
-    workingImages.forEach(img => { if (img.src) bytes += img.src.length * 0.75; });
+    function updateMeter() {
+    let bytes = Number(
+      existingChip?.storageUsedBytes || 0
+    );
+
+    workingImages.forEach(img => {
+      if (img.storage === 'blob') {
+        if (img.isNew && img.sizeBytes) {
+          bytes += Number(img.sizeBytes);
+        }
+      } else if (img.src) {
+        bytes += img.src.length * 0.75;
+      }
+    });
+
+    workingDocuments.forEach(doc => {
+      if (doc.storage === 'blob') {
+        if (doc.isNew && doc.sizeBytes) {
+          bytes += Number(doc.sizeBytes);
+        }
+      } else if (doc.src) {
+        bytes += doc.src.length * 0.75;
+      }
+    });
+
     const mb = bytes / (1024 * 1024);
-    const pct = Math.min((mb / MAX_MB) * 100, 100);
-    document.getElementById('fill').style.width = pct + '%';
-    document.getElementById('usage').textContent = mb.toFixed(2) + ' MB of ' + MAX_MB + ' MB used';
+    const limitBytes = Number(
+      existingChip?.storageLimitBytes || MAX_BYTES
+    );
+    const limitMb = limitBytes / (1024 * 1024);
+    const pct = Math.min(
+      (bytes / limitBytes) * 100,
+      100
+    );
+
+    document.getElementById('fill').style.width =
+      pct + '%';
+
+    document.getElementById('usage').textContent =
+      mb.toFixed(2) +
+      ' MB of ' +
+      limitMb.toFixed(0) +
+      ' MB used';
   }
 
   // ── Lightbox ─────────────────────────────────────────────
@@ -1120,7 +1645,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function saveChip() {
     // Clear errors
-    ['pinError','agreeError','nameError','phoneError','emailError'].forEach(id =>
+    ['pinError','agreeError','nameError','phoneError','emailError','saveError'].forEach(id =>
       document.getElementById(id).style.display = 'none'
     );
 
@@ -1137,16 +1662,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const agree = document.getElementById('agree').checked;
 
     let valid = true;
-    if (!fullName) { document.getElementById('nameError').style.display = 'block'; valid = false; }
-    if (!phone) { document.getElementById('phoneError').style.display = 'block'; valid = false; }
-    if (!email) { document.getElementById('emailError').style.display = 'block'; valid = false; }
-    if (!/^\d{4}$/.test(pin) || pin !== pinConfirm) {
-      document.getElementById('pinError').textContent = 'Please enter and confirm a matching 4-digit PIN.';
-      document.getElementById('pinError').style.display = 'block';
-      valid = false;
-    }
-    if (!agree) { document.getElementById('agreeError').style.display = 'block'; valid = false; }
-    if (!valid) return;
+    if (!fullName) { valid = false; }
+    if (!phone) { valid = false; }
+    if (!email) { valid = false; }
+    if (!/^\d{4}$/.test(pin) || pin !== pinConfirm) { valid = false; }
+    if (!agree) { valid = false; }
+    if (!valid) { document.getElementById("saveError").style.display = "block"; return; }
 
     const finalPin = pin;
 
@@ -1165,8 +1686,12 @@ document.addEventListener('DOMContentLoaded', () => {
       category: chipPurpose,
       visibility,
       pin: finalPin,
-      images: workingImages,
-      documents: existingChip ? (existingChip.documents || []) : [],
+         images: workingImages.filter(
+        img => img.storage !== 'blob'
+      ),
+            documents: workingDocuments.filter(
+        doc => doc.storage !== 'blob'
+      ),
       updatedAt: new Date().toISOString(),
       status: 'setup_complete'
     };

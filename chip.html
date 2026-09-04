@@ -809,7 +809,7 @@
       if (e.key === "ArrowLeft") showLightboxImage(currentImageIndex - 1);
       if (e.key === "ArrowRight") showLightboxImage(currentImageIndex + 1);
     });
-
+    let privateViewRequired = false;
     async function loadChip() {
       if (!code) { renderMissing("No chip code was found in the page link."); return; }
 
@@ -818,7 +818,13 @@
       try {
         const response = await fetch("/api/chip-data?code=" + encodeURIComponent(code));
         const data = await response.json();
-
+        if (response.status === 401 && data.requiresPin) {
+          privateViewRequired = true;
+          document.querySelector(".msc-pin-copy").textContent =
+            "Enter your 4-digit PIN to view this private page.";
+          document.getElementById("pinModal").style.display = "flex";
+          return;
+        }
         if (!response.ok || !data.success) {
           throw new Error(data.error || "Chip could not be loaded.");
         }
@@ -910,6 +916,9 @@
       <p class="msc-pin-copy">Enter your 4-digit PIN to edit this page.</p>
       <input id="pinInput" class="msc-pin-input" type="password" maxlength="4" inputmode="numeric">
       <p id="pinError" style="color:red;display:none;margin:0 0 12px;">Incorrect PIN. Try again.</p>
+      <p style="margin:0 0 18px;text-align:center;">
+        <a href="#" onclick="window.location.href='reset-pin.html?code='+encodeURIComponent(code);return false;" style="color:#6dbaff;">Forgot PIN?</a>
+      </p>
       <div style="display:flex;gap:12px;justify-content:center;">
         <button onclick="checkPin()" class="msc-pin-enter">Enter</button>
         <button onclick="document.getElementById('pinModal').style.display='none'" class="msc-pin-cancel">Cancel</button>
@@ -920,40 +929,47 @@
   <script>
     document.getElementById("pinInput").addEventListener("keydown", e => { if (e.key === "Enter") checkPin(); });
 
-    async function checkPin() {
+      async function checkPin() {
       const entered = document.getElementById("pinInput").value.trim();
       const pinError = document.getElementById("pinError");
 
-      if (!entered || entered.length !== 4) {
+      pinError.style.display = "none";
+
+      if (!/^\d{4}$/.test(entered)) {
         pinError.textContent = "Please enter a 4-digit PIN.";
         pinError.style.display = "block";
         return;
       }
 
-      let chip = window.currentChip || null;
+      try {
+        const response = await fetch("/api/setup-auth", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            code,
+            pin: entered
+          })
+        });
 
-      if (!chip) {
-        try {
-          const response = await fetch("/api/chip-data?code=" + encodeURIComponent(code));
-          const data = await response.json();
+        const data = await response.json();
 
-          if (!response.ok || !data.success) {
-            throw new Error(data.error || "Chip not found.");
-          }
 
-          chip = data.chip;
-          window.currentChip = chip;
-        } catch (err) {
-          pinError.textContent = err.message;
-          pinError.style.display = "block";
+        if (!response.ok || !data.success) {
+          throw new Error(data.error || "Incorrect PIN. Try again.");
+        }
+
+               if (privateViewRequired) {
+          window.location.reload();
           return;
         }
-      }
 
-      if (chip.pin === entered) {
-        window.location.href = `client-setup.html?code=${encodeURIComponent(code)}`;
-      } else {
-        pinError.textContent = "Incorrect PIN. Try again.";
+        window.location.href =
+          `client-setup.html?code=${encodeURIComponent(code)}`;
+      } catch (err) {
+        pinError.textContent =
+          err.message === "Authorization failed"
+            ? "Incorrect PIN. Try again."
+            : err.message;
         pinError.style.display = "block";
         document.getElementById("pinInput").value = "";
       }

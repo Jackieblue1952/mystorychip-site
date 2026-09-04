@@ -1,4 +1,5 @@
 import Stripe from "stripe";
+import crypto from "crypto";
 import pkg from "pg";
 const { Pool } = pkg;
 const pool = new Pool({
@@ -63,14 +64,39 @@ export default async function handler(req, res) {
       }
 
       const chipCode = await generateSequentialChipCode();
-
-      await pool.query(
-        `INSERT INTO chips (chip_code, customer_email, customer_name, session_id, created_at)
-         VALUES ($1, $2, $3, $4, NOW())`,
-        [chipCode, customerEmail, customerName, sessionId]
+      const setupToken = crypto.randomBytes(32).toString("hex");
+      const setupTokenHash = crypto
+        .createHash("sha256")
+        .update(setupToken)
+        .digest("hex");
+      const setupTokenExpiresAt = new Date(
+        Date.now() + 30 * 24 * 60 * 60 * 1000
       );
 
-      const setupUrl = `https://www.mystorychip.com/client-setup.html?code=${chipCode}`;
+       await pool.query(
+        `INSERT INTO chips (
+           chip_code,
+           customer_email,
+           customer_name,
+           session_id,
+           setup_token_hash,
+           setup_token_expires_at,
+           created_at
+         )
+         VALUES ($1, $2, $3, $4, $5, $6, NOW())`,
+        [
+          chipCode,
+          customerEmail,
+          customerName,
+          sessionId,
+          setupTokenHash,
+          setupTokenExpiresAt
+        ]
+      );
+
+       const setupUrl =
+        `https://www.mystorychip.com/client-setup.html?code=${encodeURIComponent(chipCode)}` +
+        `&token=${encodeURIComponent(setupToken)}`;
 
       await fetch("https://api.resend.com/emails", {
         method: "POST",
