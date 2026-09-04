@@ -1395,13 +1395,74 @@ footer{
   .cinema{display:none}
   .reveal{opacity:1;transform:none}
 }
+.rotate-phone-notice{
+  display:none;
+}
 
+@media (max-width:800px) and (orientation:portrait){
+  .rotate-phone-notice{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:32px;
+    text-align:center;
+    color:#eef7ff;
+    background:
+      radial-gradient(circle at 50% 38%,rgba(20,105,210,.28),transparent 36%),
+      linear-gradient(180deg,#020b1c,#00040d);
+  }
+
+  .rotate-phone-icon{
+    width:58px;
+    height:98px;
+    margin-bottom:28px;
+    border:3px solid #75c7ff;
+    border-radius:12px;
+    box-shadow:
+      0 0 18px rgba(45,157,255,.75),
+      inset 0 0 14px rgba(45,157,255,.25);
+    animation:mscRotatePhone 2.4s ease-in-out infinite;
+  }
+
+  .rotate-phone-title{
+    font-size:1.55rem;
+    font-weight:800;
+    letter-spacing:.05em;
+    color:#8ed3ff;
+    text-shadow:0 0 14px rgba(48,164,255,.65);
+  }
+
+  .rotate-phone-text{
+    max-width:290px;
+    margin:12px 0 0;
+    font-size:1rem;
+    line-height:1.5;
+    color:#c7d8ea;
+  }
+}
+
+@keyframes mscRotatePhone{
+  0%,25%{transform:rotate(0deg)}
+  60%,85%{transform:rotate(90deg)}
+  100%{transform:rotate(0deg)}
+}
 </style>
 </head>
 
 <body>
 
 <div class="cinema" id="mscCinema">
+  <div class="rotate-phone-notice">
+    <div class="rotate-phone-icon" aria-hidden="true"></div>
+    <div class="rotate-phone-title">Rotate Your Phone</div>
+    <p class="rotate-phone-text">
+      Turn your phone sideways for the full MyStoryChip experience.
+    </p>
+  </div>
   <video id="mscIntroVideo" class="cinema-video" playsinline>
     <source src="media/MSC_Cinematic_Website_Intro_FINAL.mp4" type="video/mp4">
   </video>
@@ -1882,7 +1943,7 @@ const observer=new IntersectionObserver(entries=>{
       observer.unobserve(entry.target);
     }
   });
-},{threshold:.12});
+},{threshold:window.matchMedia('(max-width:800px)').matches ? .01 : .12});
 
 document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 </script>
