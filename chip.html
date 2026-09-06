@@ -873,8 +873,8 @@
           <h2 class="section-title">Documents</h2>
           ${documents.map(doc => `
             <div style="margin-bottom:12px;">
-              <a href="${doc.url || doc}" target="_blank" class="doc-link">
-                📄 ${doc.name || "Document"}
+              <a href="${typeof doc === "string" ? doc : (doc.src || doc.url || "")}" target="_blank" class="doc-link">
+                📄 ${typeof doc === "string" ? "Document" : (doc.filename || doc.name || "Document")}
               </a>
             </div>`).join('')}
         </section>` : ''}
