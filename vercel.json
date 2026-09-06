@@ -50,6 +50,38 @@
       "use": "@vercel/node"
     },
     {
+      "src": "api/setup-auth.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/pin-reset-request.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/pin-reset.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/media-upload.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/media-file.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/media-manage.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/media-register.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "media-upload-client.js",
+      "use": "@vercel/static"
+    },
+    {
       "src": "media/*.png",
       "use": "@vercel/static"
     },
@@ -74,6 +106,38 @@
     {
       "src": "/api/chip-data",
       "dest": "/api/chip-data.js"
+    },
+    {
+      "src": "/api/setup-auth",
+      "dest": "/api/setup-auth.js"
+    },
+    {
+      "src": "/api/pin-reset-request",
+      "dest": "/api/pin-reset-request.js"
+    },
+    {
+      "src": "/api/pin-reset",
+      "dest": "/api/pin-reset.js"
+    },
+    {
+      "src": "/api/media-upload",
+      "dest": "/api/media-upload.js"
+    },
+    {
+      "src": "/api/media-file",
+      "dest": "/api/media-file.js"
+    },
+    {
+      "src": "/api/media-manage",
+      "dest": "/api/media-manage.js"
+    },
+    {
+      "src": "/api/media-register",
+      "dest": "/api/media-register.js"
+    },
+    {
+      "src": "/media-upload-client.js",
+      "dest": "/media-upload-client.js"
     },
     {
       "src": "/images/(.*)",
