@@ -1326,23 +1326,23 @@ footer{
 
 .skip-intro{
   position:absolute;
-  z-index:40;
-  right:28px;
-  bottom:25px;
-  border:1px solid rgba(255,255,255,.25);
-  color:rgba(255,255,255,.72);
-  background:rgba(0,0,0,.30);
-  border-radius:999px;
-  padding:9px 16px;
-  cursor:pointer;
-  font-size:.75rem;
-  letter-spacing:.08em;
+  z-index:60;
+  left:calc(50% + max(100vw,150vh) * .3008);
+  right:auto;
+  top:calc(50% + max(100vh,66.6667vw) * .300);
+  bottom:auto;
+  transform:translate(-50%,-50%);
+  width:clamp(120px,12vw,180px);
+  min-height:36px;
+  padding:9px 18px;
+  font-size:clamp(11px,.85vw,14px);
+  opacity:.88;
 }
 
 .skip-intro:hover{
-  color:#fff;
-  border-color:rgba(100,185,255,.65);
-  background:rgba(20,85,150,.42);
+  transform:translate(-50%,-50%);
+  filter:brightness(1.2);
+  opacity:1;
 }
 
 /* scroll reveal */
@@ -1482,7 +1482,7 @@ footer{
 </div>
 
   <button class="pause-intro" id="pauseIntro" onclick="toggleIntroPause()">❚❚ Pause</button>
-  <button class="skip-intro" onclick="closeCinema()">Skip Intro</button>
+  <button class="nav-storyteller skip-intro" onclick="closeCinema()">Skip Intro</button>
 </div>
 
 
