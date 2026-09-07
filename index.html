@@ -1806,7 +1806,9 @@ function startCinema(){
 }
 
 function toggleIntroPause(){
-  const video=document.getElementById('mscIntroVideo');
+  const intro=document.getElementById('mscIntroVideo');
+  const journey=document.getElementById('mscJourneyVideo');
+  const video=(journey && journey.style.display !== 'none') ? journey : intro;
   const button=document.getElementById('pauseIntro');
 
   if(!video || !button) return;
