@@ -902,6 +902,54 @@ footer{
   transition:transform .3s ease,filter .3s ease;
 }
 
+.msc-storybook-art-badge{
+  position:absolute;
+  left:50%;
+  top:58%;
+  transform:translate(-50%,-50%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  pointer-events:none;
+}
+
+.msc-storybook-art-badge-pill{
+  padding:5px 14px;
+  clip-path:polygon(7px 0,calc(100% - 7px) 0,100% 7px,100% calc(100% - 7px),calc(100% - 7px) 100%,7px 100%,0 calc(100% - 7px),0 7px);
+  background:linear-gradient(180deg,#2f8fdb 0%,#1c62b8 45%,#0f3d80 100%);
+  border:1px solid rgba(160,225,255,.75);
+  color:#f4fbff;
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:.5rem;
+  font-weight:700;
+  letter-spacing:.03em;
+  white-space:nowrap;
+  box-shadow:0 2px 8px rgba(0,0,0,.4),0 0 16px rgba(110,210,255,.6),inset 0 1px 0 rgba(220,245,255,.5);
+  text-shadow:0 0 6px rgba(150,225,255,.7),0 1px 2px rgba(0,0,0,.6);
+  animation:mscBadgePulse 2.6s ease-in-out infinite;
+}
+
+.msc-storybook-art-badge-arrow{
+  display:none;
+}
+
+@keyframes mscBadgePulse{
+  0%,100%{
+    box-shadow:0 6px 20px rgba(0,0,0,.5),0 0 22px rgba(70,180,255,.4);
+  }
+  50%{
+    box-shadow:0 6px 24px rgba(0,0,0,.55),0 0 34px rgba(70,180,255,.65);
+  }
+}
+
+@media(max-width:800px){
+  .msc-storybook-art-badge-pill{
+    font-size:.68rem;
+    padding:8px 16px;
+  }
+}
+
 .msc-storybook-art img{
   display:block;
   width:100%;
@@ -938,52 +986,68 @@ footer{
   gap:16px;
 }
 
-.msc-storybook-home{
-  display:inline-block;
-  min-width:280px;
-  padding:14px 30px;
-  border-radius:999px;
-  background:linear-gradient(180deg,#2d6fd6,#0f3a86);
-  color:#f2f7fc;
-  font-family:Arial,Helvetica,sans-serif;
-  font-size:.85rem;
-  font-weight:700;
-  letter-spacing:.03em;
-  text-decoration:none;
-  text-align:center;
-  box-shadow:0 8px 24px rgba(20,70,160,.4),0 0 0 1px rgba(255,255,255,.12) inset;
-  transition:transform .25s ease,box-shadow .25s ease;
-}
-
-.msc-storybook-home:hover{
-  transform:translateY(-2px);
-  box-shadow:0 14px 34px rgba(20,70,160,.5),0 0 0 1px rgba(255,255,255,.18) inset;
-}
-
+.msc-storybook-home,
 .msc-storybook-access{
+  --button-shape:polygon(
+    6% 0,94% 0,100% 30%,100% 70%,
+    94% 100%,6% 100%,0 70%,0 30%
+  );
+  position:relative;
+  isolation:isolate;
   display:inline-block;
   min-width:280px;
-  border:1px solid rgba(140,165,185,.35);
-  padding:13px 30px;
-  border-radius:999px;
-  background:rgba(30,40,52,.55);
-  color:#c3d2de;
+  border:0;
+  border-radius:0;
+  padding:16px 30px;
+  background:linear-gradient(
+    180deg,#f0f5ff,#718198 35%,#d5e5fa 55%,#62738c
+  );
+  clip-path:var(--button-shape);
+  color:#e7efff;
+  cursor:pointer;
   font-family:Arial,Helvetica,sans-serif;
-  font-size:.85rem;
-  font-weight:700;
-  letter-spacing:.03em;
+  font-size:.95rem;
+  font-weight:800;
+  letter-spacing:.06em;
   text-decoration:none;
   text-align:center;
-  cursor:pointer;
-  box-shadow:0 6px 18px rgba(0,0,0,.3);
-  transition:background .25s ease,border-color .25s ease,box-shadow .25s ease,transform .25s ease;
+  text-shadow:0 2px 3px #00102f;
+  box-shadow:none;
+  transition:filter .2s ease;
 }
 
+.msc-storybook-home::before,
+.msc-storybook-access::before{
+  content:"";
+  position:absolute;
+  inset:2px;
+  z-index:-1;
+  clip-path:var(--button-shape);
+}
+
+.msc-storybook-home::before{
+  background:linear-gradient(
+    180deg,#299cff 0%,#0758bd 24%,#092b78 65%,#020c36 100%
+  );
+  box-shadow:
+    inset 0 2px 3px #b8e8ff,
+    inset 0 -2px 4px #219fff;
+}
+
+.msc-storybook-access::before{
+  background:linear-gradient(
+    180deg,#4a6b8f 0%,#233a55 24%,#132537 65%,#060d16 100%
+  );
+  box-shadow:
+    inset 0 2px 3px #7fb0d8,
+    inset 0 -2px 4px #3d6e94;
+}
+
+.msc-storybook-home:hover,
 .msc-storybook-access:hover{
-  transform:translateY(-2px);
-  background:rgba(45,58,74,.7);
-  border-color:rgba(160,195,220,.55);
-  box-shadow:0 10px 26px rgba(70,140,200,.25);
+  transform:none;
+  box-shadow:none;
+  filter:brightness(1.2);
 }
 
 .msc-storybook-footer{
@@ -1613,6 +1677,10 @@ Open My Story Page
 
     <a class="msc-storybook-art" href="https://buy.stripe.com/00w5kCgXe1Fwcu05dkdby02" aria-label="Get Your MyStoryChip — $49.95">
       <img src="media/Storybook_Blue.png" alt="MyStoryChip — a story preserved, one tap away">
+      <span class="msc-storybook-art-badge">
+        <span class="msc-storybook-art-badge-pill">Go Ahead, Push It</span>
+        <span class="msc-storybook-art-badge-arrow"></span>
+      </span>
     </a>
     <span class="msc-storybook-art-label">Get Your MyStoryChip — $49.95</span>
 
