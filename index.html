@@ -834,324 +834,221 @@ footer{
   box-shadow:0 16px 45px rgba(51,160,238,.32);
 }
 
-/* FINAL OPEN-BOOK DOCUMENT */
-.msc-book-close{
+/* MSC STORYBOOK CLOSE */
+.msc-storybook{
   position:relative;
-  overflow:hidden;
-  min-height:min(66.667vw,1024px);
-  background:
-    #02070d url("media/MSC_TWO_Final_Open_Book.png") center center / cover no-repeat;
-  border-top:1px solid rgba(114,196,251,.24);
-  box-shadow:inset 0 28px 75px rgba(0,0,0,.42);
-}
-
-.msc-book-spread{
-  position:absolute;
-  z-index:2;
-  inset:10.5% 10.2% 18%;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8%;
-  align-items:start;
-}
-
-.msc-book-page{
-  min-width:0;
-  color:#dcecf6;
-  text-shadow:0 2px 4px rgba(0,0,0,.82);
-}
-
-.msc-book-left{
-  padding:2% 4% 0 2%;
-}
-
-.msc-book-right{
-  padding:2% 2% 0 4%;
+  padding:100px 6vw 70px;
+  background:#03060b;
   text-align:center;
-  position:relative;
+  overflow:hidden;
 }
 
-.msc-book-kicker{
-  margin:0 0 8px;
-  color:#73c7ff;
-  font-family:Georgia,"Times New Roman",serif;
-  font-size:clamp(.72rem,1.25vw,1.14rem);
-  font-style:italic;
-  letter-spacing:.025em;
-}
-
-.msc-book-title{
-  margin:0;
-  color:#f0f5f8;
-  font-family:Georgia,"Times New Roman",serif;
-  font-size:clamp(2rem,3.8vw,4.1rem);
-  font-weight:400;
-  line-height:.92;
-  letter-spacing:-.035em;
-}
-
-.msc-book-title span{
-  color:#72c7ff;
-}
-
-.msc-book-intro{
-  width:min(500px,100%);
-  margin:16px 0 18px;
-  color:#c1d1dc;
-  font-size:clamp(.68rem,.92vw,.92rem);
-  line-height:1.55;
-}
-
-.msc-book-points{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px 20px;
-}
-
-.msc-book-point{
-  position:relative;
-  padding:8px 8px 10px 25px;
-  border-bottom:1px solid rgba(117,196,246,.32);
-}
-
-.msc-book-point::before{
-  content:attr(data-mark);
+.msc-storybook::before{
+  content:"";
   position:absolute;
-  left:0;
-  top:10px;
-  color:#54baff;
-  font-family:Arial,Helvetica,sans-serif;
-  font-size:.55rem;
-  font-weight:700;
-  letter-spacing:.08em;
-  text-shadow:0 0 8px rgba(39,154,230,.72);
+  inset:0;
+  background:radial-gradient(circle at 50% 15%,rgba(28,120,220,.14),transparent 45%);
+  pointer-events:none;
 }
 
-.msc-book-point strong{
-  display:block;
-  color:#ecf4f9;
+.msc-storybook-inner{
+  position:relative;
+  z-index:1;
+  width:min(900px,100%);
+  margin:0 auto;
+}
+
+.msc-storybook-kicker{
+  margin:0 0 14px;
+  color:#78c8ff;
   font-family:Georgia,"Times New Roman",serif;
-  font-size:clamp(.72rem,1.05vw,1rem);
+  font-style:italic;
+  font-size:clamp(.85rem,1.1vw,1.05rem);
+  letter-spacing:.02em;
+  text-shadow:0 0 14px rgba(45,150,230,.5);
+}
+
+.msc-storybook-title{
+  margin:0;
+  color:#f4f8fb;
+  font-family:Georgia,"Times New Roman",serif;
   font-weight:400;
+  font-size:clamp(2.2rem,5vw,4.4rem);
+  line-height:1.05;
+  text-shadow:0 6px 24px rgba(0,0,0,.85);
 }
 
-.msc-book-point p{
-  margin:4px 0 0;
-  color:#abc0cf;
-  font-size:clamp(.56rem,.72vw,.72rem);
-  line-height:1.38;
+.msc-storybook-title span{
+  color:#6cc3ff;
+  text-shadow:0 0 20px rgba(46,160,235,.6),0 6px 24px rgba(0,0,0,.85);
 }
 
-.msc-book-closing{
-  margin-bottom:12px;
+.msc-storybook-sub{
+  margin:16px auto 0;
+  max-width:520px;
+  color:#aac2d4;
+  font-size:clamp(.85rem,1vw,1rem);
+  line-height:1.6;
+  text-shadow:0 2px 8px rgba(0,0,0,.7);
 }
 
-.msc-book-closing .msc-book-title{
-  font-size:clamp(1.8rem,3.1vw,3.35rem);
-  line-height:.96;
+.msc-storybook-art{
+  position:relative;
+  width:min(980px,100%);
+  margin:48px auto 40px;
 }
 
-.msc-book-closing p{
-  margin:11px auto 0;
-  color:#b8cad7;
-  font-size:clamp(.62rem,.82vw,.82rem);
+.msc-storybook-art img{
+  display:block;
+  width:100%;
+  height:auto;
+  filter:drop-shadow(0 25px 60px rgba(0,0,0,.65));
 }
 
-.msc-book-actions{
+.msc-storybook-cta-overlay{
+  position:absolute;
+  left:50%;
+  top:90%;
+  transform:translate(-50%,-50%);
+  display:inline-block;
+  padding:14px 30px;
+  border-radius:999px;
+  background:linear-gradient(180deg,#eaf6ff,#bfe3ff);
+  color:#0b2338;
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:.82rem;
+  font-weight:700;
+  letter-spacing:.04em;
+  text-decoration:none;
+  text-transform:uppercase;
+  white-space:nowrap;
+  box-shadow:0 10px 30px rgba(70,180,255,.4),0 0 0 1px rgba(255,255,255,.4) inset;
+  transition:transform .25s ease,box-shadow .25s ease;
+}
+
+.msc-storybook-cta-overlay:hover{
+  transform:translate(-50%,-50%) translateY(-2px);
+  box-shadow:0 16px 40px rgba(70,180,255,.55),0 0 0 1px rgba(255,255,255,.5) inset;
+}
+
+.msc-storybook-actions{
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:14px;
-  margin:30px 0 6px;
+  gap:16px;
 }
 
-.msc-chip-button{
-  display:block;
-  width:clamp(62px,5.8vw,86px);
-  height:clamp(62px,5.8vw,86px);
-  border-radius:50%;
-  transition:transform .25s ease,filter .25s ease;
-  filter:
-    drop-shadow(0 4px 7px rgba(0,0,0,.5))
-    drop-shadow(0 0 5px rgba(31,153,232,.24));
+.msc-storybook-home{
+  display:inline-block;
+  padding:12px 30px;
+  border-radius:999px;
+  background:linear-gradient(180deg,#2d6fd6,#0f3a86);
+  color:#f2f7fc;
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:.85rem;
+  font-weight:700;
+  letter-spacing:.03em;
+  text-decoration:none;
+  box-shadow:0 8px 24px rgba(20,70,160,.4),0 0 0 1px rgba(255,255,255,.12) inset;
+  transition:transform .25s ease,box-shadow .25s ease;
 }
 
-.msc-chip-button img{
-  display:block;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  border-radius:50%;
+.msc-storybook-home:hover{
+  transform:translateY(-2px);
+  box-shadow:0 14px 34px rgba(20,70,160,.5),0 0 0 1px rgba(255,255,255,.18) inset;
 }
 
-.msc-chip-button:hover{
-  transform:translateY(-2px) scale(1.06);
-  filter:
-    drop-shadow(0 6px 9px rgba(0,0,0,.56))
-    drop-shadow(0 0 10px rgba(31,153,232,.48));
-}
-
-.msc-book-access{
+.msc-storybook-access{
   border:0;
   padding:2px 0;
   background:transparent;
-  color:#eaf4fb;
+  color:#cfe4f2;
   font-family:Georgia,"Times New Roman",serif;
-  font-size:clamp(.68rem,.88vw,.86rem);
+  font-size:.85rem;
   font-style:italic;
   text-decoration:underline;
   text-decoration-color:rgba(114,196,251,.4);
   text-underline-offset:3px;
   cursor:pointer;
-  transition:color .2s ease,text-shadow .2s ease;
-}
-
-.msc-book-access:hover{
-  color:#79caff;
-  text-shadow:0 0 8px rgba(42,160,236,.5);
-}
-
-.msc-book-top{
-  position:absolute;
-  right:3%;
-  top:1%;
-  color:#82a9c1;
-  font-family:Arial,Helvetica,sans-serif;
-  font-size:clamp(.48rem,.58vw,.6rem);
-  font-weight:700;
-  letter-spacing:.14em;
-  text-decoration:none;
-  text-transform:uppercase;
   transition:color .2s ease;
 }
 
-.msc-book-top:hover{
-  color:#70c7ff;
+.msc-storybook-access:hover{
+  color:#79caff;
 }
 
-.msc-book-colophon{
-  width:82%;
-  margin:34px auto 0;
-  padding-top:9px;
-  border-top:1px solid rgba(140,205,245,.32);
+.msc-storybook-footer{
+  margin-top:64px;
+  padding-top:26px;
+  border-top:1px solid rgba(120,194,247,.16);
 }
 
-.msc-founder-signature{
+.msc-storybook-signature{
   display:block;
-  width:min(290px,88%);
+  width:min(240px,70%);
   height:auto;
-  margin:0 auto 1px;
-  filter:
-    drop-shadow(0 2px 3px rgba(0,0,0,.7))
-    drop-shadow(0 0 7px rgba(36,151,230,.34));
+  margin:0 auto 6px;
+  filter:drop-shadow(0 0 8px rgba(36,151,230,.3));
 }
 
-.msc-book-founder-title{
+.msc-storybook-founder-title{
   display:block;
   color:#77c4f4;
   font-family:Georgia,"Times New Roman",serif;
-  font-size:clamp(.48rem,.62vw,.64rem);
   font-style:italic;
-  letter-spacing:.055em;
+  font-size:.78rem;
+  letter-spacing:.05em;
 }
 
-.msc-book-brand{
-  margin-top:7px;
+.msc-storybook-brand{
+  margin-top:16px;
   color:#dcebf4;
   font-family:Georgia,"Times New Roman",serif;
-  font-size:clamp(.56rem,.72vw,.74rem);
+  font-size:.9rem;
 }
 
-.msc-book-brand span{
+.msc-storybook-brand span{
   color:#81a9c1;
 }
 
-.msc-book-footer-links{
+.msc-storybook-links{
   display:flex;
   justify-content:center;
-  gap:13px;
-  margin-top:5px;
+  gap:18px;
+  margin-top:12px;
 }
 
-.msc-book-footer-links a{
+.msc-storybook-links a{
   color:#8fb7cf;
   font-family:Arial,Helvetica,sans-serif;
-  font-size:clamp(.46rem,.55vw,.58rem);
+  font-size:.75rem;
   text-decoration:none;
   transition:color .2s ease;
 }
 
-.msc-book-footer-links a:hover{
+.msc-storybook-links a:hover{
   color:#72c8ff;
 }
 
-.msc-book-copyright{
-  margin-top:5px;
-  color:#6f91a6;
-  font-size:clamp(.42rem,.5vw,.52rem);
-  letter-spacing:.045em;
+.msc-storybook-copyright{
+  margin-top:16px;
+  color:#5c7d92;
+  font-size:.68rem;
+  letter-spacing:.04em;
 }
 
 @media(max-width:800px){
-  .msc-offer{
-    padding-left:7vw;
-    padding-right:7vw;
+  .msc-storybook{
+    padding:70px 7vw 50px;
   }
-
-  .msc-facts{
-    grid-template-columns:1fr 1fr;
+  .msc-storybook-art{
+    margin:32px auto 28px;
   }
-
-  .msc-facts div:nth-child(2){
-    border-right:0;
-  }
-
-  .msc-facts div:nth-child(-n+2){
-    border-bottom:1px solid rgba(151,205,244,.16);
-  }
-
-  .msc-book-close{
-    min-height:0;
-    padding:15vw 7vw 19vw;
-    background-position:center top;
-  }
-
-  .msc-book-spread{
-    position:relative;
-    inset:auto;
-    grid-template-columns:1fr;
-    gap:28px;
-  }
-
-  .msc-book-page{
-    padding:24px;
-    border:1px solid rgba(109,191,244,.3);
-    border-radius:18px;
-    background:rgba(3,17,29,.86);
-    box-shadow:inset 0 0 30px rgba(26,125,194,.1);
-  }
-
-  .msc-book-points{
-    grid-template-columns:1fr;
-  }
-
-  .msc-book-intro{
-    font-size:.9rem;
-  }
-
-  .msc-book-point strong{
-    font-size:1rem;
-  }
-
-  .msc-book-point p{
-    font-size:.78rem;
-  }
-
-  .msc-book-colophon{
-    width:100%;
+  .msc-storybook-cta-overlay{
+    padding:10px 20px;
+    font-size:.68rem;
   }
 }
-
 
 /* MSC CINEMATIC OPENING */
 .cinema{
@@ -1688,97 +1585,58 @@ Open My Story Page
 </section>
 
 
-<section class="msc-book-close reveal" id="stories">
-  <div class="msc-book-spread">
+<section class="msc-storybook reveal" id="stories">
+  <div class="msc-storybook-inner">
 
-    <div class="msc-book-page msc-book-left">
-      <div class="msc-book-kicker">Because some things are personal.</div>
+    <div class="msc-storybook-kicker">Some stories deserve to live on.</div>
 
-      <h2 class="msc-book-title">
-        Your Story<br><span>Stays Yours.</span>
-      </h2>
+    <h2 class="msc-storybook-title">
+      Your Chip.<br>Your Story. <span>Your Way.</span>
+    </h2>
 
-      <p class="msc-book-intro">
-        MyStoryChip gives you a place to preserve what matters without taking
-        the story away from the person who owns it. You choose what belongs
-        on your Story Page and how it is shared.
-      </p>
+    <p class="msc-storybook-sub">
+      One small tap can open something worth remembering.
+    </p>
 
-      <div class="msc-book-points">
-        <article class="msc-book-point" data-mark="01">
-          <strong>Your Privacy</strong>
-          <p>You control how your story is shared.</p>
-        </article>
-
-        <article class="msc-book-point" data-mark="02">
-          <strong>PIN Protection</strong>
-          <p>Protected access for Story Page changes.</p>
-        </article>
-
-        <article class="msc-book-point" data-mark="03">
-          <strong>Your Content</strong>
-          <p>Your words, photographs and documents tell the story.</p>
-        </article>
-
-        <article class="msc-book-point" data-mark="04">
-          <strong>250 MB Included</strong>
-          <p>Storage is included with every MyStoryChip.</p>
-        </article>
-      </div>
+    <div class="msc-storybook-art">
+      <img src="media/Storybook_Blue.png" alt="MyStoryChip — a story preserved, one tap away">
+      <a class="msc-storybook-cta-overlay" href="https://buy.stripe.com/00w5kCgXe1Fwcu05dkdby02">
+        Get Your MyStoryChip — $49.95
+      </a>
     </div>
 
-    <div class="msc-book-page msc-book-right" id="setup">
-      <div class="msc-book-closing">
-        <div class="msc-book-kicker">Some stories deserve to live on.</div>
+    <div class="msc-storybook-actions">
+      <a class="msc-storybook-home" href="index.html">Home</a>
 
-        <h2 class="msc-book-title">
-          Your Chip.<br>Your Story. <span>Your Way.</span>
-        </h2>
-
-        <p>One small tap can open something worth remembering.</p>
-      </div>
-
-      <div class="msc-book-actions">
-        <a class="msc-chip-button"
-          href="https://buy.stripe.com/00w5kCgXe1Fwcu05dkdby02"
-          aria-label="Get Your MyStoryChip — $49.95"
-          title="Get Your MyStoryChip — $49.95">
-          <img src="media/MSC_TWO_Get_Your_Chip_Button.png"
-            alt="Get Your MyStoryChip — $49.95">
-        </a>
-
-        <button type="button"
-          class="msc-book-access"
-          onclick="document.getElementById('storytellerModal').style.display='flex'">
-          Already a Storyteller? Open My Story Page
-        </button>
-      </div>
-
-      <a class="msc-book-top" href="#">Back to Top</a>
-
-      <footer class="msc-book-colophon">
-        <img class="msc-founder-signature"
-          src="media/Jack_W_Kennedy_Founder_Signature.png"
-          alt="Jack W. Kennedy">
-
-        <span class="msc-book-founder-title">
-          Founder · Creator · Storyteller
-        </span>
-
-        <div class="msc-book-brand">
-          MyStoryChip <span>· Every Story Matters.</span>
-        </div>
-
-        <nav class="msc-book-footer-links" aria-label="MyStoryChip footer">
-          <a href="terms.html">Terms &amp; Disclaimer</a>
-          <a href="admin.html">Admin</a>
-        </nav>
-
-        <div class="msc-book-copyright">
-          © 2026 MyStoryChip · All rights reserved
-        </div>
-      </footer>
+      <button type="button"
+        class="msc-storybook-access"
+        onclick="document.getElementById('storytellerModal').style.display='flex'">
+        Already a Storyteller? Open My Story Page
+      </button>
     </div>
+
+    <footer class="msc-storybook-footer">
+      <img class="msc-storybook-signature"
+        src="media/Jack_W_Kennedy_Founder_Signature.png"
+        alt="Jack W. Kennedy">
+
+      <span class="msc-storybook-founder-title">
+        Founder · Creator · Storyteller
+      </span>
+
+      <div class="msc-storybook-brand">
+        MyStoryChip <span>· Every Story Matters.</span>
+      </div>
+
+      <nav class="msc-storybook-links" aria-label="MyStoryChip footer">
+        <a href="admin.html">Admin</a>
+        <a href="terms.html">Terms &amp; Disclaimer</a>
+      </nav>
+
+      <div class="msc-storybook-copyright">
+        © 2026 MyStoryChip · All rights reserved
+      </div>
+    </footer>
 
   </div>
 </section>
