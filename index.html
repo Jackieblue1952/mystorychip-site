@@ -893,42 +893,42 @@ footer{
 }
 
 .msc-storybook-art{
+  display:block;
   position:relative;
   width:min(980px,100%);
-  margin:48px auto 40px;
+  margin:48px auto 8px;
+  text-decoration:none;
+  border-radius:18px;
+  transition:transform .3s ease,filter .3s ease;
 }
 
 .msc-storybook-art img{
   display:block;
   width:100%;
   height:auto;
+  border-radius:18px;
   filter:drop-shadow(0 25px 60px rgba(0,0,0,.65));
+  transition:filter .3s ease;
 }
 
-.msc-storybook-cta-overlay{
-  position:absolute;
-  left:50%;
-  top:90%;
-  transform:translate(-50%,-50%);
-  display:inline-block;
-  padding:14px 30px;
-  border-radius:999px;
-  background:linear-gradient(180deg,#eaf6ff,#bfe3ff);
-  color:#0b2338;
+.msc-storybook-art:hover{
+  transform:translateY(-3px);
+}
+
+.msc-storybook-art:hover img{
+  filter:drop-shadow(0 30px 70px rgba(0,0,0,.7)) brightness(1.06);
+}
+
+.msc-storybook-art-label{
+  display:block;
+  margin:16px 0 40px;
+  color:#eaf6ff;
   font-family:Arial,Helvetica,sans-serif;
   font-size:.82rem;
   font-weight:700;
-  letter-spacing:.04em;
-  text-decoration:none;
+  letter-spacing:.05em;
   text-transform:uppercase;
-  white-space:nowrap;
-  box-shadow:0 10px 30px rgba(70,180,255,.4),0 0 0 1px rgba(255,255,255,.4) inset;
-  transition:transform .25s ease,box-shadow .25s ease;
-}
-
-.msc-storybook-cta-overlay:hover{
-  transform:translate(-50%,-50%) translateY(-2px);
-  box-shadow:0 16px 40px rgba(70,180,255,.55),0 0 0 1px rgba(255,255,255,.5) inset;
+  text-shadow:0 0 14px rgba(70,180,255,.5);
 }
 
 .msc-storybook-actions{
@@ -940,7 +940,8 @@ footer{
 
 .msc-storybook-home{
   display:inline-block;
-  padding:12px 30px;
+  min-width:280px;
+  padding:14px 30px;
   border-radius:999px;
   background:linear-gradient(180deg,#2d6fd6,#0f3a86);
   color:#f2f7fc;
@@ -949,6 +950,7 @@ footer{
   font-weight:700;
   letter-spacing:.03em;
   text-decoration:none;
+  text-align:center;
   box-shadow:0 8px 24px rgba(20,70,160,.4),0 0 0 1px rgba(255,255,255,.12) inset;
   transition:transform .25s ease,box-shadow .25s ease;
 }
@@ -959,35 +961,45 @@ footer{
 }
 
 .msc-storybook-access{
-  border:0;
-  padding:2px 0;
-  background:transparent;
-  color:#cfe4f2;
-  font-family:Georgia,"Times New Roman",serif;
+  display:inline-block;
+  min-width:280px;
+  border:1px solid rgba(140,165,185,.35);
+  padding:13px 30px;
+  border-radius:999px;
+  background:rgba(30,40,52,.55);
+  color:#c3d2de;
+  font-family:Arial,Helvetica,sans-serif;
   font-size:.85rem;
-  font-style:italic;
-  text-decoration:underline;
-  text-decoration-color:rgba(114,196,251,.4);
-  text-underline-offset:3px;
+  font-weight:700;
+  letter-spacing:.03em;
+  text-decoration:none;
+  text-align:center;
   cursor:pointer;
-  transition:color .2s ease;
+  box-shadow:0 6px 18px rgba(0,0,0,.3);
+  transition:background .25s ease,border-color .25s ease,box-shadow .25s ease,transform .25s ease;
 }
 
 .msc-storybook-access:hover{
-  color:#79caff;
+  transform:translateY(-2px);
+  background:rgba(45,58,74,.7);
+  border-color:rgba(160,195,220,.55);
+  box-shadow:0 10px 26px rgba(70,140,200,.25);
 }
 
 .msc-storybook-footer{
   margin-top:64px;
-  padding-top:26px;
+  padding-top:30px;
   border-top:1px solid rgba(120,194,247,.16);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
 }
 
 .msc-storybook-signature{
   display:block;
-  width:min(240px,70%);
+  width:min(150px,50%);
   height:auto;
-  margin:0 auto 6px;
+  margin:0 auto 10px;
   filter:drop-shadow(0 0 8px rgba(36,151,230,.3));
 }
 
@@ -996,15 +1008,15 @@ footer{
   color:#77c4f4;
   font-family:Georgia,"Times New Roman",serif;
   font-style:italic;
-  font-size:.78rem;
+  font-size:.85rem;
   letter-spacing:.05em;
 }
 
 .msc-storybook-brand{
-  margin-top:16px;
+  margin-top:14px;
   color:#dcebf4;
   font-family:Georgia,"Times New Roman",serif;
-  font-size:.9rem;
+  font-size:1rem;
 }
 
 .msc-storybook-brand span{
@@ -1014,14 +1026,14 @@ footer{
 .msc-storybook-links{
   display:flex;
   justify-content:center;
-  gap:18px;
-  margin-top:12px;
+  gap:20px;
+  margin-top:16px;
 }
 
 .msc-storybook-links a{
   color:#8fb7cf;
   font-family:Arial,Helvetica,sans-serif;
-  font-size:.75rem;
+  font-size:.8rem;
   text-decoration:none;
   transition:color .2s ease;
 }
@@ -1033,7 +1045,7 @@ footer{
 .msc-storybook-copyright{
   margin-top:16px;
   color:#5c7d92;
-  font-size:.68rem;
+  font-size:.72rem;
   letter-spacing:.04em;
 }
 
@@ -1042,11 +1054,12 @@ footer{
     padding:70px 7vw 50px;
   }
   .msc-storybook-art{
-    margin:32px auto 28px;
+    margin:32px auto 8px;
   }
-  .msc-storybook-cta-overlay{
-    padding:10px 20px;
-    font-size:.68rem;
+  .msc-storybook-home,
+  .msc-storybook-access{
+    min-width:0;
+    width:100%;
   }
 }
 
@@ -1598,12 +1611,10 @@ Open My Story Page
       One small tap can open something worth remembering.
     </p>
 
-    <div class="msc-storybook-art">
+    <a class="msc-storybook-art" href="https://buy.stripe.com/00w5kCgXe1Fwcu05dkdby02" aria-label="Get Your MyStoryChip — $49.95">
       <img src="media/Storybook_Blue.png" alt="MyStoryChip — a story preserved, one tap away">
-      <a class="msc-storybook-cta-overlay" href="https://buy.stripe.com/00w5kCgXe1Fwcu05dkdby02">
-        Get Your MyStoryChip — $49.95
-      </a>
-    </div>
+    </a>
+    <span class="msc-storybook-art-label">Get Your MyStoryChip — $49.95</span>
 
     <div class="msc-storybook-actions">
       <a class="msc-storybook-home" href="index.html">Home</a>
@@ -1611,7 +1622,7 @@ Open My Story Page
       <button type="button"
         class="msc-storybook-access"
         onclick="document.getElementById('storytellerModal').style.display='flex'">
-        Already a Storyteller? Open My Story Page
+        I Already Have a Chip
       </button>
     </div>
 
