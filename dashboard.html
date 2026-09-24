@@ -715,7 +715,7 @@ footer a:hover {
         clearForm();
 
         if (data.setupToken) {
-          window.open(`client-setup.html?code=${encodeURIComponent(data.chip.chip_code)}&token=${encodeURIComponent(data.setupToken)}`, "_blank");
+          window.open(`client-setup.html?code=${encodeURIComponent(data.chip.chip_code)}&token=${encodeURIComponent(data.setupToken)}&source=admin`, "_blank");
         } else {
           alert("Chip created, but no setup token was returned.");
         }
