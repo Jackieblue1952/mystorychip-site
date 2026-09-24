@@ -1719,7 +1719,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       existingChip = chipData;
-      window.location.href = 'success.html?code=' + encodeURIComponent(chipCode);
+      window.location.href = 'success.html?code=' + encodeURIComponent(chipCode) + (isAdminLaunch ? '&source=admin' : '');
     } catch (err) {
       alert('Could not save chip to database: ' + err.message);
     }

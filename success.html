@@ -209,6 +209,7 @@ h1 {
 
     <a id="viewBtn" class="btn primary" href="#">View My Story</a>
     <a id="setupBtn" class="btn secondary" href="#">Edit My Story</a>
+    <a id="adminBtn" class="btn secondary" href="dashboard.html" style="display:none">← Return to Admin Dashboard</a>
 
     <div id="msc-success-storage-note">
       <p>
@@ -229,6 +230,12 @@ const code = params.get("code");
 const chipCode = document.getElementById("chipCode");
 const setupBtn = document.getElementById("setupBtn");
 const viewBtn = document.getElementById("viewBtn");
+const adminBtn = document.getElementById("adminBtn");
+const isAdminLaunch = params.get("source") === "admin";
+
+if (isAdminLaunch) {
+  adminBtn.style.display = "";
+}
 
 if (code && code !== "null") {
   chipCode.textContent = code;
