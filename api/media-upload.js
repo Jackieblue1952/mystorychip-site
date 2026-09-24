@@ -18,6 +18,10 @@ const IMAGE_TYPES = [
 ];
 
 const DOCUMENT_TYPES = [
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/gif",
   "application/pdf",
   "text/plain",
   "application/rtf",
