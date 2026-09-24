@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import pkg from "pg";
 const { Pool } = pkg;
 
@@ -39,10 +40,19 @@ export default async function handler(req, res) {
         });
       }
 
+      const setupToken = crypto.randomBytes(32).toString("hex");
+      const setupTokenHash = crypto
+        .createHash("sha256")
+        .update(setupToken)
+        .digest("hex");
+      const setupTokenExpiresAt = new Date(
+        Date.now() + 30 * 24 * 60 * 60 * 1000
+      );
+
       const result = await pool.query(
         `
-        INSERT INTO chips (chip_code, customer_email, customer_name, type, created_at)
-        VALUES ($1, $2, $3, 'Demo / Promo Chip', NOW())
+        INSERT INTO chips (chip_code, customer_email, customer_name, type, setup_token_hash, setup_token_expires_at, created_at)
+        VALUES ($1, $2, $3, 'Demo / Promo Chip', $4, $5, NOW())
         RETURNING
           id,
           chip_code,
@@ -55,12 +65,15 @@ export default async function handler(req, res) {
           cleanChipCode,
           customer_email ? String(customer_email).trim() : null,
           customer_name ? String(customer_name).trim() : null,
+          setupTokenHash,
+          setupTokenExpiresAt,
         ]
       );
 
       return res.status(201).json({
         success: true,
         chip: result.rows[0],
+        setupToken,
       });
     }
 

@@ -676,7 +676,8 @@ footer a:hover {
 
     function clearForm() {
       ["chipCode", "customerName", "customerEmail", "chipNotes"].forEach(id => {
-        document.getElementById(id).value = "";
+        const field = document.getElementById(id);
+        if (field) field.value = "";
       });
     }
 
@@ -712,8 +713,14 @@ footer a:hover {
         }
 
         clearForm();
+
+        if (data.setupToken) {
+          window.open(`client-setup.html?code=${encodeURIComponent(data.chip.chip_code)}&token=${encodeURIComponent(data.setupToken)}`, "_blank");
+        } else {
+          alert("Chip created, but no setup token was returned.");
+        }
+
         await loadChips();
-        alert("Demo / Promo chip created.");
       } catch (err) {
         alert("Add chip failed: " + err.message);
       }
