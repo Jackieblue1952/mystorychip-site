@@ -88,9 +88,17 @@
     {
       "src": "media/*.mp4",
       "use": "@vercel/static"
+    },
+    {
+      "src": "api/admin-nfc.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
+    {
+      "src": "/api/admin-nfc",
+      "dest": "/api/admin-nfc.js"
+    },
     {
       "src": "/api/stripe-webhook",
       "dest": "/api/stripe-webhook.js"
