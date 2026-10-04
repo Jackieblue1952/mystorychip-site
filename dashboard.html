@@ -469,6 +469,7 @@ footer a:hover {
       <a class="btn" href="index.html">Home</a>
       <a class="btn secondary" href="client-setup.html">Setup Page</a>
       <button class="btn secondary" onclick="openLatestChip()">View Latest Chip</button>
+      <a class="btn secondary" href="#nfcRecords">Physical Chip Records</a>
       <button class="logout-btn" onclick="logout()">Logout</button>
     </div>
   </section>
@@ -614,6 +615,7 @@ footer a:hover {
 
   </section>
 
+<section id="nfcRecords" class="hero" style="margin:26px 0"><h2>Physical Chip Records</h2><p>Verified Vostro writes saved in Neon. Each row represents one physical tag; matching chips share a Story Page.</p><div class="actions"><label>Chip code <input id="nfcFilter" placeholder="All codes or MSC-9279" maxlength="10"></label><button id="nfcLoad" class="btn">Load Records</button><a class="btn secondary" href="http://127.0.0.1:8787/nfc" target="_blank" rel="noopener">Open Vostro Writer</a></div><p id="nfcMessage" role="status">Load records to check Neon. The writer opens on the Vostro.</p><div style="overflow:auto"><table style="width:100%"><thead><tr><th>Story code</th><th>Physical tag ID</th><th>Last verified</th><th>Action</th><th>Lock recorded</th></tr></thead><tbody id="nfcRows"></tbody></table></div><div class="actions"><button class="btn secondary" id="nfcPrevious" disabled>Previous</button><button class="btn secondary" id="nfcNext" disabled>Next</button></div></section>
   <footer>
     <div>
       MyStoryChip.com ·
@@ -802,6 +804,7 @@ footer a:hover {
             <td>
               <button class="mini-btn secondary" onclick="openChip('${escapeHTML(code)}')">View</button>
               <button class="mini-btn secondary" onclick="setupChip('${escapeHTML(code)}')">Setup</button>
+              ${/^MSC-[0-9]{4,6}$/.test(code) ? `<button class="mini-btn secondary" onclick="mscNfcOpen('${code}')">Write &amp; Verify</button><button class="mini-btn secondary" onclick="showNfcRecords('${code}')">Tag Records</button>` : ''}
             </td>
           </tr>
         `;
@@ -848,5 +851,24 @@ footer a:hover {
 
     checkAuth();
   </script>
+<script>function mscNfcOpen(code){if(!/^MSC-[0-9]{4,6}$/.test(code))return;window.open("http://127.0.0.1:8787/nfc?code="+encodeURIComponent(code),"_blank","noopener");}</script>
+<script>
+let nfcPage=0;
+async function loadNfcRecords(page=0){
+ const code=document.querySelector('#nfcFilter').value.trim();const msg=document.querySelector('#nfcMessage');
+ if(code&&!/^MSC-[0-9]{4,6}$/.test(code)){msg.textContent='Use a code such as MSC-9279, or leave blank for all tags.';return}
+ const buttons=['#nfcLoad','#nfcPrevious','#nfcNext'].map(x=>document.querySelector(x));buttons.forEach(b=>b.disabled=true);msg.textContent='Loading verified records from Neon…';
+ let success=false;
+ try{const response=await fetch('/api/admin-nfc?'+new URLSearchParams({code,page}),{headers:{Authorization:'Bearer '+(localStorage.getItem('msc_admin_token')||'')}});
+ if(response.status===401){msg.replaceChildren();msg.append('Please sign in again to activate the updated admin session. ');const a=document.createElement('a');a.href='admin.html';a.textContent='Sign in';msg.append(a);document.querySelector('#nfcRows').replaceChildren();return}
+ const data=await response.json();if(!response.ok||!data.ok)throw Error(data.error||'Records unavailable');
+ const body=document.querySelector('#nfcRows');body.replaceChildren();for(const r of data.records){const tr=document.createElement('tr');for(const value of [r.chip_code,r.tag_id,new Date(r.verified_at).toLocaleString(),r.operation==='matching_chip'?'Matching chip':'Write / verify',r.locked?'Yes':'No']){const td=document.createElement('td');td.textContent=value;td.style.padding='12px';tr.append(td)}body.append(tr)}
+ nfcPage=page;msg.textContent=data.records.length+' verified physical tags on page '+(page+1)+'.';buttons[1].disabled=page===0;buttons[2].disabled=!data.has_more;success=true;
+ }catch(e){msg.textContent='Neon records not loaded: '+e.message}finally{buttons[0].disabled=false;if(!success){buttons[1].disabled=true;buttons[2].disabled=true}}
+}
+function showNfcRecords(code){document.querySelector('#nfcFilter').value=code;document.querySelector('#nfcRecords').scrollIntoView({behavior:'smooth'});loadNfcRecords(0)}
+document.querySelector('#nfcLoad').onclick=()=>loadNfcRecords(0);document.querySelector('#nfcPrevious').onclick=()=>loadNfcRecords(nfcPage-1);document.querySelector('#nfcNext').onclick=()=>loadNfcRecords(nfcPage+1);
+if(location.hash==='#nfcRecords')loadNfcRecords(0);
+</script>
 </body>
 </html>

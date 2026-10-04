@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import crypto from "crypto";
+import { createAdminToken } from "./_admin-session.js";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -22,7 +22,7 @@ const hash = process.env.ADMIN_LOGIN_HASH;
     const match = await bcrypt.compare(password, hash);
 
     if (match) {
-      const token = crypto.randomBytes(32).toString("hex");
+      const token = createAdminToken();
       res.setHeader("Set-Cookie", [
         `msc_admin=${token}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=28800`
       ]);
