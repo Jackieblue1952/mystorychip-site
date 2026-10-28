@@ -1751,9 +1751,8 @@ async function goToChip() {
   const err = document.getElementById('storytellerError');
   err.style.display = 'none';
 
-  const res = await fetch('/api/admin-chips');
-  const data = await res.json();
-  const foundChip = data.chips && data.chips.find(chip => chip.chip_code === code);
+  const res = await fetch('/api/chip-data?code=' + encodeURIComponent(code));
+  const foundChip = res.status === 200 || res.status === 401;
 
   if (foundChip) {
     window.location.href = `chip.html?code=${encodeURIComponent(code)}`;

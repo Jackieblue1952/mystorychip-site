@@ -1,5 +1,6 @@
 import crypto from "crypto";
 import pkg from "pg";
+import { isAdmin } from "./_admin-session.js";
 const { Pool } = pkg;
 
 const pool = new Pool({
@@ -12,6 +13,13 @@ export default async function handler(req, res) {
     return res.status(405).json({
       success: false,
       error: "Method not allowed",
+    });
+  }
+
+  if (!isAdmin(req)) {
+    return res.status(401).json({
+      success: false,
+      error: "Admin authorization required",
     });
   }
 
