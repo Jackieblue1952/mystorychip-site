@@ -92,9 +92,17 @@
     {
       "src": "api/admin-nfc.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "api/vault.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
+    {
+      "src": "/api/vault",
+      "dest": "/api/vault.js"
+    },
     {
       "src": "/api/admin-nfc",
       "dest": "/api/admin-nfc.js"
