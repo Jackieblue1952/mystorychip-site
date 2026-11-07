@@ -805,6 +805,11 @@ input[type="file"] {
 
                 <div class="saved-photos-wrap">
                   <p class="helper">Current Saved Photos</p>
+                  <div id="bulkVisRow" style="display:none;gap:10px;flex-wrap:wrap;align-items:center;margin:6px 0 12px;">
+                    <button type="button" id="bulkPublicBtn" style="padding:10px 16px;border-radius:10px;font-weight:700;cursor:pointer;">🌐 Make all photos public</button>
+                    <button type="button" id="bulkPrivateBtn" style="padding:10px 16px;border-radius:10px;font-weight:700;cursor:pointer;">🔒 Make all photos private</button>
+                    <span id="bulkVisStatus" class="small-note"></span>
+                  </div>
                   <div id="savedPhotosGrid" class="saved-photos-grid"></div>
                   <div id="emptyPhotos" class="empty-photos">No saved photos yet.</div>
                 </div>
@@ -1446,6 +1451,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ── Render photos ────────────────────────────────────────
+  async function bulkSetPhotoVisibility(target) {
+    const label = target === 'public' ? 'public' : 'private';
+    const status = document.getElementById('bulkVisStatus');
+    const todo = workingImages.filter(img => img.visibility !== target);
+    if (!todo.length) {
+      status.textContent = 'All photos are already ' + label + '.';
+      return;
+    }
+    const msg = 'Make ' + todo.length + ' photo' + (todo.length === 1 ? '' : 's') + ' ' + label + '?' +
+      (target === 'public' ? '\n\nPublic photos can be seen by anyone who taps your chip.' : '');
+    if (!confirm(msg)) return;
+    const btns = [document.getElementById('bulkPublicBtn'), document.getElementById('bulkPrivateBtn')];
+    btns.forEach(b => { b.disabled = true; });
+    let done = 0, needsSave = 0;
+    try {
+      for (const img of todo) {
+        if (img.storage === 'blob' && img.pathname) {
+          const response = await fetch('/api/media-manage', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'visibility', pathname: img.pathname, visibility: target })
+          });
+          const data = await response.json().catch(() => ({}));
+          if (!response.ok || !data.success) {
+            throw new Error(data.error || 'Photo visibility could not be changed.');
+          }
+        } else {
+          needsSave++;
+        }
+        img.visibility = target;
+        done++;
+        status.textContent = 'Updating ' + done + ' of ' + todo.length + '…';
+      }
+      status.textContent = 'Done. ' + done + ' photo' + (done === 1 ? '' : 's') + ' now ' + label + '.' +
+        (needsSave ? ' Press Save to keep the change on ' + needsSave + ' older photo' + (needsSave === 1 ? '' : 's') + '.' : '');
+    } catch (err) {
+      status.textContent = 'Stopped after ' + done + ' of ' + todo.length + '. ' + err.message + ' The rest were not changed.';
+    } finally {
+      btns.forEach(b => { b.disabled = false; });
+      renderPhotos();
+    }
+  }
+
   function renderPhotos() {
     const grid = document.getElementById('savedPhotosGrid');
     const empty = document.getElementById('emptyPhotos');
@@ -1453,9 +1501,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!workingImages.length) {
       empty.style.display = 'block';
+      document.getElementById('bulkVisRow').style.display = 'none';
       return;
     }
     empty.style.display = 'none';
+    document.getElementById('bulkVisRow').style.display = 'flex';
+    document.getElementById('bulkPublicBtn').onclick = () => bulkSetPhotoVisibility('public');
+    document.getElementById('bulkPrivateBtn').onclick = () => bulkSetPhotoVisibility('private');
 
     workingImages.forEach((imgObj, i) => {
       const tile = document.createElement('div');
