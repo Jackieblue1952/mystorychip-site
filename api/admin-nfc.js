@@ -37,7 +37,7 @@ export default async function handler(req,res) {
       if (code && !/^MSC-[0-9]{4,6}$/.test(code)) return res.status(400).json({ok:false,error:'Invalid code'});
       const page=Number(req.query?.page || 0);
       if (!Number.isSafeInteger(page) || page<0 || page>100000) return res.status(400).json({ok:false,error:'Invalid page'});
-      const result=await pool.query(`SELECT tag_id,chip_code,link,locked,operation,verified_at,received_at
+      const result=await pool.query(`SELECT tag_id,chip_code,link,locked,operation,verified_at,received_at,(SELECT c.customer_name FROM chips c WHERE c.chip_code=msc_nfc_tags.chip_code LIMIT 1) AS customer_name
         FROM msc_nfc_tags WHERE ($1='' OR chip_code=$1) ORDER BY verified_at DESC,tag_id LIMIT 101 OFFSET $2`,[code,page*100]);
       return res.status(200).json({ok:true,records:result.rows.slice(0,100),has_more:result.rows.length>100,page});
     }
