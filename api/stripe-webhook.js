@@ -188,7 +188,7 @@ export default async function handler(req, res) {
 
   let event;
   try {
-    event = stripe.webhooks.constructEvent(rawBody, req.headers["stripe-signature"], process.env.STRIPE_WEBHOOK_SECRET);
+    event = stripe.webhooks.constructEvent(rawBody, req.headers["stripe-signature"], String(process.env.STRIPE_WEBHOOK_SECRET || "").trim());
   } catch (err) {
     console.error("Webhook signature check failed:", err.message);
     return res.status(400).json({ error: "Webhook signature check failed" });
