@@ -872,7 +872,7 @@
       const usedPct = limitBytes > 0 ? Math.min(100, Math.max(usedBytes > 0 ? 1 : 0, Math.round(usedBytes / limitBytes * 100))) : 0;
       const claimBlock = chip.claimable ? `
         <section class="msc-claim-wrap">
-          <button type="button" class="msc-claim-btn" id="claimBtn" onclick="makeItYours(this)">Make it yours</button>
+          <button type="button" class="msc-claim-btn" id="claimBtn" onclick="makeItYours(this)">Make It Yours</button>
           <div class="msc-claim-note" id="claimNote">&#128274; Secure checkout through Stripe &middot; $49.95 one-time</div>
         </section>` : "";
       const capacityBlock = (chip.claimable && images.length > 0 && limitBytes > 0) ? `
@@ -952,7 +952,7 @@
         note.textContent = fail;
       }
       btn.disabled = false;
-      btn.textContent = "Make it yours";
+      btn.textContent = "Make It Yours";
     }
 
     loadChip();
