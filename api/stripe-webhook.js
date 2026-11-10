@@ -82,7 +82,8 @@ function chipEmailHtml(name, chipCode, setupUrl, isClaim) {
     ? "Tap the link below to set your own PIN, then replace the sample story and photos with your own."
     : "Tap the link below to set up your page &mdash; add your photos, story, and memories.";
   return `
-    <p>${greeting} ${first}</p>
+    <p>${greeting}</p>
+    <p>${first}</p>
     <p>${second}</p>
     <p><a href="${setupUrl}" style="display:inline-block;padding:12px 20px;background:#111;color:#fff;text-decoration:none;border-radius:6px;">Set Up Your MyStoryChip</a></p>
     <p>Or copy and paste this link: ${setupUrl}</p>
