@@ -30,7 +30,7 @@ export default async function handler(req, res) {
       return res.status(409).json({ success: false, error: "This chip isn't available to claim. It may already belong to someone." });
     }
 
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+    const stripe = new Stripe(String(process.env.STRIPE_SECRET_KEY || "").trim());
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items: [{

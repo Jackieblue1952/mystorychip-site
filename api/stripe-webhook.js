@@ -184,7 +184,7 @@ export default async function handler(req, res) {
   }
 
   const rawBody = await getRawBody(req);
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+  const stripe = new Stripe(String(process.env.STRIPE_SECRET_KEY || "").trim());
 
   let event;
   try {
