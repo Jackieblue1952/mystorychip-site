@@ -36,6 +36,9 @@ export default async function handler(req, res) {
           storage_used_bytes,
           updated_at,
           status,
+          type,
+          claimable,
+          claimed_at,
           created_at
         FROM chips
         WHERE chip_code = $1
@@ -148,6 +151,7 @@ export default async function handler(req, res) {
           storageUsedBytes: Number(row.storage_used_bytes),
           updatedAt: row.updated_at,
           status: row.status || "",
+          claimable: row.type === "Demo / Promo Chip" && row.claimable === true && !row.claimed_at,
           created_at: row.created_at,
         },
       });
@@ -156,7 +160,7 @@ export default async function handler(req, res) {
       if (!(await verifyEditSession(req, code))) {
         return res.status(401).json({
           success: false,
-          error: "Editing authorization required"
+          error: "Your editing time ran out, or you're signed in to a different chip. Enter this chip's PIN again."
         });
       }
 
@@ -222,6 +226,7 @@ export default async function handler(req, res) {
 
     return res.status(405).json({ success: false, error: "Method not allowed" });
   } catch (err) {
-    return res.status(500).json({ success: false, error: err.message });
+    console.error("chip-data error:", err);
+    return res.status(500).json({ success: false, error: "We couldn't load this story page right now. Please try again in a minute." });
   }
 }

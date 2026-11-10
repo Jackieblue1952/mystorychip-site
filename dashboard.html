@@ -518,6 +518,11 @@ footer a:hover {
           Manual Dashboard creation is for MSC Demo / Promo chips.
           Paid customer chips enter automatically through the purchase system.
         </div>
+
+        <label style="display:flex;align-items:center;gap:10px;margin-top:16px;font-size:16px;cursor:pointer;">
+          <input type="checkbox" id="claimableBox" style="width:22px;height:22px;margin:0;" />
+          Claimable (for sale) - shows the Make it yours button
+        </label>
       </div>
 
       <div>
@@ -704,7 +709,8 @@ footer a:hover {
           body: JSON.stringify({
             chip_code: chipCode,
             customer_name: customerName,
-            customer_email: customerEmail
+            customer_email: customerEmail,
+            claimable: !!(document.getElementById("claimableBox") || {}).checked
           })
         });
 
@@ -716,6 +722,7 @@ footer a:hover {
 
         clearForm();
 
+        { const cb = document.getElementById("claimableBox"); if (cb) cb.checked = false; }
         if (data.setupToken) {
           window.open(`client-setup.html?code=${encodeURIComponent(data.chip.chip_code)}&token=${encodeURIComponent(data.setupToken)}&source=admin`, "_blank");
         } else {
@@ -783,6 +790,16 @@ footer a:hover {
       }
     }
 
+    function chipLabel(chip) {
+      let text = "Customer", color = "#32a4ff";
+      if (chip.type === "Claimed") { text = "Claimed"; color = "#3ecf8e"; }
+      else if (chip.type === "Demo / Promo Chip") {
+        if (chip.claimable && !chip.claimed_at) { text = "Promo - claimable"; color = "#c9d1db"; }
+        else { text = "Demo - not for sale"; color = "#929eac"; }
+      }
+      return `<div style="font-size:12px;margin-top:4px;color:${color};letter-spacing:.5px;">${text}</div>`;
+    }
+
     function renderChipTable() {
       const customerTable = document.getElementById("chipTable");
       const demoTable = document.getElementById("demoTable");
@@ -797,7 +814,7 @@ footer a:hover {
         const code = chip.chip_code || chip.code || "";
         return `
           <tr>
-            <td><strong>${escapeHTML(code)}</strong></td>
+            <td><strong>${escapeHTML(code)}</strong>${chipLabel(chip)}</td>
             <td>${escapeHTML(chip.customer_name || "—")}</td>
             <td>${escapeHTML(chip.customer_email || "—")}</td>
             <td>${escapeHTML(formatDate(chip.created_at))}</td>

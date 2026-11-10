@@ -808,6 +808,7 @@ input[type="file"] {
                   <div id="bulkVisRow" style="display:none;gap:10px;flex-wrap:wrap;align-items:center;margin:6px 0 12px;">
                     <button type="button" id="bulkPublicBtn" style="padding:10px 16px;border-radius:10px;font-weight:700;cursor:pointer;">🌐 Make all photos public</button>
                     <button type="button" id="bulkPrivateBtn" style="padding:10px 16px;border-radius:10px;font-weight:700;cursor:pointer;">🔒 Make all photos private</button>
+                    <button type="button" id="bulkRemoveBtn" style="padding:10px 16px;border-radius:10px;font-weight:700;cursor:pointer;">🗑 Remove all photos</button>
                     <span id="bulkVisStatus" class="small-note"></span>
                   </div>
                   <div id="savedPhotosGrid" class="saved-photos-grid"></div>
@@ -1494,6 +1495,46 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  async function bulkRemoveAllPhotos() {
+    const status = document.getElementById('bulkVisStatus');
+    const todo = workingImages.slice();
+    if (!todo.length) { status.textContent = 'There are no photos to remove.'; return; }
+    const msg = 'Remove all ' + todo.length + ' photo' + (todo.length === 1 ? '' : 's') + ' from this page?' +
+      '\n\nThis can\'t be undone. Your story text stays, and copies on your own computer or phone are not touched.';
+    if (!confirm(msg)) return;
+    const btns = ['bulkPublicBtn', 'bulkPrivateBtn', 'bulkRemoveBtn'].map(id => document.getElementById(id));
+    btns.forEach(b => { if (b) b.disabled = true; });
+    let done = 0, needsSave = 0;
+    try {
+      for (const img of todo) {
+        if (img.storage === 'blob' && img.pathname) {
+          const response = await fetch('/api/media-manage', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'delete', pathname: img.pathname })
+          });
+          const data = await response.json().catch(() => ({}));
+          if (!response.ok || !data.success) {
+            throw new Error(data.error || 'A photo could not be removed.');
+          }
+        } else {
+          needsSave++;
+        }
+        const i = workingImages.indexOf(img);
+        if (i >= 0) workingImages.splice(i, 1);
+        done++;
+        status.textContent = 'Removing ' + done + ' of ' + todo.length + '…';
+      }
+      status.textContent = 'Done. ' + done + ' photo' + (done === 1 ? '' : 's') + ' removed.' +
+        (needsSave ? ' Press Save to finish removing ' + needsSave + ' older photo' + (needsSave === 1 ? '' : 's') + '.' : '');
+    } catch (err) {
+      status.textContent = 'Stopped after ' + done + ' of ' + todo.length + '. ' + err.message + ' The rest were not removed.';
+    } finally {
+      btns.forEach(b => { if (b) b.disabled = false; });
+      renderPhotos();
+    }
+  }
+
   function renderPhotos() {
     const grid = document.getElementById('savedPhotosGrid');
     const empty = document.getElementById('emptyPhotos');
@@ -1508,6 +1549,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('bulkVisRow').style.display = 'flex';
     document.getElementById('bulkPublicBtn').onclick = () => bulkSetPhotoVisibility('public');
     document.getElementById('bulkPrivateBtn').onclick = () => bulkSetPhotoVisibility('private');
+    document.getElementById('bulkRemoveBtn').onclick = () => bulkRemoveAllPhotos();
 
     workingImages.forEach((imgObj, i) => {
       const tile = document.createElement('div');

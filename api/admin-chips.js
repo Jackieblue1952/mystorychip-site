@@ -34,7 +34,14 @@ export default async function handler(req, res) {
         });
       }
 
-      const cleanChipCode = String(chip_code).trim();
+      const cleanChipCode = String(chip_code).trim().toUpperCase();
+
+      if (!/^MSC-\d{4,6}$/.test(cleanChipCode)) {
+        return res.status(400).json({
+          success: false,
+          error: "Chip codes look like MSC-1234. Check the Chip Code box - your browser may have filled in something else, like a ZIP code.",
+        });
+      }
 
       const existing = await pool.query(
         "SELECT id FROM chips WHERE chip_code = $1 LIMIT 1",
@@ -59,22 +66,24 @@ export default async function handler(req, res) {
 
       const result = await pool.query(
         `
-        INSERT INTO chips (chip_code, customer_email, customer_name, type, setup_token_hash, setup_token_expires_at, created_at)
-        VALUES ($1, $2, $3, 'Demo / Promo Chip', $4, $5, NOW())
+        INSERT INTO chips (chip_code, customer_email, customer_name, type, setup_token_hash, setup_token_expires_at, claimable, created_at)
+        VALUES ($1, $2, $3, 'Demo / Promo Chip', $4, $5, $6, NOW())
         RETURNING
           id,
           chip_code,
           customer_name,
           customer_email,
           type,
+          claimable,
           created_at
         `,
         [
           cleanChipCode,
-          customer_email ? String(customer_email).trim() : null,
+          customer_email ? String(customer_email).trim().toLowerCase() : null,
           customer_name ? String(customer_name).trim() : null,
           setupTokenHash,
           setupTokenExpiresAt,
+          req.body?.claimable === true,
         ]
       );
 
@@ -92,7 +101,9 @@ export default async function handler(req, res) {
         customer_name,
         customer_email,
         type,
-        created_at
+        created_at,
+        claimable,
+        claimed_at
       FROM chips
       ORDER BY created_at DESC
     `);
@@ -112,7 +123,7 @@ export default async function handler(req, res) {
 
     return res.status(500).json({
       success: false,
-      error: err.message,
+      error: (console.error("admin-chips error:", err), "Something went wrong saving this chip. Please try again."),
     });
   }
 }

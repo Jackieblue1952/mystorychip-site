@@ -96,9 +96,17 @@
     {
       "src": "api/vault.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "api/claim-checkout.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
+    {
+      "src": "/api/claim-checkout",
+      "dest": "/api/claim-checkout.js"
+    },
     {
       "src": "/api/vault",
       "dest": "/api/vault.js"

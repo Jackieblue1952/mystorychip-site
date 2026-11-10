@@ -742,6 +742,19 @@
       .nav-btn.right { right:10px; }
     }
   </style>
+<style>
+.msc-claim-wrap{margin:26px 0 8px;padding:8px 10px 4px;text-align:center}
+.msc-claim-btn{width:100%;max-width:420px;height:62px;border-radius:14px;border:1px solid #4a5a70;background:#0b1626;color:#d4dce6;font-size:21px;font-weight:600;letter-spacing:.5px;cursor:pointer;font-family:inherit;animation:mscHaze 4s ease-in-out infinite}
+.msc-claim-btn:hover{border-color:#8fa2ba;color:#ffffff}
+.msc-claim-btn:disabled{opacity:.75;cursor:wait}
+@keyframes mscHaze{0%,100%{box-shadow:0 0 18px 4px rgba(190,205,225,.14),0 0 46px 14px rgba(190,205,225,.07)}50%{box-shadow:0 0 26px 7px rgba(190,205,225,.22),0 0 64px 22px rgba(190,205,225,.10)}}
+.msc-claim-note{margin-top:14px;font-size:14px;color:#7d8b9b}
+.msc-cap-line{font-size:17px;color:#dce3eb;margin-bottom:8px}
+.msc-cap-track{height:9px;border-radius:5px;background:#1d2a3d;overflow:hidden}
+.msc-cap-fill{height:100%;width:0;background:#32a4ff;transition:width 1.6s ease-out}
+.msc-cap-sub{font-size:14px;color:#929eac;margin-top:8px}
+@media (prefers-reduced-motion: reduce){.msc-claim-btn{animation:none}}
+</style>
 </head>
 
 <body>
@@ -782,6 +795,7 @@
     let currentImageIndex = 0;
 
     function safe(v) { return v && String(v).trim() ? String(v).trim() : ""; }
+    function esc(v) { return String(v ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
 
     function renderMissing(msg) {
       content.innerHTML = `<div class="message"><h2>Chip Not Found</h2><p>${msg}</p></div>`;
@@ -832,7 +846,8 @@
         chip = data.chip;
         window.currentChip = chip;
       } catch (err) {
-        renderMissing("Could not load chip from database: " + err.message);
+        console.error(err);
+        renderMissing("We couldn't open this story page right now. Please try again in a minute.");
         return;
       }
 
@@ -851,42 +866,62 @@
       const rawDocs = chip.documents || [];
       const documents = (Array.isArray(rawDocs) ? rawDocs : []).filter(Boolean);
 
+      const limitBytes = Number(chip.storageLimitBytes) || 0;
+      const usedBytes = Number(chip.storageUsedBytes) || 0;
+      const limitMb = limitBytes % 1048576 === 0 ? limitBytes / 1048576 : Math.round(limitBytes / 1000000);
+      const usedPct = limitBytes > 0 ? Math.min(100, Math.max(usedBytes > 0 ? 1 : 0, Math.round(usedBytes / limitBytes * 100))) : 0;
+      const claimBlock = chip.claimable ? `
+        <section class="msc-claim-wrap">
+          <button type="button" class="msc-claim-btn" id="claimBtn" onclick="makeItYours(this)">Make it yours</button>
+          <div class="msc-claim-note" id="claimNote">&#128274; Secure checkout through Stripe &middot; $49.95 one-time</div>
+        </section>` : "";
+      const capacityBlock = (chip.claimable && images.length > 0 && limitBytes > 0) ? `
+        <section class="panel">
+          <div class="msc-cap-line"><strong>${images.length} photos</strong> &mdash; using ${usedPct}% of this chip's ${limitMb} MB</div>
+          <div class="msc-cap-track"><div class="msc-cap-fill" data-pct="${usedPct}"></div></div>
+          <div class="msc-cap-sub">Room for hundreds more</div>
+        </section>` : "";
+
       content.innerHTML = `
         <section class="hero">
           <div class="hero-inner">
             <div class="eyebrow">Tap. Open. Discover.</div>
-            <h1>${title}</h1>
-            <div class="headline">${headline}</div>
-            <div class="chip-code">Chip Code: ${safe(chip.code)}</div>
+            <h1>${esc(title)}</h1>
+            <div class="headline">${esc(headline)}</div>
+            <div class="chip-code">Chip Code: ${esc(chip.code)}</div>
           </div>
         </section>
 
         <section class="panel">
           <h2 class="section-title">The Story</h2>
-          <div class="story-body">${story || "No story has been added yet."}</div>
+          <div class="story-body" style="white-space:pre-line">${story ? esc(story) : "No story has been added yet."}</div>
         </section>
+
+        ${claimBlock}
 
         ${images.length > 0 ? `
         <section class="panel">
           <h2 class="section-title">Photos</h2>
           <div class="gallery">
-            ${images.map((src, i) => `<div class="thumb" onclick="openLightbox(${i})"><img src="${src}" loading="lazy" alt="Photo ${i+1}"></div>`).join('')}
+            ${images.map((src, i) => `<div class="thumb" onclick="openLightbox(${i})"><img src="${esc(src)}" loading="lazy" alt="Photo ${i+1}"></div>`).join('')}
           </div>
         </section>` : ''}
+
+        ${capacityBlock}
 
         ${documents.length > 0 ? `
         <section class="panel">
           <h2 class="section-title">Documents</h2>
           ${documents.map(doc => `
             <div style="margin-bottom:12px;">
-              <a href="${typeof doc === "string" ? doc : (doc.src || doc.url || "")}" target="_blank" class="doc-link">
-                📄 ${typeof doc === "string" ? "Document" : (doc.filename || doc.name || "Document")}
+              <a href="${esc(typeof doc === "string" ? doc : (doc.src || doc.url || ""))}" target="_blank" class="doc-link">
+                📄 ${esc(typeof doc === "string" ? "Document" : (doc.filename || doc.name || "Document"))}
               </a>
             </div>`).join('')}
         </section>` : ''}
 
         <section class="panel credit">
-          Created and shared by <strong>${creator}</strong><br>through MyStoryChip
+          Created and shared by <strong>${esc(creator)}</strong><br>through MyStoryChip
         </section>
 
         <section class="panel powered">
@@ -896,6 +931,28 @@
       `;
 
       document.title = title + " — MyStoryChip";
+      setTimeout(() => document.querySelectorAll(".msc-cap-fill").forEach(el => { el.style.width = el.dataset.pct + "%"; }), 300);
+    }
+
+    async function makeItYours(btn) {
+      const note = document.getElementById("claimNote");
+      const fail = "We couldn't open checkout right now. Please try again in a minute.";
+      btn.disabled = true;
+      btn.textContent = "Opening secure checkout…";
+      try {
+        const r = await fetch("/api/claim-checkout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ code })
+        });
+        const d = await r.json();
+        if (r.ok && d.success && d.url) { location.href = d.url; return; }
+        note.textContent = d.error || fail;
+      } catch (e) {
+        note.textContent = fail;
+      }
+      btn.disabled = false;
+      btn.textContent = "Make it yours";
     }
 
     loadChip();

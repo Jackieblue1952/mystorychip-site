@@ -218,7 +218,7 @@ export default async function handler(req, res) {
   } catch (err) {
     return res.status(500).json({
       success: false,
-      error: err.message
+      error: (console.error("setup-auth error:", err), "Something went wrong signing you in. Please try again in a minute.")
     });
   }
 }

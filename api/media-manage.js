@@ -126,7 +126,12 @@ export default async function handler(req, res) {
 
     return res.status(400).json({
       success: false,
-      error: err.message
+      error: ({
+        "Media not found": "That photo was already removed.",
+        "Editing authorization required": "Your editing time ran out, or you're signed in to a different chip. Enter this chip's PIN again.",
+        "Invalid media action": "That action isn't available.",
+        "Valid media pathname required": "That photo couldn't be found."
+      })[err.message] || (console.error("media-manage error:", err), "Something went wrong. Please try again.")
     });
   } finally {
     client.release();
